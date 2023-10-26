@@ -1,0 +1,12 @@
+field on salesMonth {
+  round(
+    sum(
+      orderTransactions.shopMoney,
+      where:
+        startDate <= orderTransactions.shopifyCreatedAt &&
+        endDate >= orderTransactions.shopifyCreatedAt &&
+        orderTransactions.status == "success" &&
+        (orderTransactions.kind == "sale" || orderTransactions.kind == "capture")
+    ) / (target == 0 ? 1 : target),
+  precision: 2)
+}

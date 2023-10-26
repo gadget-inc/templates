@@ -1,5 +1,0 @@
-
-fragment Filter($session: Session) on SalesMonth {
-  *
-  [where shopId == $session.shopId]
-}

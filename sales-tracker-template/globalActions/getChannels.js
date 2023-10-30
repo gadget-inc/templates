@@ -3,6 +3,8 @@ import { slackClient } from "../utilities";
 
 /**
  * @param { GetChannelsGlobalActionContext } context
+ *
+ * @returns { [{ label: string, value: string }] } An array of Slack channels
  */
 export async function run({ params, logger, api, connections }) {
   const channels = [{ label: "None selected", value: "" }];

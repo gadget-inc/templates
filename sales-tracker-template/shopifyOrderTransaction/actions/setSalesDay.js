@@ -17,7 +17,8 @@ export async function run({ params, record, logger, api }) {
 }
 
 /**
- * @param { SetSalesDayShopifyOrderTransactionActionContext } context
+ * @param { SetSalesDayShopifyOrderTransactionActionContext } context Runs notification sending code if the salesDay target has been reached
+ *
  */
 export async function onSuccess({ params, record, logger, api }) {
   const salesDay = await api.salesDay.maybeFindOne(record.salesDayId, {

@@ -3,6 +3,11 @@ import { api } from "../api";
 import { useGlobalAction } from "@gadgetinc/react";
 import { useCallback } from "react";
 
+/**
+ * @param { { reauthenticate?: boolean } } props The props passed to the React functional component
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 export default ({ reauthenticate = false }) => {
   const [_, getOAuthParams] = useGlobalAction(api.getOAuthParams);
 

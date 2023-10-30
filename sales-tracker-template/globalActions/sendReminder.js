@@ -3,7 +3,9 @@ import { getMonthStartAndEndDates, slackClient } from "../utilities";
 import { DateTime } from "luxon";
 
 /**
- * @param { SendReminderGlobalActionContext } context
+ * @param { SendReminderGlobalActionContext } context Global action that fetches all shops with a slackAccesToken and a slackChannelId then sends notifications to the shops that don't have salesMonth targets set for the next month.
+ *
+ * @returns { void }
  */
 export async function run({ params, logger, api }) {
   let shops = await api.shopifyShop.findMany({
@@ -66,7 +68,7 @@ export async function run({ params, logger, api }) {
     });
 
     if (!month) {
-      const res = await slackClient.chat.postMessage({
+      await slackClient.chat.postMessage({
         token: shop.slackAccessToken,
         channel: shop.slackChannelId,
         text: `We're getting close to ${DateTime.fromJSDate(

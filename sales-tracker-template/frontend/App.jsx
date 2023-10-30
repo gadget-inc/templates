@@ -11,6 +11,7 @@ import Overview from "./Overview";
 import Notifications from "./Notifications";
 import { api } from "./api";
 import { useFindFirst } from "@gadgetinc/react";
+import { ShopifyShopSelect } from "./selections";
 
 const Error404 = () => {
   const navigate = useNavigate();
@@ -76,15 +77,10 @@ function AuthenticatedApp() {
 }
 
 function EmbeddedApp() {
+  // Fetching the current shopifyShop to get configuration values
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop, {
-      select: {
-        id: true,
-        currency: true,
-        ianaTimezone: true,
-        slackAccessToken: true,
-        slackChannelId: true,
-      },
+      select: ShopifyShopSelect,
       live: true,
     });
   return (

@@ -1,3 +1,8 @@
+/**
+ * @param { [{node: { sales: number | null, target: number, id: string, startDate: Date | null, percentage: number | null}}] } inputArr The array os salesDay records to be formatted
+ *
+ * @returns { [{name: string, data: [{ key: string, value: number}]}] } An array formatted to fit the requirements of a Polaris Viz BarChart component
+ */
 export default (inputArr) => {
   const arr = [
     {

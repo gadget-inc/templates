@@ -1,3 +1,9 @@
+/**
+ * @param { [{node: {id: string, target: number, sales: number, percentage: number, startDate: Date}}] } tableData Array of current table data
+ * @param { string } value New target input by a user
+ *
+ * @returns { [{node: {id: string, target: number, sales: number, percentage: number, startDate: Date}}] } An array set with the new target
+ */
 export default (tableData, value) => {
   const arr = [...tableData];
 

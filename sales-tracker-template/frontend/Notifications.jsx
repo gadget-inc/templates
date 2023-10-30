@@ -14,6 +14,11 @@ import { api } from "./api";
 import SlackAuthButton from "./components/SlackAuthButton";
 import { useState, useCallback, useEffect } from "react";
 
+/**
+ * @param { { shopId: string, slackAccessToken: string | null | undefined, slackChannelId: string | null | undefined  } } props The props passed to the React functional component
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 export default ({ shopId, slackAccessToken, slackChannelId }) => {
   const [selected, setSelected] = useState("");
 
@@ -28,14 +33,23 @@ export default ({ shopId, slackAccessToken, slackChannelId }) => {
 
   const [_, setSlackChannel] = useAction(api.shopifyShop.setSlackChannel);
 
+  /**
+   * @type { (value: string) => void }
+   * Callback for handling a change to the selected Slack channel
+   */
   const handleSelectChange = useCallback((value) => {
     setSelected(value);
   }, []);
 
+  /**
+   * @type { (id: string, slackChannelId: string ) => void }
+   * Callback that sets the current channel id in the backend (decides where to send notifications)
+   */
   const handleSetChannel = useCallback(async (id, slackChannelId) => {
     await setSlackChannel({ id, slackChannelId });
   }, []);
 
+  // Gets Slack channels on component load
   useEffect(() => {
     if (slackAccessToken) {
       const run = async () => {
@@ -45,6 +59,7 @@ export default ({ shopId, slackAccessToken, slackChannelId }) => {
     }
   }, [slackAccessToken]);
 
+  // Sets the shop's current Slakc channel as the selected channel
   useEffect(() => {
     if (slackChannelId) {
       setSelected(slackChannelId);

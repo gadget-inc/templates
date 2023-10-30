@@ -4,6 +4,8 @@ import { Base64 } from "base64-string";
 
 /**
  * @param { GetOAuthParamsGlobalActionContext } context
+ *
+ * @returns { state: string, id: string, redirectURI: string } An object with Slack OAuth specific data
  */
 export async function run({ params, logger, api, connections, currentAppUrl }) {
   const b64 = new Base64();

@@ -1,8 +1,18 @@
+/**
+ * @param { Date } [date] A JS Date object
+ *
+ * @returns { number } The days in the current month
+ */
 const getDaysInMonth = (date = new Date()) => {
   return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
 };
 
-export default (date) => {
+/**
+ * @param { Date } [date] A JS Date object
+ *
+ * @returns { [{node: {id: string, target: number, sales: number, percentage: number}}] } An array of empty placeholder data
+ */
+export default (date = new Date()) => {
   const days = getDaysInMonth(date);
   const arr = [];
 

@@ -1,6 +1,14 @@
 import { Button, Card, InlineStack, TextField, Text } from "@shopify/polaris";
 import "../App.css";
+import { SalesMonthSelect } from "../selections";
 
+/** @typedef {import("@gadget-client/sales-tracker-template").GadgetRecord<import("@gadget-client/sales-tracker-template").Select<import("@gadget-client/sales-tracker-template").SalesMonth, typeof SalesMonthSelect>>} SalesMonthRecord */
+
+/**
+ * @param { {salesMonth: SalesMonthRecord | null | undefined, handleMonthlyTargetChange: (value: string) => void, monthlyTarget: string, currency: string, changed: boolean, fetchingSalesMonth: boolean, updatingSalesMonth: boolean, creatingSalesMonth: boolean, handleClear: () => void } } props The props passed to the React functional component
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 export default ({
   salesMonth,
   handleMonthlyTargetChange,

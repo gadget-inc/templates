@@ -3,6 +3,11 @@ import { EditMinor } from "@shopify/polaris-icons";
 import "../App.css";
 import { useCallback } from "react";
 
+/**
+ * @param { { id: string, sales: number, target: number, percentage: number, index: number, handleSalesDayTargetChange: (index: number, value: string) => void } } props The props passed to the React functional component
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 export default ({
   id,
   sales,
@@ -11,6 +16,10 @@ export default ({
   index,
   handleSalesDayTargetChange,
 }) => {
+  /**
+   * @type { (value: string) => void }
+   * Callback for handling a change to the salesDay target input
+   */
   const handleChange = useCallback(
     (value) => {
       if (

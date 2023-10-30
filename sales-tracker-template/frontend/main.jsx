@@ -15,6 +15,7 @@ ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <AppProvider i18n={enTranslations}>
       <PolarisVizProvider
+        //  Styles for the Shopify Polaris Viz BarChart component
         themes={{
           Default: {
             chartContainer: {

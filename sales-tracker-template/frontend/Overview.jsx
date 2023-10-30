@@ -1,4 +1,3 @@
-"use strict";
 import {
   useMaybeFindFirst,
   useAction,
@@ -18,10 +17,14 @@ import {
   formatTableDataForCreation,
 } from "./utilities";
 import { cloneDeep, isEqual } from "lodash";
+import { SalesMonthSelect } from "./selections";
 import "./App.css";
 
+const initialDate = new Date();
+
 export default ({ currency, timezone }) => {
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(initialDate);
+  console.log("DATE", date.toISOString());
   const [chartData, setChartData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -33,13 +36,7 @@ export default ({ currency, timezone }) => {
     error: false,
   });
 
-  const [
-    {
-      data: salesMonth,
-      fetching: fetchingSalesMonth,
-      error: errorFetchingSalesMonth,
-    },
-  ] = useMaybeFindFirst(api.salesMonth, {
+  const options = {
     live: true,
     filter: {
       AND: [
@@ -55,25 +52,16 @@ export default ({ currency, timezone }) => {
         },
       ],
     },
-    select: {
-      id: true,
-      target: true,
-      sales: true,
-      percentage: true,
-      startDate: true,
-      salesDays: {
-        edges: {
-          node: {
-            id: true,
-            target: true,
-            sales: true,
-            percentage: true,
-            startDate: true,
-          },
-        },
-      },
+    select: SalesMonthSelect,
+  };
+
+  const [
+    {
+      data: salesMonth,
+      fetching: fetchingSalesMonth,
+      error: errorFetchingSalesMonth,
     },
-  });
+  ] = useMaybeFindFirst(api.salesMonth, options);
 
   const [
     {
@@ -93,11 +81,19 @@ export default ({ currency, timezone }) => {
     populateSalesMonth,
   ] = useGlobalAction(api.populateSalesMonth);
 
+  /**
+   * @type { () => void }
+   * Callback for toggling the toast
+   */
   const toggleToast = useCallback(
     () => setShowToast((showToast) => !showToast),
     []
   );
 
+  /**
+   * @type { (value: string) => void }
+   * Callback for handling a change to the monthly target
+   */
   const handleMonthlyTargetChange = useCallback(
     (value) => {
       if (
@@ -113,6 +109,10 @@ export default ({ currency, timezone }) => {
     [tableData]
   );
 
+  /**
+   * @type { () => void }
+   * Callback for creating a new or updating the current salesMonth
+   */
   const handleSave = useCallback(async () => {
     if (salesMonth?.id) {
       const salesDays = formatTableDataForUpdate(tableData);
@@ -138,19 +138,35 @@ export default ({ currency, timezone }) => {
     }
   }, [monthlyTarget, tableData, date, timezone]);
 
+  /**
+   * @type { () => void }
+   * Callback for clearing a monthly target change
+   */
   const handleClear = useCallback(() => {
     setMonthlyTarget("");
     setTableData(cloneDeep(originalData) || []);
   }, [originalData]);
 
+  /**
+   * @type { () => void }
+   * Callback function for changing to previous month
+   */
   const handlePreviousMonth = useCallback(() => {
     setDate(DateTime.fromJSDate(date).minus({ months: 1 }).toJSDate());
   }, [date]);
 
+  /**
+   * @type { () => void }
+   * Callback function for changing to next month
+   */
   const handleNextMonth = useCallback(() => {
     setDate(DateTime.fromJSDate(date).plus({ months: 1 }).toJSDate());
   }, [date]);
 
+  /**
+   * @type {  (index: number, value: string) => void }
+   * Callback function for changing a salesDay's target value
+   */
   const handleSalesDayTargetChange = useCallback(
     (index, value) => {
       const arr = [...tableData];
@@ -170,6 +186,7 @@ export default ({ currency, timezone }) => {
     [tableData]
   );
 
+  // useEffect for checking the deep equality of the original and the current tableData array
   useEffect(() => {
     if (!isEqual(originalData, tableData)) {
       setChanged(true);
@@ -178,6 +195,7 @@ export default ({ currency, timezone }) => {
     }
   }, [originalData, tableData]);
 
+  // useEffect for populating chart and table data, as well as clearing the monthly target input
   useEffect(() => {
     if (!fetchingSalesMonth) {
       if (salesMonth) {
@@ -199,6 +217,7 @@ export default ({ currency, timezone }) => {
     }
   }, [salesMonth, fetchingSalesMonth, date]);
 
+  // useEffect for when there's an error fetching a salesMonth record
   useEffect(() => {
     if (!fetchingSalesMonth && errorFetchingSalesMonth) {
       setToastContent({ content: "Failed to fetch month", error: true });
@@ -207,6 +226,7 @@ export default ({ currency, timezone }) => {
     }
   }, [fetchingSalesMonth, errorFetchingSalesMonth]);
 
+  // useEffect for when there's an error updating a salesMonth record
   useEffect(() => {
     if (!updatingSalesMonth && errorUpdatingSalesMonth) {
       setToastContent({ content: "Failed to update month", error: true });
@@ -215,13 +235,7 @@ export default ({ currency, timezone }) => {
     }
   }, [updatingSalesMonth, errorUpdatingSalesMonth]);
 
-  if (errorUpdatingSalesMonth) {
-    console.log(errorUpdatingSalesMonth);
-  }
-  if (errorFetchingSalesMonth) {
-    console.log(errorFetchingSalesMonth);
-  }
-
+  // useEffect for when there's an error creating a salesMonth record
   useEffect(() => {
     if (!creatingSalesMonth && errorCreatingSalesMonth) {
       setToastContent({ content: "Failed to create month", error: true });
@@ -230,6 +244,7 @@ export default ({ currency, timezone }) => {
     }
   }, [creatingSalesMonth, errorCreatingSalesMonth]);
 
+  // useEffect for when a salesMonth record is updated successfully
   useEffect(() => {
     if (!updatingSalesMonth && salesMonthUpdateData) {
       setToastContent({ content: "Month updated", error: false });
@@ -237,6 +252,7 @@ export default ({ currency, timezone }) => {
     }
   }, [updatingSalesMonth, salesMonthUpdateData]);
 
+  // useEffect for when a salesMonth record is created successfully
   useEffect(() => {
     if (!creatingSalesMonth && salesMonthCreateData) {
       setToastContent({ content: "Month created", error: false });
@@ -257,7 +273,6 @@ export default ({ currency, timezone }) => {
             fetchingSalesMonth={fetchingSalesMonth}
             handlePreviousMonth={handlePreviousMonth}
             handleNextMonth={handleNextMonth}
-            date={date}
           />
         }
       >

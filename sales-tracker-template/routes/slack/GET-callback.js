@@ -6,8 +6,10 @@ import { slackClient } from "../../utilities";
 /**
  * Route handler for install slack
  *
- * @param { RouteContext } route context - see: https://docs.gadget.dev/guides/http-routes/route-configuration#route-context
+ * @param { RouteContext } route This is the endpoint for the end of the Slack OAuth flow
+ * @see https://docs.gadget.dev/guides/http-routes/route-configuration#route-context
  *
+ * @returns Redirects the user the app's Shopify embedded UI (Overview page)
  */
 export default async function route({
   request,

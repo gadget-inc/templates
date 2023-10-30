@@ -2,6 +2,11 @@ import { IndexTable } from "@shopify/polaris";
 import TableRow from "./TableRow";
 import "../App.css";
 
+/**
+ * @param { {tableData: [{node: {id: string, target: number, sales: number, percentage: number, startDate: Date}}], currency: string, handleSalesDayTargetChange: (index: number, value: string) => void } } props The props passed to the React functional component
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 export default ({ tableData, currency, handleSalesDayTargetChange }) => {
   return (
     <div id="data-table">

@@ -3,10 +3,11 @@ import { getMonthStartAndEndDates, getDayStartAndEndDates } from "../utilities";
 import { DateTime } from "luxon";
 
 /**
- * @param { CreateSalesMonthGlobalActionContext } context
+ * @param { CreateSalesMonthGlobalActionContext } context Global action that creates a new salesMonth and it's child salesDays
+ *
+ * @returns { void }
  */
 export async function run({ params, logger, api, connections }) {
-  // throw new Error("Blah!!!");
   const {
     shop: { timezone },
     month: { date, target },

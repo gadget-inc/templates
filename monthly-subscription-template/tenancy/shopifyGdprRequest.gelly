@@ -1,0 +1,5 @@
+
+fragment Filter($session: Session) on ShopifyGdprRequest {
+  *
+  [where shopId == $session.shopId]
+}

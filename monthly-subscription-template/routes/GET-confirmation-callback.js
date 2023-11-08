@@ -16,7 +16,7 @@ export default async function route({
   const { shop_id, charge_id, plan_id } = request.query;
 
   // the merchant has accepted the charge, so we can grant them access to our application
-  // mark the shop as paid by setting the `plan` attribute to the charged plan namemodel
+  // mark the shop as paid by setting the `plan` relationship field to the charged plan record
   const shop = await api.internal.shopifyShop.update(shop_id, {
     plan: {
       _link: plan_id,

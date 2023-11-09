@@ -77,6 +77,9 @@ export async function run({
           message
         }
         confirmationUrl
+        appSubscription {
+          id
+        }
       }
     }`
     );
@@ -92,7 +95,9 @@ export async function run({
     // Updating the relevant shop record fields
     record.usedTrialDays = usedTrialDays;
     record.usedTrialDaysUpdatedAt = today;
-    record.confirmationUrl = result.appSubscriptionCreate.confirmationUrl;
+    record.activeRecurringSubscriptionId =
+      result?.appSubscriptionCreate?.appSubscription?.id?.split("/")[4];
+    record.confirmationUrl = result?.appSubscriptionCreate?.confirmationUrl;
 
     await save(record);
   } else {

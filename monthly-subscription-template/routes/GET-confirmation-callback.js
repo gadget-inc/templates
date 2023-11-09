@@ -20,7 +20,6 @@ export default async function route({
     plan: {
       _link: plan_id,
     },
-    activeRecurringSubscriptionId: `${charge_id}`,
   });
 
   // Sending the user back to the admin UI

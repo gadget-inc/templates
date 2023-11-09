@@ -24,7 +24,6 @@ const initialDate = new Date();
 
 export default ({ currency, timezone }) => {
   const [date, setDate] = useState(initialDate);
-  console.log("DATE", date.toISOString());
   const [chartData, setChartData] = useState([]);
   const [originalData, setOriginalData] = useState([]);
   const [tableData, setTableData] = useState([]);
@@ -36,7 +35,13 @@ export default ({ currency, timezone }) => {
     error: false,
   });
 
-  const options = {
+  const [
+    {
+      data: salesMonth,
+      fetching: fetchingSalesMonth,
+      error: errorFetchingSalesMonth,
+    },
+  ] = useMaybeFindFirst(api.salesMonth, {
     live: true,
     filter: {
       AND: [
@@ -53,15 +58,7 @@ export default ({ currency, timezone }) => {
       ],
     },
     select: SalesMonthSelect,
-  };
-
-  const [
-    {
-      data: salesMonth,
-      fetching: fetchingSalesMonth,
-      error: errorFetchingSalesMonth,
-    },
-  ] = useMaybeFindFirst(api.salesMonth, options);
+  });
 
   const [
     {

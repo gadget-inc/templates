@@ -43,10 +43,10 @@ export default ({ children }) => {
     if (!fetchingShop && shop) {
       setTrialDays(
         calculateTrialDays(
-          shop.usedTrialDays,
-          shop.usedTrialDaysUpdatedAt,
+          shop?.usedTrialDays,
+          shop?.usedTrialDaysUpdatedAt,
           new Date(),
-          shop.plan.trialDays
+          shop?.plan?.trialDays
         ).availableTrialDays
       );
     }

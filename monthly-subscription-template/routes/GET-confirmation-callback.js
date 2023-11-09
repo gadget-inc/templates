@@ -15,8 +15,7 @@ export default async function route({
 }) {
   const { shop_id, charge_id, plan_id } = request.query;
 
-  // the merchant has accepted the charge, so we can grant them access to our application
-  // mark the shop as paid by setting the `plan` relationship field to the charged plan record
+  // Updating the shop with the relevant information
   const shop = await api.internal.shopifyShop.update(shop_id, {
     plan: {
       _link: plan_id,
@@ -24,7 +23,7 @@ export default async function route({
     activeRecurringSubscriptionId: `${charge_id}`,
   });
 
-  // send the user back to the embedded app, this URL may be different depending on where your frontend is hosted
+  // Sending the user back to the admin UI
   await reply.redirect(
     `https://${shop.domain}/admin/apps/${shop.installedViaApiKey}`
   );

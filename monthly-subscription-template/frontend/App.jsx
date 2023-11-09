@@ -76,6 +76,7 @@ function AuthenticatedApp() {
 function EmbeddedApp() {
   return (
     <>
+      {/* WRAPPER */}
       <Routes>
         <Route path="/" element={<ShopPage />} />
         <Route path="*" element={<Error404 />} />

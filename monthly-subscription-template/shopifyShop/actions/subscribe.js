@@ -5,6 +5,8 @@ import {
   ActionOptions,
   SubscribeShopifyShopActionContext,
 } from "gadget-server";
+import CurrencyConverter from "currency-converter-lt";
+import { calculateTrialDays } from "../helpers";
 
 /**
  * @param { SubscribeShopifyShopActionContext } context
@@ -26,10 +28,26 @@ export async function run({
       id: true,
       name: true,
       monthlyPrice: true,
+      currency: true,
+      trialDays: true,
     },
   });
 
   if (planMatch) {
+    const today = new Date();
+    const { usedTrialDays, availableTrialDays } = calculateTrialDays(
+      record.usedTrialDays || 0,
+      record.usedTrialDaysUpdatedAt,
+      today,
+      planMatch.trialDays
+    );
+
+    const currencyConverter = new CurrencyConverter();
+    const price = await currencyConverter
+      .from(planMatch.currency)
+      .to(record.currency)
+      .convert(planMatch.monthlyPrice);
+
     // Make an API call to Shopify to create a charge object for both monthly and revenue charges (Make sure that the cappedAmount is talked about)
     // TODO: Add more docs links and multiline comments
     // TODO: Talk about adjusting price to the currency you wish to charge them or have one flat rate
@@ -37,6 +55,7 @@ export async function run({
       `mutation {
       appSubscriptionCreate(
         name: "${planMatch.name}",
+        trialDays: ${availableTrialDays}
         test: ${process.env.NODE_ENV === "production" ? false : true},
         returnUrl: "${currentAppUrl}confirmation-callback?shop_id=${
         connections.shopify.currentShopId
@@ -45,7 +64,7 @@ export async function run({
           plan: {
             appRecurringPricingDetails: {
               price: { 
-                amount: ${planMatch.monthlyPrice},
+                amount: ${price},
                 currencyCode: ${record.currency}
               }
               interval: EVERY_30_DAYS
@@ -63,23 +82,20 @@ export async function run({
     );
 
     if (result?.appSubscriptionCreate?.userErrors?.length) {
-      logger.error({
-        message:
-          "SUBSCRIPTION FLOW - Error creating app subscription (SHOPIFY API)",
-        errors: result?.appSubscriptionCreate?.userErrors,
-      });
-      return;
+      throw new Error(
+        result?.appSubscriptionCreate?.userErrors[0]?.message ||
+          "SUBSCRIPTION FLOW - Error creating app subscription (SHOPIFY API)"
+      );
     }
 
     // Update this shop record to send the confirmation URL back to the frontend
+    record.usedTrialDays = usedTrialDays;
+    record.usedTrialDaysUpdatedAt = today;
     record.confirmationUrl = result.appSubscriptionCreate.confirmationUrl;
 
     await save(record);
   } else {
-    logger.error({
-      message: "SUBSCRIPTION FLOW - Plan not found",
-    });
-    return;
+    throw new Error("SUBSCRIPTION FLOW - Plan not found");
   }
 }
 

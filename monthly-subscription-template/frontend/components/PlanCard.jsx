@@ -3,25 +3,20 @@ import {
   Text,
   Button,
   BlockStack,
-  InlineGrid,
   Box,
   InlineStack,
 } from "@shopify/polaris";
-import { useCallback } from "react";
 
 export default ({
   id,
   name,
   description,
   monthlyPrice,
+  trialDays,
   currency,
   handleSubscribe,
   buttonDisabled,
 }) => {
-  const handleClick = useCallback(async () => {
-    await handleSubscribe(id);
-  }, [id]);
-
   return (
     <Box maxWidth="465px">
       <Card>
@@ -37,7 +32,10 @@ export default ({
           <Text as="p" variant="bodyMd">
             {description}
           </Text>
-          <Button disabled={buttonDisabled} onClick={handleClick}>
+          <Text as="p" variant="bodyMd" fontWeight="medium">
+            {trialDays} trial days
+          </Text>
+          <Button disabled={buttonDisabled} onClick={() => handleSubscribe(id)}>
             Select
           </Button>
         </BlockStack>

@@ -22,7 +22,6 @@ export async function run({
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
-  // Find the plan that is being requested by the user
   const planMatch = await api.plan.maybeFindOne(params.planId, {
     select: {
       id: true,
@@ -35,6 +34,8 @@ export async function run({
 
   if (planMatch) {
     const today = new Date();
+
+    // Check for trial availability
     const { usedTrialDays, availableTrialDays } = calculateTrialDays(
       record.usedTrialDays || 0,
       record.usedTrialDaysUpdatedAt,
@@ -43,14 +44,13 @@ export async function run({
     );
 
     const currencyConverter = new CurrencyConverter();
+    // Get cost of plan for current shop based on the plan currency
     const price = await currencyConverter
       .from(planMatch.currency)
       .to(record.currency)
       .convert(planMatch.monthlyPrice);
 
-    // Make an API call to Shopify to create a charge object for both monthly and revenue charges (Make sure that the cappedAmount is talked about)
-    // TODO: Add more docs links and multiline comments
-    // TODO: Talk about adjusting price to the currency you wish to charge them or have one flat rate
+    // Create subscription record in Shopify
     const result = await connections.shopify.current?.graphql(
       `mutation {
       appSubscriptionCreate(
@@ -81,6 +81,7 @@ export async function run({
     }`
     );
 
+    // Check for errors in subscription creation
     if (result?.appSubscriptionCreate?.userErrors?.length) {
       throw new Error(
         result?.appSubscriptionCreate?.userErrors[0]?.message ||
@@ -88,7 +89,7 @@ export async function run({
       );
     }
 
-    // Update this shop record to send the confirmation URL back to the frontend
+    // Updating the relevant shop record fields
     record.usedTrialDays = usedTrialDays;
     record.usedTrialDaysUpdatedAt = today;
     record.confirmationUrl = result.appSubscriptionCreate.confirmationUrl;

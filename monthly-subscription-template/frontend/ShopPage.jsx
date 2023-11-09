@@ -1,4 +1,4 @@
-import { useAction, useFindMany, useGlobalAction } from "@gadgetinc/react";
+import { useAction, useFindMany } from "@gadgetinc/react";
 import {
   Banner,
   InlineStack,
@@ -16,10 +16,9 @@ import { ShopContext } from "./providers";
 
 const ShopPage = () => {
   const navigate = useNavigate();
-  const [prices, setPrices] = useState({});
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
-  const { shop, fetchingShop, errorFetchingShop, trialDays } =
+  const { shop, fetchingShop, errorFetchingShop, trialDays, prices } =
     useContext(ShopContext);
 
   const [{ data: plans, fetching: fetchingPlans, error: errorFetchingPlans }] =
@@ -47,8 +46,11 @@ const ShopPage = () => {
     },
   });
 
-  const [_, convertCurrency] = useGlobalAction(api.planCurrencyToShopCurrency);
-
+  /**
+   * @type { (planId: string) => void }
+   *
+   * Callback used to subscribe to a plan and redirect to the Shopify subscription confirmation page
+   */
   const handleSubscribe = useCallback(
     async (planId) => {
       const res = await subscribe({ id: shop.id, planId });
@@ -60,18 +62,16 @@ const ShopPage = () => {
     [shop, subscribe]
   );
 
+  /**
+   * @type { () => void }
+   *
+   * Dismisses the error banner
+   */
   const handleDismiss = useCallback(() => {
     setShow(false);
   }, []);
 
-  useEffect(() => {
-    const run = async () => {
-      const { data } = await convertCurrency();
-      setPrices(data);
-    };
-    run();
-  }, []);
-
+  // useEffect for showing an error banner when there's an issue fetching plans
   useEffect(() => {
     if (!fetchingPlans && errorFetchingPlans) {
       setBannerContext(errorFetchingPlans.message);
@@ -81,6 +81,7 @@ const ShopPage = () => {
     }
   }, [fetchingPlans, errorFetchingPlans]);
 
+  // useEffect for showing an error banner when there's an issue subscribing
   useEffect(() => {
     if (!fetchingSubscription && errorSubscribing) {
       setBannerContext(errorSubscribing.message);

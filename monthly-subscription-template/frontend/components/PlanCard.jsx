@@ -7,6 +7,11 @@ import {
   InlineStack,
 } from "@shopify/polaris";
 
+/**
+ * @param { { id: string, name: string, description: string, monthlyPrice: number, trialDays: number, currency: string, handleSubscribe: (planId: string) => void, buttonDisabled: boolean } } props The props passed to the React functional component
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 export default ({
   id,
   name,

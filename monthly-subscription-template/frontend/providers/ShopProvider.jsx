@@ -1,4 +1,4 @@
-import { useFindFirst } from "@gadgetinc/react";
+import { useFindFirst, useGlobalAction } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { calculateTrialDays } from "../utilities";
@@ -10,6 +10,7 @@ export default ({ children }) => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
   const [trialDays, setTrialDays] = useState(0);
+  const [prices, setPrices] = useState({});
 
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop, {
@@ -26,10 +27,18 @@ export default ({ children }) => {
       },
     });
 
+  const [_, convertCurrency] = useGlobalAction(api.planCurrencyToShopCurrency);
+
+  /**
+   * @type { () => void }
+   *
+   * Dismisses the error banner
+   */
   const handleDismiss = useCallback(() => {
     setShow(false);
   }, []);
 
+  // useEffect for setting the number of trial days remaining for the current shop
   useEffect(() => {
     if (!fetchingShop && shop) {
       setTrialDays(
@@ -43,6 +52,7 @@ export default ({ children }) => {
     }
   }, [fetchingShop]);
 
+  // useEffect for showing a banner if there's and error fetching shop information
   useEffect(() => {
     if (!fetchingShop && errorFetchingShop) {
       setBannerContext(errorFetchingShop.message);
@@ -52,6 +62,15 @@ export default ({ children }) => {
     }
   }, [fetchingShop, errorFetchingShop]);
 
+  // useEffect for calling the planCurrencyToShopCurrency global action - getting all the currency conversions for plans
+  useEffect(() => {
+    const run = async () => {
+      const { data } = await convertCurrency();
+      setPrices(data);
+    };
+    run();
+  }, []);
+
   return (
     <ShopContext.Provider
       value={{
@@ -59,6 +78,7 @@ export default ({ children }) => {
         fetchingShop,
         errorFetchingShop,
         trialDays,
+        prices,
       }}
     >
       {show && (

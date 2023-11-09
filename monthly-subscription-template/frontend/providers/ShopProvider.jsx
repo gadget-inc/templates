@@ -6,6 +6,17 @@ import { Banner } from "@shopify/polaris";
 
 export const ShopContext = createContext({});
 
+/**
+ * @param { children: import("react").ReactNode } props The props passed to the React functional component
+ *
+ * React component that fetches shop and subscription data
+ * Key features:
+ *  - Get plan prices converted to the current shop's currency value
+ *  - Sets the number of trial days left for this shop
+ *  - Allows children to access the context from this provider
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 export default ({ children }) => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");

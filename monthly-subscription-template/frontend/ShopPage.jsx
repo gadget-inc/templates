@@ -1,9 +1,4 @@
-import {
-  useAction,
-  useFindMany,
-  useFindFirst,
-  useGlobalAction,
-} from "@gadgetinc/react";
+import { useAction, useFindMany, useGlobalAction } from "@gadgetinc/react";
 import {
   Banner,
   InlineStack,
@@ -14,31 +9,18 @@ import {
 } from "@shopify/polaris";
 import { api } from "./api";
 import { PlanCard } from "./components";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "@shopify/app-bridge-react";
 import { calculateTrialDays } from "./utilities";
+import { ShopContext } from "./providers";
 
 const ShopPage = () => {
   const navigate = useNavigate();
   const [prices, setPrices] = useState({});
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
-  const [trialDays, setTrialDays] = useState(0);
-
-  const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
-    useFindFirst(api.shopifyShop, {
-      select: {
-        id: true,
-        currency: true,
-        usedTrialDays: true,
-        usedTrialDaysUpdatedAt: true,
-        plan: {
-          id: true,
-          name: true,
-          trialDays: true,
-        },
-      },
-    });
+  const { shop, fetchingShop, errorFetchingShop, trialDays } =
+    useContext(ShopContext);
 
   const [{ data: plans, fetching: fetchingPlans, error: errorFetchingPlans }] =
     useFindMany(api.plan, {
@@ -52,7 +34,6 @@ const ShopPage = () => {
       },
     });
 
-  // Use the error variable from this call to show a toast
   const [
     {
       data: subscriptionData,
@@ -92,15 +73,6 @@ const ShopPage = () => {
   }, []);
 
   useEffect(() => {
-    if (!fetchingShop && errorFetchingShop) {
-      setBannerContext(errorFetchingShop.message);
-      setShow(true);
-    } else if (fetchingShop) {
-      setShow(false);
-    }
-  }, [fetchingShop, errorFetchingShop]);
-
-  useEffect(() => {
     if (!fetchingPlans && errorFetchingPlans) {
       setBannerContext(errorFetchingPlans.message);
       setShow(true);
@@ -118,24 +90,11 @@ const ShopPage = () => {
     }
   }, [fetchingSubscription, errorSubscribing]);
 
-  useEffect(() => {
-    if (!fetchingShop && shop) {
-      setTrialDays(
-        calculateTrialDays(
-          shop.usedTrialDays,
-          shop.usedTrialDaysUpdatedAt,
-          new Date(),
-          shop.plan.trialDays
-        ).availableTrialDays
-      );
-    }
-  }, [fetchingShop]);
-
   return (
     <Page title="Plan Selection Page">
       <Layout>
         <Layout.Section>
-          {!fetchingSubscription && errorSubscribing && show && (
+          {show && (
             <Banner
               title={bannerContext}
               tone="critical"

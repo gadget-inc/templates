@@ -9,6 +9,7 @@ import { useEffect, useMemo } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import ShopPage from "./ShopPage";
 import { api } from "./api";
+import { ShopProvider } from "./providers";
 
 const Error404 = () => {
   const navigate = useNavigate();
@@ -76,11 +77,12 @@ function AuthenticatedApp() {
 function EmbeddedApp() {
   return (
     <>
-      {/* WRAPPER */}
-      <Routes>
-        <Route path="/" element={<ShopPage />} />
-        <Route path="*" element={<Error404 />} />
-      </Routes>
+      <ShopProvider>
+        <Routes>
+          <Route path="/" element={<ShopPage />} />
+          <Route path="*" element={<Error404 />} />
+        </Routes>
+      </ShopProvider>
       <NavigationMenu
         navigationLinks={[
           {

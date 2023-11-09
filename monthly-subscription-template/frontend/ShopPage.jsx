@@ -18,8 +18,7 @@ const ShopPage = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
-  const { shop, fetchingShop, errorFetchingShop, trialDays, prices } =
-    useContext(ShopContext);
+  const { shop, trialDays, prices } = useContext(ShopContext);
 
   const [{ data: plans, fetching: fetchingPlans, error: errorFetchingPlans }] =
     useFindMany(api.plan, {
@@ -34,11 +33,7 @@ const ShopPage = () => {
     });
 
   const [
-    {
-      data: subscriptionData,
-      fetching: fetchingSubscription,
-      error: errorSubscribing,
-    },
+    { fetching: fetchingSubscription, error: errorSubscribing },
     subscribe,
   ] = useAction(api.shopifyShop.subscribe, {
     select: {

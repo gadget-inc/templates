@@ -1,7 +1,7 @@
 import { useFindFirst, useGlobalAction } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
-import { calculateTrialDays } from "../utilities";
+import { trialCalculations } from "../utilities";
 import { Banner } from "@shopify/polaris";
 
 export const ShopContext = createContext({});
@@ -20,7 +20,7 @@ export const ShopContext = createContext({});
 export default ({ children }) => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
-  const [trialDays, setTrialDays] = useState(0);
+  const [availableTrialDays, setAvailableTrialDays] = useState(0);
   const [prices, setPrices] = useState({});
 
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
@@ -28,8 +28,8 @@ export default ({ children }) => {
       select: {
         id: true,
         currency: true,
-        usedTrialDays: true,
-        usedTrialDaysUpdatedAt: true,
+        usedTrialMinutes: true,
+        usedTrialMinutesUpdatedAt: true,
         plan: {
           id: true,
           name: true,
@@ -52,10 +52,10 @@ export default ({ children }) => {
   // useEffect for setting the number of trial days remaining for the current shop
   useEffect(() => {
     if (!fetchingShop && shop) {
-      setTrialDays(
-        calculateTrialDays(
-          shop?.usedTrialDays,
-          shop?.usedTrialDaysUpdatedAt,
+      setAvailableTrialDays(
+        trialCalculations(
+          shop?.usedTrialMinutes,
+          shop?.usedTrialMinutesUpdatedAt,
           new Date(),
           shop?.plan?.trialDays
         ).availableTrialDays
@@ -88,7 +88,7 @@ export default ({ children }) => {
         shop,
         fetchingShop,
         errorFetchingShop,
-        trialDays,
+        availableTrialDays,
         prices,
       }}
     >

@@ -6,7 +6,7 @@ import {
   SubscribeShopifyShopActionContext,
 } from "gadget-server";
 import CurrencyConverter from "currency-converter-lt";
-import { calculateTrialDays } from "../helpers";
+import { trialCalculations } from "../helpers";
 
 /**
  * @param { SubscribeShopifyShopActionContext } context
@@ -36,9 +36,9 @@ export async function run({
     const today = new Date();
 
     // Check for trial availability
-    const { usedTrialDays, availableTrialDays } = calculateTrialDays(
-      record.usedTrialDays || 0,
-      record.usedTrialDaysUpdatedAt,
+    const { usedTrialMinutes, availableTrialDays } = trialCalculations(
+      record.usedTrialMinutes,
+      record.usedTrialMinutesUpdatedAt,
       today,
       planMatch.trialDays
     );
@@ -93,8 +93,8 @@ export async function run({
     }
 
     // Updating the relevant shop record fields
-    record.usedTrialDays = usedTrialDays;
-    record.usedTrialDaysUpdatedAt = today;
+    record.usedTrialMinutes = usedTrialMinutes;
+    record.usedTrialMinutesUpdatedAt = today;
     record.activeRecurringSubscriptionId =
       result?.appSubscriptionCreate?.appSubscription?.id;
     record.confirmationUrl = result?.appSubscriptionCreate?.confirmationUrl;

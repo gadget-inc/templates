@@ -7,6 +7,7 @@ import {
   ShopifyShopState,
   UninstallShopifyShopActionContext,
 } from "gadget-server";
+import { trialCalculations } from "../helpers";
 
 /**
  * @param { UninstallShopifyShopActionContext } context
@@ -18,7 +19,23 @@ export async function run({ params, record, logger, api, connections }) {
   });
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
+  const planMatch = await api.plan.maybeFindOne(record.planId, {
+    select: {
+      trialDays: true,
+    },
+  });
 
+  if (planMatch) {
+    const { usedTrialMinutes } = trialCalculations(
+      record.usedTrialMinutes,
+      record.usedTrialMinutesUpdatedAt,
+      new Date(),
+      planMatch.trialDays
+    );
+
+    record.usedTrialMinutes = usedTrialMinutes;
+    record.usedTrialMinutesUpdatedAt = null;
+  }
   await save(record);
 }
 

@@ -1,6 +1,6 @@
 /**
- * @module HelperIndex Index file for the shopifyShop folder's functions
- * @exports (calculateTrialDays) A function used to return trial information for the current shop
+ * @module HelpersIndex Index file for the shopifyShop folder's functions
+ * @exports (trialCalculations) A function used to return trial information for the current shop
  */
 
-export { default as calculateTrialDays } from "./calculateTrialDays";
+export { default as trialCalculations } from "./trialCalculations";

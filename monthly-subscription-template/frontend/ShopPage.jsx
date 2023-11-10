@@ -11,14 +11,14 @@ import { api } from "./api";
 import { PlanCard } from "./components";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "@shopify/app-bridge-react";
-import { calculateTrialDays } from "./utilities";
+import { trialCalculations } from "./utilities";
 import { ShopContext } from "./providers";
 
 const ShopPage = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
-  const { shop, trialDays, prices } = useContext(ShopContext);
+  const { shop, availableTrialDays, prices } = useContext(ShopContext);
 
   const [{ data: plans, fetching: fetchingPlans, error: errorFetchingPlans }] =
     useFindMany(api.plan, {
@@ -105,9 +105,10 @@ const ShopPage = () => {
             title={`This shop is assigned to the ${shop?.plan?.name} plan`}
             tone="success"
           >
-            {trialDays && (
+            {availableTrialDays && (
               <Text as="p" variant="bodyMd">
-                You have <strong>{trialDays}</strong> trial days remaining.
+                You have <strong>{availableTrialDays}</strong> trial days
+                remaining.
               </Text>
             )}
           </Banner>
@@ -123,9 +124,9 @@ const ShopPage = () => {
                     description={plan.description}
                     monthlyPrice={prices[plan.id]}
                     trialDays={
-                      calculateTrialDays(
-                        shop?.usedTrialDays,
-                        shop?.usedTrialDaysUpdatedAt,
+                      trialCalculations(
+                        shop?.usedTrialMinutes,
+                        shop?.usedTrialMinutesUpdatedAt,
                         new Date(),
                         plan.trialDays
                       ).availableTrialDays

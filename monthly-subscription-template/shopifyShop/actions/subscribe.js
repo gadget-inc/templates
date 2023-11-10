@@ -96,7 +96,7 @@ export async function run({
     record.usedTrialDays = usedTrialDays;
     record.usedTrialDaysUpdatedAt = today;
     record.activeRecurringSubscriptionId =
-      result?.appSubscriptionCreate?.appSubscription?.id?.split("/")[4];
+      result?.appSubscriptionCreate?.appSubscription?.id;
     record.confirmationUrl = result?.appSubscriptionCreate?.confirmationUrl;
 
     await save(record);

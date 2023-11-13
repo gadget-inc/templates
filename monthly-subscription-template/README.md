@@ -16,7 +16,7 @@ A list of steps that you should follow:
 
 5. Test the subscription flow.
 
-## Application flow
+## Subscription flow
 
 - The `shopifyShop` model's `subscribe` action is used when a merchant clicks the **Select** button on a plan card
 

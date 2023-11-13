@@ -93,7 +93,6 @@ export async function run({
 
     // Check for errors in subscription creation
     if (result?.appSubscriptionCreate?.userErrors?.length) {
-      logger.info("HERE");
       throw new Error(
         result?.appSubscriptionCreate?.userErrors[0]?.message ||
           "SUBSCRIPTION FLOW - Error creating app subscription (SHOPIFY API)"

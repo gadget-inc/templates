@@ -32,41 +32,26 @@ export async function run({
     },
   });
 
-  if (planMatch) {
-    const today = new Date();
+  const currencyConverter = new CurrencyConverter();
+  // Get cost of plan for current shop based on the plan currency
+  const price = await currencyConverter
+    .from("CAD") // Your chosen currency
+    .to(record.currency)
+    .convert(10); // The price for using your application
 
-    // Check for trial availability
-    const { usedTrialMinutes, availableTrialDays } = trialCalculations(
-      record.usedTrialMinutes,
-      record.usedTrialMinutesUpdatedAt,
-      today,
-      planMatch.trialDays
-    );
-
-    let price = 0;
-
-    if (planMatch.monthlyPrice) {
-      const currencyConverter = new CurrencyConverter();
-      // Get cost of plan for current shop based on the plan currency
-      price = await currencyConverter
-        .from(planMatch.currency)
-        .to(record.currency)
-        .convert(planMatch.monthlyPrice);
-    }
-
-    /**
-     * Create subscription record in Shopify
-     * Shopify requires that the price of a subscription be non-zero. This template does not currently support free plans
-     */
-    const result = await connections.shopify.current?.graphql(
-      `mutation {
+  /**
+   * Create subscription record in Shopify
+   * Shopify requires that the price of a subscription be non-zero. This template does not currently support free plans
+   */
+  const result = await connections.shopify.current?.graphql(
+    `mutation {
       appSubscriptionCreate(
         name: "${planMatch.name}",
         trialDays: ${availableTrialDays}
         test: ${process.env.NODE_ENV === "production" ? false : true},
         returnUrl: "${currentAppUrl}confirmation-callback?shop_id=${
-        connections.shopify.currentShopId
-      }&plan_id=${planMatch.id}",
+      connections.shopify.currentShopId
+    }&plan_id=${planMatch.id}",
         lineItems: [{
           plan: {
             appRecurringPricingDetails: {
@@ -89,28 +74,23 @@ export async function run({
         }
       }
     }`
+  );
+
+  // Check for errors in subscription creation
+  if (result?.appPurchaseOneTimeCreate?.userErrors?.length) {
+    throw new Error(
+      result?.appPurchaseOneTimeCreate?.userErrors[0]?.message ||
+        "SUBSCRIPTION FLOW - Error creating app subscription (SHOPIFY API)"
     );
-
-    // Check for errors in subscription creation
-    if (result?.appSubscriptionCreate?.userErrors?.length) {
-      logger.info("HERE");
-      throw new Error(
-        result?.appSubscriptionCreate?.userErrors[0]?.message ||
-          "SUBSCRIPTION FLOW - Error creating app subscription (SHOPIFY API)"
-      );
-    }
-
-    // Updating the relevant shop record fields
-    record.usedTrialMinutes = usedTrialMinutes;
-    record.usedTrialMinutesUpdatedAt = today;
-    record.activeRecurringSubscriptionId =
-      result?.appSubscriptionCreate?.appSubscription?.id.split("/")[4];
-    record.confirmationUrl = result?.appSubscriptionCreate?.confirmationUrl;
-
-    await save(record);
-  } else {
-    throw new Error("SUBSCRIPTION FLOW - Plan not found");
   }
+
+  // Updating the relevant shop record fields
+  record.usedTrialMinutes = usedTrialMinutes;
+  record.activeRecurringSubscriptionId =
+    result?.appPurchaseOneTimeCreate?.appPurchaseOneTime?.id.split("/")[4];
+  record.confirmationUrl = result?.appPurchaseOneTimeCreate?.confirmationUrl;
+
+  await save(record);
 }
 
 /**

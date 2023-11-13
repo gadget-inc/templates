@@ -13,6 +13,9 @@ import {
 export async function run({ params, record, logger, api, connections }) {
   transitionState(record, { to: ShopifyShopState.Installed });
   applyParams(params, record);
+
+  record.usedTrialMinutesUpdatedAt = new Date();
+
   await save(record);
 }
 

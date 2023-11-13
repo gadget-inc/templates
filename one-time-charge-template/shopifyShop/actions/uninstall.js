@@ -1,23 +1,62 @@
-import { transitionState, applyParams, preventCrossShopDataAccess, save, ActionOptions, ShopifyShopState, UninstallShopifyShopActionContext } from "gadget-server";
+import {
+  transitionState,
+  applyParams,
+  preventCrossShopDataAccess,
+  save,
+  ActionOptions,
+  ShopifyShopState,
+  UninstallShopifyShopActionContext,
+} from "gadget-server";
+import { trialCalculations } from "../helpers";
 
 /**
  * @param { UninstallShopifyShopActionContext } context
  */
 export async function run({ params, record, logger, api, connections }) {
-  transitionState(record, {from: ShopifyShopState.Installed, to: ShopifyShopState.Uninstalled});
+  transitionState(record, {
+    from: ShopifyShopState.Installed,
+    to: ShopifyShopState.Uninstalled,
+  });
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
+  const planMatch = await api.plan.maybeFindOne(record.planId, {
+    select: {
+      trialDays: true,
+    },
+  });
+
+  if (planMatch) {
+    const { usedTrialMinutes } = trialCalculations(
+      record.usedTrialMinutes,
+      record.usedTrialMinutesUpdatedAt,
+      new Date(),
+      planMatch.trialDays
+    );
+
+    record.usedTrialMinutes = usedTrialMinutes;
+    record.usedTrialMinutesUpdatedAt = null;
+  }
   await save(record);
-};
+}
 
 /**
  * @param { UninstallShopifyShopActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  // Your logic goes here
-};
+  // Needs to be changed to one time shape
+  await api.internal.shopifyAppSubscription.update(
+    record.activeRecurringSubscriptionId,
+    {
+      status: "CANCELLED",
+    }
+  );
+
+  await api.internal.shopifyShop.update(record.id, {
+    activeRecurringSubscriptionId: null,
+  });
+}
 
 /** @type { ActionOptions } */
 export const options = {
-  actionType: "update"
+  actionType: "update",
 };

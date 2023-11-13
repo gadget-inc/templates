@@ -1,135 +1,162 @@
-import { useFindFirst, useQuery } from "@gadgetinc/react";
-import { Card, Banner, FooterHelp, InlineStack, Icon, Layout, Link, Page, Spinner, Text, BlockStack } from "@shopify/polaris";
-import { StoreMajor } from "@shopify/polaris-icons";
+import { useAction, useFindMany } from "@gadgetinc/react";
+import {
+  Banner,
+  BlockStack,
+  Layout,
+  Page,
+  Spinner,
+  Text,
+} from "@shopify/polaris";
 import { api } from "./api";
-
-const gadgetMetaQuery = `
-  query {
-    gadgetMeta {
-      slug
-      editURL
-    }
-  }
-`;
+import { PlanCard } from "./components";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { useNavigate } from "@shopify/app-bridge-react";
+import { trialCalculations } from "./utilities";
+import { ShopContext } from "./providers";
 
 const ShopPage = () => {
-  const [{ data, fetching, error }] = useFindFirst(api.shopifyShop);
-  const [{ data: metaData, fetching: fetchingGadgetMeta }] = useQuery({
-    query: gadgetMetaQuery,
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [bannerContext, setBannerContext] = useState("");
+  const { shop, availableTrialDays, prices } = useContext(ShopContext);
+
+  const [{ data: plans, fetching: fetchingPlans, error: errorFetchingPlans }] =
+    useFindMany(api.plan, {
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        monthlyPrice: true,
+        trialDays: true,
+        currency: true,
+      },
+      sort: {
+        monthlyPrice: "Ascending", // Prices from lowest to highest
+      },
+    });
+
+  const [
+    {
+      data: subscription,
+      fetching: fetchingSubscription,
+      error: errorSubscribing,
+    },
+    subscribe,
+  ] = useAction(api.shopifyShop.subscribe, {
+    select: {
+      confirmationUrl: true,
+    },
   });
 
-  if (error) {
-    return (
-      <Page title="Error">
-        <Text variant="bodyMd" as="p">
-          Error: {error.toString()}
-        </Text>
-      </Page>
-    );
-  }
+  /**
+   * @type { (planId: string) => void }
+   *
+   * Callback used to subscribe to a plan and redirect to the Shopify subscription confirmation page
+   */
+  const handleSubscribe = useCallback(
+    async (planId) => {
+      const res = await subscribe({ id: shop.id, planId });
 
-  if (fetching || fetchingGadgetMeta) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        <Spinner accessibilityLabel="Spinner example" size="large" />
-      </div>
-    );
-  }
+      if (res?.data?.confirmationUrl) {
+        navigate(res.data.confirmationUrl);
+      }
+    },
+    [shop, subscribe]
+  );
+
+  /**
+   * @type { () => void }
+   *
+   * Dismisses the error banner
+   */
+  const handleDismiss = useCallback(() => {
+    setShow(false);
+  }, []);
+
+  // useEffect for showing an error banner when there's an issue fetching plans
+  useEffect(() => {
+    if (!fetchingPlans && errorFetchingPlans) {
+      setBannerContext(errorFetchingPlans.message);
+      setShow(true);
+    } else if (fetchingPlans) {
+      setShow(false);
+    }
+  }, [fetchingPlans, errorFetchingPlans]);
+
+  // useEffect for showing an error banner when there's an issue subscribing
+  useEffect(() => {
+    if (!fetchingSubscription && errorSubscribing) {
+      setBannerContext(errorSubscribing.message);
+      setShow(true);
+    } else if (fetchingSubscription) {
+      setShow(false);
+    }
+  }, [fetchingSubscription, errorSubscribing]);
 
   return (
-    <Page title="App">
-      <Layout>
-        <Layout.Section>
-          <Banner title={`${metaData.gadgetMeta.slug} is successfully connected to Shopify`} tone="success" />
-        </Layout.Section>
-        <Layout.Section>
-          <Card>
-            <div style={{ width: "100%" }}>
-              <img
-                src="https://assets.gadget.dev/assets/icon.svg"
-                style={{
-                  margin: "14px auto",
-                  height: "56px",
-                }}
-              />
-            </div>
-            <BlockStack gap="200">
-              <Text variant="headingLg" as="h1" alignment="center">
-                This page is powered by{" "}
-                <Link url={`${metaData.gadgetMeta.editURL}/files/frontend/ShopPage.jsx`} external>
-                  <code
-                    style={{
-                      fontFamily: "SFMono-Regular, Consolas, Liberation Mono, Menlo, Courier, monospace",
-                      fontSize: "0.95em",
-                    }}
-                  >
-                    ShopPage.jsx
-                  </code>
-                </Link>
+    <Page title="Plan Selection Page">
+      <BlockStack gap="500">
+        {show && (
+          <Banner
+            title={bannerContext}
+            tone="critical"
+            onDismiss={handleDismiss}
+          />
+        )}
+        {shop?.plan?.id && (
+          <Banner
+            title={`This shop is assigned to the ${shop?.plan?.name} plan`}
+            tone="success"
+          >
+            {availableTrialDays && (
+              <Text as="p" variant="bodyMd">
+                You have <strong>{availableTrialDays}</strong> trial days
+                remaining.
               </Text>
-              <Text variant="bodyMd" as="p" alignment="center">
-                Start building your UI by editing file hosted on Gadget.
+            )}
+          </Banner>
+        )}
+        <Layout>
+          {!fetchingPlans ? (
+            plans.length ? (
+              plans?.map((plan) => (
+                <Layout.Section variant="oneThird" key={plan.id}>
+                  <PlanCard
+                    id={plan.id}
+                    name={plan.name}
+                    description={plan.description}
+                    monthlyPrice={prices[plan.id]}
+                    trialDays={
+                      trialCalculations(
+                        shop?.usedTrialMinutes,
+                        shop?.usedTrialMinutesUpdatedAt,
+                        new Date(),
+                        plan.trialDays
+                      ).availableTrialDays
+                    }
+                    currency={shop?.currency || "CAD"}
+                    handleSubscribe={handleSubscribe}
+                    buttonDisabled={
+                      subscription ||
+                      fetchingSubscription ||
+                      shop?.plan?.id === plan.id
+                    }
+                  />
+                </Layout.Section>
+              ))
+            ) : (
+              <Text as="p" variant="bodyLg">
+                There are no plans in the database. Please make sure to add
+                plans using the API Playground. Since the database is split
+                between development and production, make sure to also add plans
+                to your production database once deploying and going live.
               </Text>
-            </BlockStack>
-          </Card>
-        </Layout.Section>
-        <Layout.Section>
-          <Card>
-            <BlockStack gap="400">
-              <Text variant="headingMd" as="h6">
-                Example Shop Query from your Gadget Database
-              </Text>
-              <div
-                style={{
-                  border: "1px solid #e1e3e5",
-                  padding: "12px",
-                  borderRadius: "0.25rem",
-                }}
-              >
-                <InlineStack align="space-between" blockAlign="center">
-                  <InlineStack gap="400" blockAlign="center">
-                    <Icon source={StoreMajor} tone="emphasis" />
-                    <div>
-                      <Text variant="headingMd" as="h6">
-                        {data.name}
-                      </Text>
-                      <Text variant="bodyMd" as="p">
-                        {data.city}, {data.countryName}
-                      </Text>
-                    </div>
-                  </InlineStack>
-                  <Text variant="bodyMd" as="p">
-                    Created at:{" "}
-                    {data.shopifyCreatedAt.toLocaleDateString("en-GB", {
-                      year: "numeric",
-                      month: "short",
-                      day: "numeric",
-                    })}
-                  </Text>
-                </InlineStack>
-              </div>
-            </BlockStack>
-          </Card>
-        </Layout.Section>
-        <Layout.Section>
-          <FooterHelp>
-            <p>
-              Powered by{" "}
-              <Link url="https://gadget.dev" external>
-                gadget.dev
-              </Link>
-            </p>
-          </FooterHelp>
-        </Layout.Section>
-      </Layout>
+            )
+          ) : (
+            <Spinner />
+          )}
+        </Layout>
+      </BlockStack>
     </Page>
   );
 };

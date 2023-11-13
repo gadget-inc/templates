@@ -1,26 +1,28 @@
 {
   "name": "one-time-charge-template",
   "version": "0.1.0",
-  "description": "Internal package for Gadget app One Time Charge Template (Development environment)",
+  "description": "Internal package for Gadget app Monthly Subscription Template (Development environment)",
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
     "vite:build": "NODE_ENV=production vite build"
   },
   "dependencies": {
-    "@gadget-client/one-time-charge-template": "link:.gadget/client",
+    "@gadgetinc/auth": "^0.4.0",
     "@gadgetinc/react": "^0.14.15",
-    "gadget-server": "link:.gadget/server",
+    "@gadgetinc/react-shopify-app-bridge": "^0.13.3",
+    "@shopify/app-bridge": "3.5.0",
+    "@shopify/app-bridge-react": "3.5.0",
+    "@shopify/polaris": "^12.0.0",
+    "@shopify/polaris-icons": "^7.9.0",
+    "currency-converter-lt": "^2.0.1",
+    "date-fns": "^2.30.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "6.15.0",
     "shopify-api-node": "^3.12.6",
-    "@gadgetinc/auth": "^0.4.0",
-    "@shopify/polaris": "^12.0.0",
-    "@shopify/polaris-icons": "^7.9.0",
-    "@shopify/app-bridge": "3.5.0",
-    "@shopify/app-bridge-react": "3.5.0",
-    "@gadgetinc/react-shopify-app-bridge": "^0.13.3"
+    "@gadget-client/one-time-charge-template": "link:.gadget/client",
+    "gadget-server": "link:.gadget/server"
   },
   "devDependencies": {
     "@types/node": "^18.11.9",

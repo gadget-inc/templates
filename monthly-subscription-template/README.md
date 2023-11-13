@@ -56,3 +56,4 @@ Listed features that the application currently supports.
 - Validating plan record inputs (ex. currency codes)
 - Better frontend UI for billing page
 - Custom plan support for shops with special agreements
+- Disabling webhooks and external functionality when no plan selected

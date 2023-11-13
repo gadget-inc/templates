@@ -38,8 +38,6 @@ export default ({ children }) => {
       },
     });
 
-  const [_, convertCurrency] = useGlobalAction(api.planCurrencyToShopCurrency);
-
   /**
    * @type { () => void }
    *
@@ -76,8 +74,7 @@ export default ({ children }) => {
   // useEffect for calling the planCurrencyToShopCurrency global action - getting all the currency conversions for plans
   useEffect(() => {
     const run = async () => {
-      const { data } = await convertCurrency();
-      setPrices(data);
+      setPrices(await api.planCurrencyToShopCurrency());
     };
     run();
   }, []);

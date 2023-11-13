@@ -50,13 +50,6 @@ Listed features that the application currently supports.
 
 ## Missing features
 
-A list of missing functionality.
-
-### Backend
-
 - Free plan support
-
-### Frontend
-
 - Separate billing and main app page
 - Shop wrapper does not redirect a user to the billing page if there is no plan selected

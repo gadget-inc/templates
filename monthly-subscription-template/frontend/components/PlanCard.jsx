@@ -30,7 +30,7 @@ export default ({
           <Text as="h2" variant="headingMd">
             {name}
           </Text>
-          {monthlyPrice ? (
+          {monthlyPrice != null ? (
             <Text as="span" variant="bodyLg" fontWeight="medium">
               {monthlyPrice} {currency}
             </Text>

@@ -28,10 +28,14 @@ export async function run({ params, logger, api, connections }) {
     });
 
     for (const plan of plans) {
-      response[plan.id] = await currencyConverter
-        .from(plan.currency)
-        .to(shop.currency)
-        .convert(plan.monthlyPrice);
+      if (plan.monthlyPrice) {
+        response[plan.id] = await currencyConverter
+          .from(plan.currency)
+          .to(shop.currency)
+          .convert(plan.monthlyPrice);
+      } else {
+        response[plan.id] = 0;
+      }
     }
   }
 

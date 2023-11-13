@@ -13,7 +13,7 @@ export default async function route({
   logger,
   connections,
 }) {
-  const { shop_id, charge_id, plan_id } = request.query;
+  const { shop_id, plan_id } = request.query;
 
   // Updating the shop with the relevant information
   const shop = await api.internal.shopifyShop.update(shop_id, {

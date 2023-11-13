@@ -43,14 +43,21 @@ export async function run({
       planMatch.trialDays
     );
 
-    const currencyConverter = new CurrencyConverter();
-    // Get cost of plan for current shop based on the plan currency
-    const price = await currencyConverter
-      .from(planMatch.currency)
-      .to(record.currency)
-      .convert(planMatch.monthlyPrice);
+    let price = 0;
 
-    // Create subscription record in Shopify
+    if (planMatch.monthlyPrice) {
+      const currencyConverter = new CurrencyConverter();
+      // Get cost of plan for current shop based on the plan currency
+      price = await currencyConverter
+        .from(planMatch.currency)
+        .to(record.currency)
+        .convert(planMatch.monthlyPrice);
+    }
+
+    /**
+     * Create subscription record in Shopify
+     * Shopify requires that the price of a subscription be non-zero. This template does not currently support free plans
+     */
     const result = await connections.shopify.current?.graphql(
       `mutation {
       appSubscriptionCreate(
@@ -86,6 +93,7 @@ export async function run({
 
     // Check for errors in subscription creation
     if (result?.appSubscriptionCreate?.userErrors?.length) {
+      logger.info("HERE");
       throw new Error(
         result?.appSubscriptionCreate?.userErrors[0]?.message ||
           "SUBSCRIPTION FLOW - Error creating app subscription (SHOPIFY API)"
@@ -96,7 +104,7 @@ export async function run({
     record.usedTrialMinutes = usedTrialMinutes;
     record.usedTrialMinutesUpdatedAt = today;
     record.activeRecurringSubscriptionId =
-      result?.appSubscriptionCreate?.appSubscription?.id;
+      result?.appSubscriptionCreate?.appSubscription?.id.split("/")[4];
     record.confirmationUrl = result?.appSubscriptionCreate?.confirmationUrl;
 
     await save(record);

@@ -30,6 +30,9 @@ const ShopPage = () => {
         trialDays: true,
         currency: true,
       },
+      sort: {
+        monthlyPrice: "Ascending", // Prices from lowest to highest
+      },
     });
 
   const [

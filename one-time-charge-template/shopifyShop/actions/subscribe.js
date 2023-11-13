@@ -6,34 +6,16 @@ import {
   SubscribeShopifyShopActionContext,
 } from "gadget-server";
 import CurrencyConverter from "currency-converter-lt";
-import { trialCalculations } from "../helpers";
 
 /**
  * @param { SubscribeShopifyShopActionContext } context
  */
-export async function run({
-  params,
-  record,
-  logger,
-  api,
-  connections,
-  currentAppUrl,
-}) {
+export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
-  const planMatch = await api.plan.maybeFindOne(params.planId, {
-    select: {
-      id: true,
-      name: true,
-      monthlyPrice: true,
-      currency: true,
-      trialDays: true,
-    },
-  });
-
   const currencyConverter = new CurrencyConverter();
-  // Get cost of plan for current shop based on the plan currency
+  // Get cost of plan for current shop based on your choice of currency
   const price = await currencyConverter
     .from("CAD") // Your chosen currency
     .to(record.currency)
@@ -45,33 +27,26 @@ export async function run({
    */
   const result = await connections.shopify.current?.graphql(
     `mutation {
-      appSubscriptionCreate(
-        name: "${planMatch.name}",
-        trialDays: ${availableTrialDays}
-        test: ${process.env.NODE_ENV === "production" ? false : true},
-        returnUrl: "${currentAppUrl}confirmation-callback?shop_id=${
-      connections.shopify.currentShopId
-    }&plan_id=${planMatch.id}",
-        lineItems: [{
-          plan: {
-            appRecurringPricingDetails: {
-              price: { 
-                amount: ${price},
-                currencyCode: ${record.currency}
-              }
-              interval: EVERY_30_DAYS
-            }
-          }
-        }]
+      appPurchaseOneTimeCreate(
+        name: "one-time-charge-template",
+        returnUrl: https://${record.domain}/admin/apps/${
+      record.installedViaApiKey
+    },
+        price: { 
+          amount: ${price},
+          currencyCode: ${record.currency}
+        },
+        test: ${process.env.NODE_ENV === "production" ? false : true}
       ) {
         userErrors {
           field
           message
         }
-        confirmationUrl
-        appSubscription {
+        appPurchaseOneTime {
+          createdAt
           id
         }
+        confirmationUrl
       }
     }`
   );
@@ -85,8 +60,7 @@ export async function run({
   }
 
   // Updating the relevant shop record fields
-  record.usedTrialMinutes = usedTrialMinutes;
-  record.activeRecurringSubscriptionId =
+  record.oneTimeChargeId =
     result?.appPurchaseOneTimeCreate?.appPurchaseOneTime?.id.split("/")[4];
   record.confirmationUrl = result?.appPurchaseOneTimeCreate?.confirmationUrl;
 
@@ -103,9 +77,4 @@ export async function onSuccess({ params, record, logger, api }) {
 /** @type { ActionOptions } */
 export const options = {
   actionType: "update",
-};
-
-export const params = {
-  // We use planName so that we don't need to fetch it
-  planId: { type: "string" },
 };

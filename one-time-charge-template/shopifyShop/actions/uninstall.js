@@ -37,17 +37,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { UninstallShopifyShopActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  // Needs to be changed to one time shape
-  await api.internal.shopifyAppSubscription.update(
-    record.activeRecurringSubscriptionId,
-    {
-      status: "CANCELLED",
-    }
-  );
-
-  await api.internal.shopifyShop.update(record.id, {
-    activeRecurringSubscriptionId: null,
-  });
+  // Your logic goes here
 }
 
 /** @type { ActionOptions } */

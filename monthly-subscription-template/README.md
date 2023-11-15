@@ -14,7 +14,7 @@ A list of steps that you should follow:
 
 4. Install your Shopify app on a Shopify development store.
 
-5. Test the subscription flow.
+5. Test the subscription flow by selecting one of the available plans that you added.
 
 ## Subscription flow
 

@@ -15,7 +15,7 @@ export async function run({ params, record, logger, api, connections }) {
   await preventCrossShopDataAccess(params, record);
 
   const currencyConverter = new CurrencyConverter();
-  // Get cost of plan for current shop based on your choice of currency
+  // Get cost of payment for current shop based on your choice of currency
   const price = await currencyConverter
     .from("CAD") // Your chosen currency
     .to(record.currency)

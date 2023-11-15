@@ -10,7 +10,7 @@ A list of steps that you should follow:
 
 2. Select [Public distribution](https://shopify.dev/docs/apps/distribution) in the "Distribution" tab of the Shopify Partner dashboard.
 
-3. Add `plan` records using the API Playground. You can access a auto-generated GraphQL mutation by navigating to the `plan` model's `create` action and clicking on the **Run action** button to the right of the screen.
+3. Add `plan` records using your Gadget app's API Playground. You can access an auto-generated GraphQL mutation by navigating to the `plan` model's `create` action and clicking on the **Run action** button to the right of the screen.
 
 4. Install your Shopify app on a Shopify development store.
 

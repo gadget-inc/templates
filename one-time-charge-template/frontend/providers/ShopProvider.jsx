@@ -1,8 +1,14 @@
-import { useFindFirst, useGlobalAction } from "@gadgetinc/react";
+import { useFindFirst } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
-import { Banner } from "@shopify/polaris";
+import { Box, Banner, Text, Spinner } from "@shopify/polaris";
+import "./ShopProvider.css";
+import BillingPage from "../BillingPage";
+
+const BannerBox = ({ children }) => {
+  return <Box id="bannerBox">{children}</Box>;
+};
 
 export const ShopContext = createContext({});
 
@@ -22,6 +28,7 @@ export default ({ children }) => {
   const [bannerContext, setBannerContext] = useState("");
   const [availableTrialDays, setAvailableTrialDays] = useState(0);
   const [prices, setPrices] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop, {
@@ -29,12 +36,9 @@ export default ({ children }) => {
         id: true,
         currency: true,
         usedTrialMinutes: true,
-        usedTrialMinutesUpdatedAt: true,
-        plan: {
-          id: true,
-          name: true,
-          trialDays: true,
-        },
+        trialStartedAt: true,
+        oneTimeChargeId: true,
+        trialDays: true,
       },
     });
 
@@ -53,11 +57,12 @@ export default ({ children }) => {
       setAvailableTrialDays(
         trialCalculations(
           shop?.usedTrialMinutes,
-          shop?.usedTrialMinutesUpdatedAt,
+          shop?.trialStartedAt,
           new Date(),
-          shop?.plan?.trialDays
+          shop?.trialDays
         ).availableTrialDays
       );
+      setLoading(false);
     }
   }, [fetchingShop]);
 
@@ -85,18 +90,52 @@ export default ({ children }) => {
         shop,
         fetchingShop,
         errorFetchingShop,
-        availableTrialDays,
         prices,
       }}
     >
       {show && (
-        <Banner
-          title={bannerContext}
-          tone="critical"
-          onDismiss={handleDismiss}
-        />
+        <BannerBox>
+          <Banner
+            title={bannerContext}
+            tone="critical"
+            onDismiss={handleDismiss}
+          />
+        </BannerBox>
       )}
-      {children}
+      {!fetchingShop && !loading ? (
+        !availableTrialDays && !shop?.oneTimeChargeId ? (
+          <BillingPage />
+        ) : (
+          <>
+            {availableTrialDays && (
+              <BannerBox>
+                <Banner
+                  title="Welcome to the app! You are currently on a trial period."
+                  tone="info"
+                >
+                  <Text as="p" variant="bodyMd">
+                    The trial will end in <strong>{availableTrialDays}</strong>{" "}
+                    days.
+                  </Text>
+                </Banner>
+              </BannerBox>
+            )}
+            {children}
+          </>
+        )
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Spinner accessibilityLabel="Spinner example" size="large" />
+        </div>
+      )}
     </ShopContext.Provider>
   );
 };

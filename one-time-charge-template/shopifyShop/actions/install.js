@@ -14,7 +14,7 @@ export async function run({ params, record, logger, api, connections }) {
   transitionState(record, { to: ShopifyShopState.Installed });
   applyParams(params, record);
 
-  record.trialStarted = new Date();
+  record.trialStartedAt = new Date();
 
   await save(record);
 }

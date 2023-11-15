@@ -20,7 +20,7 @@ export async function run({ params, record, logger, api, connections }) {
   await preventCrossShopDataAccess(params, record);
 
   if (!record.oneTimeChargeId) {
-    record.trialStarted = new Date();
+    record.trialStartedAt = new Date();
   }
 
   await save(record);

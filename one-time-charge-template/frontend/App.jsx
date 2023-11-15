@@ -86,7 +86,7 @@ function EmbeddedApp() {
       <NavigationMenu
         navigationLinks={[
           {
-            label: "Plan Selection Page",
+            label: "Dashboard",
             destination: "/",
           },
         ]}

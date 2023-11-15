@@ -29,9 +29,9 @@ export async function run({ params, record, logger, api, connections }) {
     `mutation {
       appPurchaseOneTimeCreate(
         name: "one-time-charge-template",
-        returnUrl: https://${record.domain}/admin/apps/${
+        returnUrl: "https://${record.domain}/admin/apps/${
       record.installedViaApiKey
-    },
+    }",
         price: { 
           amount: ${price},
           currencyCode: ${record.currency}

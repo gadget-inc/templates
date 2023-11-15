@@ -12,7 +12,7 @@ A list of steps that you should follow:
 
 3. Add `plan` records using your Gadget app's API Playground. You can access an auto-generated GraphQL mutation by navigating to the `plan` model's `create` action and clicking on the **Run action** button to the right of the screen.
 
-4. Install your Shopify app on a Shopify development store.
+4. Using the Partner dashboard, install your Shopify app on a Shopify development store.
 
 5. Test the subscription flow by selecting one of the available plans that you added.
 

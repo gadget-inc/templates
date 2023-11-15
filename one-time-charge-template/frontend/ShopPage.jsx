@@ -6,9 +6,28 @@ import {
   SkeletonPage,
 } from "@shopify/polaris";
 
+/**
+ * This is where your main app logic should go
+ * Note that this is just a skeleton of what an app might look like
+ * 
+ * To view the billing page, make use of your app's API Playgound. Use the following GraphQL mutation:
+ * 
+    mutation {
+      internal {
+        updateShopifyShop(
+          id: "shopId",
+          shopifyShop: {
+            oneTimeChargeId: null,
+            usedTrialMinutes: 10080
+          }
+        ) {
+        success
+        }
+      }
+    }
+ * 
+ */
 const ShopPage = () => {
-  // This is where your app logic should go
-
   return (
     <SkeletonPage title="Dashboard" primaryAction>
       <Layout sectioned>

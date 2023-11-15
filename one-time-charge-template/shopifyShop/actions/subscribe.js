@@ -22,8 +22,8 @@ export async function run({ params, record, logger, api, connections }) {
     .convert(10); // The price for using your application
 
   /**
-   * Create subscription record in Shopify
-   * Shopify requires that the price of a subscription be non-zero. This template does not currently support free plans
+   * Create AppPurchaseOneTime record in Shopify
+   * Shopify requires that the price of a AppPurchaseOneTime be non-zero.
    */
   const result = await connections.shopify.current?.graphql(
     `mutation {
@@ -51,11 +51,11 @@ export async function run({ params, record, logger, api, connections }) {
     }`
   );
 
-  // Check for errors in subscription creation
+  // Check for errors in AppPurchaseOneTime creation
   if (result?.appPurchaseOneTimeCreate?.userErrors?.length) {
     throw new Error(
       result?.appPurchaseOneTimeCreate?.userErrors[0]?.message ||
-        "SUBSCRIPTION FLOW - Error creating app subscription (SHOPIFY API)"
+        "PURCHASE FLOW - Error creating AppPurchaseOneTime record (SHOPIFY API)"
     );
   }
 

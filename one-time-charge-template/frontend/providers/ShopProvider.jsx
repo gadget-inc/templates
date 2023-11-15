@@ -15,11 +15,10 @@ export const ShopContext = createContext({});
 /**
  * @param { children: import("react").ReactNode } props The props passed to the React functional component
  *
- * React component that fetches shop and subscription data
+ * React component that fetches shop data
  * Key features:
- *  - Get plan prices converted to the current shop's currency value
- *  - Sets the number of trial days left for this shop
- *  - Allows children to access the context from this provider
+ *  - Fetch shop
+ *  - Gate usage of the app if trial is over and merchant hasn't paid
  *
  * @returns { import("react").ReactElement } A React functional component
  */
@@ -27,7 +26,6 @@ export default ({ children }) => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
   const [availableTrialDays, setAvailableTrialDays] = useState(0);
-  const [prices, setPrices] = useState({});
   const [loading, setLoading] = useState(true);
 
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
@@ -76,21 +74,12 @@ export default ({ children }) => {
     }
   }, [fetchingShop, errorFetchingShop]);
 
-  // useEffect for calling the planCurrencyToShopCurrency global action - getting all the currency conversions for plans
-  useEffect(() => {
-    const run = async () => {
-      setPrices(await api.planCurrencyToShopCurrency());
-    };
-    run();
-  }, []);
-
   return (
     <ShopContext.Provider
       value={{
         shop,
         fetchingShop,
         errorFetchingShop,
-        prices,
       }}
     >
       {show && (

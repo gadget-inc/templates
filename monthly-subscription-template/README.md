@@ -6,7 +6,7 @@ This template is an example of how to handle monthly subscriptions using the Sho
 
 A list of steps that you should follow:
 
-1. [Connect to Shopify](https://docs.gadget.dev/guides/tutorials/connecting-to-shopify#connecting-to-shopify) using our built in Shopify plugin.
+1. [Connect to Shopify](https://docs.gadget.dev/guides/tutorials/connecting-to-shopify#connecting-to-shopify) using our built-in Shopify plugin.
 
 2. Select [Public distribution](https://shopify.dev/docs/apps/distribution) in the "Distribution" tab of the Shopify Partner dashboard.
 

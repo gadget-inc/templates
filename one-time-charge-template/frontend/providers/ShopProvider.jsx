@@ -2,13 +2,8 @@ import { useFindFirst } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
-import { Box, Banner, Text, Spinner } from "@shopify/polaris";
-import "./ShopProvider.css";
+import { Banner, Text, Spinner, Page } from "@shopify/polaris";
 import BillingPage from "../BillingPage";
-
-const BannerBox = ({ children }) => {
-  return <Box id="bannerBox">{children}</Box>;
-};
 
 export const ShopContext = createContext({});
 
@@ -83,13 +78,13 @@ export default ({ children }) => {
       }}
     >
       {show && (
-        <BannerBox>
+        <Page>
           <Banner
             title={bannerContext}
             tone="critical"
             onDismiss={handleDismiss}
           />
-        </BannerBox>
+        </Page>
       )}
       {!fetchingShop && !loading ? (
         !availableTrialDays && !shop?.oneTimeChargeId ? (
@@ -97,7 +92,7 @@ export default ({ children }) => {
         ) : (
           <>
             {availableTrialDays && (
-              <BannerBox>
+              <Page>
                 <Banner
                   title="Welcome to the app! You are currently on a trial period."
                   tone="info"
@@ -107,7 +102,7 @@ export default ({ children }) => {
                     days.
                   </Text>
                 </Banner>
-              </BannerBox>
+              </Page>
             )}
             {children}
           </>

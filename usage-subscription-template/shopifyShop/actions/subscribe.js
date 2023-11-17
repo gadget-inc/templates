@@ -26,9 +26,10 @@ export async function run({
     select: {
       id: true,
       name: true,
-      monthlyPrice: true,
+      pricePerOrder: true,
       currency: true,
       trialDays: true,
+      cappedAmount: true,
     },
   });
 
@@ -38,20 +39,20 @@ export async function run({
     // Check for trial availability
     const { usedTrialMinutes, availableTrialDays } = trialCalculations(
       record.usedTrialMinutes,
-      record.usedTrialMinutesUpdatedAt,
+      record.trialStartedAt,
       today,
       planMatch.trialDays
     );
 
     let price = 0;
 
-    if (planMatch.monthlyPrice) {
+    if (planMatch.pricePerOrder) {
       const currencyConverter = new CurrencyConverter();
       // Get cost of plan for current shop based on the plan currency
       price = await currencyConverter
         .from(planMatch.currency)
         .to(record.currency)
-        .convert(planMatch.monthlyPrice);
+        .convert(planMatch.pricePerOrder);
     }
 
     /**
@@ -69,12 +70,13 @@ export async function run({
       }&plan_id=${planMatch.id}",
         lineItems: [{
           plan: {
-            appRecurringPricingDetails: {
-              price: { 
-                amount: ${price},
-                currencyCode: ${record.currency}
-              }
-              interval: EVERY_30_DAYS
+            appUsagePricingDetails: {
+              terms: "You will be charged ${price} ${
+        record.currency
+      } per order for our services."
+              cappedAmount: { amount: ${
+                planMatch.cappedAmount
+              }, currencyCode: ${record.currency} }
             }
           }
         }]
@@ -86,10 +88,20 @@ export async function run({
         confirmationUrl
         appSubscription {
           id
+          lineItems {
+            id
+            plan {
+              pricingDetails {
+                __typename
+              }
+            }
+          }
         }
       }
     }`
     );
+
+    logger.info({ result });
 
     // Check for errors in subscription creation
     if (result?.appSubscriptionCreate?.userErrors?.length) {
@@ -101,8 +113,8 @@ export async function run({
 
     // Updating the relevant shop record fields
     record.usedTrialMinutes = usedTrialMinutes;
-    record.usedTrialMinutesUpdatedAt = today;
-    record.activeRecurringSubscriptionId =
+    record.trialStartedAt = today;
+    record.activeSubscriptionId =
       result?.appSubscriptionCreate?.appSubscription?.id.split("/")[4];
     record.confirmationUrl = result?.appSubscriptionCreate?.confirmationUrl;
 

@@ -22,17 +22,17 @@ export async function run({ params, logger, api, connections }) {
     const plans = await api.plan.findMany({
       select: {
         id: true,
-        monthlyPrice: true,
+        pricePerOrder: true,
         currency: true,
       },
     });
 
     for (const plan of plans) {
-      if (plan.monthlyPrice) {
+      if (plan.pricePerOrder) {
         response[plan.id] = await currencyConverter
           .from(plan.currency)
           .to(shop.currency)
-          .convert(plan.monthlyPrice);
+          .convert(plan.pricePerOrder);
       } else {
         response[plan.id] = 0;
       }

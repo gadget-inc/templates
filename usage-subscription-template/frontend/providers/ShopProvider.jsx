@@ -1,8 +1,14 @@
-import { useFindFirst, useGlobalAction } from "@gadgetinc/react";
+import { useFindFirst } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
-import { Banner } from "@shopify/polaris";
+import { Banner, Box, Spinner, Text } from "@shopify/polaris";
+import BillingPage from "../BillingPage";
+import "./ShopProvider.css";
+
+const BannerBox = ({ children }) => {
+  return <Box id="bannerBox">{children}</Box>;
+};
 
 export const ShopContext = createContext({});
 
@@ -22,6 +28,7 @@ export default ({ children }) => {
   const [bannerContext, setBannerContext] = useState("");
   const [availableTrialDays, setAvailableTrialDays] = useState(0);
   const [prices, setPrices] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop, {
@@ -29,7 +36,7 @@ export default ({ children }) => {
         id: true,
         currency: true,
         usedTrialMinutes: true,
-        usedTrialMinutesUpdatedAt: true,
+        trialStartedAt: true,
         plan: {
           id: true,
           name: true,
@@ -53,11 +60,12 @@ export default ({ children }) => {
       setAvailableTrialDays(
         trialCalculations(
           shop?.usedTrialMinutes,
-          shop?.usedTrialMinutesUpdatedAt,
+          shop?.trialStartedAt,
           new Date(),
           shop?.plan?.trialDays
         ).availableTrialDays
       );
+      setLoading(false);
     }
   }, [fetchingShop]);
 
@@ -96,7 +104,49 @@ export default ({ children }) => {
           onDismiss={handleDismiss}
         />
       )}
-      {children}
+      {!fetchingShop && !loading ? (
+        !availableTrialDays && !shop?.plan ? (
+          <>
+            <BannerBox>
+              <Banner tone="warning" title="Action required">
+                <Text as="p" variant="bodyMd">
+                  You must select a plan before you can access this application.
+                </Text>
+              </Banner>
+            </BannerBox>
+            <BillingPage />
+          </>
+        ) : (
+          <>
+            {availableTrialDays && (
+              <BannerBox>
+                <Banner
+                  title="You are currently on a trial period."
+                  tone="info"
+                >
+                  <Text as="p" variant="bodyMd">
+                    The trial will end in <strong>{availableTrialDays}</strong>{" "}
+                    days.
+                  </Text>
+                </Banner>
+              </BannerBox>
+            )}
+            {children}
+          </>
+        )
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100%",
+            width: "100%",
+          }}
+        >
+          <Spinner accessibilityLabel="Spinner example" size="large" />
+        </div>
+      )}
     </ShopContext.Provider>
   );
 };

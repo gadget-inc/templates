@@ -10,6 +10,7 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import ShopPage from "./ShopPage";
 import { api } from "./api";
 import { ShopProvider } from "./providers";
+import BillingPage from "./BillingPage";
 
 const Error404 = () => {
   const navigate = useNavigate();
@@ -80,14 +81,19 @@ function EmbeddedApp() {
       <ShopProvider>
         <Routes>
           <Route path="/" element={<ShopPage />} />
+          <Route path="/plans" element={<BillingPage />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </ShopProvider>
       <NavigationMenu
         navigationLinks={[
           {
-            label: "Plan Selection Page",
+            label: "Dashboard",
             destination: "/",
+          },
+          {
+            label: "Plans",
+            destination: "/plans",
           },
         ]}
       />

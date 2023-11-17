@@ -28,13 +28,13 @@ export async function run({ params, record, logger, api, connections }) {
   if (planMatch) {
     const { usedTrialMinutes } = trialCalculations(
       record.usedTrialMinutes,
-      record.usedTrialMinutesUpdatedAt,
+      record.trialStartedAt,
       new Date(),
       planMatch.trialDays
     );
 
     record.usedTrialMinutes = usedTrialMinutes;
-    record.usedTrialMinutesUpdatedAt = null;
+    record.trialStartedAt = null;
   }
   await save(record);
 }
@@ -44,14 +44,14 @@ export async function run({ params, record, logger, api, connections }) {
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
   await api.internal.shopifyAppSubscription.update(
-    record.activeRecurringSubscriptionId,
+    record.activeSubscriptionId,
     {
       status: "CANCELLED",
     }
   );
 
   await api.internal.shopifyShop.update(record.id, {
-    activeRecurringSubscriptionId: null,
+    activeSubscriptionId: null,
     plan: null,
   });
 }

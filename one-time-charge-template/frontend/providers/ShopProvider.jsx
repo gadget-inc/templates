@@ -91,7 +91,7 @@ export default ({ children }) => {
           <BillingPage />
         ) : (
           <>
-            {availableTrialDays && (
+            {!!availableTrialDays && (
               <Page>
                 <Banner
                   title="Welcome to the app! You are currently on a trial period."

@@ -42,7 +42,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     },
   });
 
-  // Add || paying and change inTrial to !inTrial
+  // Add && paying and change inTrial to !inTrial
   if (shop?.inTrial) {
     let price = 0;
 

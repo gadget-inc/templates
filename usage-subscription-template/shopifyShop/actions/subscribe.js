@@ -6,7 +6,7 @@ import {
   SubscribeShopifyShopActionContext,
 } from "gadget-server";
 import CurrencyConverter from "currency-converter-lt";
-import { trialCalculations } from "../helpers";
+import { trialCalculations } from "../../utilities";
 
 /**
  * @param { SubscribeShopifyShopActionContext } context
@@ -101,14 +101,20 @@ export async function run({
     }`
     );
 
-    logger.info({ result });
-
     // Check for errors in subscription creation
     if (result?.appSubscriptionCreate?.userErrors?.length) {
       throw new Error(
         result?.appSubscriptionCreate?.userErrors[0]?.message ||
           "SUBSCRIPTION FLOW - Error creating app subscription (SHOPIFY API)"
       );
+    }
+
+    for (const lineItem of result?.appSubscriptionCreate?.appSubscription
+      .lineItems) {
+      if (lineItem.plan.pricingDetails.__typename === "AppUsagePricing") {
+        record.usagePlanId = lineItem.id;
+        break;
+      }
     }
 
     // Updating the relevant shop record fields

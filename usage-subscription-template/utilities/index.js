@@ -1,5 +1,5 @@
 /**
- * @module HelpersIndex Index file for the shopifyShop folder's functions
+ * @module UtilitiesIndex Index file for the backend's utilities functions
  * @exports (trialCalculations) A function used to return trial information for the current shop
  */
 

@@ -7,7 +7,7 @@ import {
   ShopifyShopState,
   UninstallShopifyShopActionContext,
 } from "gadget-server";
-import { trialCalculations } from "../helpers";
+import { trialCalculations } from "../../utilities";
 
 /**
  * @param { UninstallShopifyShopActionContext } context
@@ -52,6 +52,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
 
   await api.internal.shopifyShop.update(record.id, {
     activeSubscriptionId: null,
+    usagePlanId: null,
     plan: null,
   });
 }

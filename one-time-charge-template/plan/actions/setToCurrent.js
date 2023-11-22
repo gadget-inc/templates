@@ -11,6 +11,7 @@ import {
 export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
 
+  // (Maybe) Fetches old current plan
   const current = await api.plan.maybeFindFirst({
     filter: {
       current: {
@@ -22,6 +23,7 @@ export async function run({ params, record, logger, api, connections }) {
     },
   });
 
+  // Sets the old plan's current flag to false
   if (current) {
     await api.plan.update(current.id, {
       current: false,

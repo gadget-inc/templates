@@ -126,7 +126,13 @@ export default () => {
                   />
                 </BlockStack>
               </Card>
-              <Button variant="primary" size="large" onClick={handleSubscribe}>
+              <Button
+                variant="primary"
+                size="large"
+                onClick={handleSubscribe}
+                disabled={fetchingSubscription}
+                loading={fetchingSubscription}
+              >
                 Buy now
               </Button>
             </BlockStack>

@@ -1,4 +1,4 @@
-import { useFindFirst } from "@gadgetinc/react";
+import { useFindFirst, useMaybeFindFirst } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
@@ -33,6 +33,7 @@ export default ({ children }) => {
         oneTimeChargeId: true,
         trialDays: true,
       },
+      live: true,
     });
 
   /**

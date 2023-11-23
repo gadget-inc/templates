@@ -10,7 +10,14 @@ import CurrencyConverter from "currency-converter-lt";
 /**
  * @param { SubscribeShopifyShopActionContext } context
  */
-export async function run({ params, record, logger, api, connections }) {
+export async function run({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+  currentAppUrl,
+}) {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
@@ -43,8 +50,8 @@ export async function run({ params, record, logger, api, connections }) {
       `mutation {
       appPurchaseOneTimeCreate(
         name: "one-time-charge-template",
-        returnUrl: "https://${record.domain}/admin/apps/${
-        record.installedViaApiKey
+        returnUrl: "${currentAppUrl}confirmation-callback?shop_id=${
+        connections.shopify.currentShopId
       }",
         price: { 
           amount: ${price},
@@ -74,8 +81,6 @@ export async function run({ params, record, logger, api, connections }) {
     }
 
     // Updating the relevant shop record fields
-    record.oneTimeChargeId =
-      result?.appPurchaseOneTimeCreate?.appPurchaseOneTime?.id.split("/")[4];
     record.confirmationUrl = result?.appPurchaseOneTimeCreate?.confirmationUrl;
 
     await save(record);

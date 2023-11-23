@@ -20,8 +20,8 @@ export async function run({ params, record, logger, api, connections }) {
     },
   });
 
-  // Add || paying
-  if (shop.inTrial) {
+  // Change to || paying
+  if (shop.inTrial || true) {
     await save(record);
   }
 }
@@ -42,8 +42,8 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     },
   });
 
-  // Add && paying and change inTrial to !inTrial
-  if (shop?.inTrial) {
+  // Change to && paying
+  if (!shop?.inTrial && true) {
     let price = 0;
 
     // Calculation of pricePerOrder with shop currency might be better done once and saved in the database as a custom field on shopifyShop

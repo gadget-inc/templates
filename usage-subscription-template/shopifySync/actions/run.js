@@ -23,8 +23,8 @@ export async function run({ params, record, logger, api, connections }) {
     },
   });
 
-  // Add || paying
-  if (shop?.inTrial) {
+  // Change to || paying
+  if (shop?.inTrial || true) {
     await save(record);
     await shopifySync(params, record);
   }

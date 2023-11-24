@@ -74,4 +74,4 @@ Listed features that the application currently supports.
 ## Missing features
 
 - A simple way for a developer to modify the cost of using the application (currently requires a GraphQL mutation)
-- Feature gating in the backend
+- Example of gating features in the backend when a merchant isn't paying for the app and is done with the trial

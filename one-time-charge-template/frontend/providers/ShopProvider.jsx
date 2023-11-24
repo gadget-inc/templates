@@ -23,6 +23,7 @@ export default ({ children }) => {
   const [availableTrialDays, setAvailableTrialDays] = useState(0);
   const [loading, setLoading] = useState(true);
 
+  // Note that we're using live queries here in case there's latency in updating the oneTimeChargeId field in the backend (on subscibe)
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop, {
       select: {

@@ -18,7 +18,7 @@ export default () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
-  const { shop, availableTrialDays, prices } = useContext(ShopContext);
+  const { shop, prices, currentCappedAmount } = useContext(ShopContext);
 
   const [{ data: plans, fetching: fetchingPlans, error: errorFetchingPlans }] =
     useFindMany(api.plan, {
@@ -123,7 +123,7 @@ export default () => {
                       ).availableTrialDays
                     }
                     currency={shop?.currency || "CAD"}
-                    cappedAmount={plan.cappedAmount}
+                    cappedAmount={plan.cappedAmount + currentCappedAmount}
                     handleSubscribe={handleSubscribe}
                     buttonDisabled={
                       subscription ||

@@ -55,6 +55,35 @@ export async function run({
         .convert(planMatch.pricePerOrder);
     }
 
+    const currentSubscription = await api.shopifyAppSubscription.maybeFindFirst(
+      {
+        filter: {
+          shop: {
+            equals: record.id,
+          },
+          status: {
+            equals: "ACTIVE",
+          },
+        },
+        select: {
+          lineItems: true,
+        },
+      }
+    );
+
+    let currentCappedAmount = 0;
+
+    if (currentSubscription) {
+      for (const lineItem of currentSubscription.lineItems) {
+        if (lineItem.plan.pricingDetails.__typename === "AppUsagePricing") {
+          currentCappedAmount = parseFloat(
+            lineItem.plan.pricingDetails.cappedAmount.amount
+          );
+          break;
+        }
+      }
+    }
+
     /**
      * Create subscription record in Shopify
      * Shopify requires that the price of a subscription be non-zero. This template does not currently support free plans
@@ -75,7 +104,7 @@ export async function run({
         record.currency
       } per order for our services."
               cappedAmount: { amount: ${
-                planMatch.cappedAmount
+                planMatch.cappedAmount + currentCappedAmount
               }, currencyCode: ${record.currency} }
             }
           }

@@ -26,22 +26,22 @@ export async function onSuccess({
   connections,
   trigger,
 }) {
-  logger.info({ trigger });
-  if (trigger.type === "shopify_webhook") {
-    const shop = await api.shopifyShop.findOne(record.shopId, {
-      select: {
-        domain: true,
-      },
-    });
-
-    await api.shopifySync.run({
-      shop: {
-        _link: record.shopId,
-      },
-      domain: shop.domain,
-      models: ["shopifyAppSubscription"],
-    });
-  }
+  // logger.info({ trigger });
+  // if (trigger.type === "shopify_webhook") {
+  //   const shop = await api.shopifyShop.findOne(record.shopId, {
+  //     select: {
+  //       domain: true,
+  //     },
+  //   });
+  //   await api.shopifySync.run({
+  //     shop: {
+  //       _link: record.shopId,
+  //     },
+  //     domain: shop.domain,
+  //     models: ["shopifyAppSubscription"],
+  //     syncSince: new Date(),
+  //   });
+  // }
 }
 
 /** @type { ActionOptions } */

@@ -17,11 +17,11 @@ export async function run({ params, record, logger, api, connections }) {
   const shop = await api.shopifyShop.maybeFindOne(record.shopId, {
     select: {
       inTrial: true,
+      paused: true,
     },
   });
 
-  // Change to || paying
-  if (shop.inTrial || true) {
+  if (shop && (shop?.inTrial || !shop?.paused)) {
     await save(record);
   }
 }
@@ -33,6 +33,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   const shop = await api.shopifyShop.maybeFindOne(record.shopId, {
     select: {
       inTrial: true,
+      paused: true,
       usagePlanId: true,
       currency: true,
       plan: {
@@ -42,8 +43,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     },
   });
 
-  // Change to && paying
-  if (!shop?.inTrial && true) {
+  if (shop && !shop?.inTrial && !shop?.paused) {
     let price = 0;
 
     // Calculation of pricePerOrder with shop currency might be better done once and saved in the database as a custom field on shopifyShop
@@ -76,14 +76,13 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       }
     `);
 
+    // Change this to the "freeze functionality" flow
     if (result?.appUsageRecordCreate.userErrors.length) {
       throw new Error(
         result?.appUsageRecordCreate?.userErrors[0]?.message ||
           "FAILED USAGE CHARGE CREATION - Error creating app usage record (SHOPIFY API)"
       );
     }
-
-    logger.info({ result });
   } // Add logic to send an email if the person needs to up their cap (make sure to make a field to track if the email has been sent)
 }
 

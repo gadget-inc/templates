@@ -1,4 +1,4 @@
-import { useFindFirst } from "@gadgetinc/react";
+import { useFindFirst, useMaybeFindFirst } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
@@ -24,6 +24,7 @@ export default ({ children }) => {
   const [availableTrialDays, setAvailableTrialDays] = useState(0);
   const [prices, setPrices] = useState({});
   const [loading, setLoading] = useState(true);
+  const [currentCappedAmount, setCurrentCappedAmount] = useState(0);
 
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop, {
@@ -39,6 +40,23 @@ export default ({ children }) => {
         },
       },
     });
+
+  const [
+    {
+      data: currentSubscription,
+      fetching: fetchingCurrentSubscription,
+      error: errorFetchingCurrentSubscription,
+    },
+  ] = useMaybeFindFirst(api.shopifyAppSubscription, {
+    select: {
+      lineItems: true,
+    },
+    filter: {
+      status: {
+        equals: "ACTIVE",
+      },
+    },
+  });
 
   /**
    * @type { () => void }
@@ -74,6 +92,29 @@ export default ({ children }) => {
     }
   }, [fetchingShop, errorFetchingShop]);
 
+  useEffect(() => {
+    if (!fetchingCurrentSubscription && currentSubscription) {
+      for (const lineItem of currentSubscription.lineItems) {
+        if (lineItem.plan.pricingDetails.__typename === "AppUsagePricing") {
+          setCurrentCappedAmount(
+            parseFloat(lineItem.plan.pricingDetails.cappedAmount.amount)
+          );
+          break;
+        }
+      }
+    }
+  }, [fetchingCurrentSubscription]);
+
+  // useEffect for showing a banner if there's and error fetching current subscription
+  useEffect(() => {
+    if (!fetchingCurrentSubscription && errorFetchingCurrentSubscription) {
+      setBannerContext(errorFetchingCurrentSubscription.message);
+      setShow(true);
+    } else if (fetchingCurrentSubscription) {
+      setShow(false);
+    }
+  }, [fetchingCurrentSubscription, errorFetchingCurrentSubscription]);
+
   // useEffect for calling the planCurrencyToShopCurrency global action - getting all the currency conversions for plans
   useEffect(() => {
     const run = async () => {
@@ -90,6 +131,7 @@ export default ({ children }) => {
         errorFetchingShop,
         availableTrialDays,
         prices,
+        currentCappedAmount,
       }}
     >
       {show && (

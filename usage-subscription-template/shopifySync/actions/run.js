@@ -20,6 +20,7 @@ export async function run({ params, record, logger, api, connections }) {
   const shop = await api.shopifyShop.maybeFindOne(record.shopId, {
     select: {
       inTrial: true,
+      paused: true,
     },
   });
 

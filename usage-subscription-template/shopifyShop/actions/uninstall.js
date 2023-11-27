@@ -54,6 +54,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     activeSubscriptionId: null,
     usagePlanId: null,
     plan: null,
+    currentPeriodEnd: null,
   });
 }
 

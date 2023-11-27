@@ -13,17 +13,7 @@ import CurrencyConverter from "currency-converter-lt";
 export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
-
-  const shop = await api.shopifyShop.maybeFindOne(record.shopId, {
-    select: {
-      inTrial: true,
-      paused: true,
-    },
-  });
-
-  if (shop && (shop?.inTrial || !shop?.paused)) {
-    await save(record);
-  }
+  await save(record);
 }
 
 /**
@@ -36,6 +26,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       paused: true,
       usagePlanId: true,
       currency: true,
+      overage: true,
       plan: {
         pricePerOrder: true,
         currency: true,
@@ -43,7 +34,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     },
   });
 
-  if (shop && !shop?.inTrial && !shop?.paused) {
+  if (shop && !shop?.inTrial) {
     let price = 0;
 
     // Calculation of pricePerOrder with shop currency might be better done once and saved in the database as a custom field on shopifyShop
@@ -76,14 +67,27 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       }
     `);
 
-    // Change this to the "freeze functionality" flow
+    /**
+     * ADD THE OVERAGE CODE!!!! DONT FREEZE FUNCTIONALITY
+     *
+     * If failed because of capped amount, calculate the capped - used
+     * Make a new charge to get to the capped amount
+     * Calculate price - (capped - used): add to overage field
+     *
+     * Shopify mutation return for error:
+     *
+     * { "data": { "appUsageRecordCreate": { "userErrors": [{ "message": Total price exceeds balance remaining"}] } } }
+     *
+     * If failed for other reason, throw error
+     */
+
     if (result?.appUsageRecordCreate.userErrors.length) {
       throw new Error(
         result?.appUsageRecordCreate?.userErrors[0]?.message ||
           "FAILED USAGE CHARGE CREATION - Error creating app usage record (SHOPIFY API)"
       );
     }
-  } // Add logic to send an email if the person needs to up their cap (make sure to make a field to track if the email has been sent)
+  }
 }
 
 /** @type { ActionOptions } */

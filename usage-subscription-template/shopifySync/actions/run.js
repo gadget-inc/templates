@@ -16,18 +16,8 @@ export async function run({ params, record, logger, api, connections }) {
   transitionState(record, { to: ShopifySyncState.Running });
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
-
-  const shop = await api.shopifyShop.maybeFindOne(record.shopId, {
-    select: {
-      inTrial: true,
-      paused: true,
-    },
-  });
-
-  if (shop && (shop?.inTrial || !shop?.paused)) {
-    await save(record);
-    await shopifySync(params, record);
-  }
+  await save(record);
+  await shopifySync(params, record);
 }
 
 /**

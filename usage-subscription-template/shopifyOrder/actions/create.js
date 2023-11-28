@@ -22,8 +22,8 @@ export async function run({ params, record, logger, api, connections }) {
 export async function onSuccess({ params, record, logger, api, connections }) {
   const shop = await api.shopifyShop.maybeFindOne(record.shopId, {
     select: {
+      id: true,
       inTrial: true,
-      paused: true,
       usagePlanId: true,
       currency: true,
       overage: true,
@@ -47,45 +47,85 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         .convert(shop.plan.pricePerOrder);
     }
 
-    const result = await connections.shopify.current.graphql(`
-      mutation {
-        appUsageRecordCreate(
-          description: "Charge of ${price} ${shop.currency}",
-          price: {
-            amount: ${price},
-            currencyCode: ${shop.currency},
-          },
-          subscriptionLineItemId: "${shop.usagePlanId}") {
-          appUsageRecord {
-            id
-          }
-          userErrors {
-            field
-            message
+    if (!shop.overage) {
+      const result = await connections.shopify.current.graphql(`
+        mutation {
+          appUsageRecordCreate(
+            description: "Charge of ${price} ${shop.currency}",
+            price: {
+              amount: ${price},
+              currencyCode: ${shop.currency},
+            },
+            subscriptionLineItemId: "${shop.usagePlanId}") {
+            appUsageRecord {
+              id
+            }
+            userErrors {
+              field
+              message
+            }
           }
         }
+      `);
+
+      /**
+       * ADD THE OVERAGE CODE!!!! DONT FREEZE FUNCTIONALITY
+       *
+       * If failed because of capped amount, calculate the capped - used
+       * Make a new charge to get to the capped amount
+       * Calculate price - (capped - used): add to overage field
+       *
+       * Shopify mutation return for error:
+       *
+       * { "data": { "appUsageRecordCreate": { "userErrors": [{ "message": Total price exceeds balance remaining"}] } } }
+       *
+       * If failed for other reason, throw error
+       */
+
+      if (result?.appUsageRecordCreate.userErrors.length) {
+        let exceedsCappedAmount = false;
+        for (const error of result.appUsageRecordCreate.userErrors) {
+          if (error.message == "Total price exceeds balance remaining") {
+            exceedsCappedAmount = true;
+            break;
+          }
+        }
+
+        if (!exceedsCappedAmount) {
+          throw new Error(
+            result?.appUsageRecordCreate?.userErrors[0]?.message ||
+              "FAILED USAGE CHARGE CREATION - Error creating app usage record (SHOPIFY API)"
+          );
+        } else {
+          const activeSubscription = await api.shopifyAppSubscription.findFirst(
+            {
+              filter: {
+                shop: {
+                  equals: record.shopId,
+                },
+                status: {
+                  equals: "ACTIVE",
+                },
+              },
+            }
+          );
+
+          // price =
+          // Add cap exceeded flag
+        }
+      } else {
+        await api.usageRecord.create({
+          price,
+          currency: shop.currency,
+          shop: {
+            _link: shop.id,
+          },
+        });
       }
-    `);
-
-    /**
-     * ADD THE OVERAGE CODE!!!! DONT FREEZE FUNCTIONALITY
-     *
-     * If failed because of capped amount, calculate the capped - used
-     * Make a new charge to get to the capped amount
-     * Calculate price - (capped - used): add to overage field
-     *
-     * Shopify mutation return for error:
-     *
-     * { "data": { "appUsageRecordCreate": { "userErrors": [{ "message": Total price exceeds balance remaining"}] } } }
-     *
-     * If failed for other reason, throw error
-     */
-
-    if (result?.appUsageRecordCreate.userErrors.length) {
-      throw new Error(
-        result?.appUsageRecordCreate?.userErrors[0]?.message ||
-          "FAILED USAGE CHARGE CREATION - Error creating app usage record (SHOPIFY API)"
-      );
+    } else {
+      await api.internal.shopifyShop.update(shop.id, {
+        overage: overage + price,
+      });
     }
   }
 }

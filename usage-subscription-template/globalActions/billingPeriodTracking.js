@@ -1,4 +1,5 @@
 import { BillingPeriodTrackingGlobalActionContext } from "gadget-server";
+import { DateTime } from "luxon";
 
 /**
  * @param { BillingPeriodTrackingGlobalActionContext } context
@@ -111,7 +112,10 @@ export async function run({ params, logger, api, connections }) {
     }
 
     await api.internal.shopifyShop.update(shop.id, {
-      billingPeriodEnd: DateTime.fromJSDate(new Date(record.currentPeriodEnd))
+      billingPeriodStart: DateTime.fromJSDate(new Date(shop.billingPeriodEnd))
+        .plus({ milliseconds: 1 })
+        .toJSDate(),
+      billingPeriodEnd: DateTime.fromJSDate(new Date(shop.billingPeriodEnd))
         .plus({ days: 30 })
         .toJSDate(),
       overage: remainder,

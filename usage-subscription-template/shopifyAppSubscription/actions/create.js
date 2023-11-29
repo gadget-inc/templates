@@ -19,10 +19,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { CreateShopifyAppSubscriptionActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  await api.internal.shopifyShop.update(record.shopId, {
-    billingPeriodStart: new Date(record.shopifyCreatedAt),
-    billingPeriodEnd: new Date(record.currentPeriodEnd),
-  });
+  // Your logic goes here
 }
 
 /** @type { ActionOptions } */

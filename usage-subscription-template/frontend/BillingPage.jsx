@@ -14,6 +14,11 @@ import { useNavigate } from "@shopify/app-bridge-react";
 import { trialCalculations } from "./utilities";
 import { ShopContext } from "./providers";
 
+/**
+ * This is the billing page that will be displayed when a user hasn't selected a plan or they want to change plans.
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 export default () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);

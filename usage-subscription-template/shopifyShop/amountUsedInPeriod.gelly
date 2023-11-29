@@ -1,7 +1,10 @@
 field on shopifyShop {
-  sum(
-    usageRecords.price,
-    where: billingPeriodStart <= usageRecords.createdAt &&
-      billingPeriodEnd >= usageRecords.createdAt
-  )
+  coalesce([
+    sum(
+      usageRecords.price,
+      where: billingPeriodStart <= usageRecords.createdAt &&
+        billingPeriodEnd >= usageRecords.createdAt
+    ),
+    0
+  ])
 }

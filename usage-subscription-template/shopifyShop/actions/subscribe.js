@@ -73,6 +73,7 @@ export async function run({
 
     let currentCappedAmount = 0;
 
+    // Adding current capped amount to new plan's capped amount
     if (currentSubscription) {
       for (const lineItem of currentSubscription.lineItems) {
         if (lineItem.plan.pricingDetails.__typename === "AppUsagePricing") {
@@ -138,6 +139,7 @@ export async function run({
       );
     }
 
+    // Find the proper line item id. This is used later for creating usage records in Shopify
     for (const lineItem of result?.appSubscriptionCreate?.appSubscription
       .lineItems) {
       if (lineItem.plan.pricingDetails.__typename === "AppUsagePricing") {

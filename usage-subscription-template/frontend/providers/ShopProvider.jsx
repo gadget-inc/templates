@@ -92,6 +92,7 @@ export default ({ children }) => {
     }
   }, [fetchingShop, errorFetchingShop]);
 
+  // useEffect for fetching the cappedAmount set by the active subscription record for this shop
   useEffect(() => {
     if (!fetchingCurrentSubscription && currentSubscription) {
       for (const lineItem of currentSubscription.lineItems) {

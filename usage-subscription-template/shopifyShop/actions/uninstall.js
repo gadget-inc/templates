@@ -19,6 +19,8 @@ export async function run({ params, record, logger, api, connections }) {
   });
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
+
+  // Fetching the plan that the shop is associated with and retreiving the trialDays field
   const planMatch = await api.plan.maybeFindOne(record.planId, {
     select: {
       trialDays: true,
@@ -26,6 +28,7 @@ export async function run({ params, record, logger, api, connections }) {
   });
 
   if (planMatch) {
+    // Calculates the trial minutes used
     const { usedTrialMinutes } = trialCalculations(
       record.usedTrialMinutes,
       record.trialStartedAt,
@@ -43,6 +46,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { UninstallShopifyShopActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
+  // Update the app subscription record to status: "CANCELLED"
   await api.internal.shopifyAppSubscription.update(
     record.activeSubscriptionId,
     {
@@ -50,6 +54,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   );
 
+  // Update the shop to clear any subscription related data
   await api.internal.shopifyShop.update(record.id, {
     activeSubscriptionId: null,
     usagePlanId: null,

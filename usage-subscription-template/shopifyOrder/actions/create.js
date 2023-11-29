@@ -27,6 +27,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       usagePlanId: true,
       currency: true,
       overage: true,
+      amountUsedInPeriod: true,
       plan: {
         pricePerOrder: true,
         currency: true,
@@ -68,20 +69,6 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         }
       `);
 
-      /**
-       * ADD THE OVERAGE CODE!!!! DONT FREEZE FUNCTIONALITY
-       *
-       * If failed because of capped amount, calculate the capped - used
-       * Make a new charge to get to the capped amount
-       * Calculate price - (capped - used): add to overage field
-       *
-       * Shopify mutation return for error:
-       *
-       * { "data": { "appUsageRecordCreate": { "userErrors": [{ "message": Total price exceeds balance remaining"}] } } }
-       *
-       * If failed for other reason, throw error
-       */
-
       if (result?.appUsageRecordCreate.userErrors.length) {
         let exceedsCappedAmount = false;
         for (const error of result.appUsageRecordCreate.userErrors) {
@@ -107,11 +94,59 @@ export async function onSuccess({ params, record, logger, api, connections }) {
                   equals: "ACTIVE",
                 },
               },
+              select: {
+                lineItems: true,
+              },
             }
           );
 
-          // price =
-          // Add cap exceeded flag
+          let cappedAmount = 0;
+
+          for (const lineItem of activeSubscription.lineItems) {
+            if (lineItem.plan.pricingDetails.__typename === "AppUsagePricing") {
+              cappedAmount = parseFloat(
+                lineItem.plan.pricingDetails.cappedAmount.amount
+              );
+              break;
+            }
+          }
+
+          const amountUsedInPeriod = shop?.amountUsedInPeriod || 0;
+
+          const remainder = price - (cappedAmount - amountUsedInPeriod);
+          price = cappedAmount - amountUsedInPeriod;
+
+          await connections.shopify.current.graphql(`
+            mutation {
+              appUsageRecordCreate(
+                description: "Charge of ${price} ${shop.currency}",
+                price: {
+                  amount: ${price},
+                  currencyCode: ${shop.currency},
+                },
+                subscriptionLineItemId: "${shop.usagePlanId}") {
+                appUsageRecord {
+                  id
+                }
+                userErrors {
+                  field
+                  message
+                }
+              }
+            }
+          `);
+
+          await api.internal.shopifyShop.update(record.shopId, {
+            overage: remainder,
+            usageRecords: [
+              {
+                create: {
+                  currency: shop.currency,
+                  price,
+                },
+              },
+            ],
+          });
         }
       } else {
         await api.usageRecord.create({

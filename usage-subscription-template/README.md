@@ -1,4 +1,4 @@
-# monthly-subscription-template
+# usage-subscription-template
 
 This template is an example of how to handle monthly subscriptions using the Shopify Billing API.
 
@@ -18,7 +18,7 @@ A list of steps that you should follow:
 
 ## Subscription flow
 
-- The `shopifyShop` model's `subscribe` action is used when a merchant clicks the **Select** button on a plan card
+- The `shopifyShop` model's `subscribe` action is used when a merchant clicks the **Select** button on a plan card.
 
   Key functionality of the `subscribe` action:
 

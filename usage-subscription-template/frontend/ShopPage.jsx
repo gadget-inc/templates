@@ -1,67 +1,77 @@
-import {
-  BlockStack,
-  Card,
-  Layout,
-  SkeletonBodyText,
-  SkeletonPage,
-} from "@shopify/polaris";
+import { BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
 
 /**
  * This is where your main app logic should go
- * Note that this is just a skeleton of what an app might look like
  * 
- * To view the billing page, make use of your app's API Playgound. Use the following GraphQL mutation:
+ * To end the trial period, make use of your app's API Playgound. Use the following GraphQL mutation:
  * 
-    mutation {
-      internal {
-        updateShopifyShop(
-          id: "shopId",
-          shopifyShop: {
-            oneTimeChargeId: null,
-            usedTrialMinutes: 10080
-          }
-        ) {
+  mutation {
+    internal {
+      updateShopifyShop(id: "71694745897", shopifyShop: { usedTrialMinutes: 10800}) {
         success
-        }
-      }
+        shopifyShop
+      } 
     }
+  }
  * 
  */
 const ShopPage = () => {
   return (
-    <SkeletonPage title="Dashboard" primaryAction>
+    <Page title="Next Steps">
       <Layout sectioned>
         <Layout.Section>
           <BlockStack gap="500">
             <Card sectioned>
-              <SkeletonBodyText />
-            </Card>
-            <Card sectioned title="Images">
-              <SkeletonBodyText />
-            </Card>
-            <Card sectioned title="Variants">
-              <SkeletonBodyText />
-            </Card>
-          </BlockStack>
-        </Layout.Section>
-        <Layout.Section>
-          <BlockStack gap="500">
-            <Card title="Sales channels">
               <BlockStack gap="500">
-                <SkeletonBodyText lines={2} />
-                <SkeletonBodyText lines={1} />
+                <Text as="h2" variant="headingMd">
+                  Test the usage charge logic
+                </Text>
+                <Text as="p" variant="bodyMd">
+                  Creating orders will run the appUsageRecord creation flow.
+                  Note that with test charges, the capped amount verification
+                  flow will not run. This is a Shopify limitation. We highly
+                  recommend that test the usage charge flow in production before
+                  releasing your app to the public.
+                </Text>
               </BlockStack>
             </Card>
-            <Card title="Organization" subdued>
+            <Card sectioned>
               <BlockStack gap="500">
-                <SkeletonBodyText lines={2} />
-                <SkeletonBodyText lines={2} />
+                <Text as="h2" variant="headingMd">
+                  Manually end the trial
+                </Text>
+                <Text as="p" variant="bodyMd">
+                  You may wish to see what the shopPage would look like once the
+                  trial is completed. To do this run the following mutation.
+                  This mutation will set the <strong>usedTrialMinutes</strong>{" "}
+                  field equal to 7 days (in minutes). Make sure to adjust the
+                  number if you have more or less trial days.
+                </Text>
+                <Text as="p" variant="bodyMd">
+                  Run the following mutation in your API Playground:
+                </Text>
+                <Card background="bg-surface-secondary">
+                  <code
+                    style={{
+                      whiteSpace: "break-spaces",
+                    }}
+                  >
+                    {`mutation {
+  internal {
+    updateShopifyShop(id: "71694745897", shopifyShop: { usedTrialMinutes: 10800}) {
+      success
+      shopifyShop
+    } 
+  }
+}`}
+                  </code>
+                </Card>
               </BlockStack>
             </Card>
           </BlockStack>
         </Layout.Section>
       </Layout>
-    </SkeletonPage>
+    </Page>
   );
 };
 

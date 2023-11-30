@@ -20,8 +20,6 @@ export async function run({ params, record, logger, api }) {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
-  logger.info({ record, params }, "HIT")
-
   const shop = await api.shopifyShop.findOne(record.shopId, {
     select: {
       currency: true,

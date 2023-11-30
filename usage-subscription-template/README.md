@@ -42,6 +42,7 @@ Listed features that the application currently supports.
 
 - Calculating trial days
 - Converting plan currency to shop currency
+- Billing period tracking
 
 ### Frontend
 
@@ -51,8 +52,6 @@ Listed features that the application currently supports.
 ## Missing features
 
 - Free plan support
-- Separate billing and main app page
-- Shop wrapper does not redirect a user to the billing page if there is no plan selected
 - Validating plan record inputs (ex. currency codes)
 - Better frontend UI for billing page
 - Custom plan support for shops with special agreements

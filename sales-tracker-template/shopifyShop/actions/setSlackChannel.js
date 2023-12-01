@@ -30,7 +30,7 @@ export async function run({ params, record, logger, api }) {
       });
       await save(record);
     } catch (error) {
-      logger.error({ error });
+      throw new Error(error);
     }
   }
 }

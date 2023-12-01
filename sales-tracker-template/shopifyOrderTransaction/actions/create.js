@@ -88,69 +88,84 @@ export async function onSuccess({ params, record, logger, api }) {
         createdAt
       );
 
-      const salesMonth = await api.salesMonth.create(
+      const salesDays = [];
+
+      for (let i = 1; i <= daysInMonth; i++) {
+        const {
+          dayLowerBound: newSalesDayLowerBound,
+          dayUpperBound: newSalesDayUpperBound,
+        } = getDayStartAndEndDates(
+          shop.ianaTimezone,
+          DateTime.fromJSDate(monthLowerBound, {
+            zone: shop.ianaTimezone,
+          })
+            .set({ day: i })
+            .toJSDate()
+        );
+
+        if (
+          newSalesDayLowerBound.getTime() <= createdAt &&
+          newSalesDayUpperBound.getTime() >= createdAt
+        ) {
+          salesDays.push({
+            create: {
+              startDate: newSalesDayLowerBound,
+              endDate: newSalesDayUpperBound,
+              shop: {
+                _link: record.shopId,
+              },
+              orderTransactions: [
+                {
+                  update: {
+                    id: record.id,
+                  },
+                },
+              ],
+            },
+          });
+        } else {
+          salesDays.push({
+            create: {
+              startDate: newSalesDayLowerBound,
+              endDate: newSalesDayUpperBound,
+              shop: {
+                _link: record.shopId,
+              },
+            },
+          });
+        }
+      }
+
+      await api.salesMonth.create(
         {
           startDate: monthLowerBound,
           endDate: monthUpperBound,
           shop: {
             _link: record.shopId,
           },
+          salesDays,
+          orderTransactions: [
+            {
+              update: {
+                id: record.id,
+              },
+            },
+          ],
         },
         {
           select: {
             id: true,
+            salesDays: {
+              edges: {
+                node: {
+                  id: true,
+                  startDate: true,
+                },
+              },
+            },
           },
         }
       );
-
-      if (salesMonth) {
-        for (let i = 1; i <= daysInMonth; i++) {
-          const {
-            dayLowerBound: newSalesDayLowerBound,
-            dayUpperBound: newSalesDayUpperBound,
-          } = getDayStartAndEndDates(
-            shop.ianaTimezone,
-            DateTime.fromJSDate(monthLowerBound, {
-              zone: shop.ianaTimezone,
-            })
-              .set({ day: i })
-              .toJSDate()
-          );
-
-          const newSalesDay = await api.salesDay.create(
-            {
-              startDate: newSalesDayLowerBound,
-              endDate: newSalesDayUpperBound,
-              salesMonth: {
-                _link: salesMonth.id,
-              },
-              shop: {
-                _link: record.shopId,
-              },
-            },
-            {
-              select: {
-                id: true,
-                salesMonthId: true,
-              },
-            }
-          );
-
-          if (
-            newSalesDayLowerBound.getTime() <= createdAt &&
-            newSalesDayUpperBound.getTime() >= createdAt
-          ) {
-            await api.shopifyOrderTransaction.setSalesDay(record.id, {
-              salesDay: {
-                _link: newSalesDay.id,
-              },
-              salesMonth: {
-                _link: newSalesDay.salesMonthId,
-              },
-            });
-          }
-        }
-      }
     }
   }
 }

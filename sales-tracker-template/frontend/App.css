@@ -1,0 +1,44 @@
+.cellAlign {
+  max-width: 5rem;
+}
+
+td .Polaris-Icon {
+ margin-left: 8px;
+ opacity: 0%;
+}
+
+.cellAlign:hover .Polaris-Icon {
+  opacity: 100%;
+}
+
+#data-table {
+  border-radius: 8px;
+  max-height: calc(100vh - 480px); 
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+#table-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+tbody {
+  overflow-y: scroll;
+}
+
+#Polaris-HorizontalStackChange{
+  height: 36px !important;
+}
+
+#dateSelector {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 42px;
+}
+
+div#divider {
+  border-left: 1px solid gray;
+}

@@ -18,7 +18,6 @@ import {
 } from "./utilities";
 import { cloneDeep, isEqual } from "lodash";
 import { SalesMonthSelect } from "./selections";
-import "./App.css";
 
 const initialDate = new Date();
 

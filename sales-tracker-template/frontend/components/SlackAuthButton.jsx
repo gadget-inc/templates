@@ -14,7 +14,7 @@ export default ({ reauthenticate = false }) => {
   const handleButtonClick = useCallback(async () => {
     const params = await getOAuthParams();
     open(
-      `https://slack.com/oauth/v2/authorize?scope=channels:read,channels:join,chat:write&client_id=${params.data.id}&redirect_uri=${params.data.redirectURI}&state=${params.data.state}`,
+      `https://slack.com/oauth/v2/authorize?scope=channels:read,channels:manage,channels:join,chat:write&client_id=${params.data.id}&redirect_uri=${params.data.redirectURI}&state=${params.data.state}`,
       "_top"
     );
   }, []);

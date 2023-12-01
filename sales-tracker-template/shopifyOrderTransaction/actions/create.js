@@ -27,10 +27,16 @@ export async function run({ params, record, logger, api }) {
   });
 
   const currencyConverter = new CurrencyConverter();
-  record.shopMoney = await currencyConverter
-    .from(record.currency)
-    .to(shop.currency)
-    .convert(parseFloat(record.amount));
+
+  if (!record.currency == shop.currency) {
+    record.shopMoney = await currencyConverter
+      .from(record.currency)
+      .to(shop.currency)
+      .convert(parseFloat(record.amount));
+  } else {
+    record.shopMoney = record.amount;
+  }
+
   await save(record);
 }
 

@@ -14,6 +14,7 @@ export const ShopContext = createContext({});
  * Key features:
  *  - Get plan prices converted to the current shop's currency value
  *  - Sets the number of trial days left for this shop
+ *  - Fetches the current app subscription if one exists
  *  - Allows children to access the context from this provider
  *
  * @returns { import("react").ReactElement } A React functional component

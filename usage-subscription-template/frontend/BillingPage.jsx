@@ -128,7 +128,7 @@ export default () => {
                       ).availableTrialDays
                     }
                     currency={shop?.currency || "CAD"}
-                    cappedAmount={plan.cappedAmount + currentCappedAmount}
+                    cappedAmount={currentCappedAmount || plan.cappedAmount}
                     handleSubscribe={handleSubscribe}
                     buttonDisabled={
                       subscription ||

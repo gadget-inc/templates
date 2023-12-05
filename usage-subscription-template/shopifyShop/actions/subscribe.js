@@ -105,7 +105,7 @@ export async function run({
         record.currency
       } per order for our services."
               cappedAmount: { amount: ${
-                planMatch.cappedAmount + currentCappedAmount
+                currentCappedAmount || planMatch.cappedAmount
               }, currencyCode: ${record.currency} }
             }
           }

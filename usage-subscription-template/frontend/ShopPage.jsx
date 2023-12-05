@@ -7,7 +7,7 @@ import { BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
  * 
   mutation {
     internal {
-      updateShopifyShop(id: "71694745897", shopifyShop: { usedTrialMinutes: 10800}) {
+      updateShopifyShop(id: "SHOPID", shopifyShop: { usedTrialMinutes: 10800}) {
         success
         shopifyShop
       } 
@@ -60,7 +60,7 @@ const ShopPage = () => {
                   >
                     {`mutation {
   internal {
-    updateShopifyShop(id: "71694745897", shopifyShop: { usedTrialMinutes: 10800}) {
+    updateShopifyShop(id: "SHOPID", shopifyShop: { usedTrialMinutes: 10800}) {
       success
       shopifyShop
     } 

@@ -41,13 +41,19 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     // Calculation of pricePerOrder with shop currency might be better done once and saved in the database as a custom field on shopifyShop
     if (shop?.plan.pricePerOrder) {
       const currencyConverter = new CurrencyConverter();
-      // Get cost of plan for current shop based on the plan currency
-      price = await currencyConverter
-        .from(shop.plan.currency)
-        .to(shop.currency)
-        .convert(shop.plan.pricePerOrder);
+
+      if (record.currency !== shop.plan.currency) {
+        // Get cost of plan for current shop based on the plan currency
+        price = await currencyConverter
+          .from(record.currency)
+          .to(shop.currency)
+          .convert(shop.plan.pricePerOrder);
+      } else {
+        price = shop.plan.pricePerOrder;
+      }
     }
 
+    // Use this same logic in app subscription update (Slightly modified to work only for overages)
     if (!shop.overage) {
       const result = await connections.shopify.current.graphql(`
         mutation {

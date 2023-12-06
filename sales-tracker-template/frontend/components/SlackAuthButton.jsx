@@ -9,14 +9,10 @@ import { useCallback } from "react";
  * @returns { import("react").ReactElement } A React functional component
  */
 export default ({ reauthenticate = false }) => {
-  const [_, getOAuthParams] = useGlobalAction(api.getOAuthParams);
+  const [_, getSlackAuthRedirect] = useGlobalAction(api.getSlackAuthRedirect);
 
   const handleButtonClick = useCallback(async () => {
-    const params = await getOAuthParams();
-    open(
-      `https://slack.com/oauth/v2/authorize?scope=${process.env.GADGET_PUBLIC_SLACK_SCOPES}&client_id=${params.data.id}&redirect_uri=${params.data.redirectURI}&state=${params.data.state}`,
-      "_top"
-    );
+    open((await getSlackAuthRedirect()).data, "_top");
   }, []);
 
   return (

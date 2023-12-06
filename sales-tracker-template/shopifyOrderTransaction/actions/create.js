@@ -58,6 +58,9 @@ export async function onSuccess({ params, record, logger, api }) {
         endDate: {
           greaterThanOrEqual: createdAt,
         },
+        shop: {
+          equals: record.shopId,
+        },
       },
       select: {
         id: true,
@@ -138,36 +141,21 @@ export async function onSuccess({ params, record, logger, api }) {
         }
       }
 
-      await api.salesMonth.create(
-        {
-          startDate: monthLowerBound,
-          endDate: monthUpperBound,
-          shop: {
-            _link: record.shopId,
-          },
-          salesDays,
-          orderTransactions: [
-            {
-              update: {
-                id: record.id,
-              },
-            },
-          ],
+      await api.salesMonth.create({
+        startDate: monthLowerBound,
+        endDate: monthUpperBound,
+        shop: {
+          _link: record.shopId,
         },
-        {
-          select: {
-            id: true,
-            salesDays: {
-              edges: {
-                node: {
-                  id: true,
-                  startDate: true,
-                },
-              },
+        salesDays,
+        orderTransactions: [
+          {
+            update: {
+              id: record.id,
             },
           },
-        }
-      );
+        ],
+      });
     }
   }
 }

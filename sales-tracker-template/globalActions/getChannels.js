@@ -19,6 +19,7 @@ export async function run({ params, logger, api, connections }) {
 
   if (shop) {
     try {
+      // If more than 1000 exist, you'll need to paginate
       const result = await slackClient.conversations.list({
         token: shop.slackAccessToken,
         limit: 1000,

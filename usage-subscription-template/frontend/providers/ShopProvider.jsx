@@ -144,7 +144,7 @@ export default ({ children }) => {
         />
       )}
       {!fetchingShop && !loading ? (
-        !availableTrialDays && !shop?.plan ? (
+        !!availableTrialDays && !shop?.plan ? (
           <>
             <Page>
               <Banner tone="warning" title="Action required">
@@ -157,7 +157,7 @@ export default ({ children }) => {
           </>
         ) : (
           <>
-            {availableTrialDays && (
+            {!!availableTrialDays && (
               <Page>
                 <Banner
                   title="You are currently on a trial period."

@@ -52,16 +52,12 @@ export async function onSuccess({ params, record, logger, api }) {
 
     const salesDay = await api.salesDay.maybeFindFirst({
       filter: {
-        AND: [
-          {
-            startDate: {
-              lessThanOrEqual: createdAt,
-            },
-            endDate: {
-              greaterThanOrEqual: createdAt,
-            },
-          },
-        ],
+        startDate: {
+          lessThanOrEqual: createdAt,
+        },
+        endDate: {
+          greaterThanOrEqual: createdAt,
+        },
       },
       select: {
         id: true,

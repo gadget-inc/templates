@@ -15,5 +15,5 @@ export async function run({ params, logger, api, connections, currentAppUrl }) {
     )
   );
 
-  return `https://slack.com/oauth/v2/authorize?scope=channels:read,channels:join,chat:write&client_id=${process.env.SLACK_CLIENT_ID}&redirect_uri=${currentAppUrl}slack/callback&state=${encodedString}`;
+  return `https://slack.com/oauth/v2/authorize?scope=${process.env.SLACK_SCOPES}&client_id=${process.env.SLACK_CLIENT_ID}&redirect_uri=${currentAppUrl}slack/callback&state=${encodedString}`;
 }

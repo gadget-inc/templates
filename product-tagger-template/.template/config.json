@@ -1,0 +1,79 @@
+{
+  "version": "v1",
+  "setup": "Setup.md",
+  "introduction": "Intro.md",
+  "howToExtend": [],
+  "featuredModels": {
+    "allowedTag": {
+      "description": "Stores the tag keyword and the shop it is associated with.",
+      "featuredFields": [
+        "keyword",
+        "shop"
+      ]
+    },
+    "shopifyProduct": {
+      "description": "In-sync with product data from your installed stores.",
+      "featuredFields": [
+        "title",
+        "body",
+        "tags"
+      ]
+    },
+    "shopifyShop": {
+      "description": "Keeps track of Shopify shops that your app has been installed on.",
+      "featuredFields": [
+        "name",
+        "syncs",
+        "shopOwner"
+      ]
+    }
+  },
+  "featuredActions": {
+    "shopifyProduct": {
+      "create": {
+        "description": "Creates a shopifyProduct and calls applyTags() defined in shopifyProduct/utils.js.",
+        "tags": [
+          "edited"
+        ]
+      },
+      "update": {
+        "description": "Updates a shopifyProduct and calls applyTags() defined in shopifyProduct/utils.js.",
+        "tags": [
+          "edited"
+        ]
+      },
+      "utils.js": {
+        "description": "applyTags(): Matches saved keywords against product descriptions, and then updates the products in Shopify with any matching tags.",
+        "tags": [
+          "added"
+        ]
+      }
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "allowedTag": {
+        "description": "shopify-app-users have been given permission to create, find, update and delete allowedTag. This means you can add allowedTags from the authenticated admin view.",
+        "featuredFilters": {
+          "allowedTag/filters/tenancy.gelly": {
+            "description": "has been added so that merchants are only able to read tags for their store."
+          }
+        }
+      }
+    }
+  },
+  "featuredFrontends": {
+    "App.jsx": {
+      "description": "This page handles routing of the frontend pages.",
+      "tags": [
+        "edited"
+      ]
+    },
+    "ShopPage.jsx": {
+      "description": "Displayed in the dashboard, shopify admins can add and remove keywords from your app's database.",
+      "tags": [
+        "edited"
+      ]
+    }
+  }
+}

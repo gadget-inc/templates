@@ -1,0 +1,2 @@
+### Send data to Klayvio
+Inside the allowedTag actions you can access the record data. From here you can add Klayvio with yarn, import it to your JS action, then use the code snippet they provide to push the data within allowedTags to your Klayvio admin.

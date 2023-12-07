@@ -4,7 +4,7 @@ import { DateTime } from "luxon";
  * @param { string } timezone The shop's ianaTimezone
  * @param { Date | null | undefined } date The date used as a day marker
  *
- * @returns { { dayLowerBound: Date, dayUpperBound: Date } } The days in the month for the date provided
+ * @returns { { dayLowerBound: Date, dayUpperBound: Date } } The day start and end date objects for the date provided to the function
  */
 export default (timezone, date = new Date()) => {
   const dt = DateTime.fromJSDate(date, {

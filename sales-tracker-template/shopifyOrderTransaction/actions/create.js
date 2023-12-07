@@ -95,7 +95,7 @@ export async function onSuccess({ params, record, logger, api }) {
 
       const salesDays = [];
 
-      for (let i = 1; i <= daysInMonth; i++) {
+      for (let day = 1; day <= daysInMonth; day++) {
         const {
           dayLowerBound: newSalesDayLowerBound,
           dayUpperBound: newSalesDayUpperBound,
@@ -104,7 +104,7 @@ export async function onSuccess({ params, record, logger, api }) {
           DateTime.fromJSDate(monthLowerBound, {
             zone: shop.ianaTimezone,
           })
-            .set({ day: i })
+            .set({ day })
             .toJSDate()
         );
 

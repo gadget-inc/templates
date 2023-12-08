@@ -5,7 +5,7 @@ import { slackClient } from "../utilities";
  * @param { GetChannelsGlobalActionContext } context
  */
 export async function run({ params, logger, api, connections }) {
-  const channels = [{ label: "None selected", value: "" }];
+  const channels = [{ label: "None", value: "" }];
   const shop = await api.shopifyShop.maybeFindOne(
     connections.shopify.currentShopId,
     {
@@ -29,5 +29,5 @@ export async function run({ params, logger, api, connections }) {
       logger.error({ error });
     }
   }
-  return channels;
+  return channels.sort((a, b) => a.label.localeCompare(b.label));
 }

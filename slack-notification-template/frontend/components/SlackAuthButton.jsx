@@ -1,4 +1,4 @@
-import { Text, Button, HorizontalStack } from "@shopify/polaris";
+import { Text, Button, InlineStack } from "@shopify/polaris";
 import { api } from "../api";
 import { useGlobalAction } from "@gadgetinc/react";
 import { useCallback } from "react";
@@ -12,7 +12,7 @@ export default function SlackAuthButton() {
 
   return (
     <Button size="large" onClick={handleButtonClick}>
-      <HorizontalStack columns={2}>
+      <InlineStack>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           style={{ height: "24px", width: "24px", marginRight: "12px" }}
@@ -38,7 +38,7 @@ export default function SlackAuthButton() {
         <Text as="span" variant="bodyLg">
           Add to Slack
         </Text>
-      </HorizontalStack>
+      </InlineStack>
     </Button>
   );
 }

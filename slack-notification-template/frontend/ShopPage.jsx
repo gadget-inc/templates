@@ -3,7 +3,6 @@ import {
   Card,
   Layout,
   Page,
-  Select,
   Spinner,
   Text,
   BlockStack,
@@ -33,34 +32,27 @@ const ShopPage = () => {
 
   const deselectedOptions = useMemo(
     () => channels || [{ label: "None", value: "" }],
-    []
+    [channels]
   );
-  const [selectedOption, setSelectedOption] = useState();
+  const [selected, setSelected] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [options, setOptions] = useState(deselectedOptions);
-
-  // ^^^^ From the Combobox docs
-
-  const [selected, setSelected] = useState("");
 
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop);
 
   // TODO: ADD ERROR HANDLING FOR FAILURES TO SET CHANNEL (banner)
-  const [{ error: errorSettingChannel, fetching: settingChannel }, setChannel] =
-    useAction(api.shopifyShop.setChannel);
+  const [
+    { error: errorSettingChannel, fetching: settingChannel },
+    setSlackChannel,
+  ] = useAction(api.shopifyShop.setSlackChannel);
 
-  const handleSelectChange = useCallback((value) => {
-    setSelected(value);
-  }, []);
-
-  const handleSetChannel = useCallback(async (id, slackChannelId) => {
-    await setChannel({ id, slackChannelId });
+  const handleSetSlackChannel = useCallback(async (id, slackChannelId) => {
+    await setSlackChannel({ id, slackChannelId });
   }, []);
 
   const updateText = useCallback(
     (value) => {
-      // string
       setInputValue(value);
 
       if (value === "") {
@@ -79,34 +71,15 @@ const ShopPage = () => {
 
   const updateSelection = useCallback(
     (selected) => {
-      // string
       const matchedOption = options.find((option) => {
         return option.value.match(selected);
       });
 
-      setSelectedOption(selected);
+      setSelected(selected);
       setInputValue((matchedOption && matchedOption.label) || "");
     },
     [options]
   );
-
-  const optionsMarkup =
-    options.length > 0
-      ? options.map((option) => {
-          const { label, value } = option;
-
-          return (
-            <Listbox.Option
-              key={`${value}`}
-              value={value}
-              selected={selectedOption === value}
-              accessibilityLabel={label}
-            >
-              {label}
-            </Listbox.Option>
-          );
-        })
-      : null;
 
   useEffect(() => {
     if (shop?.slackAccessToken) {
@@ -123,13 +96,11 @@ const ShopPage = () => {
     }
   }, [shop]);
 
-  // useEffect(() => {
-  //   if (!fetchingChannels && channels) {
-  //     setDeselectedOption(channels);
-  //   }
-  // }, [channels, fetchingChannels]);
-
-  // Use effect for setting deselectedCOptions?
+  useEffect(() => {
+    if (!fetchingChannels && channels) {
+      setOptions(deselectedOptions);
+    }
+  }, [channels, fetchingChannels]);
 
   if (errorFetchingShop) {
     return (
@@ -172,37 +143,50 @@ const ShopPage = () => {
                     You must choose a channel on which notifications will be
                     displayed by the bot.
                   </Text>
-                  <Form onSubmit={() => handleSetChannel(shop.id, selected)}>
+                  <Form
+                    onSubmit={() => handleSetSlackChannel(shop.id, selected)}
+                  >
                     <FormLayout>
                       <Combobox
                         activator={
                           <Combobox.TextField
                             prefix={<Icon source={SearchMinor} />}
                             onChange={updateText}
-                            label="Search tags"
-                            labelHidden
+                            label="Select a channel"
                             value={inputValue}
-                            placeholder="Search tags"
+                            placeholder={
+                              channels?.filter(
+                                (channel) =>
+                                  channel.value === shop.slackChannelId
+                              )[0].label || "Select a channel"
+                            }
                             autoComplete="off"
+                            disabled={fetchingChannels}
                           />
                         }
                       >
-                        {options.length > 0 ? (
+                        {options.length > 0 && (
                           <Listbox onSelect={updateSelection}>
-                            {optionsMarkup}
+                            {options.map((option) => (
+                              <Listbox.Option
+                                key={`${option.value}`}
+                                value={option.value}
+                                selected={selected === option.value}
+                                accessibilityLabel={option.label}
+                              >
+                                {option.label}
+                              </Listbox.Option>
+                            ))}
                           </Listbox>
-                        ) : null}
+                        )}
                       </Combobox>
-                      {/* Try to change this to the combobox  */}
-                      {/* <Select
-                        label="Channel"
-                        options={
-                          channels || [{ label: "None selected", value: "" }]
-                        }
-                        onChange={handleSelectChange}
-                        value={selected}
-                      /> */}
-                      <Button submit>Set channel</Button>
+                      <Button
+                        submit
+                        disabled={fetchingChannels || settingChannel}
+                        loading={settingChannel}
+                      >
+                        Set channel
+                      </Button>
                     </FormLayout>
                   </Form>
                 </BlockStack>

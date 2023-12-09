@@ -30,7 +30,7 @@ export default async function route({
     redirect_uri: `${currentAppUrl}slack/callback`,
   });
 
-  const shop = await api.shopifyShop.setSlackAccessToken(
+  const shop = await api.internal.shopifyShop.update(
     token.id,
     {
       slackAccessToken: res.access_token,

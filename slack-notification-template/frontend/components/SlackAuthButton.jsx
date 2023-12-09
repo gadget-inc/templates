@@ -3,7 +3,7 @@ import { api } from "../api";
 import { useGlobalAction } from "@gadgetinc/react";
 import { useCallback } from "react";
 
-export default function SlackAuthButton() {
+export default () => {
   const [_, getSlackAuthRedirect] = useGlobalAction(api.getSlackAuthRedirect);
 
   const handleButtonClick = useCallback(async () => {
@@ -41,4 +41,4 @@ export default function SlackAuthButton() {
       </InlineStack>
     </Button>
   );
-}
+};

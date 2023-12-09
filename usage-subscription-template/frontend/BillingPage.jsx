@@ -1,14 +1,7 @@
 import { useAction, useFindMany } from "@gadgetinc/react";
-import {
-  Banner,
-  BlockStack,
-  Layout,
-  Page,
-  Spinner,
-  Text,
-} from "@shopify/polaris";
+import { Banner, BlockStack, Layout, Page, Text } from "@shopify/polaris";
 import { api } from "./api";
-import { PlanCard } from "./components";
+import { PlanCard, StyledSpinner } from "./components";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "@shopify/app-bridge-react";
 import { trialCalculations } from "./utilities";
@@ -99,6 +92,10 @@ export default () => {
     }
   }, [fetchingSubscription, errorSubscribing]);
 
+  if (fetchingPlans) {
+    return <StyledSpinner />;
+  }
+
   return (
     <Page title="Select a plan">
       <BlockStack gap="500">
@@ -110,44 +107,40 @@ export default () => {
           />
         )}
         <Layout>
-          {!fetchingPlans ? (
-            plans.length ? (
-              plans?.map((plan) => (
-                <Layout.Section variant="oneThird" key={plan.id}>
-                  <PlanCard
-                    id={plan.id}
-                    name={plan.name}
-                    description={plan.description}
-                    pricePerOrder={prices[plan.id]}
-                    trialDays={
-                      trialCalculations(
-                        shop?.usedTrialMinutes,
-                        shop?.trialStartedAt,
-                        new Date(),
-                        plan.trialDays
-                      ).availableTrialDays
-                    }
-                    currency={shop?.currency || "CAD"}
-                    cappedAmount={currentCappedAmount || plan.cappedAmount}
-                    handleSubscribe={handleSubscribe}
-                    buttonDisabled={
-                      subscription ||
-                      fetchingSubscription ||
-                      shop?.plan?.id === plan.id
-                    }
-                  />
-                </Layout.Section>
-              ))
-            ) : (
-              <Text as="p" variant="bodyLg">
-                There are no plans in the database. Please make sure to add
-                plans using the API Playground. Since the database is split
-                between development and production, make sure to also add plans
-                to your production database once deploying and going live.
-              </Text>
-            )
+          {plans.length ? (
+            plans?.map((plan) => (
+              <Layout.Section variant="oneThird" key={plan.id}>
+                <PlanCard
+                  id={plan.id}
+                  name={plan.name}
+                  description={plan.description}
+                  pricePerOrder={prices[plan.id]}
+                  trialDays={
+                    trialCalculations(
+                      shop?.usedTrialMinutes,
+                      shop?.trialStartedAt,
+                      new Date(),
+                      plan.trialDays
+                    ).availableTrialDays
+                  }
+                  currency={shop?.currency}
+                  cappedAmount={currentCappedAmount || plan.cappedAmount}
+                  handleSubscribe={handleSubscribe}
+                  buttonDisabled={
+                    subscription ||
+                    fetchingSubscription ||
+                    shop?.plan?.id === plan.id
+                  }
+                />
+              </Layout.Section>
+            ))
           ) : (
-            <Spinner />
+            <Text as="p" variant="bodyLg">
+              There are no plans in the database. Please make sure to add plans
+              using the API Playground. Since the database is split between
+              development and production, make sure to also add plans to your
+              production database once deploying and going live.
+            </Text>
           )}
         </Layout>
       </BlockStack>

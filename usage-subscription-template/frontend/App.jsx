@@ -4,13 +4,14 @@ import {
   useGadget,
 } from "@gadgetinc/react-shopify-app-bridge";
 import { NavigationMenu } from "@shopify/app-bridge-react";
-import { Page, Spinner, Text } from "@shopify/polaris";
+import { Page, Text } from "@shopify/polaris";
 import { useEffect, useMemo } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import ShopPage from "./ShopPage";
 import { api } from "./api";
 import { ShopProvider } from "./providers";
 import BillingPage from "./BillingPage";
+import { StyledSpinner } from "./components";
 
 const Error404 = () => {
   const navigate = useNavigate();
@@ -58,19 +59,7 @@ function AuthenticatedApp() {
   // we use `isAuthenticated` to render pages once the OAuth flow is complete!
   const { isAuthenticated, loading } = useGadget();
   if (loading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        <Spinner accessibilityLabel="Spinner example" size="large" />
-      </div>
-    );
+    return <StyledSpinner />;
   }
   return isAuthenticated ? <EmbeddedApp /> : <UnauthenticatedApp />;
 }

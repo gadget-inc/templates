@@ -2,8 +2,9 @@ import { useFindFirst, useMaybeFindFirst } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
-import { Banner, Page, Spinner, Text } from "@shopify/polaris";
+import { Banner, Page, Text } from "@shopify/polaris";
 import BillingPage from "../BillingPage";
+import { StyledSpinner } from "../components";
 
 export const ShopContext = createContext({});
 
@@ -83,7 +84,7 @@ export default ({ children }) => {
     }
   }, [fetchingShop]);
 
-  // useEffect for showing a banner if there's and error fetching shop information
+  // useEffect for showing a banner if there's an error fetching shop information
   useEffect(() => {
     if (!fetchingShop && errorFetchingShop) {
       setBannerContext(errorFetchingShop.message);
@@ -174,17 +175,7 @@ export default ({ children }) => {
           </>
         )
       ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          <Spinner accessibilityLabel="Spinner example" size="large" />
-        </div>
+        <StyledSpinner />
       )}
     </ShopContext.Provider>
   );

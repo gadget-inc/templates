@@ -20,10 +20,10 @@ import { BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
 const ShopPage = () => {
   return (
     <Page title="Next Steps">
-      <Layout sectioned>
+      <Layout>
         <Layout.Section>
           <BlockStack gap="500">
-            <Card sectioned>
+            <Card>
               <BlockStack gap="500">
                 <Text as="h2" variant="headingMd">
                   Test the usage charge logic
@@ -37,7 +37,7 @@ const ShopPage = () => {
                 </Text>
               </BlockStack>
             </Card>
-            <Card sectioned>
+            <Card>
               <BlockStack gap="500">
                 <Text as="h2" variant="headingMd">
                   Manually end the trial

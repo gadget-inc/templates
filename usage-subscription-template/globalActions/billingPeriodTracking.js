@@ -1,5 +1,6 @@
 import { BillingPeriodTrackingGlobalActionContext } from "gadget-server";
 import { DateTime } from "luxon";
+import { getCappedAmount } from "../utilities";
 
 /**
  * @param { BillingPeriodTrackingGlobalActionContext } context
@@ -56,18 +57,18 @@ export async function run({ params, logger, api, connections }) {
         }
       );
 
-      let cappedAmount = 0;
-
-      if (activeSubscription) {
-        for (const lineItem of activeSubscription.lineItems) {
-          if (lineItem.plan.pricingDetails.__typename === "AppUsagePricing") {
-            cappedAmount = parseFloat(
-              lineItem.plan.pricingDetails.cappedAmount.amount
-            );
-            break;
-          }
-        }
+      if (!activeSubscription) {
+        logger.warn(
+          logger.warn({
+            message:
+              "NO ACTIVE SUBSCRIPTION - Cannot charge overages because the shop has no active subscription",
+            shopId: shop.id,
+            in: "billingPeriodTracking.js",
+          })
+        );
       }
+
+      const cappedAmount = getCappedAmount(activeSubscription);
 
       if (!cappedAmount) {
         logger.warn({

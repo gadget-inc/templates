@@ -15,10 +15,10 @@ export default async function route({
 }) {
   const { shop_id, plan_id, charge_id } = request.query;
 
+  const shopify = await connections.shopify.forShopId(shop_id);
+
   // Fetching the subscription from the Shopify Admin GraphQL API. The data is being fetched from Shopify instead of your database in case Shopify hasn't yet sent a webhook (latency).
-  const result = await (
-    await connections.shopify.forShopId(shop_id)
-  ).graphql(`
+  const result = await shopify.graphql(`
     query {
       node(id: "gid://shopify/AppSubscription/${charge_id}") {
         id

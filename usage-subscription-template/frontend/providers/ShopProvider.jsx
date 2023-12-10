@@ -130,9 +130,6 @@ export default ({ children }) => {
     <ShopContext.Provider
       value={{
         shop,
-        fetchingShop,
-        errorFetchingShop,
-        availableTrialDays,
         prices,
         currentCappedAmount,
       }}

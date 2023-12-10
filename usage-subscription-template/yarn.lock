@@ -350,25 +350,25 @@
     base64url "^3.0.1"
     web-vitals "^3.0.1"
 
-"@shopify/polaris-icons@^7.9.0":
-  version "7.9.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-7.9.0.tgz#2c7ec5b5cf2d68c6252bf9992c4604a2def596c3"
-  integrity sha512-JSn8tg5c6cWiKqOJE1757kuK8JKP9NGpwIp9Li2gEIA/PP4LL8RHMYOIuH3RS/yQO3pEhVsHnnlVFvREate8ng==
+"@shopify/polaris-icons@^7.10.0":
+  version "7.10.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-7.10.0.tgz#73b5231fc96073c143393d2d8c3651dc56a87af1"
+  integrity sha512-3Ww/ZXYIMgVfDiLgUCqmbQfn/pVKIID29uJ/vo9jZjCz7OTiJ8IPfJGMSLkiQyUYCLjIhWs3sHU2nwvDvN/P6A==
 
-"@shopify/polaris-tokens@^8.1.0":
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-8.1.0.tgz#793dac072b58829489d18924d812f4cf17084a6a"
-  integrity sha512-qubEikjLuZp+lqZrlr9wBQug8fZbZlgKrfXbjISnszD4bTT1vmpsGohX00UYsWORQUqYyyS5106VwpLX3eZWLQ==
+"@shopify/polaris-tokens@^8.2.0":
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-8.2.0.tgz#df5493ce17be73ee28d423c517a6b688c688d495"
+  integrity sha512-w+CmQgaj6t00iFXMQYSweojHNoKf0x3mrE+htjILsMIOO6yNeQxwsKXOsAQ7vvV82WTO4iUBtR9+rz9ZgWNrmg==
   dependencies:
     deepmerge "^4.3.1"
 
-"@shopify/polaris@^12.0.0":
-  version "12.1.1"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-12.1.1.tgz#ab93723b0a68a9984f0f461126fd36378573b0e5"
-  integrity sha512-AiHsZx6wbAxDjKFXjE9J/QTbyMtyd0yQ7jTNcIu7a+HGgSClZDk4PemeiFVS2VAVFJ8rsrpwmMZ6RRFJWSpiVA==
+"@shopify/polaris@^12.2.0":
+  version "12.2.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-12.2.0.tgz#788e9a6260c75dbfca630e5dd18c9d61ec4e79d3"
+  integrity sha512-JQggH3kbPP+pTDkjNL0JCKFVx+tJ2GOWppGAaAidXJTH1UuFNCTKZa9nta1LO6X2FMbBzhhcHajA0uGzogSjqQ==
   dependencies:
-    "@shopify/polaris-icons" "^7.9.0"
-    "@shopify/polaris-tokens" "^8.1.0"
+    "@shopify/polaris-icons" "^7.10.0"
+    "@shopify/polaris-tokens" "^8.2.0"
     "@types/react" "^18.2.0"
     "@types/react-dom" "^18.2.0"
     "@types/react-transition-group" "^4.4.2"

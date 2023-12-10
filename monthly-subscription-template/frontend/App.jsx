@@ -10,6 +10,8 @@ import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import ShopPage from "./ShopPage";
 import { api } from "./api";
 import { ShopProvider } from "./providers";
+import BillingPage from "./BillingPage";
+import { StyledSpinner } from "./components";
 
 const Error404 = () => {
   const navigate = useNavigate();
@@ -57,19 +59,7 @@ function AuthenticatedApp() {
   // we use `isAuthenticated` to render pages once the OAuth flow is complete!
   const { isAuthenticated, loading } = useGadget();
   if (loading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        <Spinner accessibilityLabel="Spinner example" size="large" />
-      </div>
-    );
+    return <StyledSpinner />;
   }
   return isAuthenticated ? <EmbeddedApp /> : <UnauthenticatedApp />;
 }
@@ -80,14 +70,19 @@ function EmbeddedApp() {
       <ShopProvider>
         <Routes>
           <Route path="/" element={<ShopPage />} />
+          <Route path="/plans" element={<BillingPage />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </ShopProvider>
       <NavigationMenu
         navigationLinks={[
           {
-            label: "Plan Selection Page",
+            label: "Dashboard",
             destination: "/",
+          },
+          {
+            label: "Plans",
+            destination: "/plans",
           },
         ]}
       />

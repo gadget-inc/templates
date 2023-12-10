@@ -1,162 +1,80 @@
-import { useAction, useFindMany } from "@gadgetinc/react";
-import {
-  Banner,
-  BlockStack,
-  Layout,
-  Page,
-  Spinner,
-  Text,
-} from "@shopify/polaris";
-import { api } from "./api";
-import { PlanCard } from "./components";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { useNavigate } from "@shopify/app-bridge-react";
-import { trialCalculations } from "./utilities";
-import { ShopContext } from "./providers";
+import { BlockStack, Layout, Page, Text, Card } from "@shopify/polaris";
 
+/**
+ * This is where your main app logic should go
+ * 
+ * To end the trial period, make use of your app's API Playgound. Use the following GraphQL mutation:
+ * 
+  mutation {
+    internal {
+      updateShopifyShop(id: "SHOPID", shopifyShop: { usedTrialMinutes: 10800}) {
+        success
+        shopifyShop
+      } 
+    }
+  }
+ *
+ * The above mutation should be modified to reflect the number of trial minutes for your specific plan
+ * 
+ */
 const ShopPage = () => {
-  const navigate = useNavigate();
-  const [show, setShow] = useState(false);
-  const [bannerContext, setBannerContext] = useState("");
-  const { shop, availableTrialDays, prices } = useContext(ShopContext);
-
-  const [{ data: plans, fetching: fetchingPlans, error: errorFetchingPlans }] =
-    useFindMany(api.plan, {
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        monthlyPrice: true,
-        trialDays: true,
-        currency: true,
-      },
-      sort: {
-        monthlyPrice: "Ascending", // Prices from lowest to highest
-      },
-    });
-
-  const [
-    {
-      data: subscription,
-      fetching: fetchingSubscription,
-      error: errorSubscribing,
-    },
-    subscribe,
-  ] = useAction(api.shopifyShop.subscribe, {
-    select: {
-      confirmationUrl: true,
-    },
-  });
-
-  /**
-   * @type { (planId: string) => void }
-   *
-   * Callback used to subscribe to a plan and redirect to the Shopify subscription confirmation page
-   */
-  const handleSubscribe = useCallback(
-    async (planId) => {
-      const res = await subscribe({ id: shop.id, planId });
-
-      if (res?.data?.confirmationUrl) {
-        navigate(res.data.confirmationUrl);
-      }
-    },
-    [shop, subscribe]
-  );
-
-  /**
-   * @type { () => void }
-   *
-   * Dismisses the error banner
-   */
-  const handleDismiss = useCallback(() => {
-    setShow(false);
-  }, []);
-
-  // useEffect for showing an error banner when there's an issue fetching plans
-  useEffect(() => {
-    if (!fetchingPlans && errorFetchingPlans) {
-      setBannerContext(errorFetchingPlans.message);
-      setShow(true);
-    } else if (fetchingPlans) {
-      setShow(false);
-    }
-  }, [fetchingPlans, errorFetchingPlans]);
-
-  // useEffect for showing an error banner when there's an issue subscribing
-  useEffect(() => {
-    if (!fetchingSubscription && errorSubscribing) {
-      setBannerContext(errorSubscribing.message);
-      setShow(true);
-    } else if (fetchingSubscription) {
-      setShow(false);
-    }
-  }, [fetchingSubscription, errorSubscribing]);
-
   return (
-    <Page title="Plan Selection Page">
-      <BlockStack gap="500">
-        {show && (
-          <Banner
-            title={bannerContext}
-            tone="critical"
-            onDismiss={handleDismiss}
-          />
-        )}
-        {shop?.plan?.id && (
-          <Banner
-            title={`This shop is assigned to the ${shop?.plan?.name} plan`}
-            tone="success"
-          >
-            {availableTrialDays && (
-              <Text as="p" variant="bodyMd">
-                You have <strong>{availableTrialDays}</strong> trial days
-                remaining.
-              </Text>
-            )}
-          </Banner>
-        )}
-        <Layout>
-          {!fetchingPlans ? (
-            plans.length ? (
-              plans?.map((plan) => (
-                <Layout.Section variant="oneThird" key={plan.id}>
-                  <PlanCard
-                    id={plan.id}
-                    name={plan.name}
-                    description={plan.description}
-                    monthlyPrice={prices[plan.id]}
-                    trialDays={
-                      trialCalculations(
-                        shop?.usedTrialMinutes,
-                        shop?.usedTrialMinutesUpdatedAt,
-                        new Date(),
-                        plan.trialDays
-                      ).availableTrialDays
-                    }
-                    currency={shop?.currency || "CAD"}
-                    handleSubscribe={handleSubscribe}
-                    buttonDisabled={
-                      subscription ||
-                      fetchingSubscription ||
-                      shop?.plan?.id === plan.id
-                    }
-                  />
-                </Layout.Section>
-              ))
-            ) : (
-              <Text as="p" variant="bodyLg">
-                There are no plans in the database. Please make sure to add
-                plans using the API Playground. Since the database is split
-                between development and production, make sure to also add plans
-                to your production database once deploying and going live.
-              </Text>
-            )
-          ) : (
-            <Spinner />
-          )}
-        </Layout>
-      </BlockStack>
+    <Page title="Next steps">
+      <Layout>
+        <Layout.Section>
+          <BlockStack gap="500">
+            <Card>
+              <BlockStack gap="500">
+                <Text as="h2" variant="headingMd">
+                  Test the monthly subscription logic
+                </Text>
+                <Text as="p" variant="bodyMd">
+                  Change between plans by navigating to the billingPage. The
+                  page should populate like it did on intial app installation.
+                  Note that this template only supports non-zero plan prices.
+                  Shopify requires that you give them a positive non-zero price
+                  when creating an appSubscription record.
+                </Text>
+              </BlockStack>
+            </Card>
+            <Card>
+              <BlockStack gap="500">
+                <Text as="h2" variant="headingMd">
+                  Manually end the trial
+                </Text>
+                <Text as="p" variant="bodyMd">
+                  You may wish to see what the ShopPage component would look
+                  like once the trial is completed. To do this run the following
+                  mutation. This mutation will set the{" "}
+                  <strong>usedTrialMinutes</strong> field equal to 7 days (in
+                  minutes). Make sure to adjust the number if you have more
+                  trial days.
+                </Text>
+                <Text as="p" variant="bodyMd">
+                  Run the following mutation in your Gadget application's API
+                  Playground:
+                </Text>
+                <Card background="bg-surface-secondary">
+                  <code
+                    style={{
+                      whiteSpace: "break-spaces",
+                    }}
+                  >
+                    {`mutation {
+  internal {
+    updateShopifyShop(id: "SHOPID", shopifyShop: { usedTrialMinutes: 10800}) {
+      success
+      shopifyShop
+    } 
+  }
+}`}
+                  </code>
+                </Card>
+              </BlockStack>
+            </Card>
+          </BlockStack>
+        </Layout.Section>
+      </Layout>
     </Page>
   );
 };

@@ -24,7 +24,6 @@ export async function run({
 
   const planMatch = await api.plan.maybeFindOne(params.planId, {
     select: {
-      id: true,
       name: true,
       monthlyPrice: true,
       currency: true,
@@ -43,15 +42,19 @@ export async function run({
       planMatch.trialDays
     );
 
-    let price = 0;
+    let price = planMatch.monthlyPrice;
 
-    if (planMatch.monthlyPrice) {
+    if (planMatch.currency != record.currency) {
       const currencyConverter = new CurrencyConverter();
       // Get cost of plan for current shop based on the plan currency
       price = await currencyConverter
         .from(planMatch.currency)
         .to(record.currency)
         .convert(planMatch.monthlyPrice);
+    }
+
+    if (!price) {
+      throw new Error("ZERO COST PLAN - The price of a plan cannot be zero");
     }
 
     /**
@@ -66,7 +69,7 @@ export async function run({
         test: ${process.env.NODE_ENV === "production" ? false : true},
         returnUrl: "${currentAppUrl}confirmation-callback?shop_id=${
         connections.shopify.currentShopId
-      }&plan_id=${planMatch.id}",
+      }&plan_id=${params.planId}",
         lineItems: [{
           plan: {
             appRecurringPricingDetails: {
@@ -93,10 +96,7 @@ export async function run({
 
     // Check for errors in subscription creation
     if (result?.appSubscriptionCreate?.userErrors?.length) {
-      throw new Error(
-        result?.appSubscriptionCreate?.userErrors[0]?.message ||
-          "SUBSCRIPTION FLOW - Error creating app subscription (SHOPIFY API)"
-      );
+      throw new Error(result?.appSubscriptionCreate?.userErrors[0]?.message);
     }
 
     // Updating the relevant shop record fields
@@ -125,6 +125,6 @@ export const options = {
 };
 
 export const params = {
-  // We use planName so that we don't need to fetch it
+  // planId is sent to this action so that we can easily fetch the plan data
   planId: { type: "string" },
 };

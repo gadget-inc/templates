@@ -23,6 +23,7 @@ export default async function route({
   const decodedString = b64.decode(request.query.state);
   const token = jwt.verify(decodedString, process.env.JWT_SECRET);
 
+  // Getting the Slack access token using the temporary code returned from Slack
   const res = await slackClient.oauth.v2.access({
     client_id: process.env.SLACK_CLIENT_ID,
     client_secret: process.env.SLACK_CLIENT_SECRET,
@@ -30,6 +31,7 @@ export default async function route({
     redirect_uri: `${currentAppUrl}slack/callback`,
   });
 
+  // Updating the shopifyShop record
   const shop = await api.internal.shopifyShop.update(
     token.id,
     {
@@ -45,6 +47,7 @@ export default async function route({
     }
   );
 
+  // Redirecting to the storefront
   await reply
     .code(302)
     .redirect(`https://${shop.domain}/admin/apps/${shop.installedViaApiKey}`);

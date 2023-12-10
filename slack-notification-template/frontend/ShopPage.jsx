@@ -44,7 +44,12 @@ const ShopPage = () => {
   const [active, setActive] = useState(false);
 
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
-    useFindFirst(api.shopifyShop);
+    useFindFirst(api.shopifyShop, {
+      select: {
+        hasSlackAccessToken: true,
+        slackChannelId: true,
+      },
+    });
 
   const [
     { data: channelSet, error: errorSettingChannel, fetching: settingChannel },
@@ -96,8 +101,9 @@ const ShopPage = () => {
     setShow(false);
   }, []);
 
+  // useEffect for fetching a list of Slack channels if there's a slackAccessToken on the shop
   useEffect(() => {
-    if (shop?.slackAccessToken) {
+    if (shop?.hasSlackAccessToken) {
       const run = async () => {
         await getChannels();
       };
@@ -111,6 +117,7 @@ const ShopPage = () => {
     }
   }, [shop]);
 
+  // useEffect for setting the options once the channels have been returned from the backend
   useEffect(() => {
     if (!fetchingChannels && channels) {
       setOptions(deselectedOptions);
@@ -184,7 +191,7 @@ const ShopPage = () => {
       </Page>
       <Page title="Dashboard">
         <Layout sectioned>
-          {shop.slackAccessToken ? (
+          {shop.hasSlackAccessToken ? (
             <>
               <Layout.Section>
                 <Card>

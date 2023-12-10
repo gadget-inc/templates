@@ -35,6 +35,7 @@ export default async function route({
     {
       slackAccessToken: res.access_token,
       slackScopes: res.scope.split(","),
+      hasSlackAccessToken: true,
     },
     {
       select: {

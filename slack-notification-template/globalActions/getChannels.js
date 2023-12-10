@@ -26,7 +26,7 @@ export async function run({ params, logger, api, connections }) {
         channels.push({ label: channel.name, value: channel.id });
       }
     } catch (error) {
-      logger.error({ error });
+      throw new Error(error);
     }
   }
   return channels.sort((a, b) => a.label.localeCompare(b.label));

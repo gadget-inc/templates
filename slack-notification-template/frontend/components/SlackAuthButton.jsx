@@ -6,6 +6,7 @@ import { useCallback } from "react";
 export default () => {
   const [_, getSlackAuthRedirect] = useGlobalAction(api.getSlackAuthRedirect);
 
+  // Handler for fetching the OAuth redirect to start the Slack auth flow
   const handleButtonClick = useCallback(async () => {
     open((await getSlackAuthRedirect()).data, "_top");
   }, []);

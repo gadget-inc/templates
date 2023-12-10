@@ -20,8 +20,6 @@ import { api } from "./api";
 import SlackAuthButton from "./components/SlackAuthButton";
 import { useState, useCallback, useEffect, useMemo } from "react";
 
-// TODO: ADD COMMENTS TO APP
-
 const ShopPage = () => {
   const [
     {
@@ -56,10 +54,12 @@ const ShopPage = () => {
     setSlackChannel,
   ] = useAction(api.shopifyShop.setSlackChannel);
 
+  // Handler for calling the setSlackChannel shopifyShop action
   const handleSetSlackChannel = useCallback(async (id, slackChannelId) => {
     await setSlackChannel({ id, slackChannelId });
   }, []);
 
+  // Handler for updating the options available in the combobox dropdown
   const updateText = useCallback(
     (value) => {
       setInputValue(value);
@@ -78,6 +78,7 @@ const ShopPage = () => {
     [deselectedOptions]
   );
 
+  // Handler for changing the selected option (combobox)
   const updateSelection = useCallback(
     (selected) => {
       const matchedOption = options.find((option) => {
@@ -90,12 +91,13 @@ const ShopPage = () => {
     [options]
   );
 
+  // Handler for toggling the channel set success toast
   const toggleActive = useCallback(() => setActive((active) => !active), []);
 
   /**
    * @type { () => void }
    *
-   * Dismisses the error banner
+   * Handler for dismissing the error banner
    */
   const handleDismiss = useCallback(() => {
     setShow(false);
@@ -111,6 +113,7 @@ const ShopPage = () => {
     }
   }, [shop]);
 
+  // useEffect for setting the selected option to the currently selected channel (data from the database)
   useEffect(() => {
     if (shop?.slackChannelId) {
       setSelected(shop.slackChannelId);
@@ -124,7 +127,7 @@ const ShopPage = () => {
     }
   }, [channels, fetchingChannels]);
 
-  // useEffect for showing an error banner when there's an issue starting the purchase flow
+  // useEffect for showing an error banner when there's an issue fetching the current Shopify shop
   useEffect(() => {
     if (!fetchingShop && errorFetchingShop) {
       setBannerContext(errorFetchingShop.message);
@@ -134,8 +137,7 @@ const ShopPage = () => {
     }
   }, [fetchingShop, errorFetchingShop]);
 
-  // CHANGE THIS
-  // useEffect for showing an error banner when there's an issue starting the purchase flow
+  // useEffect for showing an error banner when there's an issue fetching all Slack channels
   useEffect(() => {
     if (!fetchingChannels && errorFetchingChannels) {
       setBannerContext(errorFetchingChannels.message);
@@ -145,8 +147,7 @@ const ShopPage = () => {
     }
   }, [fetchingChannels, errorFetchingChannels]);
 
-  // CHANGE THIS
-  // useEffect for showing an error banner when there's an issue starting the purchase flow
+  // useEffect for showing an error banner when there's an issue setting a new Slack channel
   useEffect(() => {
     if (!settingChannel && errorSettingChannel) {
       setBannerContext(errorSettingChannel.message);
@@ -156,6 +157,7 @@ const ShopPage = () => {
     }
   }, [settingChannel, errorSettingChannel]);
 
+  // useEffect for toggling the success toast if the setSlackChannel action is successful
   useEffect(() => {
     if (channelSet) {
       toggleActive();

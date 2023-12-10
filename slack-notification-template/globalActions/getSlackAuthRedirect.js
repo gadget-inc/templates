@@ -4,6 +4,8 @@ import { Base64 } from "base64-string";
 
 /**
  * @param { GetOAuthParamsGlobalActionContext } context
+ *
+ * A global action that creates a redirect URL that points to the Slack auth start route
  */
 export async function run({ params, logger, api, connections, currentAppUrl }) {
   const b64 = new Base64();

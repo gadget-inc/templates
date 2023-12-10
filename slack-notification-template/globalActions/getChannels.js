@@ -3,8 +3,11 @@ import { slackClient } from "../utilities";
 
 /**
  * @param { GetChannelsGlobalActionContext } context
+ *
+ * Global action used to fetch and format Slack channels to be consumed in the frontend
  */
 export async function run({ params, logger, api, connections }) {
+  // Setting the default channels array that is to be returned if there aren't any channels
   const channels = [{ label: "None", value: "" }];
   const shop = await api.shopifyShop.maybeFindOne(
     connections.shopify.currentShopId,
@@ -17,11 +20,13 @@ export async function run({ params, logger, api, connections }) {
 
   if (shop) {
     try {
+      // Fetching 1000 Slack channels (no pagination)
       const result = await slackClient.conversations.list({
         token: shop.slackAccessToken,
         limit: 1000,
       });
 
+      // Formatting the data and adding it to the channels array
       for (const channel of result.channels) {
         channels.push({ label: channel.name, value: channel.id });
       }
@@ -29,5 +34,7 @@ export async function run({ params, logger, api, connections }) {
       throw new Error(error);
     }
   }
+
+  // Returning a sorted array of Slack channels
   return channels.sort((a, b) => a.label.localeCompare(b.label));
 }

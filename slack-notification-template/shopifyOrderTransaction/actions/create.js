@@ -26,11 +26,10 @@ export async function onSuccess({ params, record, logger, api }) {
       slackChannelId: true,
     },
   });
-  
+
   if (
-    shop &&
-    shop.slackAccessToken &&
-    shop.slackChannelId &&
+    shop?.slackAccessToken &&
+    shop?.slackChannelId &&
     (record.kind === "sale" || record.kind === "capture") &&
     record.status === "success"
   ) {
@@ -49,10 +48,7 @@ export async function onSuccess({ params, record, logger, api }) {
           token: shop.slackAccessToken,
           channel: shop.slackChannelId,
           text: `You made a sale! ${
-            order &&
-            order.customer &&
-            order.customer.firstName &&
-            order.customer.lastName
+            order?.customer?.firstName && order?.customer?.lastName
               ? order.customer.firstName + " " + order.customer.lastName
               : "Unknown"
           } just spent ${record.amount} ${record.currency} on your store!`,

@@ -14,6 +14,7 @@ import {
   Icon,
   Frame,
   Toast,
+  Banner,
 } from "@shopify/polaris";
 import { SearchMinor } from "@shopify/polaris-icons";
 import { api } from "./api";
@@ -44,6 +45,7 @@ const ShopPage = () => {
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop, {
       select: {
+        id: true,
         hasSlackAccessToken: true,
         slackChannelId: true,
       },
@@ -223,7 +225,7 @@ const ShopPage = () => {
                                 )[0].label || "Select a channel"
                               }
                               autoComplete="off"
-                              disabled={fetchingChannels}
+                              disabled={fetchingChannels || settingChannel}
                             />
                           }
                         >

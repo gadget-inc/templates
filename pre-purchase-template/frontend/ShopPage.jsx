@@ -37,21 +37,21 @@ const PrePurchaseForm = ({ products, shop }) => {
             name="shopifyShop.prePurchaseProduct"
             control={control}
             required
-            render={({ field, isSubmitting }) => {
+            render={({ field }) => {
               const { ref, ...fieldProps } = field;
               return (
                 <Select
                   label="Product for pre-purchase offer"
                   placeholder="-No product selected-"
                   options={products}
-                  disabled={isSubmitting}
+                  disabled={formState.isSubmitting}
                   {...fieldProps}
                 />);
             }}
           />)
         }
 
-        <Button submit variant="primary">Save</Button>
+        <Button submit disabled={formState.isSubmitting} variant="primary">Save</Button>
       </FormLayout>
     </Form>
   )

@@ -38,7 +38,7 @@ export async function run({ params, logger, api, connections }) {
   // Returning a sorted array of Slack channels with a None option as the first position
   channels
     .sort((a, b) => a.label.localeCompare(b.label))
-    .unshift({ label: "None", value: "" });
+    .unshift({ label: "None selected", value: "" });
 
   return channels;
 }

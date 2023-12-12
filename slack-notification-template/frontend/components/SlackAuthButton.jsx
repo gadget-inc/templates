@@ -1,15 +1,31 @@
 import { Text, Button, InlineStack } from "@shopify/polaris";
 import { api } from "../api";
 import { useGlobalAction } from "@gadgetinc/react";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 
-export default () => {
-  const [_, getSlackAuthRedirect] = useGlobalAction(api.getSlackAuthRedirect);
+export default ({ reauth = false, setShow, setBannerContext }) => {
+  const [
+    { error: errorFetchingRedirect, fetching: fetchingRedirect },
+    getSlackAuthRedirect,
+  ] = useGlobalAction(api.getSlackAuthRedirect);
 
   // Handler for fetching the OAuth redirect to start the Slack auth flow
   const handleButtonClick = useCallback(async () => {
-    open((await getSlackAuthRedirect()).data, "_top");
+    const redirect = (await getSlackAuthRedirect()).data;
+    if (redirect) {
+      open(redirect, "_top");
+    }
   }, []);
+
+  // useEffect for showing an error banner when there's an issue fetching the Slack OAuth redirect URL
+  useEffect(() => {
+    if (!fetchingRedirect && errorFetchingRedirect) {
+      setBannerContext(errorFetchingRedirect.message);
+      setShow(true);
+    } else if (fetchingRedirect) {
+      setShow(false);
+    }
+  }, [fetchingRedirect, errorFetchingRedirect]);
 
   return (
     <Button size="large" onClick={handleButtonClick}>
@@ -37,7 +53,7 @@ export default () => {
           ></path>
         </svg>
         <Text as="span" variant="bodyLg">
-          Add to Slack
+          {reauth ? "Reauthorize Slack" : "Add to Slack"}
         </Text>
       </InlineStack>
     </Button>

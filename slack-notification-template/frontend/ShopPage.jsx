@@ -23,7 +23,7 @@ import {
 } from "@shopify/polaris";
 import { SearchMinor } from "@shopify/polaris-icons";
 import { api } from "./api";
-import SlackAuthButton from "./components/SlackAuthButton";
+import { SlackAuthButton } from "./components";
 import { useState, useCallback, useEffect, useMemo } from "react";
 
 const SlackChannelSelectionForm = ({
@@ -55,7 +55,7 @@ const SlackChannelSelectionForm = ({
   ] = useGlobalAction(api.getChannels);
 
   const deselectedOptions = useMemo(
-    () => channels || [{ label: "None", value: "" }],
+    () => channels || [{ label: "None selected", value: "" }],
     [channels]
   );
 
@@ -288,7 +288,11 @@ const ShopPage = () => {
                       You may wish to rerun the authentication flow at any time.
                       To do so click on the button below.
                     </Text>
-                    <SlackAuthButton />
+                    <SlackAuthButton
+                      reauth
+                      setShow={setShow}
+                      setBannerContext={setBannerContext}
+                    />
                   </BlockStack>
                 </Card>
               </Layout.Section>
@@ -304,7 +308,10 @@ const ShopPage = () => {
                     To install the Slack bot on your Slack workspace, click the
                     button below.
                   </Text>
-                  <SlackAuthButton />
+                  <SlackAuthButton
+                    setShow={setShow}
+                    setBannerContext={setBannerContext}
+                  />
                 </BlockStack>
               </Card>
             </Layout.Section>

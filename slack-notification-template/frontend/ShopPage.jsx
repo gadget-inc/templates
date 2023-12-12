@@ -1,4 +1,9 @@
-import { useAction, useFindFirst, useGlobalAction } from "@gadgetinc/react";
+import {
+  Controller,
+  useActionForm,
+  useFindFirst,
+  useGlobalAction,
+} from "@gadgetinc/react";
 import {
   Card,
   Layout,
@@ -21,7 +26,25 @@ import { api } from "./api";
 import SlackAuthButton from "./components/SlackAuthButton";
 import { useState, useCallback, useEffect, useMemo } from "react";
 
-const ShopPage = () => {
+const SlackChannelSelectionForm = ({
+  shop,
+  setShow,
+  setBannerContext,
+  toggleActive,
+}) => {
+  const {
+    submit,
+    control,
+    error: errorSettingChannel,
+    formState,
+  } = useActionForm(api.shopifyShop.setSlackChannel, {
+    findBy: shop.id,
+    select: {
+      id: true,
+      slackChannelId: true,
+    },
+  });
+
   const [
     {
       data: channels,
@@ -35,9 +58,143 @@ const ShopPage = () => {
     () => channels || [{ label: "None", value: "" }],
     [channels]
   );
-  const [selected, setSelected] = useState("");
-  const [inputValue, setInputValue] = useState("");
+
   const [options, setOptions] = useState(deselectedOptions);
+  const [inputValue, setInputValue] = useState("");
+
+  // Handler for updating the options available in the combobox dropdown
+  const updateText = useCallback(
+    (value) => {
+      setInputValue(value);
+
+      if (value === "") {
+        setOptions(deselectedOptions);
+        return;
+      }
+
+      const resultOptions = deselectedOptions.filter((option) =>
+        option.label.match(new RegExp(value, "i"))
+      );
+      setOptions(resultOptions);
+    },
+    [deselectedOptions]
+  );
+
+  // useEffect for fetching a list of Slack channels if there's a slackAccessToken on the shop
+  useEffect(() => {
+    if (shop?.hasSlackAccessToken) {
+      const run = async () => {
+        await getChannels();
+      };
+      run();
+    }
+  }, []);
+
+  // useEffect for showing an error banner when there's an issue setting a new Slack channel
+  useEffect(() => {
+    if (!formState.isSubmitting && errorSettingChannel) {
+      setBannerContext(errorSettingChannel.message);
+      setShow(true);
+    } else if (formState.isSubmitting) {
+      setShow(false);
+    }
+  }, [formState.isSubmitting, errorSettingChannel]);
+
+  // useEffect for showing an error banner when there's an issue fetching all Slack channels
+  useEffect(() => {
+    if (!fetchingChannels && errorFetchingChannels) {
+      setBannerContext(errorFetchingChannels.message);
+      setShow(true);
+    } else if (fetchingChannels) {
+      setShow(false);
+    }
+  }, [fetchingChannels, errorFetchingChannels]);
+
+  // useEffect for setting the options once the channels have been returned from the backend
+  useEffect(() => {
+    if (!fetchingChannels && channels) {
+      setOptions(deselectedOptions);
+    }
+  }, [channels, fetchingChannels]);
+
+  // useEffect for toggling the success toast if the setSlackChannel action is successful
+  useEffect(() => {
+    if (formState.isSubmitSuccessful) {
+      toggleActive();
+    }
+  }, [formState.isSubmitSuccessful]);
+
+  console.log({ options, channels, deselectedOptions, inputValue });
+
+  return (
+    <>
+      <Form onSubmit={submit}>
+        <FormLayout>
+          <Controller
+            name="shopifyShop.slackChannelId"
+            control={control}
+            render={({ field }) => {
+              const { ref, ...fieldProps } = field;
+              return (
+                <Combobox
+                  activator={
+                    <Combobox.TextField
+                      prefix={<Icon source={SearchMinor} />}
+                      onChange={updateText}
+                      label="Select a channel"
+                      value={inputValue}
+                      placeholder={
+                        channels?.filter(
+                          (channel) => channel.value === fieldProps.value
+                        )[0].label || "Select a channel"
+                      }
+                      autoComplete="off"
+                      disabled={fetchingChannels || formState.isSubmitting}
+                    />
+                  }
+                >
+                  {options.length > 0 && (
+                    <Listbox
+                      onSelect={(value) => {
+                        setInputValue(
+                          channels?.filter(
+                            (channel) => channel.value === value
+                          )[0].label
+                        );
+                        fieldProps.onChange(value);
+                      }}
+                      name={fieldProps.name}
+                    >
+                      {options.map((option) => (
+                        <Listbox.Option
+                          key={`${option.value}`}
+                          value={option.value}
+                          selected={fieldProps.value === option.value}
+                          accessibilityLabel={option.label}
+                        >
+                          {option.label}
+                        </Listbox.Option>
+                      ))}
+                    </Listbox>
+                  )}
+                </Combobox>
+              );
+            }}
+          />
+          <Button
+            submit
+            disabled={fetchingChannels || formState.isSubmitting}
+            loading={formState.isSubmitting}
+          >
+            Set channel
+          </Button>
+        </FormLayout>
+      </Form>
+    </>
+  );
+};
+
+const ShopPage = () => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
   const [active, setActive] = useState(false);
@@ -51,51 +208,6 @@ const ShopPage = () => {
       },
     });
 
-  const [
-    { data: channelSet, error: errorSettingChannel, fetching: settingChannel },
-    setSlackChannel,
-  ] = useAction(api.shopifyShop.setSlackChannel);
-
-  // Handler for calling the setSlackChannel shopifyShop action
-  const handleSetSlackChannel = useCallback(async (id, slackChannelId) => {
-    await setSlackChannel({ id, slackChannelId });
-  }, []);
-
-  // Handler for updating the options available in the combobox dropdown
-  const updateText = useCallback(
-    (value) => {
-      setInputValue(value);
-
-      if (value === "") {
-        setOptions(deselectedOptions);
-        return;
-      }
-
-      const filterRegex = new RegExp(value, "i");
-      const resultOptions = deselectedOptions.filter((option) =>
-        option.label.match(filterRegex)
-      );
-      setOptions(resultOptions);
-    },
-    [deselectedOptions]
-  );
-
-  // Handler for changing the selected option (combobox)
-  const updateSelection = useCallback(
-    (selected) => {
-      const matchedOption = options.find((option) => {
-        return option.value.match(selected);
-      });
-
-      setSelected(selected);
-      setInputValue((matchedOption && matchedOption.label) || "");
-    },
-    [options]
-  );
-
-  // Handler for toggling the channel set success toast
-  const toggleActive = useCallback(() => setActive((active) => !active), []);
-
   /**
    * @type { () => void }
    *
@@ -105,29 +217,8 @@ const ShopPage = () => {
     setShow(false);
   }, []);
 
-  // useEffect for fetching a list of Slack channels if there's a slackAccessToken on the shop
-  useEffect(() => {
-    if (shop?.hasSlackAccessToken) {
-      const run = async () => {
-        await getChannels();
-      };
-      run();
-    }
-  }, [shop]);
-
-  // useEffect for setting the selected option to the currently selected channel (data from the database)
-  useEffect(() => {
-    if (shop?.slackChannelId) {
-      setSelected(shop.slackChannelId);
-    }
-  }, [shop]);
-
-  // useEffect for setting the options once the channels have been returned from the backend
-  useEffect(() => {
-    if (!fetchingChannels && channels) {
-      setOptions(deselectedOptions);
-    }
-  }, [channels, fetchingChannels]);
+  // Handler for toggling the channel set success toast
+  const toggleActive = useCallback(() => setActive((active) => !active), []);
 
   // useEffect for showing an error banner when there's an issue fetching the current Shopify shop
   useEffect(() => {
@@ -138,33 +229,6 @@ const ShopPage = () => {
       setShow(false);
     }
   }, [fetchingShop, errorFetchingShop]);
-
-  // useEffect for showing an error banner when there's an issue fetching all Slack channels
-  useEffect(() => {
-    if (!fetchingChannels && errorFetchingChannels) {
-      setBannerContext(errorFetchingChannels.message);
-      setShow(true);
-    } else if (fetchingChannels) {
-      setShow(false);
-    }
-  }, [fetchingChannels, errorFetchingChannels]);
-
-  // useEffect for showing an error banner when there's an issue setting a new Slack channel
-  useEffect(() => {
-    if (!settingChannel && errorSettingChannel) {
-      setBannerContext(errorSettingChannel.message);
-      setShow(true);
-    } else if (settingChannel) {
-      setShow(false);
-    }
-  }, [settingChannel, errorSettingChannel]);
-
-  // useEffect for toggling the success toast if the setSlackChannel action is successful
-  useEffect(() => {
-    if (channelSet) {
-      toggleActive();
-    }
-  }, [settingChannel, channelSet]);
 
   if (fetchingShop) {
     return (
@@ -207,52 +271,12 @@ const ShopPage = () => {
                       You must choose a channel on which notifications will be
                       displayed by the bot.
                     </Text>
-                    <Form
-                      onSubmit={() => handleSetSlackChannel(shop.id, selected)}
-                    >
-                      <FormLayout>
-                        <Combobox
-                          activator={
-                            <Combobox.TextField
-                              prefix={<Icon source={SearchMinor} />}
-                              onChange={updateText}
-                              label="Select a channel"
-                              value={inputValue}
-                              placeholder={
-                                channels?.filter(
-                                  (channel) =>
-                                    channel.value === shop.slackChannelId
-                                )[0].label || "Select a channel"
-                              }
-                              autoComplete="off"
-                              disabled={fetchingChannels || settingChannel}
-                            />
-                          }
-                        >
-                          {options.length > 0 && (
-                            <Listbox onSelect={updateSelection}>
-                              {options.map((option) => (
-                                <Listbox.Option
-                                  key={`${option.value}`}
-                                  value={option.value}
-                                  selected={selected === option.value}
-                                  accessibilityLabel={option.label}
-                                >
-                                  {option.label}
-                                </Listbox.Option>
-                              ))}
-                            </Listbox>
-                          )}
-                        </Combobox>
-                        <Button
-                          submit
-                          disabled={fetchingChannels || settingChannel}
-                          loading={settingChannel}
-                        >
-                          Set channel
-                        </Button>
-                      </FormLayout>
-                    </Form>
+                    <SlackChannelSelectionForm
+                      shop={shop}
+                      setShow={setShow}
+                      setBannerContext={setBannerContext}
+                      toggleActive={toggleActive}
+                    />
                   </BlockStack>
                 </Card>
               </Layout.Section>
@@ -288,12 +312,12 @@ const ShopPage = () => {
             </Layout.Section>
           )}
         </Layout>
-        <Frame>
-          {active && (
-            <Toast content="Slack channel selected" onDismiss={toggleActive} />
-          )}
-        </Frame>
       </Page>
+      <Frame>
+        {active && (
+          <Toast content="Slack channel selected" onDismiss={toggleActive} />
+        )}
+      </Frame>
     </>
   );
 };

@@ -8,7 +8,7 @@ import { slackClient } from "../utilities";
  */
 export async function run({ params, logger, api, connections }) {
   // Setting the default channels array that is to be returned if there aren't any channels
-  const channels = [{ label: "None", value: "" }];
+  const channels = [];
   const shop = await api.shopifyShop.maybeFindOne(
     connections.shopify.currentShopId,
     {
@@ -35,6 +35,10 @@ export async function run({ params, logger, api, connections }) {
     }
   }
 
-  // Returning a sorted array of Slack channels
-  return channels.sort((a, b) => a.label.localeCompare(b.label));
+  // Returning a sorted array of Slack channels with a None option as the first position
+  channels
+    .sort((a, b) => a.label.localeCompare(b.label))
+    .unshift({ label: "None", value: "" });
+
+  return channels;
 }

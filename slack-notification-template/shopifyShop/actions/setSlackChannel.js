@@ -24,10 +24,12 @@ export async function run({ params, record, logger, api }) {
         });
       }
 
-      await slackClient.conversations.join({
-        token: record.slackAccessToken,
-        channel: record.slackChannelId,
-      });
+      if (record.slackChannelId) {
+        await slackClient.conversations.join({
+          token: record.slackAccessToken,
+          channel: record.slackChannelId,
+        });
+      }
       await save(record);
     } catch (error) {
       throw new Error(error);

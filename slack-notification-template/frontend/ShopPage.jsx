@@ -124,8 +124,6 @@ const SlackChannelSelectionForm = ({
     }
   }, [formState.isSubmitSuccessful]);
 
-  console.log({ options, channels, deselectedOptions, inputValue });
-
   return (
     <>
       <Form onSubmit={submit}>

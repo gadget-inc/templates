@@ -21,13 +21,11 @@ export async function run({ params, record, logger, api }) {
  */
 export async function onSuccess({ params, record, logger, api }) {
   await api.shopifySync.run({
-    shopifySync: {
-      domain: record.domain,
-      shop: {
-        _link: record.id,
-      },
-      models: ["shopifyProduct"],
+    domain: record.domain,
+    shop: {
+      _link: record.id,
     },
+    models: ["shopifyProduct"],
   });
 }
 

@@ -1,9 +1,15 @@
-import { applyParams, preventCrossShopDataAccess, save, ActionOptions, SavePrePurchaseProductShopifyShopActionContext } from "gadget-server";
+import {
+  applyParams,
+  preventCrossShopDataAccess,
+  save,
+  ActionOptions,
+  SavePrePurchaseProductShopifyShopActionContext,
+} from "gadget-server";
 
 // define a productId custom param for this action
 export const params = {
   productId: { type: "string" },
-}
+};
 
 /**
  * @param { SavePrePurchaseProductShopifyShopActionContext } context
@@ -12,7 +18,7 @@ export async function run({ params, record, logger, api }) {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
   await save(record);
-};
+}
 
 /**
  * @param { SavePrePurchaseProductShopifyShopActionContext } context
@@ -22,6 +28,7 @@ export async function onSuccess({ params, record, logger, connections }) {
   const { productId } = params;
 
   // save the selected pre-purchase product in a SHOP-owned metafield
+  // https://shopify.dev/docs/api/admin-graphql/2023-10/mutations/metafieldsset
   const response = await connections.shopify.current?.graphql(
     `mutation setMetafield($metafields: [MetafieldsSetInput!]!) {
       metafieldsSet(metafields: $metafields) {
@@ -51,11 +58,18 @@ export async function onSuccess({ params, record, logger, connections }) {
     }
   );
 
+  // just throw first error to clint
+  if (response?.metafieldsSet?.userErrors?.length) {
+    throw new Error(
+      response?.metafieldsSet?.userErrors[0]?.message
+    );
+  }
+
   // print to the Gadget Logs
   logger.info({ response }, "add metafields response");
-};
+}
 
 /** @type { ActionOptions } */
 export const options = {
-  actionType: "update"
+  actionType: "update",
 };

@@ -26,7 +26,6 @@ api_access = true
 # Loads metafields on checkout resources, including the cart,
 # products, customers, and more. Learn more:
 # https://shopify.dev/docs/api/checkout-ui-extensions/unstable/configuration#metafields
-
 [[extensions.metafields]]
 namespace = "gadget-tutorial"
 key = "pre-purchase-product"

@@ -1,4 +1,6 @@
-export async function applyTags({ record, logger, api, connections }) {
+import { logger } from "gadget-server";
+
+export async function applyTags({ record, api, connections }) {
   if (record.id && record.body && record.changed("body")) {
     // get a unique list of words used in the record's description
     let newTags = [...new Set(record.body.match(/\w+(?:'\w+)*/g))];

@@ -1,5 +1,10 @@
-import { useCallback } from "react";
-import { useFindMany, useAction, useActionForm, Controller } from "@gadgetinc/react";
+import { useCallback, useState } from "react";
+import {
+  useFindMany,
+  useAction,
+  useActionForm,
+  Controller,
+} from "@gadgetinc/react";
 import { TitleBar } from "@shopify/app-bridge-react";
 import {
   Banner,
@@ -28,16 +33,29 @@ const ErrorBanner = ({ title, error }) => {
 };
 
 const ShopPage = () => {
+  // state used to disable the tag being deleted
+  const [deletedTagId, setDeletedTagId] = useState(false);
+
   // a useFindMany hook to fetch allowedTag data
   const [{ data, fetching, error }] = useFindMany(api.allowedTag);
 
   // useActionForm used to manage form state and submission for creating new tags
-  const { submit, control, reset, error: createError, formState } = useActionForm(api.allowedTag.create);
+  const {
+    submit,
+    control,
+    reset,
+    error: createError,
+    formState,
+  } = useActionForm(api.allowedTag.create);
   // the useAction hook is used for deleting existing tags
-  const [{ error: deleteTagError }, deleteTag] = useAction(api.allowedTag.delete);
+  const [{ error: deleteTagError }, deleteTag] = useAction(
+    api.allowedTag.delete
+  );
 
   const removeTag = useCallback(
     async (id) => {
+      // set the id of the deleted tag for disabling in UI
+      setDeletedTagId(id);
       // call the deleteTag function defined with the useAction hook with the id of the tag to delete
       await deleteTag({ id });
     },
@@ -59,7 +77,9 @@ const ShopPage = () => {
             }}
           >
             <FormLayout>
-              {createError && <ErrorBanner title="Error adding keyword" error={createError} />}
+              {createError && (
+                <ErrorBanner title="Error adding keyword" error={createError} />
+              )}
               <Controller
                 name="keyword"
                 control={control}
@@ -77,7 +97,11 @@ const ShopPage = () => {
                       helpText={<span>Add a keyword</span>}
                       disabled={formState.isSubmitting}
                       connectedRight={
-                        <Button variant="primary" submit disabled={formState.isSubmitting}>
+                        <Button
+                          variant="primary"
+                          submit
+                          loading={formState.isSubmitting}
+                        >
                           Add keyword
                         </Button>
                       }
@@ -96,11 +120,22 @@ const ShopPage = () => {
                 Existing keywords
               </Text>
               {fetching && <Spinner />}
-              {error && <ErrorBanner title="Error reading tags" error={error} />}
-              {deleteTagError && <ErrorBanner title="Error removing keyword" error={deleteTagError} />}
+              {error && (
+                <ErrorBanner title="Error reading tags" error={error} />
+              )}
+              {deleteTagError && (
+                <ErrorBanner
+                  title="Error removing keyword"
+                  error={deleteTagError}
+                />
+              )}
               <InlineStack gap="100">
                 {data?.map((allowedTag, i) => (
-                  <Tag key={i} onRemove={() => removeTag(allowedTag.id)}>
+                  <Tag
+                    key={i}
+                    onRemove={() => removeTag(allowedTag.id)}
+                    disabled={allowedTag.id === deletedTagId}
+                  >
                     {allowedTag.keyword}
                   </Tag>
                 ))}

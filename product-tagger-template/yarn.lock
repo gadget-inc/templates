@@ -188,14 +188,14 @@
     "@shopify/app-bridge-utils" "^3.1.1"
     crypto-js "^4.1.1"
 
-"@gadgetinc/react@^0.14.15":
-  version "0.14.15"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.14.15.tgz#43ac5b347b3c98a9cdb8e3c107bc5cdd21119832"
-  integrity sha512-2GXQ6FrhY/43OcXmmfdjBi33LIfDe8AYyrKsT2WKO336IrlvfvC9M0Bip0cqemb7iCybS8ff6lPCjCNfokK82A==
+"@gadgetinc/react@^0.14.16":
+  version "0.14.16"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.14.16.tgz#ea21d3097cc7e60499eca5d18dafd72dcd073281"
+  integrity sha512-U7FVLC5byr5QL+GO16K1QGXymJZh66fY9aQh06IMWFGgC2zUaujHbr+GAIDa9Mxj56rpRkUDUcFJps77445/CQ==
   dependencies:
     "@gadgetinc/api-client-core" "^0.15.11"
     react-fast-compare "^3.2.2"
-    react-hook-form "^7.46.1"
+    react-hook-form "~7.48.2"
     urql "^4.0.4"
 
 "@n1ru4l/graphql-live-query-patch-jsondiffpatch@^0.8.0":
@@ -1116,7 +1116,7 @@ react-fast-compare@^3.2.0, react-fast-compare@^3.2.2:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
 
-react-hook-form@^7.46.1:
+react-hook-form@~7.48.2:
   version "7.48.2"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.48.2.tgz#01150354d2be61412ff56a030b62a119283b9935"
   integrity sha512-H0T2InFQb1hX7qKtDIZmvpU1Xfn/bdahWBN1fH19gSe4bBEqTfmlr7H3XWTaVtiK4/tpPaI1F3355GPMZYge+A==

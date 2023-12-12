@@ -14,7 +14,7 @@ export async function run({ params, record, logger, api }) {
  * @param { UpdateShopifyProductActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  await applyTags({ record, logger, api, connections });
+  await applyTags({ record, api, connections });
 };
 
 /** @type { ActionOptions } */

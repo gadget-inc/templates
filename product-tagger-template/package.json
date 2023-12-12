@@ -5,7 +5,7 @@
   "description": "Internal package for Gadget app Product Tagger Tutorial V4 (Development environment)",
   "license": "UNLICENSED",
   "dependencies": {
-    "@gadgetinc/react": "^0.14.15",
+    "@gadgetinc/react": "^0.14.16",
     "@gadgetinc/react-shopify-app-bridge": "^0.13.3",
     "@shopify/app-bridge": "3.5.0",
     "@shopify/app-bridge-react": "3.5.0",

@@ -1,0 +1,2 @@
+### Send data to Slack
+Inside the allowedTag actions you can access the record data. From here you can add slack with yarn, import it to your JS action, then use the code snippet they provide to push the allowedTags to your slack channel.

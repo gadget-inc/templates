@@ -320,7 +320,7 @@ const ShopPage = () => {
       </Page>
       <Frame>
         {active && (
-          <Toast content="Slack channel selected" onDismiss={toggleActive} />
+          <Toast content="Slack channel changed" onDismiss={toggleActive} />
         )}
       </Frame>
     </>

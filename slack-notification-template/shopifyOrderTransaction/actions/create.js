@@ -18,6 +18,8 @@ export async function run({ params, record, logger, api }) {
 
 /**
  * @param { CreateShopifyOrderTransactionActionContext } context
+ *
+ * Only running the Slack notifcation logic when the trigger is of type "shopify_webhook" so that syncs don't send old order transactions as new sale notifications.
  */
 export async function onSuccess({ params, record, logger, api, trigger }) {
   if (

@@ -23,12 +23,6 @@ export default async function route({
   const decodedString = b64.decode(request.query.state);
   const token = jwt.verify(decodedString, process.env.JWT_SECRET);
 
-  if (!process.env.SLACK_CLIENT_SECRET) {
-    throw new Error(
-      "INVALID CONFIG: Missing environment variable - SLACK_CLIENT_SECRET"
-    );
-  }
-
   /**
    * Getting the Slack access token using the temporary code returned from Slack
    *

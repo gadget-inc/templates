@@ -22,6 +22,7 @@ export async function run({ params, logger, api, connections, currentAppUrl }) {
   if (!process.env.JWT_SECRET) missingConfig = "JWT_SECRET";
   if (!process.env.SLACK_CLIENT_ID) missingConfig = "SLACK_CLIENT_ID";
   if (!process.env.SLACK_SCOPES) missingConfig = "SLACK_SCOPES";
+  if (!process.env.SLACK_CLIENT_SECRET) missingConfig = "SLACK_CLIENT_SECRET";
 
   if (missingConfig) {
     throw new Error(
@@ -29,6 +30,7 @@ export async function run({ params, logger, api, connections, currentAppUrl }) {
     );
   }
 
+  // Sending shop information as a JWT for added security. This makes sure that the shop id can't be used after an hour.
   const encodedString = b64.urlEncode(
     jwt.sign(
       { id: connections.shopify.currentShopId },

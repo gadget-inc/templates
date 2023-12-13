@@ -35,7 +35,11 @@ export async function run({ params, logger, api, connections }) {
     }
   }
 
-  // Returning a sorted array of Slack channels with a None option as the first position
+  /**
+   * Returning a sorted array of Slack channels with a None option as the first position
+   *
+   * "None selected" is used as the option to remove the Slack bot from the last channel it was on (and not join another)
+   */
   channels
     .sort((a, b) => a.label.localeCompare(b.label))
     .unshift({ label: "None selected", value: "" });

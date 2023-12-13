@@ -133,7 +133,7 @@ const ShopPage = () => {
                 {data?.map((allowedTag, i) => (
                   <Tag
                     key={i}
-                    onRemove={() => removeTag(allowedTag.id)}
+                    onRemove={allowedTag.id === deletedTagId ? null : () => removeTag(allowedTag.id)}
                     disabled={allowedTag.id === deletedTagId}
                   >
                     {allowedTag.keyword}

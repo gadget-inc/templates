@@ -58,14 +58,13 @@ export async function run({ params, logger, api, connections }) {
       );
 
       if (!activeSubscription) {
-        logger.warn(
-          logger.warn({
-            message:
-              "NO ACTIVE SUBSCRIPTION - Cannot charge overages because the shop has no active subscription",
-            shopId: shop.id,
-            in: "billingPeriodTracking.js",
-          })
-        );
+        logger.warn({
+          message:
+            "NO ACTIVE SUBSCRIPTION - Cannot charge overages because the shop has no active subscription",
+          shopId: shop.id,
+          in: "billingPeriodTracking.js",
+        });
+        continue;
       }
 
       const cappedAmount = getCappedAmount(activeSubscription);

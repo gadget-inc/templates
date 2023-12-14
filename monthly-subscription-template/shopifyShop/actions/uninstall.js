@@ -19,6 +19,7 @@ export async function run({ params, record, logger, api, connections }) {
   });
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
+
   const planMatch = await api.plan.maybeFindOne(record.planId, {
     select: {
       trialDays: true,
@@ -26,6 +27,7 @@ export async function run({ params, record, logger, api, connections }) {
   });
 
   if (planMatch) {
+    // Calculating the usedTrialMinutes value so that any subsequent install and plan selection can have a more accurate number of trial days set
     const { usedTrialMinutes } = trialCalculations(
       record.usedTrialMinutes,
       record.usedTrialMinutesUpdatedAt,
@@ -36,6 +38,7 @@ export async function run({ params, record, logger, api, connections }) {
     record.usedTrialMinutes = usedTrialMinutes;
     record.usedTrialMinutesUpdatedAt = null;
   }
+
   await save(record);
 }
 

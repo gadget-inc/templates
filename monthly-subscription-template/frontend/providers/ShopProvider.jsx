@@ -2,7 +2,7 @@ import { useFindFirst } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
-import { Banner } from "@shopify/polaris";
+import { Banner, Page, Text } from "@shopify/polaris";
 import { StyledSpinner } from "../components";
 import BillingPage from "../BillingPage";
 

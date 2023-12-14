@@ -1,5 +1,5 @@
 import { useAction, useFindMany } from "@gadgetinc/react";
-import { Banner, BlockStack, Layout, Page, Text } from "@shopify/polaris";
+import { Banner, BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
 import { api } from "./api";
 import { PlanCard, StyledSpinner } from "./components";
 import { useCallback, useContext, useEffect, useState } from "react";
@@ -133,12 +133,21 @@ export default () => {
               </Layout.Section>
             ))
           ) : (
-            <Text as="p" variant="bodyLg">
-              There are no plans in the database. Please make sure to add plans
-              using the API Playground. Since the database is split between
-              development and production, make sure to also add plans to your
-              production database once deploying and going live.
-            </Text>
+            <Card>
+              <BlockStack gap="500">
+                <Text as="p" variant="bodyMd">
+                  To complete the subscription process, you must first create a
+                  plan record. You can do this by navigating to your{" "}
+                  <strong>plan</strong> model's <strong>create</strong> action
+                  and clicking on run action on the right of the page.
+                </Text>
+                <Text as="p" variant="bodyLg">
+                  Since the database is split between development and
+                  production, make sure to also add plans to your production
+                  database once deploying and going live.
+                </Text>
+              </BlockStack>
+            </Card>
           )}
         </Layout>
       </BlockStack>

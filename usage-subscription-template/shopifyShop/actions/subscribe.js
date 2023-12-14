@@ -44,9 +44,15 @@ export async function run({
       planMatch.trialDays
     );
 
-    let price = 0;
+    let price = planMatch.pricePerOrder;
 
-    if (planMatch.pricePerOrder) {
+    if (price <= 0) {
+      throw new Error(
+        "INVALID PLAN PRICE - Plan price must be a positive non-zero number"
+      );
+    }
+
+    if (planMatch.currency !== record.currency) {
       const currencyConverter = new CurrencyConverter();
       // Get cost of plan for current shop based on the plan currency
       price = await currencyConverter

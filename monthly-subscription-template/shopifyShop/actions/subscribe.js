@@ -44,6 +44,10 @@ export async function run({
 
     let price = planMatch.monthlyPrice;
 
+    if (!price) {
+      throw new Error("ZERO COST PLAN - The price of a plan cannot be zero");
+    }
+
     if (planMatch.currency != record.currency) {
       const currencyConverter = new CurrencyConverter();
       // Get cost of plan for current shop based on the plan currency
@@ -51,10 +55,6 @@ export async function run({
         .from(planMatch.currency)
         .to(record.currency)
         .convert(planMatch.monthlyPrice);
-    }
-
-    if (!price) {
-      throw new Error("ZERO COST PLAN - The price of a plan cannot be zero");
     }
 
     /**

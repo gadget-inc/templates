@@ -1,9 +1,10 @@
-import { useFindFirst, useMaybeFindFirst } from "@gadgetinc/react";
+import { useFindFirst } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
-import { Banner, Text, Spinner, Page } from "@shopify/polaris";
+import { Banner, Text, Page } from "@shopify/polaris";
 import BillingPage from "../BillingPage";
+import { StyledSpinner } from "../components";
 
 export const ShopContext = createContext({});
 
@@ -71,6 +72,10 @@ export default ({ children }) => {
     }
   }, [fetchingShop, errorFetchingShop]);
 
+  if (fetchingShop || loading) {
+    return <StyledSpinner />;
+  }
+
   return (
     <ShopContext.Provider
       value={{
@@ -88,39 +93,25 @@ export default ({ children }) => {
           />
         </Page>
       )}
-      {!fetchingShop && !loading ? (
-        !availableTrialDays && !shop?.oneTimeChargeId ? (
-          <BillingPage />
-        ) : (
-          <>
-            {!!availableTrialDays && (
-              <Page>
-                <Banner
-                  title="Welcome to the app! You are currently on a trial period."
-                  tone="info"
-                >
-                  <Text as="p" variant="bodyMd">
-                    The trial will end in <strong>{availableTrialDays}</strong>{" "}
-                    days.
-                  </Text>
-                </Banner>
-              </Page>
-            )}
-            {children}
-          </>
-        )
+      {!availableTrialDays && !shop?.oneTimeChargeId ? (
+        <BillingPage />
       ) : (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "100%",
-            width: "100%",
-          }}
-        >
-          <Spinner accessibilityLabel="Spinner example" size="large" />
-        </div>
+        <>
+          {!!availableTrialDays && (
+            <Page>
+              <Banner
+                title="Welcome to the app! You are currently on a trial period."
+                tone="info"
+              >
+                <Text as="p" variant="bodyMd">
+                  The trial will end in <strong>{availableTrialDays}</strong>{" "}
+                  days.
+                </Text>
+              </Banner>
+            </Page>
+          )}
+          {children}
+        </>
       )}
     </ShopContext.Provider>
   );

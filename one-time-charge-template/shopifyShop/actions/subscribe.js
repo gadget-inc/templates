@@ -35,12 +35,22 @@ export async function run({
   });
 
   if (plan) {
-    const currencyConverter = new CurrencyConverter();
-    // Get cost of payment for current shop based on your choice of currency
-    const price = await currencyConverter
-      .from(plan.currency)
-      .to(record.currency)
-      .convert(plan.price); // Must be non-zero
+    let price = plan.price;
+
+    if (price <= 0) {
+      throw new Error(
+        "INVALID PLAN PRICE - Plan price must be a positive non-zero number"
+      );
+    }
+
+    if (plan.currency !== record.currency) {
+      const currencyConverter = new CurrencyConverter();
+      // Get cost of payment for current shop based on your choice of currency
+      price = await currencyConverter
+        .from(plan.currency)
+        .to(record.currency)
+        .convert(plan.price); // Must be non-zero
+    }
 
     /**
      * Create AppPurchaseOneTime record in Shopify

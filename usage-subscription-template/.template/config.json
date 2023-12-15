@@ -35,7 +35,7 @@
       "featuredFields": ["shop", "currency", "price"]
     },
     "shopifyShop": {
-      "description": "Serves as the framework for creating and storing quizzes.",
+      "description": "The default shop model with subscription fields added.",
       "featuredFields": [
         "amountUsedInPeriod",
         "usageRecords",

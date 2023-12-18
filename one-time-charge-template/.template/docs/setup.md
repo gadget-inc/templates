@@ -6,26 +6,37 @@ A list of steps that you should follow:
 
 2. Select [Public distribution](https://shopify.dev/docs/apps/distribution) in the "Distribution" tab of the Shopify Partner dashboard.
 
-3. Add `plan` records using your Gadget app's API Playground. You can access an auto-generated GraphQL mutation by navigating to the `plan` model's `create` action and clicking on the **Run action** button to the right of the screen.
+3. Add a `plan` record using your Gadget app's API Playground. You can access an auto-generated GraphQL mutation by navigating to the `plan` model's `create` action and clicking on the **Run action** button to the right of the screen.
 
 4. Using the Partner dashboard, install your Shopify app on a Shopify development store.
 
-5. Test the subscription flow by selecting one of the available plans that you added.
+5. Test the payment flow by using the following mutation. Make sure to modify the usedTrialMinutes field to match the number of trial days (in minutes) set on the shop record.
 
-## Subscription flow
+```graphql
+mutation {
+  internal {
+    updateShopifyShop(
+      id: "shopId"
 
-- The `shopifyShop` model's `subscribe` action is used when a merchant clicks the **Select** button on a plan card.
+      shopifyShop: { oneTimeChargeId: null, usedTrialMinutes: 10080 }
+    ) {
+      success
+    }
+  }
+}
+```
+
+## Payment flow
+
+- The `shopifyShop` model's `subscribe` action is used when a merchant clicks the **Buy now** button on the plan information page.
 
   Key functionality of the `subscribe` action:
 
-  - Fetches the selected plan's information
-  - Calculates the available trial days for the shop
+  - Fetches the current plan's information
   - Converts the price of the plan to the shop's currency
-  - Calls the Shopify API's AppSubscriptionCreate GraphQL mutation
-  - Updates shopifyShop record using `record.field = value` notation
+  - Calls the Shopify Billing API's appPurchaseOneTimeCreate GraphQL mutation
 
-- The user is redirected from the frontend to the subscription confirmation page
-  - If rejected, the user is sent back to the Shopify admin
+- The merchant is redirected from the frontend to the subscription confirmation page
+  - If rejected, the user is sent back to the Shopify Admin UI
   - If approved, the page is redirected to the `confirmation-callback` route
-
-- The `confirmation-callback` route makes an update to the `shopifyShop` that initiated the subscription flow and redirects to the admin embedded app
+- The `confirmation-callback` route makes an update to the `shopifyShop` that initiated the subscription flow and redirects to the Shopify Admin UI

@@ -59,12 +59,13 @@
   },
   "webflow": {
     "title": "Slack notifications",
-    "description": "Send order transaction notifications to your preferred Slack channel.",
+    "description": "Allow merchants to receive notifcations when a transaction has been completed.",
     "content": "webflow/content.md",
     "mainImage": "webflow/slack-notification-template.png",
     "features": {
       "shopify": true,
-      "frontend": true
+      "frontend": true,
+      "actions": true
     }
   }
 }

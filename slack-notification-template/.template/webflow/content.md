@@ -1,4 +1,4 @@
 - Send notifications based on the value of a Shopify order transaction
-- Customize the layout of the message
+- Customize the layout of the notification messages
 - _Tenancy enforced:_ App data will be unique to the store it is installed on.
-- _Ready-to-Use:_ No need to start from scratch – equipped with a Shopify connection and backend logic
+- _Ready-to-Use:_ No need to start from scratch – equipped with a Shopify connection, Slack OAuth and backend logic

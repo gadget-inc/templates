@@ -30,7 +30,7 @@
   "featuredActions": {
     "shopifyShop": {
       "setSlackChannel": {
-        "description": "Sets a new channel id on the shop record. It will first leave the previous Slack channel if a channel id exists.",
+        "description": "Sets a new channelId on the shop record. Leaves the existing channel if channelId is already set.",
         "tags": ["added"]
       },
       "uninstall": {

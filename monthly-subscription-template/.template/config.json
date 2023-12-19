@@ -77,7 +77,7 @@
     "title": "Monthly subscription based Shopify billing",
     "description": "Bill Shopify merchants for your app based on a monthly recurring amount.",
     "content": "webflow/content.md",
-    "mainImage": "webflow/monthly-subscription-template.png",
+    "mainImage": "webflow/monthly-recurring-billing.webp",
     "features": {
       "shopify": true,
       "frontend": true,

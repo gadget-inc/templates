@@ -1,4 +1,4 @@
-## Getting started
+# Getting started
 
 A list of steps that you should follow:
 

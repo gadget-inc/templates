@@ -1,4 +1,4 @@
-## Getting started
+# Getting started
 
 A list of steps that you should follow:
 
@@ -21,10 +21,11 @@ A list of steps that you should follow:
   - Fetches the selected plan's information
   - Calculates the available trial days for the shop
   - Converts the price of the plan to the shop's currency
-  - Calls the Shopify API's AppSubscriptionCreate GraphQL mutation
+  - Calls the Shopify API's [appSubscriptionCreate](https://shopify.dev/docs/api/admin-graphql/2023-07/mutations/appSubscriptionCreate) GraphQL mutation
   - Updates shopifyShop record using `record.field = value` notation
 
 - The user is redirected from the frontend to the subscription confirmation page
+
   - If rejected, the user is sent back to the Shopify admin
   - If approved, the page is redirected to the `confirmation-callback` route
 

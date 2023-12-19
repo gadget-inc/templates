@@ -14,7 +14,7 @@ A list of steps that you should follow:
 
 Below is a list of specifics for how to set up a Slack app for this template. First, [create your Slack app](https://api.slack.com/) by choosing the "from scratch" option, naming it and choosing a workspace to test on.
 
-- OAuth & Permissions
+- On Slack's **OAuth & Permissions** page
   - Select permissions:
     - `channels:read`: Allows your application to read a list of public Slack channels
     - `channels:join`: Allows your Slack bot to join Slack channels

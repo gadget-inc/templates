@@ -4,7 +4,7 @@
   "introduction": "docs/introduction.md",
   "featuredGlobalActions": {
     "getChannels": {
-      "description": "A global action that converts the currency of each plan to the shop's currency."
+      "description": "Fetch the available public channels for the installed Slack organization."
     },
     "getSlackAuthRedirect": {
       "description": "A global action used to create a redirect URL which starts the Slack OAuth flow."

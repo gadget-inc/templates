@@ -69,7 +69,7 @@
         "description": "Allows for plans to be displayed to merchants in your app."
       },
       "shopifyShop": {
-        "description": "Giving permissions for a shopify-app-user to use the subscribe action allows them to begin the subscription flow."
+        "description": "Allows merchants to begin your app's subscription flow."
       }
     }
   },

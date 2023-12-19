@@ -34,7 +34,7 @@
         "tags": ["added"]
       },
       "uninstall": {
-        "description": "Removes the Slack channel id from the shop record if on is set.",
+        "description": "Removes the Slack channelId from the shop record if on is set.",
         "tags": ["edited"]
       }
     },

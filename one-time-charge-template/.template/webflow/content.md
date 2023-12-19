@@ -1,4 +1,4 @@
 - Allow merchants to test your application on their store using a free trial period
 - Charge merchants once after their trial period has concluded
-- _Tenancy enforced:_ App data will be unique to the store it is installed on.
+- _Tenancy enforced:_ App data will be unique to the store it is installed on
 - _Ready-to-Use:_ No need to start from scratch – equipped with a Shopify connection, data models, and backend logic

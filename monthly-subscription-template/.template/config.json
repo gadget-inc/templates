@@ -60,7 +60,7 @@
   },
   "featuredRoutes": {
     "GET-confirmation-callback.js": {
-      "description": "The URL that continues the subscription flow when a merchant accepts the plan's terms. It links a shop record to a plan record and redirects the merchant to the Admin UI."
+      "description": "The URL called after a merchant has selected a plan and entered payment information in Shopify. It links a shop record to a plan record and redirects the merchant to the Admin UI."
     }
   },
   "featuredAccessControls": {

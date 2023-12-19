@@ -27,7 +27,7 @@
   },
   "featuredModels": {
     "plan": {
-      "description": "Used to store data about the available plans",
+      "description": "Used to store data about the available plans.",
       "featuredFields": [
         "monthlyPrice",
         "currency",

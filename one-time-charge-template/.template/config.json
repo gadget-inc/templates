@@ -4,7 +4,7 @@
   "introduction": "docs/introduction.md",
   "featuredFrontends": {
     "App.jsx": {
-      "description": "This page handles routing of the frontend pages.",
+      "description": "Contains frontend route definitions and other app setup.",
       "tags": ["edited"]
     },
     "ShopPage.jsx": {

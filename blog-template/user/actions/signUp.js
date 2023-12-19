@@ -1,4 +1,10 @@
-import { applyParams, save, ActionOptions, SignUpUserActionContext } from "gadget-server";
+import {
+  applyParams,
+  save,
+  ActionOptions,
+  SignUpUserActionContext,
+} from "gadget-server";
+import { checkForSingleUser } from "../utils/userCheck";
 
 /**
  * @param { SignUpUserActionContext } context
@@ -7,22 +13,20 @@ export async function run({ params, record, logger, api, session }) {
   applyParams(params, record);
   record.lastSignedIn = new Date();
 
-  /**
-   * AUTHOR_EMAIL is a "whitelist" of users who can sign in and write blog posts
-   * Currently uses an environment variable to store a single email
-   * Could also be stored in a model
-   */
-  if (record.email === process.env.AUTHOR_EMAIL) {
+  const doesUserExist = await checkForSingleUser({ api });
+  if (!doesUserExist) {
     await save(record);
     // associate the current user record with the active session
     if (record.emailVerified) {
       session?.set("user", { _link: record.id });
     }
     return {
-      result: "ok"
-    }
+      result: "ok",
+    };
+  } else {
+    throw new Error("User not authorized - check with app owner")
   }
-};
+}
 
 /**
  * @param { SignUpUserActionContext } context
@@ -32,10 +36,10 @@ export async function onSuccess({ params, record, logger, api }) {
   if (!record.emailVerified) {
     await api.user.sendVerifyEmail({ email: record.email });
   }
-};
+}
 
 /** @type { ActionOptions } */
 export const options = {
   actionType: "create",
-  returnType: true
+  returnType: true,
 };

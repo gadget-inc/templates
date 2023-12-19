@@ -1,0 +1,18 @@
+{
+  "version": "v1",
+  "setup": "docs/Setup.md",
+  "introduction": "docs/Intro.md",
+
+
+  "webflow": {
+    "title": "CRUD Blog with authentication",
+    "description": "This template shows how CRUD actions work in Gadget with public and protected routes.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/crud-blog.webp",
+    "features": {
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

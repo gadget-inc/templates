@@ -4,7 +4,7 @@
   "introduction": "docs/introduction.md",
   "featuredGlobalActions": {
     "planCurrencyToShopCurrency": {
-      "description": "A global action that converts the currency of each plan to the shop's currency."
+      "description": "Converts the currency of each plan to the shop's currency."
     }
   },
   "featuredFrontends": {

@@ -65,7 +65,7 @@
   "featuredAccessControls": {
     "shopify-app-users": {
       "plan": {
-        "description": "The ability to read plans allows merchants to select a plan from a list.",
+        "description": "Allows for plans to be displayed to merchants in your app.",
         "featuredFields": ["read"]
       }
     }

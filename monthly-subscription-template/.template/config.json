@@ -17,7 +17,7 @@
       "tags": ["edited"]
     },
     "BillingPage.jsx": {
-      "description": "The page that renders plans and allows merchants to change between them.",
+      "description": "The page that allows merchants to select a subscription plan.",
       "tags": ["added"]
     },
     "providers/ShopProvider.jsx": {

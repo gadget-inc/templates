@@ -7,8 +7,8 @@
   "dependencies": {
     "@gadget-client/carrier-service-template": "link:.gadget/client",
     "@gadgetinc/auth": "^0.4.0",
-    "@gadgetinc/react": "^0.13.0",
-    "@gadgetinc/react-shopify-app-bridge": "^0.11.0",
+    "@gadgetinc/react": "^0.14.16",
+    "@gadgetinc/react-shopify-app-bridge": "^0.13.3",
     "@shopify/app-bridge": "3.5.0",
     "@shopify/app-bridge-react": "3.5.0",
     "@shopify/polaris": "^12.6.0",

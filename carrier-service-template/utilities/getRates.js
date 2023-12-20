@@ -22,7 +22,7 @@ export default async ({ destination, origin, packages, accessToken }) => {
         },
         body: JSON.stringify({
           accountNumber: {
-            value: process.env.FEDEX_SHIPPING_ACCOUNT_NUMBER,
+            value: process.env.FEDEX_ACCOUNT_NUMBER,
           },
           requestedShipment: {
             shipper: {

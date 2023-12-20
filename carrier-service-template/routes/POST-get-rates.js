@@ -14,6 +14,19 @@ import {
  * @see {@link https://www.fastify.dev/docs/latest/Reference/Reply}
  */
 module.exports = async ({ request, reply, api, logger }) => {
+  let missingConfig;
+
+  if (!process.env.FEDEX_ACCOUNT_NUMBER) missingConfig = "FEDEX_ACCOUNT_NUMBER";
+  if (!process.env.FEDEX_SECRET_KEY) missingConfig = "FEDEX_SECRET_KEY";
+  if (!process.env.FEDEX_API_KEY) missingConfig = "FEDEX_API_KEY";
+
+  if (missingConfig) {
+    await reply.code(500).send();
+    throw new Error(
+      `INVALID CONFIG: Missing environment variable - ${missingConfig}`
+    );
+  }
+
   const { destination, origin, items } = request.body.rate; // Data coming from the Shopify request
   const accessToken = await getAccessToken(); // Generating access token using the Fedex API
 

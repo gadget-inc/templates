@@ -1,0 +1,68 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+  background-image: url("./assets/default-background.svg");
+  background-size: cover;
+}
+
+.app-content {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background: radial-gradient(ellipse at center, white 0.5rem, rgb(0, 0, 0, 0) 40rem);
+}
+
+.app-logo {
+  height: 5rem;
+  margin: 0 auto;
+  display: block;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .app-logo {
+    animation: app-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes app-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.text {
+  display: inline;
+  font-family: system-ui;
+}
+
+.app-link {
+  font-family: system-ui;
+  font-weight: bold;
+  font-size: larger;
+  margin: 1rem;
+}
+
+a {
+  color: #000000;
+}
+
+.environment {
+  font-weight: 250;
+}
+
+.development {
+  color: #87550b;
+  text-transform: capitalize;
+}
+
+.production {
+  color: #5d39bb;
+  text-transform: capitalize;
+}

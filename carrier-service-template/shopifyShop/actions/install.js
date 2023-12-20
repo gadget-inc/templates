@@ -1,5 +1,12 @@
-import { transitionState, applyParams, save, ActionOptions, ShopifyShopState, InstallShopifyShopActionContext } from "gadget-server";
-import { default as saveCarrierServiceId } from "./onInstallSuccess"
+import {
+  transitionState,
+  applyParams,
+  save,
+  ActionOptions,
+  ShopifyShopState,
+  InstallShopifyShopActionContext,
+} from "gadget-server";
+import { createCarrierService } from "../helpers";
 
 /**
  * @param { InstallShopifyShopActionContext } context
@@ -21,13 +28,13 @@ export async function onSuccess({
   connections,
   currentAppUrl,
 }) {
-  await saveCarrierServiceId({
-    params,
-    record,
-    logger,
-    api,
-    connections,
+  const carrierServiceId = await createCarrierService({
+    shopify: connections.shopify.current,
     currentAppUrl,
+  });
+
+  await api.internal.shopifyShop.update(record.id, {
+    carrierServiceId,
   });
 }
 

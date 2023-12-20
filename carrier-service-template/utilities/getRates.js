@@ -59,11 +59,11 @@ export default async ({ destination, origin, packages, accessToken }) => {
       }
     );
 
-    const result = await res.json()
+    const result = await res.json();
 
     return result.output.rateReplyDetails || [];
   } catch (error) {
-    logger.info(error, "ERROR");
+    logger.error(error);
     return [];
   }
 };

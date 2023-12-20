@@ -371,30 +371,27 @@
     base64url "^3.0.1"
     web-vitals "^3.0.1"
 
-"@shopify/polaris-icons@6.10.0":
-  version "6.10.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-6.10.0.tgz#e7dc35bcd7d654dcf32742cead46daaaa65d292c"
-  integrity sha512-DU2QKWoAbTw1avkE/hN0baHPiUXLpJn4iFKTPQA+7T/QeE8EcT6oGZ0XTHQ3aqHoTKXti9ILOFya1QE7tf64XQ==
+"@shopify/polaris-icons@^7.13.0":
+  version "7.13.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-7.13.0.tgz#7c2c3a5ae56b8285a8853470aba9ebbe28d1b70d"
+  integrity sha512-+KW2GbEDtw0WzfQlslk3Qo76lf609NvK14eBPCMCYkDP16zPfT4ydui1wRqpRPSCaW1oFOnX3A8bNpwKzOVM0Q==
 
-"@shopify/polaris-icons@^6.13.0":
-  version "6.16.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-6.16.0.tgz#47000cd96bcfcf38efda747482a7ec343c735fd5"
-  integrity sha512-vEF/6yVSvgPTBgWDbpmcPsZvTyKu+2BeuTYo7Ys6vDTY8ZSQSpK+/uhdT3CJ0WSTr4yibnXeWP6eqssqBmJWtg==
-
-"@shopify/polaris-tokens@^6.10.0":
-  version "6.14.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-6.14.0.tgz#c942fcfca069a301a38c61aa05a85d5f744ef9d1"
-  integrity sha512-eMa9X0QzOB3o/4O1ATcPKpc4NPqm57lpaqiRkRu8XRkKzwH+kL9J6vI8YNnDbePfndMNAA9MRp0HR1XqaPxCMg==
-
-"@shopify/polaris@10.45.0":
-  version "10.45.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-10.45.0.tgz#10b24ddb2a91bbc5e2154628b488e011a7654c1a"
-  integrity sha512-F7GmsVsGat1GH++sqXlgn1iNpn/Wv/VAx5dnZ1+QaGsj2t9dbtLz1kWlfgpqeNfazxom09Gs0iLsBmUSmxWOfg==
+"@shopify/polaris-tokens@^8.4.0":
+  version "8.4.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-8.4.0.tgz#7b10db1ca75c1eede168ea91d9afb00086a1e5ac"
+  integrity sha512-PJ7+8+do5apIImOGEjYny62TdZ6f0xoLBDhp4Ho6dXQ4Nls/zP9d7WPLyG40s9RMFB4BuQq0fuOrfWe6duWnzw==
   dependencies:
-    "@shopify/polaris-icons" "^6.13.0"
-    "@shopify/polaris-tokens" "^6.10.0"
-    "@types/react" "^18.0.15"
-    "@types/react-dom" "^18.0.6"
+    deepmerge "^4.3.1"
+
+"@shopify/polaris@^12.6.0":
+  version "12.6.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-12.6.0.tgz#37a71add829742058eb105333f2cce0af3256268"
+  integrity sha512-edNIjX4Tr7eSr5HutoqUkMAE8p38H62DXGHrHv1R9M4flXC/mSReHRK5G9fiMw9UnCm5XoxJJqrAKAkzxMzsyA==
+  dependencies:
+    "@shopify/polaris-icons" "^7.13.0"
+    "@shopify/polaris-tokens" "^8.4.0"
+    "@types/react" "^18.2.0"
+    "@types/react-dom" "^18.2.0"
     "@types/react-transition-group" "^4.4.2"
     react-fast-compare "^3.2.0"
     react-transition-group "^4.4.2"
@@ -516,10 +513,17 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
-"@types/react-dom@^18.0.11", "@types/react-dom@^18.0.6":
+"@types/react-dom@^18.0.11":
   version "18.2.7"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.7.tgz#67222a08c0a6ae0a0da33c3532348277c70abb63"
   integrity sha512-GRaAEriuT4zp9N4p1i8BDBYmEyfo+xQ3yHjJU4eiK5NDa1RmUZG+unZABUTK4/Ox/M+GaHwb6Ow8rUITrtjszA==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-dom@^18.2.0":
+  version "18.2.18"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.18.tgz#16946e6cd43971256d874bc3d0a72074bb8571dd"
+  integrity sha512-TJxDm6OfAX2KJWJdMEVTwWke5Sc/E/RlnPGvGfS0W7+6ocy2xhDVQVh/KvC2Uf7kACs+gDytdusDSdWfWkaNzw==
   dependencies:
     "@types/react" "*"
 
@@ -530,10 +534,19 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.0.15", "@types/react@^18.0.28":
+"@types/react@*", "@types/react@^18.0.28":
   version "18.2.15"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.15.tgz#14792b35df676c20ec3cf595b262f8c615a73066"
   integrity sha512-oEjE7TQt1fFTFSbf8kkNuc798ahTUzn3Le67/PWjE8MAfYAD/qB7O8hSTcromLFqHCt9bcdOg5GXMokzTjJ5SA==
+  dependencies:
+    "@types/prop-types" "*"
+    "@types/scheduler" "*"
+    csstype "^3.0.2"
+
+"@types/react@^18.2.0":
+  version "18.2.45"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.45.tgz#253f4fac288e7e751ab3dc542000fb687422c15c"
+  integrity sha512-TtAxCNrlrBp8GoeEp1npd5g+d/OejJHFxS3OWmrPBMFaVQMSN0OFySozJio5BHxTuTeug00AVXVAjfDSfk+lUg==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -749,6 +762,11 @@ deep-equal@^2.2.0:
     which-boxed-primitive "^1.0.2"
     which-collection "^1.0.1"
     which-typed-array "^1.1.9"
+
+deepmerge@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.3.1.tgz#44b5f2147cd3b00d4b56137685966f26fd25dd4a"
+  integrity sha512-3sUqbMEc77XqpdNO7FRyRog+eW3ph+GYCbj+rK+uYyRMuwsVy0rMiVtPn+QJlKFvWP/1PYpapqYn0Me2knFn+A==
 
 defer-to-connect@^2.0.0:
   version "2.0.1"

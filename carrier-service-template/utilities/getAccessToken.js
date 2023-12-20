@@ -26,13 +26,11 @@ export default async () => {
       method: "POST",
     });
 
-    const result = await res.json()
-
-    logger.info({ result }, "GET ACCESS TOKEN RESULT")
+    const result = await res.json();
 
     return result.access_token;
   } catch (error) {
-    logger.error(error, "ERROR GETTING ACCESS TOKEN CALL");
+    logger.error(error);
     return null;
   }
 };

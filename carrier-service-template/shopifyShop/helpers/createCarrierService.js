@@ -4,7 +4,7 @@ export default async ({ shopify, currentAppUrl }) => {
     name: "carrier-service-template",
     service_discovery: true,
     // This callback URL is dynamically sent according to the environment being used. Note the difference in URLs (--development)
-    callback_url: `${currentAppUrl}get-rates`,
+    callback_url: `${currentAppUrl}rates`,
   });
 
   return service.id.toString();

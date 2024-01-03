@@ -33,6 +33,9 @@ export default async () => {
 
     const result = await res.json();
 
+    if (process.env.NODE_ENV === "development")
+      logger.info(result, "getAccessToken.js");
+
     return result.access_token;
   } catch (error) {
     logger.error(error);

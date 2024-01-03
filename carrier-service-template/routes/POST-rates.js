@@ -51,7 +51,7 @@ module.exports = async ({ request, reply, api, logger }) => {
       await reply.code(200).send({ rates: ratesToShopifyRates(rates) });
     } else {
       // If this error was returned, the Fedex test API is most likely experiencing issues
-      await reply.code(503).send();
+      await reply.code(500).send();
     }
   } else {
     await reply.code(500).send();

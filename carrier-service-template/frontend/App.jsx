@@ -83,7 +83,7 @@ function EmbeddedApp() {
       <NavigationMenu
         navigationLinks={[
           {
-            label: "Template intro",
+            label: "Next steps",
             destination: "/",
           },
         ]}

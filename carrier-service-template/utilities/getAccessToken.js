@@ -17,14 +17,19 @@ export default async () => {
     }
     formBody = formBody.join("&");
 
-    // Requesting an access code from the Fedex (test) API
-    const res = await fetch("https://apis-sandbox.fedex.com/oauth/token", {
-      headers: {
-        "content-type": "application/x-www-form-urlencoded",
-      },
-      body: formBody,
-      method: "POST",
-    });
+    // Requesting an access code from the Fedex API
+    const res = await fetch(
+      process.env.NODE_ENV === "development"
+        ? "https://apis-sandbox.fedex.com/oauth/token"
+        : "https://apis.fedex.com/oauth/token",
+      {
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+        },
+        body: formBody,
+        method: "POST",
+      }
+    );
 
     const result = await res.json();
 

@@ -13,7 +13,9 @@ const formatAddresses = (addresses) => {
 export default async ({ destination, origin, packages, accessToken }) => {
   try {
     const res = await fetch(
-      "https://apis-sandbox.fedex.com/rate/v1/rates/quotes",
+      process.env.NODE_ENV === "development"
+        ? "https://apis-sandbox.fedex.com/rate/v1/rates/quotes"
+        : "https://apis.fedex.com/rate/v1/rates/quotes",
       {
         method: "POST",
         headers: {

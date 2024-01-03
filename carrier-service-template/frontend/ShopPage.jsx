@@ -7,6 +7,11 @@ import {
   DescriptionList,
 } from "@shopify/polaris";
 
+/**
+ * This component is the main page of the carrier service app. After forking, it has information on the necessary components of the carrier service app and links to Shopify and FedEx documentation.
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 const ShopPage = () => {
   return (
     <Page

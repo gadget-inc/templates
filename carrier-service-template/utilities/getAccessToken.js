@@ -9,13 +9,13 @@ export default async () => {
       client_id: process.env.FEDEX_API_KEY,
       client_secret: process.env.FEDEX_SECRET_KEY,
     };
+
     for (const property in details) {
       // Looping over details to form and encoded string
       const encodedKey = encodeURIComponent(property);
       const encodedValue = encodeURIComponent(details[property]);
       formBody.push(encodedKey + "=" + encodedValue);
     }
-    formBody = formBody.join("&");
 
     // Requesting an access code from the Fedex API
     const res = await fetch(
@@ -26,7 +26,7 @@ export default async () => {
         headers: {
           "content-type": "application/x-www-form-urlencoded",
         },
-        body: formBody,
+        body: formBody.join("&"),
         method: "POST",
       }
     );

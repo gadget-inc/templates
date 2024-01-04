@@ -107,7 +107,7 @@ export default async ({ destination, origin, packages, accessToken }) => {
 
     const result = await res.json();
 
-    if (development) logger.info(result, "getRates.js");
+    if (development) logger.info({ result }, "getRates.js");
 
     return result?.output?.rateReplyDetails || [];
   } catch (error) {

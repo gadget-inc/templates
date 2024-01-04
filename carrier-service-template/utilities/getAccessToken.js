@@ -11,7 +11,7 @@ export default async () => {
     };
 
     for (const property in details) {
-      // Looping over details to form and encoded string
+      // Looping over details to form an encoded string
       const encodedKey = encodeURIComponent(property);
       const encodedValue = encodeURIComponent(details[property]);
       formBody.push(encodedKey + "=" + encodedValue);
@@ -34,7 +34,7 @@ export default async () => {
     const result = await res.json();
 
     if (process.env.NODE_ENV === "development")
-      logger.info(result, "getAccessToken.js");
+      logger.info({ result }, "getAccessToken.js");
 
     return result.access_token;
   } catch (error) {

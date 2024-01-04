@@ -1,6 +1,6 @@
 # Carrier Service Template
 
-This application is meant to be used as starter code for implementing your own carrier service. It uses the Fedex API to query for rates. These Fedex rates are then formatted in a Shopify-specific way to then be used on the storefront's checkout page.
+This application is meant to be used as starter code for implementing a carrier service. It uses the FedEx API to query for rates. These FedEx rates are then formatted in a Shopify-specific way to be used on the storefront's checkout page.
 
 Keep in mind that this tutorial is heavily dependent on how you set up the shipping and delivery settings in your store. Make sure to follow these tutorials to make sure that you have set up the store correctly.
 
@@ -10,8 +10,8 @@ Keep in mind that this tutorial is heavily dependent on how you set up the shipp
 
 Fedex-related links:
 
-- [Fedex API authorization](https://developer.fedex.com/api/en-us/catalog/authorization/v1/docs.html)
-- [Fedex rates and transit time API](https://developer.fedex.com/api/en-us/catalog/rate/v1/docs.html)
+- [FedEx API authorization](https://developer.fedex.com/api/en-us/catalog/authorization/v1/docs.html)
+- [FedEx rates and transit time API](https://developer.fedex.com/api/en-us/catalog/rate/v1/docs.html)
 
 ## Routes
 
@@ -37,7 +37,7 @@ Recommendations:
 Application Setup:
 
 - Create a new Shopify app and connect it to your Gadget app's development environment. **Do not yet install the app on a development store**
-- Create a **Fedex Developer Portal** account and a project
+- Create a **FedEx Developer Portal** account and a project
 - Fill in the environment variables
 - Install the app on your development store. Make sure to view the Gadget logs to make sure that no errors have occurred on installation
 - Test the app to make sure that the development store and application are configured correctly

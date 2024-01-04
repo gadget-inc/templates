@@ -1,13 +1,14 @@
+{% assign quizSlug = section.settings.quiz_slug %}
 <link rel="stylesheet" href="{{ 'section-main-page.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'component-rte.css' | asset_url }}" media="print" onload="this.media='all'">
 
 <!-- Find your direct script tag in the Installing section in your Gadget project's API Reference -->
 <script
-  src="https://zxcv-product-quiz-tutorial-v4--development.gadget.app/api/client/web.min.js"
+  src="{{ YOUR PROJECT SCRIPT URL }}"
   defer="defer"
 ></script>
 <script>
-  window.quizSlug = undefined;
+  window.quizSlug = `{{ quizSlug }}`;
 </script>
 
 <script src="{{ 'product-quiz.js' | asset_url }}" defer="defer"></script>
@@ -51,9 +52,16 @@
 </div>
 
 {% schema %}
-{
-"name": "t:sections.quiz-page.name",
-"tag": "section",
-"class": "spaced-section"
-}
-{% endschema %}
+  {
+    "name": "Quiz",
+    "tag": "section",
+    "class": "spaced-section",
+    "settings": [
+      {
+        "id": "quiz_slug",
+        "type": "text",
+        "label": "Enter quiz id"
+      }
+    ]
+  }
+  {% endschema %}

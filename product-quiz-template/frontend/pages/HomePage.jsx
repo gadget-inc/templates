@@ -1,9 +1,4 @@
-import {
-  LegacyCard,
-  Layout,
-  Tabs,
-  Card
-} from "@shopify/polaris";
+import { Layout, Tabs, Card } from "@shopify/polaris";
 import { useCallback } from "react";
 import { useState } from "react";
 import { PageTemplate } from "../components/PageTemplate";
@@ -15,37 +10,35 @@ export default function HomePage() {
 
   const handleTabChange = useCallback(
     (selectedTabIndex) => setSelected(selectedTabIndex),
-    [],
+    []
   );
 
   const tabs = [
     {
-      id: 'quiz-setup',
-      content: 'Setup',
-      panelID: 'quiz-setup-content',
+      id: "quiz-setup",
+      content: "Setup",
+      panelID: "quiz-setup-content",
     },
     {
-      id: 'quiz-install',
-      content: 'Install',
-      panelID: 'quiz-install-content',
+      id: "quiz-install",
+      content: "Install",
+      panelID: "quiz-install-content",
     },
   ];
 
-  const tabPanels = [
-    (
-      <SetupTab />
-    ),
-    (
-      <InstallTab />
-    )
-  ];
+  const tabPanels = [<SetupTab />, <InstallTab />];
 
   return (
     <PageTemplate>
       <Layout>
         <Layout.Section>
           <Card>
-            <Tabs tabs={tabs} selected={selected} onSelect={handleTabChange} fitted>
+            <Tabs
+              tabs={tabs}
+              selected={selected}
+              onSelect={handleTabChange}
+              fitted
+            >
               {tabPanels[selected]}
             </Tabs>
           </Card>

@@ -15,9 +15,7 @@ ReactDOM.createRoot(root).render(
   <React.StrictMode>
     <AppProvider i18n={enTranslations}>
       <BrowserRouter>
-        <Provider api={api}>
-          <App />
-        </Provider>
+        <App />
       </BrowserRouter>
     </AppProvider>
   </React.StrictMode>

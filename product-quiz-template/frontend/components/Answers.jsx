@@ -40,7 +40,6 @@ export function Answers({
   products,
   control,
   errors,
-  getValues,
   watch,
 }) {
   const {
@@ -74,37 +73,45 @@ export function Answers({
                 control={control}
                 name={`${name}.${i}.text`}
                 rules={{ required: "Required" }}
-                render={({ field }) => (
-                  <TextField
-                    requiredIndicator
-                    label={`Answer ${i + 1}`}
-                    autoComplete="off"
-                    {...field}
-                    error={
-                      errors.quiz?.questions?.[questionIndex]?.answers?.[i]
-                        ?.text?.message
-                    }
-                  />
-                )}
+                render={({ field }) => {
+                  const { ref, ...fieldProps } = field;
+
+                  return (
+                    <TextField
+                      requiredIndicator
+                      label={`Answer ${i + 1}`}
+                      autoComplete="off"
+                      {...fieldProps}
+                      error={
+                        errors.quiz?.questions?.[questionIndex]?.answers?.[i]
+                          ?.text?.message
+                      }
+                    />
+                  );
+                }}
               />
 
               <Controller
                 control={control}
                 name={`${name}.${i}.recommendedProduct.productSuggestion.id`}
                 rules={{ required: "Required" }}
-                render={({ field }) => (
-                  <Select
-                    label="Recommended product"
-                    placeholder="-"
-                    options={productsOptions}
-                    requiredIndicator
-                    error={
-                      errors.quiz?.questions?.[questionIndex]?.answers?.[i]
-                        ?.recommendedProduct?.productSuggestion?.id?.message
-                    }
-                    {...field}
-                  />
-                )}
+                render={({ field }) => {
+                  const { ref, ...fieldProps } = field;
+
+                  return (
+                    <Select
+                      label="Recommended product"
+                      placeholder="-"
+                      options={productsOptions}
+                      requiredIndicator
+                      error={
+                        errors.quiz?.questions?.[questionIndex]?.answers?.[i]
+                          ?.recommendedProduct?.productSuggestion?.id?.message
+                      }
+                      {...fieldProps}
+                    />
+                  );
+                }}
               />
             </FormLayout.Group>
 

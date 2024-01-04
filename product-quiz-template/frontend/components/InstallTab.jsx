@@ -20,7 +20,6 @@ export function InstallTab() {
 
   const [storeResponse] = useFindFirst(api.shopifyShop, {
     select: {
-      __typename: true,
       id: true,
       domain: true,
       themes: {

@@ -165,7 +165,7 @@
   dependencies:
     fastify-plugin "^4.0.0"
 
-"@gadget-client/zxcv-product-quiz-v5@link:.gadget/client":
+"@gadget-client/product-quiz-v5@link:.gadget/client":
   version "0.0.0"
   uid ""
 

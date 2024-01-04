@@ -1,14 +1,6 @@
 import { api } from "../api";
-import { useAction } from "@gadgetinc/react";
 
-import {
-  Text,
-  Layout,
-  Card,
-  Spinner,
-  Banner,
-  BlockStack,
-} from "@shopify/polaris";
+import { Text, Layout, Card, Spinner, BlockStack } from "@shopify/polaris";
 import { PageTemplate } from "../components/PageTemplate";
 import { QuizForm } from "../components/QuizForm";
 
@@ -51,7 +43,7 @@ export default function CreateQuizPage() {
     if (data) {
       navigate("/");
     } else {
-      console.log("error submitting form", error);
+      console.error("error submitting form", error);
     }
   }, []);
 
@@ -73,11 +65,6 @@ export default function CreateQuizPage() {
     <PageTemplate>
       <Layout sectioned>
         <Layout.Section>
-          {/* {createQuizResponse.error && (
-            <Banner title="Error on quiz creation" status="critical">
-              <p>{createQuizResponse.error.message}</p>
-            </Banner>
-          )} */}
           <Card>
             <Text as="h2" variant="headingLg">
               Create a new quiz

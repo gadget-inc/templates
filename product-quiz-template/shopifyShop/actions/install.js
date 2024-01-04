@@ -1,4 +1,11 @@
-import { applyParams, save, transitionState, ActionOptions, ShopifyShopState, InstallShopifyShopActionContext } from "gadget-server";
+import {
+  applyParams,
+  save,
+  transitionState,
+  ActionOptions,
+  ShopifyShopState,
+  InstallShopifyShopActionContext,
+} from "gadget-server";
 
 /**
  * @param { InstallShopifyShopActionContext } context
@@ -7,7 +14,7 @@ export async function run({ params, record, logger, api }) {
   transitionState(record, { to: ShopifyShopState.Installed });
   applyParams(params, record);
   await save(record);
-};
+}
 
 /**
  * @param { InstallShopifyShopActionContext } context
@@ -20,12 +27,12 @@ export async function onSuccess({ params, record, logger, api }) {
       shop: {
         _link: record.id,
       },
-      models: ["shopifyProduct"],
+      models: ["shopifyProduct", "shopifyTheme", "shopifyAsset"],
     },
   });
-};
+}
 
 /** @type { ActionOptions } */
 export const options = {
-  actionType: "create"
+  actionType: "create",
 };

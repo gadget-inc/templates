@@ -1,19 +1,11 @@
 import { api } from "../api";
-import { useAction } from "@gadgetinc/react";
 
-import {
-  Text,
-  Layout,
-  Card,
-  Spinner,
-  Banner,
-  BlockStack,
-} from "@shopify/polaris";
+import { Text, Layout, Card, Spinner, BlockStack } from "@shopify/polaris";
 import { PageTemplate } from "../components/PageTemplate";
 import { QuizForm } from "../components/QuizForm";
 
-import { useCallback, useEffect } from "react";
-import { useActionForm, useFindOne } from "@gadgetinc/react";
+import { useCallback } from "react";
+import { useActionForm } from "@gadgetinc/react";
 import { useNavigate } from "@shopify/app-bridge-react";
 import { useParams } from "react-router-dom";
 
@@ -60,7 +52,6 @@ export default function EditQuizPage() {
   });
 
   const saveQuiz = useCallback(async () => {
-    console.log("submitting", getValues());
     const result = await submit();
 
     if (!result) {
@@ -72,7 +63,7 @@ export default function EditQuizPage() {
     if (data) {
       navigate("/");
     } else {
-      console.log("error submitting form", error);
+      console.error("error submitting form", error);
     }
   });
 

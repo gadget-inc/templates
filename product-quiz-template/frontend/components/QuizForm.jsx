@@ -69,30 +69,38 @@ export function QuizForm({
           name="quiz.title"
           control={control}
           rules={{ required: "Name is required" }}
-          render={({ field }) => (
-            <TextField
-              requiredIndicator
-              label="Name"
-              autoComplete="off"
-              error={errors.quiz?.title?.message}
-              {...field}
-            />
-          )}
+          render={({ field }) => {
+            const { ref, ...fieldProps } = field;
+
+            return (
+              <TextField
+                requiredIndicator
+                label="Name"
+                autoComplete="off"
+                error={errors.quiz?.title?.message}
+                {...fieldProps}
+              />
+            );
+          }}
         />
 
         <Controller
           name="quiz.body"
           control={control}
           rules={{ required: "Description is required" }}
-          render={({ field }) => (
-            <TextField
-              requiredIndicator
-              label="Description"
-              autoComplete="off"
-              error={errors.quiz?.body?.message}
-              {...field}
-            />
-          )}
+          render={({ field }) => {
+            const { ref, ...fieldProps } = field;
+
+            return (
+              <TextField
+                requiredIndicator
+                label="Description"
+                autoComplete="off"
+                error={errors.quiz?.body?.message}
+                {...fieldProps}
+              />
+            );
+          }}
         />
 
         <Text variant="headingMd" as="h2">
@@ -118,15 +126,19 @@ export function QuizForm({
                 name={`quiz.questions.${i}.text`}
                 control={control}
                 rules={{ required: "Field is required" }}
-                render={({ field }) => (
-                  <TextField
-                    requiredIndicator
-                    label="Question"
-                    autoComplete="off"
-                    error={errors.quiz?.questions?.[i]?.text?.message}
-                    {...field}
-                  />
-                )}
+                render={({ field }) => {
+                  const { ref, ...fieldProps } = field;
+
+                  return (
+                    <TextField
+                      requiredIndicator
+                      label="Question"
+                      autoComplete="off"
+                      error={errors.quiz?.questions?.[i]?.text?.message}
+                      {...fieldProps}
+                    />
+                  );
+                }}
               />
 
               <Answers

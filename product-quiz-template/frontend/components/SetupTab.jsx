@@ -1,13 +1,11 @@
 import {
-  LegacyCard,
-  Layout,
   Text,
   Button,
   Spinner,
   BlockStack,
   Card,
   InlineGrid,
-  InlineStack
+  InlineStack,
 } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 import { useFindMany, useAction, useFindFirst } from "@gadgetinc/react";
@@ -26,11 +24,11 @@ export function SetupTab() {
       themes: {
         edges: {
           node: {
-            usingOnlineStore2: true
-          }
-        }
-      }
-    }
+            usingOnlineStore2: true,
+          },
+        },
+      },
+    },
   });
 
   const [quizResponse] = useFindMany(api.quiz, {
@@ -39,7 +37,7 @@ export function SetupTab() {
       id: true,
       title: true,
       body: true,
-      slug: true
+      slug: true,
     },
   });
 
@@ -81,22 +79,24 @@ export function SetupTab() {
           const isDeleting = markedForDelete === quiz.id;
           return (
             <Card key={i} sectioned subdued>
-              <InlineGrid columns={['twoThirds', 'oneThird']} gap="200">
+              <InlineGrid columns={["twoThirds", "oneThird"]} gap="200">
                 {isDeleting ? (
                   <BlockStack inlineAlign="center">
                     <Spinner /> <span>Deleting...</span>
                   </BlockStack>
-                ) : <BlockStack>
-                  <InlineStack gap="200">
-                    <Text variant="headingMd" as="h2">
-                      {quiz.title}
-                    </Text>
-                    <Text variant="bodyXs" as="p" tone="subdued">
-                      {quiz.slug}
-                    </Text>
-                  </InlineStack>
-                  <Text as="p">{quiz.body}</Text>
-                </BlockStack>}
+                ) : (
+                  <BlockStack>
+                    <InlineStack gap="200">
+                      <Text variant="headingMd" as="h2">
+                        {quiz.title}
+                      </Text>
+                      <Text variant="bodyXs" as="p" tone="subdued">
+                        {quiz.slug}
+                      </Text>
+                    </InlineStack>
+                    <Text as="p">{quiz.body}</Text>
+                  </BlockStack>
+                )}
 
                 <BlockStack gap="200">
                   <Button

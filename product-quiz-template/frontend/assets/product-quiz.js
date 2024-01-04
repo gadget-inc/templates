@@ -14,14 +14,18 @@ async function fetchRecommendedProducts(answerIds) {
     select: {
       recommendedProduct: {
         id: true,
-        image: {
-          url: true,
-        },
         productSuggestion: {
           id: true,
           title: true,
           body: true,
           handle: true,
+          images: {
+            edges: {
+              node: {
+                source: true,
+              },
+            },
+          },
         },
       },
     },
@@ -52,11 +56,13 @@ async function fetchQuiz(quizSlug) {
                 },
               },
             },
-          }
-        }
+          },
+        },
       },
     },
-  })
+  });
+
+  window.quizId = quiz.id; // save the quiz ID for later use
 
   return quiz;
 }
@@ -100,11 +106,11 @@ async function onSubmitHandler(evt) {
 
   recommendedProducts.forEach((result) => {
     const { recommendedProduct } = result;
-    const imgUrl = recommendedProduct.image?.url;
+    const imgUrl =
+      recommendedProduct.productSuggestion.images?.edges?.[0]?.node?.source;
     const productLink = recommendedProduct.productSuggestion.handle;
     recommendedProductHTML +=
       `<span style="padding: 8px 16px; margin-left: 10px; border: black 1px solid; align-items: center; display: flex; flex-direction: column"><h3>${recommendedProduct.productSuggestion.title}</h3><a class="button" href="/products/${productLink}">Check it out</a>` +
-      recommendedProduct.productSuggestion.body +
       `<br/><img src=${imgUrl} width="200px" /><br /></span>`;
   });
 
@@ -124,10 +130,11 @@ function selectAnswer(answerId, answerText) {
   parent.innerHTML = "<h3><b>" + decodeURI(answerText) + "</b> selected</h3>";
 }
 
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener("DOMContentLoaded", function () {
   var quizSlug = window.quizSlug;
 
   fetchQuiz(quizSlug).then(async (quiz) => {
+    window.quizId = quiz.id;
     const questions = quiz.questions.edges;
 
     if (!customElements.get("product-quiz")) {
@@ -143,7 +150,9 @@ document.addEventListener('DOMContentLoaded', function () {
             this.body.innerHTML = quiz.body;
             this.questions = this.querySelector(".product-quiz__questions");
 
-            const questionContainer = this.querySelector(".product-quiz__question");
+            const questionContainer = this.querySelector(
+              ".product-quiz__question"
+            );
             const answerContainer = this.querySelector(
               ".product-quiz__question-answer"
             );
@@ -154,8 +163,8 @@ document.addEventListener('DOMContentLoaded', function () {
               clonedDiv.insertAdjacentHTML(
                 "beforeend",
                 "<hr /><div><h3>" +
-                question.node.text +
-                `</h3></div><div class='product-quiz__answers_${i}'></div>`
+                  question.node.text +
+                  `</h3></div><div class='product-quiz__answers_${i}'></div>`
               );
               this.questions.appendChild(clonedDiv);
 
@@ -165,10 +174,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 clonedSpan.id = "answer_" + i + "_" + j;
                 clonedSpan.insertAdjacentHTML(
                   "beforeend",
-                  `<span><button class="button answer" id="${clonedSpan.id
-                  }" onClick=(selectAnswer(${answer.node.id},"${encodeURIComponent(
+                  `<span><button class="button answer" id="${
+                    clonedSpan.id
+                  }" onClick=(selectAnswer(${
+                    answer.node.id
+                  },"${encodeURIComponent(answer.node.text)}"))>${
                     answer.node.text
-                  )}"))>${answer.node.text}</button></span>`
+                  }</button></span>`
                 );
                 this.querySelector(`.product-quiz__answers_${i}`).appendChild(
                   clonedSpan

@@ -1,0 +1,1 @@
+When building storefront apps using Liquid, you may need to make requests to a Gadget backend. This guide will show you how to use your Gadget project's direct script tag in the Shopify storefront to embed a product quiz in a store.

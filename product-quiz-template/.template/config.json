@@ -1,0 +1,105 @@
+{
+  "version": "v1",
+  "setup": "docs/setup.md",
+  "introduction": "docs/introduction.md",
+  "howToExtend": [
+    "howToExtend/klaviyo.md",
+    "howToExtend/slack.md"
+  ],
+  "featuredFrontends": {
+    "App.jsx": {
+      "description": "This page handles routing of the frontend pages.",
+      "tags": [
+        "edited"
+      ]
+    },
+    "pages/HomePage.jsx": {
+      "description": "Main page for the shopify admin app.",
+      "tags": [
+        "added"
+      ]
+    }
+  },
+  "featuredModels": {
+    "quiz": {
+      "description": "Serves as the framework for creating and storing quizzes.",
+      "featuredFields": [
+        "slug",
+        "title",
+        "results",
+        "questions"
+      ]
+    }
+  },
+  "featuredGlobalActions": {
+    "globalShopifySynch": {
+      "description": "global shopify synch",
+      "params": ["apiKeys"]
+    }
+  },
+  "featuredActions": {
+    "quiz": {
+      "create": {
+        "description": "When a quiz is created, we also have to generate an \"ID\"/slug (ie. My Cool Quiz -> my-cool-quiz)",
+        "tags": [
+          "edited"
+        ]
+      }
+    },
+    "shopifyAsset": {
+      "create": {
+        "description": "We hook into this to find out which store front version a shop uses.",
+        "tags": [
+          "edited"
+        ]
+      },
+      "update": {
+        "description": "We hook into this to find out which store front version a shop uses.",
+        "tags": [
+          "edited"
+        ]
+      }
+    }
+  },
+  "featuredAccessControls": {
+    "unauthenticated": {
+      "quiz": {
+        "description": "quizzes will have to be fetched by people who visit the shop."
+      }
+    },
+    "shopify-app-users": {
+      "shopifyTheme": {
+        "description": "",
+        "featuredFilters": {
+          "tenancy/shopifyTheme.gelly": {
+            "description": "has been added so that merchants are only able to read themes from their store."
+          }
+        }
+      }
+    }
+  },
+  "featuredFiles": {
+    "package.json": {
+      "description": "Holds a list of all the dependencies for the project",
+      "tags": [
+        "added"
+      ]
+    },
+    "index.html": {
+      "description": "The home, entrypoint, main file that's served.",
+      "tags": [
+        "edited"
+      ]
+    }
+  },
+  "webflow": {
+    "title": "Product Quiz",
+    "description": "Recommend products to Shopify customers based on their answers to a quiz using Gadget.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/product-recommendation-quiz.png",
+    "features": {
+      "shopify": true,
+      "frontend": true
+    }
+  }
+}

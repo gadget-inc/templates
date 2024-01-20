@@ -150,18 +150,10 @@
   dependencies:
     fast-json-stringify "^5.7.0"
 
-"@fastify/request-context@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@fastify/request-context/-/request-context-5.0.0.tgz#f821c98ff5a930da9d26b2dce831420d86f5db14"
-  integrity sha512-HEJoAF5+28PO9kcX+A7vFY0vv45k4Fllzp7rzDyaZ9Lcz99YQmMsXVS1GWkhy+24jv5SWNyyZiiJklSa6BiFPA==
-  dependencies:
-    fastify-plugin "^4.0.0"
-
 "@gadget-client/product-tagger-template@link:.gadget/client":
   version "0.0.0"
-  uid ""
 
-"@gadgetinc/api-client-core@0.15.11", "@gadgetinc/api-client-core@^0.15.11":
+"@gadgetinc/api-client-core@^0.15.11":
   version "0.15.11"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.11.tgz#156f03bb4e1be479ca4294061d7fccd816eefa97"
   integrity sha512-jYn6inWJz87Jr12C3HZBTtUASFCPfTkN6LvC0wbbgVhNRDe1vPX1eMJ7gx7nWdcwnWBXTkUdNeQtPZslEhgDvQ==
@@ -725,11 +717,6 @@ fast-uri@^2.0.0, fast-uri@^2.1.0:
   resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-2.3.0.tgz#bdae493942483d299e7285dcb4627767d42e2793"
   integrity sha512-eel5UKGn369gGEWOqBShmFJWfq/xSJvsgDzgLYC845GneayWvXBf0lJCBn5qTABfewy1ZDPoaR5OZCP+kssfuw==
 
-fastify-plugin@^4.0.0:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.5.1.tgz#44dc6a3cc2cce0988bc09e13f160120bbd91dbee"
-  integrity sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==
-
 fastify@^4.24.2:
   version "4.24.3"
   resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.24.3.tgz#bf97a3f5158ff7f78af949d483cac4e6115fb651"
@@ -785,7 +772,6 @@ function-bind@^1.1.1:
 
 "gadget-server@link:.gadget/server":
   version "0.0.0"
-  uid ""
 
 get-intrinsic@^1.0.2:
   version "1.2.1"
@@ -1359,10 +1345,10 @@ urql@^4.0.4:
     "@urql/core" "^4.1.0"
     wonka "^6.3.2"
 
-vite@^4.4.9:
-  version "4.4.9"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-4.4.9.tgz#1402423f1a2f8d66fd8d15e351127c7236d29d3d"
-  integrity sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==
+vite@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-4.5.2.tgz#d6ea8610e099851dad8c7371599969e0f8b97e82"
+  integrity sha512-tBCZBNSBbHQkaGyhGCDUGqeo2ph8Fstyp6FMSvTtsXeZSPpSMGlviAOav2hxVTqFcx8Hj/twtWKsMJXNY0xI8w==
   dependencies:
     esbuild "^0.18.10"
     postcss "^8.4.27"

@@ -158,18 +158,10 @@
     fastify-plugin "^4.0.0"
     simple-oauth2 "^3.4.0"
 
-"@fastify/request-context@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@fastify/request-context/-/request-context-5.0.0.tgz#f821c98ff5a930da9d26b2dce831420d86f5db14"
-  integrity sha512-HEJoAF5+28PO9kcX+A7vFY0vv45k4Fllzp7rzDyaZ9Lcz99YQmMsXVS1GWkhy+24jv5SWNyyZiiJklSa6BiFPA==
-  dependencies:
-    fastify-plugin "^4.0.0"
-
 "@gadget-client/usage-subscription-template@link:.gadget/client":
   version "0.0.0"
-  uid ""
 
-"@gadgetinc/api-client-core@0.15.11", "@gadgetinc/api-client-core@^0.15.11":
+"@gadgetinc/api-client-core@^0.15.11":
   version "0.15.11"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.11.tgz#156f03bb4e1be479ca4294061d7fccd816eefa97"
   integrity sha512-jYn6inWJz87Jr12C3HZBTtUASFCPfTkN6LvC0wbbgVhNRDe1vPX1eMJ7gx7nWdcwnWBXTkUdNeQtPZslEhgDvQ==
@@ -1093,7 +1085,6 @@ function-bind@^1.1.2:
 
 "gadget-server@link:.gadget/server":
   version "0.0.0"
-  uid ""
 
 get-intrinsic@^1.0.2, get-intrinsic@^1.1.3, get-intrinsic@^1.2.1, get-intrinsic@^1.2.2:
   version "1.2.2"
@@ -1993,10 +1984,10 @@ verror@1.10.0:
     core-util-is "1.0.2"
     extsprintf "^1.2.0"
 
-vite@^4.4.9:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-4.5.0.tgz#ec406295b4167ac3bc23e26f9c8ff559287cff26"
-  integrity sha512-ulr8rNLA6rkyFAlVWw2q5YJ91v098AFQ2R0PRFwPzREXOUJQPtFUG0t+/ZikhaOCDqFoDhN6/v8Sq0o4araFAw==
+vite@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-4.5.2.tgz#d6ea8610e099851dad8c7371599969e0f8b97e82"
+  integrity sha512-tBCZBNSBbHQkaGyhGCDUGqeo2ph8Fstyp6FMSvTtsXeZSPpSMGlviAOav2hxVTqFcx8Hj/twtWKsMJXNY0xI8w==
   dependencies:
     esbuild "^0.18.10"
     postcss "^8.4.27"

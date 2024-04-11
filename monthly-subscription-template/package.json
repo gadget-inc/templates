@@ -9,11 +9,9 @@
   },
   "dependencies": {
     "@gadget-client/monthly-subscription-template": "link:.gadget/client",
-    "@gadgetinc/auth": "^0.4.0",
-    "@gadgetinc/react": "^0.14.15",
-    "@gadgetinc/react-shopify-app-bridge": "^0.13.3",
-    "@shopify/app-bridge": "3.5.0",
-    "@shopify/app-bridge-react": "3.5.0",
+    "@gadgetinc/react": "^0.15.4",
+    "@gadgetinc/react-shopify-app-bridge": "^0.14.1",
+    "@shopify/app-bridge-react": "^4.1.1",
     "@shopify/polaris": "^12.2.0",
     "@shopify/polaris-icons": "^7.10.0",
     "currency-converter-lt": "^2.0.1",
@@ -22,7 +20,7 @@
     "gadget-server": "link:.gadget/server",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "6.15.0",
+    "react-router-dom": "^6.6.1",
     "shopify-api-node": "^3.12.6"
   },
   "devDependencies": {

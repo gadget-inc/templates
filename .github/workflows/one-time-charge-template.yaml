@@ -1,0 +1,20 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    paths:
+      - "one-time-charge-template/**"
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: macos-latest
+    steps:
+      - name: Push changes to development environment
+        uses: gadget-inc/ggt-deploy-action@v1
+        with:
+          app: "one-time-charge-template"
+          environment: "development"
+          token: ${{ secrets.ONE_TIME_CHARGE_DEPLOY_TOKEN }}
+          allow-issues: "true"

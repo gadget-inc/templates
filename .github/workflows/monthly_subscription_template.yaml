@@ -1,0 +1,19 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    paths:
+      - "monthly-subscription-template/**"
+    branches:
+      - main
+
+jobs:
+  deploy:
+    steps:
+      - name: Push changes to development environment
+        uses: gadget-inc/ggt-deploy-action@v1
+        with:
+          app: "monthy-subscription-template"
+          environment: "development"
+          token: ${{ secrets.MONTHLY_SUBSCRIPTION_DEPLOY_TOKEN }}
+          allow-issues: "true"

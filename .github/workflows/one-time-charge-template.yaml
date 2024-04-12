@@ -8,13 +8,15 @@ on:
       - main
 
 jobs:
-  deploy:
+  push-to-development-environment:
     runs-on: macos-latest
     steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v4
+      - name: cd to correct folder
+        run: cd one-time-charge-template/
       - name: Push changes to development environment
-        uses: gadget-inc/ggt-deploy-action@v1
+        run: npx ggt push --app=one-time-charge-template --env=development --force --allow-unknown-directory
         with:
-          app: "one-time-charge-template"
-          environment: "development"
-          token: ${{ secrets.ONE_TIME_CHARGE_DEPLOY_TOKEN }}
-          allow-issues: "true"
+          env:
+            GGT_TOKEN: ${{ secrets.ONE_TIME_CHARGE_DEPLOY_TOKEN }}

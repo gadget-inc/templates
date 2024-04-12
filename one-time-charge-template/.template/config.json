@@ -1,0 +1,89 @@
+{
+  "version": "v1",
+  "setup": "docs/setup.md",
+  "introduction": "docs/introduction.md",
+  "featuredFrontends": {
+    "App.jsx": {
+      "description": "This page handles routing of the frontend pages.",
+      "tags": ["edited"]
+    },
+    "ShopPage.jsx": {
+      "description": "The main page of the app.",
+      "tags": ["edited"]
+    },
+    "BillingPage.jsx": {
+      "description": "The page that renders the current plan. Merchants are automatically redirected to this page if they have run out of trial days.",
+      "tags": ["added"]
+    },
+    "providers/ShopProvider.jsx": {
+      "description": "Provides information about the shop to the rest of the app.",
+      "tags": ["added"]
+    }
+  },
+  "featuredModels": {
+    "plan": {
+      "description": "Used to store plan information and history.",
+      "featuredFields": ["price", "currency", "current"]
+    },
+    "shopifyShop": {
+      "description": "The default Shopify shop model with additional billing related fields.",
+      "featuredFields": [
+        "oneTimeChargeId",
+        "trialDays",
+        "usedTrialMinutes",
+        "confirmationUrl"
+      ]
+    }
+  },
+  "featuredActions": {
+    "shopifyShop": {
+      "subscribe": {
+        "description": "Fetches the current plan information, converts the price of the plan to the shop's currency, and calls the Shopify API's `appPurchaseOneTimeCreate` GraphQL mutation.",
+        "tags": ["added"]
+      },
+      "install": {
+        "description": "Sets the `trialStartedAt` field to the current time. This field is used to determine if the shop is in trial.",
+        "tags": ["edited"]
+      },
+      "reinstall": {
+        "description": "Sets the `trialStartedAt` field to the current time if the `oneTimeChargeId` field isn't set. This field is used to determine if the shop is in trial.",
+        "tags": ["edited"]
+      },
+      "uninstall": {
+        "description": "Calculates the number of used trial minutes. The `usedTrialMinutes` field is used to determine if the shop is in trial.",
+        "tags": ["edited"]
+      }
+    },
+    "plan": {
+      "setToCurrent": {
+        "description": "Sets the `plan` as the current plan to be used on the subscription page.",
+        "tags": ["added"]
+      }
+    }
+  },
+  "featuredRoutes": {
+    "GET-confirmation-callback.js": {
+      "description": "The URL that continues the subscription flow when a merchant accepts the plan's terms. Updates the shop's `oneTimeChargeId` field and redirects the merchant to the Admin UI."
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "shopifyShop": {
+        "description": "Allows the frontend to have access to shop and billing related information.",
+        "featuredFields": ["subscribe"]
+      }
+    }
+  },
+  "webflow": {
+    "title": "One-time charge based Shopify billing",
+    "description": "Require merchants pay a one-time fee to have full access to your application.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/one-time-billing-template.webp",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

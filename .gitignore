@@ -245,5 +245,3 @@ shopify.app.toml
 **.DS_*
 
 # End of https://www.toptal.com/developers/gitignore/api/linux,macos,windows,visualstudiocode,node
-node_modules/
-**/.DS_Store

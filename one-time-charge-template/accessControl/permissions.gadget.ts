@@ -11,6 +11,53 @@ export const permissions: GadgetPermissions = {
   roles: {
     "shopify-app-users": {
       storageKey: "Role-Shopify-App",
+      models: {
+        shopifyAppPurchaseOneTime: {
+          read: {
+            filter:
+              "accessControl/filters/shopifyAppPurchaseOneTime/shopifyAppPurchaseOneTime.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
+        shopifyGdprRequest: {
+          read: {
+            filter:
+              "accessControl/filters/shopifyGdprRequest/shopifyGdprRequest.gelly",
+          },
+          actions: {
+            create: true,
+            update: true,
+          },
+        },
+        shopifyShop: {
+          read: {
+            filter:
+              "accessControl/filters/shopifyShop/shopifyShop.gelly",
+          },
+          actions: {
+            install: true,
+            reinstall: true,
+            subscribe: true,
+            uninstall: true,
+            update: true,
+          },
+        },
+        shopifySync: {
+          read: {
+            filter:
+              "accessControl/filters/shopifySync/shopifySync.gelly",
+          },
+          actions: {
+            complete: true,
+            error: true,
+            run: true,
+          },
+        },
+      },
     },
     unauthenticated: {
       storageKey: "unauthenticated",

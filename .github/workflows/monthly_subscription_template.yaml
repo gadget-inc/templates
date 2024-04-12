@@ -9,6 +9,7 @@ on:
 
 jobs:
   deploy:
+    runs-on: macos-latest
     steps:
       - name: Push changes to development environment
         uses: gadget-inc/ggt-deploy-action@v1

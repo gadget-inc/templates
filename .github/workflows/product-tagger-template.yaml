@@ -1,0 +1,20 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    paths:
+      - "product-tagger-template/**"
+    branches:
+      - main
+
+jobs:
+  push-to-development-environment:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v4
+      - name: Push to development environment
+        run: npx ggt push --app=product-tagger-template --env=development --force --allow-unknown-directory
+        working-directory: product-tagger-template/
+        env:
+          GGT_TOKEN: ${{ secrets.PRODUCT_TAGGER_DEPLOY_TOKEN }}

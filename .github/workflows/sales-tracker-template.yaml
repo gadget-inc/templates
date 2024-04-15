@@ -1,0 +1,20 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    paths:
+      - "sales-tracker-template/**"
+    branches:
+      - main
+
+jobs:
+  push-to-development-environment:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v4
+      - name: Push to development environment
+        run: npx ggt push --app=sales-tracker-template --env=development --force --allow-unknown-directory
+        working-directory: sales-tracker-template/
+        env:
+          GGT_TOKEN: ${{ secrets.SALES_TRACKER_DEPLOY_TOKEN }}

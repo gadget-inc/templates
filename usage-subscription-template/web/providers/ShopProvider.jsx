@@ -24,7 +24,6 @@ export default ({ children }) => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
   const [availableTrialDays, setAvailableTrialDays] = useState(0);
-  const [prices, setPrices] = useState({});
   const [loading, setLoading] = useState(true);
   const [currentCappedAmount, setCurrentCappedAmount] = useState(0);
 
@@ -98,7 +97,7 @@ export default ({ children }) => {
   useEffect(() => {
     if (!fetchingCurrentSubscription && currentSubscription) {
       for (const lineItem of currentSubscription.lineItems) {
-        if (lineItem.plan.pricingDetails.__typename === "AppUsagePricing") {
+        if (lineItem.plan?.pricingDetails?.__typename === "AppUsagePricing") {
           setCurrentCappedAmount(
             parseFloat(lineItem.plan.pricingDetails.cappedAmount.amount)
           );
@@ -118,19 +117,10 @@ export default ({ children }) => {
     }
   }, [fetchingCurrentSubscription, errorFetchingCurrentSubscription]);
 
-  // useEffect for calling the planCurrencyToShopCurrency global action - getting all the currency conversions for plans
-  useEffect(() => {
-    const run = async () => {
-      setPrices(await api.planCurrencyToShopCurrency());
-    };
-    run();
-  }, []);
-
   return (
     <ShopContext.Provider
       value={{
         shop,
-        prices,
         currentCappedAmount,
       }}
     >

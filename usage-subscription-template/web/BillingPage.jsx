@@ -1,4 +1,4 @@
-import { useAction, useFindMany } from "@gadgetinc/react";
+import { useAction, useGlobalAction } from "@gadgetinc/react";
 import { Banner, BlockStack, Layout, Page, Text } from "@shopify/polaris";
 import { api } from "./api";
 import { PlanCard, StyledSpinner } from "./components";
@@ -14,23 +14,12 @@ import { ShopContext } from "./providers";
 export default () => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
-  const { shop, prices, currentCappedAmount } = useContext(ShopContext);
+  const { shop, currentCappedAmount } = useContext(ShopContext);
 
-  const [{ data: plans, fetching: fetchingPlans, error: errorFetchingPlans }] =
-    useFindMany(api.plan, {
-      select: {
-        id: true,
-        name: true,
-        description: true,
-        pricePerOrder: true,
-        trialDays: true,
-        currency: true,
-        cappedAmount: true,
-      },
-      sort: {
-        pricePerOrder: "Ascending", // Prices from lowest to highest
-      },
-    });
+  const [
+    { data: plans, fetching: fetchingPlans, error: errorFetchingPlans },
+    getPlansAtShopCurrency,
+  ] = useGlobalAction(api.getPlansAtShopCurrency);
 
   const [
     {
@@ -70,6 +59,15 @@ export default () => {
     setShow(false);
   }, []);
 
+  // Fetching plans with the prices already set to the shop's currency
+  useEffect(() => {
+    const run = async () => {
+      await getPlansAtShopCurrency();
+    };
+
+    run();
+  }, []);
+
   // useEffect for showing an error banner when there's an issue fetching plans
   useEffect(() => {
     if (!fetchingPlans && errorFetchingPlans) {
@@ -105,14 +103,14 @@ export default () => {
           />
         )}
         <Layout>
-          {plans.length ? (
+          {plans?.length ? (
             plans?.map((plan) => (
               <Layout.Section variant="oneThird" key={plan.id}>
                 <PlanCard
                   id={plan.id}
                   name={plan.name}
                   description={plan.description}
-                  pricePerOrder={prices[plan.id]}
+                  pricePerOrder={plan.pricePerOrder}
                   trialDays={
                     trialCalculations(
                       shop?.usedTrialMinutes,

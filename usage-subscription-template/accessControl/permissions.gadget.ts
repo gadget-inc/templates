@@ -68,7 +68,7 @@ export const permissions: GadgetPermissions = {
         },
       },
       actions: {
-        planCurrencyToShopCurrency: true,
+        getPlansAtShopCurrency: true,
       },
     },
     unauthenticated: {

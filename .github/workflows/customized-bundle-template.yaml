@@ -17,4 +17,4 @@ jobs:
         run: npx ggt push --app=customized-bundle-template --env=development --force --allow-unknown-directory
         working-directory: customized-bundle-template/
         env:
-          GGT_TOKEN: ${{ secrets.BUNDLE_DEPLOY_TOKEN }}
+          GGT_TOKEN: ${{ secrets.CUSTOMIZED_BUNDLE_DEPLOY_TOKEN }}

@@ -1,6 +1,6 @@
 import type { GadgetModel } from "gadget-server";
 
-// This file describes the schema for the "shopifyProductVariant" model, go to https://bundle-template.gadget.app/edit to view/edit your model in Gadget
+// This file describes the schema for the "shopifyProductVariant" model, go to https://customized-bundle-template.gadget.app/edit to view/edit your model in Gadget
 // For more information on how to update this file http://docs.gadget.dev
 
 export const schema: GadgetModel = {
@@ -22,6 +22,16 @@ export const schema: GadgetModel = {
       },
       storageKey: "HSWeU9UJgd_Q",
     },
+    grams: {
+      type: "number",
+      storageKey:
+        "ModelField-DataModel-Shopify-ProductVariant-grams::FieldStorageEpoch-DataModel-Shopify-ProductVariant-grams-initial",
+    },
+    inventoryQuantityAdjustment: {
+      type: "number",
+      storageKey:
+        "ModelField-DataModel-Shopify-ProductVariant-inventory_quantity_adjustment::FieldStorageEpoch-DataModel-Shopify-ProductVariant-inventory_quantity_adjustment-initial",
+    },
     isBundle: {
       type: "boolean",
       shopifyMetafield: {
@@ -33,18 +43,20 @@ export const schema: GadgetModel = {
       },
       storageKey: "cXcZnIK0yBPC",
     },
+    oldInventoryQuantity: {
+      type: "number",
+      storageKey:
+        "ModelField-DataModel-Shopify-ProductVariant-old_inventory_quantity::FieldStorageEpoch-DataModel-Shopify-ProductVariant-old_inventory_quantity-initial",
+    },
   },
   shopify: {
     fields: [
       "barcode",
       "compareAtPrice",
       "fulfillmentService",
-      "grams",
       "inventoryManagement",
       "inventoryPolicy",
       "inventoryQuantity",
-      "inventoryQuantityAdjustment",
-      "oldInventoryQuantity",
       "option1",
       "option2",
       "option3",
@@ -52,7 +64,9 @@ export const schema: GadgetModel = {
       "presentmentPrices",
       "price",
       "product",
+      "productImage",
       "requiresShipping",
+      "selectedOptions",
       "shop",
       "shopifyCreatedAt",
       "shopifyUpdatedAt",

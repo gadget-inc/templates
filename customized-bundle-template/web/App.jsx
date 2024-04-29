@@ -3,12 +3,14 @@ import {
   Provider as GadgetProvider,
   useGadget,
 } from "@gadgetinc/react-shopify-app-bridge";
-import { NavigationMenu } from "@shopify/app-bridge-react";
-import { Page, Spinner, Text } from "@shopify/polaris";
+import { NavMenu } from "@shopify/app-bridge-react";
+import { Page, Text } from "@shopify/polaris";
 import { useEffect, useMemo } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import ShopPage from "./ShopPage";
+import { Bundles } from "./pages";
+import { CreateForm, Spinner, UpdateForm } from "./components";
 import { api } from "./api";
+import { ShopProvider } from "./providers";
 
 const Error404 = () => {
   const navigate = useNavigate();
@@ -56,45 +58,33 @@ function AuthenticatedApp() {
   // we use `isAuthenticated` to render pages once the OAuth flow is complete!
   const { isAuthenticated, loading } = useGadget();
   if (loading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        <Spinner accessibilityLabel="Spinner example" size="large" />
-      </div>
-    );
+    return <Spinner />;
   }
   return isAuthenticated ? <EmbeddedApp /> : <UnauthenticatedApp />;
 }
 
 function EmbeddedApp() {
   return (
-    <>
+    <ShopProvider>
       <Routes>
-        <Route path="/" element={<ShopPage />} />
+        <Route path="/" element={<Bundles />} />
+        <Route path="/create-bundle" element={<CreateForm />} />
+        <Route path="bundles/:bundleId" element={<UpdateForm />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
-      <NavigationMenu
-        navigationLinks={[
-          {
-            label: "Shop Information",
-            destination: "/",
-          },
-        ]}
-      />
-    </>
+      <NavMenu>
+        <a href="/" rel="home">
+          Bundles
+        </a>
+        <a href="/create-bundle">Create</a>
+      </NavMenu>
+    </ShopProvider>
   );
 }
 
 function UnauthenticatedApp() {
   return (
-    <Page title="App">
+    <Page title="Unauthenticated">
       <Text variant="bodyMd" as="p">
         App can only be viewed in the Shopify Admin.
       </Text>

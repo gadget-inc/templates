@@ -3,14 +3,14 @@
 
 
 "@0no-co/graphql.web@^1.0.1":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.0.4.tgz#9606eb651955499525d068ce0ad8bea596286ce2"
-  integrity sha512-W3ezhHGfO0MS1PtGloaTpg0PbaT8aZSmmaerL7idtU5F7oCI+uu25k+MsMS31BVFlp4aMkHSrNRxiD72IlK8TA==
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.0.7.tgz#c7a762c887b3482a79ffa68f63de5e96059a62e4"
+  integrity sha512-E3Qku4mTzdrlwVWGPxklDnME5ANrEGetvYw4i2GCRlppWXXE4QD66j7pwb8HelZwS6LnqEChhrSOGCXpbiu6MQ==
 
 "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
-  version "7.23.8"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.23.8.tgz#8ee6fe1ac47add7122902f257b8ddf55c898f650"
-  integrity sha512-Y7KbAP984rn1VGMbGqKmBLio9V7y5Je9GvU4rQPCPinCyNfUcToxIXl06d59URp/F3LwinvODxab5N/G6qggkw==
+  version "7.24.4"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.24.4.tgz#de795accd698007a66ba44add6cc86542aff1edd"
+  integrity sha512-dkxf7+hn8mFBwKjs9bvBlArzLVxVbS8usaPUDd5p2a9JCL9tB8OaOVN1isD4+Xyk4ns89/xeOmbQvgdK7IIVdA==
   dependencies:
     regenerator-runtime "^0.14.0"
 
@@ -161,7 +161,11 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.20", "@gadgetinc/api-client-core@^0.15.20":
+"@gadget-client/customized-bundle-template@link:.gadget/client":
+  version "0.0.0"
+  uid ""
+
+"@gadgetinc/api-client-core@0.15.20", "@gadgetinc/api-client-core@^0.15.13", "@gadgetinc/api-client-core@^0.15.20":
   version "0.15.20"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.20.tgz#ad89058b59a3e12629ea84f34ba0981ea22f5891"
   integrity sha512-4Ro3LoaDo2HK42NdFO36p6jnno9o9urJ9THFnyW6Z5jV+Adixa2PUQhzH7ZABkx/44k+gA3/MYG9EZAmnMvZDA==
@@ -180,32 +184,14 @@
     tslib "^2.6.2"
     ws "^8.13.0"
 
-"@gadgetinc/api-client-core@^0.15.13":
-  version "0.15.14"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.14.tgz#c108d43a90bd06da2a1b97a6abba8a42a258dc60"
-  integrity sha512-MwaTRZEWIXfzKrag6NFW0vSwIFphyD/cqPW3dt7Qn8FkkhC1PLf7T6ZsPVmLPn3qtZJwQC8v78ofrAcCq//1Gg==
-  dependencies:
-    "@n1ru4l/graphql-live-query" "^0.10.0"
-    "@n1ru4l/graphql-live-query-patch-jsondiffpatch" "^0.8.0"
-    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
-    "@urql/core" "^4.0.10"
-    cross-fetch "^3.1.5"
-    graphql "^16.8.1"
-    graphql-ws "^5.13.1"
-    isomorphic-ws "^5.0.0"
-    klona "^2.0.6"
-    tiny-graphql-query-compiler "^0.2.2"
-    tslib "^2.6.2"
-    ws "^8.13.0"
-
-"@gadgetinc/react-shopify-app-bridge@^0.13.4":
-  version "0.13.4"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.13.4.tgz#c1338ea0a7570f880b19b2bca87e3d3211203a52"
-  integrity sha512-KAIHdx4ASClG8PzXrrVCcO0uVM2+oWRoSNQRlLyhmDJuMdcKottEZbG3pIGm7v9ll9vs8NnDjrCUQMmzoOy7yg==
+"@gadgetinc/react-shopify-app-bridge@^0.14.2":
+  version "0.14.2"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.14.2.tgz#70fd2d3a0ea096bfd563cd7544f1ea9bf64d40f5"
+  integrity sha512-dXcKgqOG/k8DDdRu1kepTASEaTInomH1KANMpgjMGyPzBcbSXZe6K5YpXix5IG13f5WtwijlfoVwUhVAHEJefw==
   dependencies:
     "@gadgetinc/api-client-core" "^0.15.13"
-    "@shopify/app-bridge-utils" "^3.1.1"
     crypto-js "^4.1.1"
+    tslib "^2.6.2"
 
 "@gadgetinc/react@^0.15.5":
   version "0.15.5"
@@ -222,21 +208,6 @@
   version "4.0.6"
   resolved "https://registry.yarnpkg.com/@manufac/repeater/-/repeater-4.0.6.tgz#829cf3d03885d23579b42838fd572f8c048f8072"
   integrity sha512-qvSJXgzSjkx13dIqg23pGivfdXY1+fHEZanFqKFzaH9klq1RTUUAi36ryEbCc0Nw099IQt6qZFERnloCWRP0dg==
-
-"@n1ru4l/graphql-live-query-patch-jsondiffpatch@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query-patch-jsondiffpatch/-/graphql-live-query-patch-jsondiffpatch-0.8.0.tgz#fd18bde201ca82b491c63d836e0ce13999edb8f9"
-  integrity sha512-m5OPdEhBbqQ+pkFz2dQmPl10JW/RB1Qc2zoVn9QTEXvyeSzQmrl+qNtn3nvv87P9rQDiRD/JWlD86BFX0XloBg==
-  dependencies:
-    "@n1ru4l/graphql-live-query-patch" "^0.7.0"
-    "@n1ru4l/json-patch-plus" "^0.2.0"
-
-"@n1ru4l/graphql-live-query-patch@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query-patch/-/graphql-live-query-patch-0.7.0.tgz#c5b30341d218627b9ed15cea37e72ea3c15f3632"
-  integrity sha512-1q49iNxqEIbmUp+qFAEVEn4ts344Cw72g5OtAuFeTwKtJT3V91kTPGMcRk5Pxb5FPHbvn52q+PCVKOAyVrtPwQ==
-  dependencies:
-    "@repeaterjs/repeater" "^3.0.4"
 
 "@n1ru4l/graphql-live-query@^0.10.0":
   version "0.10.0"
@@ -258,29 +229,17 @@
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.8.0.tgz#e848d2f669f601544df15ce2a313955e4bf0bafc"
   integrity sha512-mrfKqIHnSZRyIzBcanNJmVQELTnX+qagEDlcKO90RgRBVOZGSGvZKeDihTRfWcqoDn5N/NkUcwWTccnpN18Tfg==
 
-"@repeaterjs/repeater@^3.0.4":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@repeaterjs/repeater/-/repeater-3.0.5.tgz#b77571685410217a548a9c753aa3cdfc215bfc78"
-  integrity sha512-l3YHBLAol6d/IKnB9LhpD0cEZWAoe3eFKUyTYWmFmCO2Q/WOckxLQAUyMZWwZV2M/m3+4vgRoaolFqaII82/TA==
-
-"@shopify/app-bridge-core@1.1.1":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-core/-/app-bridge-core-1.1.1.tgz#b8b16e7c4ba60d6d593a89f397e4abef9be6ef50"
-  integrity sha512-kEnJUpkC9vDdmGMN3Mezq/FlDBqP+DFg/A1PFzqTW8FILu0wzFmz1aFk4Hxy6Y6ilceMmn8QXsyLA9DfaeH4jQ==
-
-"@shopify/app-bridge-react@3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-react/-/app-bridge-react-3.5.0.tgz#909319f12542cc269691d8192ef6d0cb79212e89"
-  integrity sha512-ztryM5Xf+B/gHXyGt/jY/NxoeMaQkXc9roMFZriQ7tG4gawvX968JmePPXuwZexqWYcvzzz/FpUvWwMcPHpD8w==
+"@shopify/app-bridge-react@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-react/-/app-bridge-react-4.1.3.tgz#6a158fd98d2f1200411535c2bca04b04f23ebd3e"
+  integrity sha512-poPCdwFx/117OJmwQZK5Bklwv3ktRtWo3W/jf31nUMgN0wXrBE4q1aYk9EdYc5b5IJVYgo2M9wh+OzwWu6vVlQ==
   dependencies:
-    "@shopify/app-bridge" "^3.5.0"
+    "@shopify/app-bridge-types" "^0.0.11"
 
-"@shopify/app-bridge-utils@^3.1.1":
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-utils/-/app-bridge-utils-3.5.1.tgz#e7afd52dc7cdbd61871329843d55cc435736c5ab"
-  integrity sha512-VZRvRfg1nF/0/C7zIwYlQ2RXY2S7ALw04Lp6vXPkzBxggDYakx9Lbvc5/k7ZTvhwZv2q8+FVHh319IMW81b27Q==
-  dependencies:
-    "@shopify/app-bridge" "^3.5.1"
+"@shopify/app-bridge-types@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-types/-/app-bridge-types-0.0.11.tgz#67dcbeeb37ba6baffeef58bbcba20086f430cdc8"
+  integrity sha512-GwX4vekyYRxi/fnMJQsKumLqTAyv2ufKFUSD0OkLVndHiyopiBFDIFqZ9x11bkr6WziDbjR8274i3LYnBukCTw==
 
 "@shopify/app-bridge@3.5.0":
   version "3.5.0"
@@ -290,39 +249,30 @@
     base64url "^3.0.1"
     web-vitals "^3.0.1"
 
-"@shopify/app-bridge@^3.5.0", "@shopify/app-bridge@^3.5.1":
-  version "3.7.10"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-3.7.10.tgz#f2f72a7897afdd6b48b0e5484efd56fff71892b5"
-  integrity sha512-zy4c05DEOkYXm1yWIe0FrI0lq6hzffIT4JWzb9XKqY5OPRNHRHg+ihDt0ZnR8eMVmYV03yStpGAITIfqOgn4TQ==
-  dependencies:
-    "@shopify/app-bridge-core" "1.1.1"
-    base64url "^3.0.1"
-    web-vitals "^3.0.1"
-
 "@shopify/polaris-icons@^7.9.0":
   version "7.13.0"
   resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-7.13.0.tgz#7c2c3a5ae56b8285a8853470aba9ebbe28d1b70d"
   integrity sha512-+KW2GbEDtw0WzfQlslk3Qo76lf609NvK14eBPCMCYkDP16zPfT4ydui1wRqpRPSCaW1oFOnX3A8bNpwKzOVM0Q==
 
-"@shopify/polaris-icons@^8.0.0":
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-8.0.0.tgz#22b1540e2c5bf9e2f05bfe662db38ef6999b00e0"
-  integrity sha512-NyO/gkBvJfLiIDHywTFRQpwrA+wHHb9xk3uiApArBBB3zluWK1Gos+6zldfXPRZzHSzk2gB6IP2dQDJ2zJmIcg==
+"@shopify/polaris-icons@^8.11.1":
+  version "8.11.1"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-8.11.1.tgz#b47f39bba109d53e72dadc6200f705ed46d92c56"
+  integrity sha512-2HLzvJWMejKIwS5P2bs7k5CAjBKwPnD/iy9ncPzcgqRjmFInBXLtUXFQhPWDw6JwXzb1ZjNQK/ssTctcfz87Sw==
 
-"@shopify/polaris-tokens@^8.5.0":
-  version "8.5.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-8.5.0.tgz#6fbacc395f2bc281ef5d66278dfa3edae1e4cfa4"
-  integrity sha512-GeGiNeR2lSsSKmrVI2XHkzOyD4vlYThM9qiFiKiVa+DATkM0vFJL0RAiwyhpqTmvO1+kztdD3EclL7ZzCXcDHw==
+"@shopify/polaris-tokens@^8.10.0":
+  version "8.10.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-8.10.0.tgz#c7bca460e9aed91a801b95f4953b4ccb36b72b31"
+  integrity sha512-y4PDtRbFKGHwA6Lu7a3L4N9SDP6gZv4tw6u0viumtcXcbF0T2j1xPmyuJZNc9c7vmhNSARCg27NGQFpPgxuaEg==
   dependencies:
     deepmerge "^4.3.1"
 
 "@shopify/polaris@^12.0.0":
-  version "12.10.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-12.10.0.tgz#cfb4645e4c6d8dbba36c16377371374bf4c22759"
-  integrity sha512-i1BY/WazTcExnUdba8XUWGScAGBjfEW4R95ndk10NX2SKEzD6krFtFMTTSAECzcdSqlcblsKvDe1jd1/FlzA6w==
+  version "12.27.0"
+  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-12.27.0.tgz#341b146e016c0773d5bcc585e9219cbe5c6040d5"
+  integrity sha512-Y8yus6iEjcfW2ZtEJtlqxbWeDJqTX3S/MOLH4GWRvU5gFYJQhlaHaETs0+OimbhEpO95mXbY8qB+KnIJaVBHwA==
   dependencies:
-    "@shopify/polaris-icons" "^8.0.0"
-    "@shopify/polaris-tokens" "^8.5.0"
+    "@shopify/polaris-icons" "^8.11.1"
+    "@shopify/polaris-tokens" "^8.10.0"
     "@types/react" "^18.2.0"
     "@types/react-dom" "^18.2.0"
     "@types/react-transition-group" "^4.4.2"
@@ -457,14 +407,21 @@
     undici-types "~5.26.4"
 
 "@types/prop-types@*":
-  version "15.7.11"
-  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.11.tgz#2596fb352ee96a1379c657734d4b913a613ad563"
-  integrity sha512-ga8y9v9uyeiLdpKddhxYQkxNDrfvuPrlFb0N1qnZZByvcElJaXthF1UhvCh9TLWJBEHeNtdnbysW7Y6Uq8CVng==
+  version "15.7.12"
+  resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.12.tgz#12bb1e2be27293c1406acb6af1c3f3a1481d98c6"
+  integrity sha512-5zvhXYtRNRluoE/jAp4GVsSduVUzNWKkOZrCDBWYtE7biZywwdC2AcEzg+cSMLFRfVgeAFqpfNabiPjxFddV1Q==
 
-"@types/react-dom@^18.0.11", "@types/react-dom@^18.2.0":
+"@types/react-dom@^18.0.11":
   version "18.2.18"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.18.tgz#16946e6cd43971256d874bc3d0a72074bb8571dd"
   integrity sha512-TJxDm6OfAX2KJWJdMEVTwWke5Sc/E/RlnPGvGfS0W7+6ocy2xhDVQVh/KvC2Uf7kACs+gDytdusDSdWfWkaNzw==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-dom@^18.2.0":
+  version "18.2.25"
+  resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.2.25.tgz#2946a30081f53e7c8d585eb138277245caedc521"
+  integrity sha512-o/V48vf4MQh7juIKZU2QGDfli6p1+OOi5oXx36Hffpc9adsHeXjVp8rHuPkjd8VT8sOJ2Zp05HR7CdpGTIUFUA==
   dependencies:
     "@types/react" "*"
 
@@ -475,19 +432,18 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^18.0.28":
+"@types/react@*", "@types/react@^18.2.0":
+  version "18.2.79"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.79.tgz#c40efb4f255711f554d47b449f796d1c7756d865"
+  integrity sha512-RwGAGXPl9kSXwdNTafkOEuFrTBD5SA2B3iEB96xi8+xu5ddUa/cpvyVCSNn+asgLCTHkb5ZxN8gbuibYJi4s1w==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
+
+"@types/react@^18.0.28":
   version "18.2.46"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.46.tgz#f04d6c528f8f136ea66333bc66abcae46e2680df"
   integrity sha512-nNCvVBcZlvX4NU1nRRNV/mFl1nNRuTuslAJglQsq+8ldXe5Xv0Wd2f7WTE3jOxhLH2BFfiZGC6GCp+kHQbgG+w==
-  dependencies:
-    "@types/prop-types" "*"
-    "@types/scheduler" "*"
-    csstype "^3.0.2"
-
-"@types/react@^18.2.0":
-  version "18.2.48"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-18.2.48.tgz#11df5664642d0bd879c1f58bc1d37205b064e8f1"
-  integrity sha512-qboRCl6Ie70DQQG9hhNREz81jqC1cs9EVNcjQ1AU+jH6NFfSAhVVbrrY/+nSF+Bsk4AOwm9Qa61InvMCyV+H3w==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -501,11 +457,19 @@
     "@types/node" "*"
 
 "@types/scheduler@*":
-  version "0.16.8"
-  resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.8.tgz#ce5ace04cfeabe7ef87c0091e50752e36707deff"
-  integrity sha512-WZLiwShhwLRmeV6zH+GkbOFT6Z6VklCItrDioxUnv+u4Ll+8vKeFySoFyK/0ctcRpOmwAicELfmys1sDc/Rw+A==
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.23.0.tgz#0a6655b3e2708eaabca00b7372fafd7a792a7b09"
+  integrity sha512-YIoDCTH3Af6XM5VuwGG/QL/CJqga1Zm3NkU3HZ4ZHK2fRMPYP1VczsTUqtsf43PH/iJNVlPHAo2oWX7BSdB2Hw==
 
-"@urql/core@^4.0.10", "@urql/core@^4.2.0":
+"@urql/core@^4.0.10":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@urql/core/-/core-4.3.0.tgz#5e150412ed08d167861b05ceed417abbd048553f"
+  integrity sha512-wT+FeL8DG4x5o6RfHEnONNFVDM3616ouzATMYUClB6CB+iIu2mwfBKd7xSUxYOZmwtxna5/hDRQdMl3nbQZlnw==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.1"
+    wonka "^6.3.2"
+
+"@urql/core@^4.2.0":
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@urql/core/-/core-4.2.2.tgz#c2b009373cb9084bbfa8ebc0177c854a76235b84"
   integrity sha512-TP1kheq9bnrEdnVbJqh0g0ZY/wfdpPeAzjiiDK+Tm+Pbi0O1Xdu6+fUJ/wJo5QpHZzkIyya4/AecG63e6scFqQ==
@@ -877,9 +841,9 @@ got@^11.1.4:
     responselike "^2.0.0"
 
 graphql-ws@^5.13.1:
-  version "5.14.3"
-  resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.14.3.tgz#fb1fba011a0ae9c4e86d831cae2ec27955168b9a"
-  integrity sha512-F/i2xNIVbaEF2xWggID0X/UZQa2V8kqKDPO8hwmu53bVOcTL7uNkxnexeEgSCVxYBQUTUNEI8+e4LO1FOhKPKQ==
+  version "5.16.0"
+  resolved "https://registry.yarnpkg.com/graphql-ws/-/graphql-ws-5.16.0.tgz#849efe02f384b4332109329be01d74c345842729"
+  integrity sha512-Ju2RCU2dQMgSKtArPbEtsK5gNLnsQyTNIo/T7cZNp96niC1x0KdJNZV0TIoilceBPQwfb5itrGl8pkFeOUMl4A==
 
 graphql@^16.8.1:
   version "16.8.1"
@@ -1449,9 +1413,9 @@ vite@^4.4.9:
     fsevents "~2.3.2"
 
 web-vitals@^3.0.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-3.5.1.tgz#af7a9dc60708b81007922ab55a23d963676ba30a"
-  integrity sha512-xQ9lvIpfLxUj0eSmT79ZjRoU5wIRfIr7pNukL7ZE4EcWZSmfZQqOlhuAGfkVa3EFmzPHZhWhXfm2i5ys+THVPg==
+  version "3.5.2"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-3.5.2.tgz#5bb58461bbc173c3f00c2ddff8bfe6e680999ca9"
+  integrity sha512-c0rhqNcHXRkY/ogGDJQxZ9Im9D19hDihbzSQJrsioex+KnFgmMzBiy57Z1EjkhX/+OjyBpclDCzz2ITtjokFmg==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

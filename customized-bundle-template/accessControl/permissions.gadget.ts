@@ -4,7 +4,7 @@ import type { GadgetPermissions } from "gadget-server";
  * This metadata describes the access control configuration available in your application.
  * Grants that are not defined here are set to false by default.
  *
- * View and edit your roles and permissions in the Gadget editor at https://bundle-template.gadget.app/edit/settings/permissions
+ * View and edit your roles and permissions in the Gadget editor at https://customized-bundle-template.gadget.app/edit/settings/permissions
  */
 export const permissions: GadgetPermissions = {
   type: "gadget/permissions/v1",
@@ -12,6 +12,27 @@ export const permissions: GadgetPermissions = {
     "shopify-app-users": {
       storageKey: "Role-Shopify-App",
       models: {
+        bundle: {
+          read: {
+            filter: "accessControl/filters/bundle/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
+        bundleComponent: {
+          read: {
+            filter:
+              "accessControl/filters/bundleComponent/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
         shopifyGdprRequest: {
           read: {
             filter:
@@ -26,6 +47,17 @@ export const permissions: GadgetPermissions = {
           read: {
             filter:
               "accessControl/filters/shopifyProduct/shopifyProduct.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
+        shopifyProductImage: {
+          read: {
+            filter:
+              "accessControl/filters/shopify/shopifyProductImage.gelly",
           },
           actions: {
             create: true,
@@ -68,6 +100,9 @@ export const permissions: GadgetPermissions = {
             run: true,
           },
         },
+      },
+      actions: {
+        getBundleComponents: true,
       },
     },
     unauthenticated: {

@@ -1,15 +1,30 @@
 import type { GadgetModel } from "gadget-server";
 
-// This file describes the schema for the "shopifyShop" model, go to https://bundle-template.gadget.app/edit to view/edit your model in Gadget
+// This file describes the schema for the "shopifyShop" model, go to https://customized-bundle-template.gadget.app/edit to view/edit your model in Gadget
 // For more information on how to update this file http://docs.gadget.dev
 
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Shop",
   fields: {
+    bundleComponents: {
+      type: "hasMany",
+      children: { model: "bundleComponent", belongsToField: "shop" },
+      storageKey: "wb2GzqBcmURH",
+    },
     bundleComponentsMetafieldDefinitionId: {
       type: "string",
       storageKey: "QnkCNomT-PNu",
+    },
+    bundleCount: {
+      type: "computed",
+      sourceFile: "api/models/shopifyShop/bundleCount.gelly",
+      storageKey: "lekrTnb4tSDA",
+    },
+    bundles: {
+      type: "hasMany",
+      children: { model: "bundle", belongsToField: "shop" },
+      storageKey: "5abwB6m2ta5F",
     },
     isBundleDefinition: {
       type: "string",
@@ -60,6 +75,7 @@ export const schema: GadgetModel = {
       "planName",
       "preLaunchEnabled",
       "primaryLocale",
+      "productImages",
       "productVariants",
       "products",
       "province",

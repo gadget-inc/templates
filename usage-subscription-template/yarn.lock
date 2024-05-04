@@ -706,10 +706,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
-currency-converter-lt@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/currency-converter-lt/-/currency-converter-lt-2.0.1.tgz#adfc10c49172f7c818962220317536b8289e0b8e"
-  integrity sha512-0MqTLVv+n5YNsRblran7MR5b3ScS0zRrm5RBsYcrh60Kmwllz+JNt88VzQAuz5kq7YJ/i18nRf2AnTUD8JzVpA==
+currency-converter-lt2@^2.0.0-beta.0:
+  version "2.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/currency-converter-lt2/-/currency-converter-lt2-2.0.0-beta.0.tgz#b4a7c2bd005eb049b6de9f52b90a3dea095b58c4"
+  integrity sha512-NxBOWW5r+imyTCWW1maQbvnIXApzwZyevVkp9z/tS2W1iNTDd/FxMyD2RAT33C5iYzKCEL+IuwEoV4n9opMIQw==
   dependencies:
     cheerio latest
     request "^2.88.2"

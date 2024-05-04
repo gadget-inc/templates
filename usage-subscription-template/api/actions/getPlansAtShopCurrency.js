@@ -2,7 +2,7 @@ import {
   ActionOptions,
   GetPlansAtShopCurrencyGlobalActionContext,
 } from "gadget-server";
-import CurrencyConverter from "currency-converter-lt";
+import { convertCurrency } from "../../utilities";
 
 /**
  * @param { GetPlansAtShopCurrencyGlobalActionContext } context
@@ -20,8 +20,6 @@ export async function run({ params, logger, api, connections }) {
   );
 
   if (!shop) throw new Error("No Shopify context found");
-
-  const currencyConverter = new CurrencyConverter();
 
   const plans = await api.plan.findMany({
     select: {
@@ -53,10 +51,11 @@ export async function run({ params, logger, api, connections }) {
     if (plan.pricePerOrder) {
       response.push({
         pricePerOrder: (
-          await currencyConverter
-            .from(plan.currency)
-            .to(shop.currency)
-            .convert(plan.pricePerOrder)
+          await convertCurrency(
+            plan.currency,
+            shop.currency,
+            plan.pricePerOrder
+          )
         ).toFixed(2),
         ...tempObj,
       });

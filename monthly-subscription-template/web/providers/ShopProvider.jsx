@@ -100,7 +100,7 @@ export default ({ children }) => {
           onDismiss={handleDismiss}
         />
       )}
-      {!!availableTrialDays && !shop?.plan ? (
+      {!shop?.plan ? (
         <>
           <Page>
             <Banner tone="warning" title="Action required">

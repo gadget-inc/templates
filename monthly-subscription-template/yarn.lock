@@ -161,13 +161,14 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.19", "@gadgetinc/api-client-core@^0.15.19":
-  version "0.15.19"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.19.tgz#7751d80d90fc81cf5770bed8c1dcde6aaf13620b"
-  integrity sha512-Fr8IMPtCbB1Wy18oX5A44qFo5mSXLlqak/XTN/TbHaLVDRWFjpHxoMnIoY1e69GSpsJFcsnOhOJ37KVLUKK7+g==
+"@gadgetinc/api-client-core@0.15.20":
+  version "0.15.20"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.20.tgz#ad89058b59a3e12629ea84f34ba0981ea22f5891"
+  integrity sha512-4Ro3LoaDo2HK42NdFO36p6jnno9o9urJ9THFnyW6Z5jV+Adixa2PUQhzH7ZABkx/44k+gA3/MYG9EZAmnMvZDA==
   dependencies:
+    "@manufac/repeater" "^4.0.6"
     "@n1ru4l/graphql-live-query" "^0.10.0"
-    "@n1ru4l/graphql-live-query-patch-jsondiffpatch" "^0.8.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
     "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
     "@urql/core" "^4.0.10"
     cross-fetch "^3.1.5"
@@ -183,6 +184,24 @@
   version "0.15.18"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.18.tgz#0d5f0de65e255fbcc371e7f8c44bfb51590039fa"
   integrity sha512-CF42cAb5RKIwp8XakabaaDeJb1ctxC7r8GiYDDFrXuR8XBs9ctLf5b6XsZxBwJ9PMY2CNKc8Qm31mqbb/cEtZA==
+  dependencies:
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/graphql-live-query-patch-jsondiffpatch" "^0.8.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^3.1.5"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    ws "^8.13.0"
+
+"@gadgetinc/api-client-core@^0.15.19":
+  version "0.15.19"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.19.tgz#7751d80d90fc81cf5770bed8c1dcde6aaf13620b"
+  integrity sha512-Fr8IMPtCbB1Wy18oX5A44qFo5mSXLlqak/XTN/TbHaLVDRWFjpHxoMnIoY1e69GSpsJFcsnOhOJ37KVLUKK7+g==
   dependencies:
     "@n1ru4l/graphql-live-query" "^0.10.0"
     "@n1ru4l/graphql-live-query-patch-jsondiffpatch" "^0.8.0"
@@ -216,6 +235,11 @@
     react-hook-form "~7.48.2"
     tslib "^2.6.2"
     urql "^4.0.4"
+
+"@manufac/repeater@^4.0.6":
+  version "4.0.6"
+  resolved "https://registry.yarnpkg.com/@manufac/repeater/-/repeater-4.0.6.tgz#829cf3d03885d23579b42838fd572f8c048f8072"
+  integrity sha512-qvSJXgzSjkx13dIqg23pGivfdXY1+fHEZanFqKFzaH9klq1RTUUAi36ryEbCc0Nw099IQt6qZFERnloCWRP0dg==
 
 "@n1ru4l/graphql-live-query-patch-jsondiffpatch@^0.8.0":
   version "0.8.0"
@@ -700,10 +724,10 @@ csstype@^3.0.2:
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
-currency-converter-lt@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/currency-converter-lt/-/currency-converter-lt-2.0.1.tgz#adfc10c49172f7c818962220317536b8289e0b8e"
-  integrity sha512-0MqTLVv+n5YNsRblran7MR5b3ScS0zRrm5RBsYcrh60Kmwllz+JNt88VzQAuz5kq7YJ/i18nRf2AnTUD8JzVpA==
+currency-converter-lt2@^2.0.0-beta.0:
+  version "2.0.0-beta.0"
+  resolved "https://registry.yarnpkg.com/currency-converter-lt2/-/currency-converter-lt2-2.0.0-beta.0.tgz#b4a7c2bd005eb049b6de9f52b90a3dea095b58c4"
+  integrity sha512-NxBOWW5r+imyTCWW1maQbvnIXApzwZyevVkp9z/tS2W1iNTDd/FxMyD2RAT33C5iYzKCEL+IuwEoV4n9opMIQw==
   dependencies:
     cheerio latest
     request "^2.88.2"

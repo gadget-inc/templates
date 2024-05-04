@@ -5,7 +5,7 @@ import {
   ActionOptions,
   SubscribeShopifyShopActionContext,
 } from "gadget-server";
-import CurrencyConverter from "currency-converter-lt";
+import { convertCurrency } from "../../../utilities";
 import { trialCalculations } from "../helpers";
 
 /**
@@ -49,12 +49,12 @@ export async function run({
     }
 
     if (planMatch.currency != record.currency) {
-      const currencyConverter = new CurrencyConverter();
       // Get cost of plan for current shop based on the plan currency
-      price = await currencyConverter
-        .from(planMatch.currency)
-        .to(record.currency)
-        .convert(planMatch.monthlyPrice);
+      price = await convertCurrency(
+        planMatch.currency,
+        record.currency,
+        planMatch.monthlyPrice
+      );
     }
 
     /**

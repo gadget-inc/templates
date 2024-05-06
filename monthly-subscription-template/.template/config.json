@@ -3,8 +3,8 @@
   "setup": "docs/setup.md",
   "introduction": "docs/introduction.md",
   "featuredGlobalActions": {
-    "planCurrencyToShopCurrency": {
-      "description": "A global action that converts the currency of each plan to the shop's currency."
+    "getPlansAtShopCurrency": {
+      "description": "A global action that returns all plans at the shop's currency."
     }
   },
   "featuredFrontends": {

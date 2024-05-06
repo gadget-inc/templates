@@ -161,24 +161,25 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.20", "@gadgetinc/api-client-core@^0.15.20":
-  version "0.15.20"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.20.tgz#ad89058b59a3e12629ea84f34ba0981ea22f5891"
-  integrity sha512-4Ro3LoaDo2HK42NdFO36p6jnno9o9urJ9THFnyW6Z5jV+Adixa2PUQhzH7ZABkx/44k+gA3/MYG9EZAmnMvZDA==
+"@gadgetinc/api-client-core@0.15.21":
+  version "0.15.21"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.21.tgz#b7e2e435d0c8054671f54a6b8c7d6b64bd990c76"
+  integrity sha512-5zSWUNtD/8mQutrMI1pxfzZDvHLXQs9jl3FJtJBgtLSEvBycE44ItcXAHa23Aw3zSb3PTquGsc1Y4xVGQQpSJg==
   dependencies:
-    "@manufac/repeater" "^4.0.6"
     "@n1ru4l/graphql-live-query" "^0.10.0"
     "@n1ru4l/json-patch-plus" "^0.2.0"
     "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
     "@urql/core" "^4.0.10"
-    cross-fetch "^3.1.5"
+    cross-fetch "^4.0.0"
     graphql "^16.8.1"
     graphql-ws "^5.13.1"
     isomorphic-ws "^5.0.0"
     klona "^2.0.6"
     tiny-graphql-query-compiler "^0.2.2"
     tslib "^2.6.2"
-    ws "^8.13.0"
+    type-fest "^3.3.0"
+    wonka "^6.3.2"
+    ws "^8.17.0"
 
 "@gadgetinc/api-client-core@^0.15.13":
   version "0.15.18"
@@ -198,13 +199,32 @@
     tslib "^2.6.2"
     ws "^8.13.0"
 
-"@gadgetinc/react-shopify-app-bridge@^0.14.2":
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.14.2.tgz#70fd2d3a0ea096bfd563cd7544f1ea9bf64d40f5"
-  integrity sha512-dXcKgqOG/k8DDdRu1kepTASEaTInomH1KANMpgjMGyPzBcbSXZe6K5YpXix5IG13f5WtwijlfoVwUhVAHEJefw==
+"@gadgetinc/api-client-core@^0.15.20":
+  version "0.15.20"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.20.tgz#ad89058b59a3e12629ea84f34ba0981ea22f5891"
+  integrity sha512-4Ro3LoaDo2HK42NdFO36p6jnno9o9urJ9THFnyW6Z5jV+Adixa2PUQhzH7ZABkx/44k+gA3/MYG9EZAmnMvZDA==
+  dependencies:
+    "@manufac/repeater" "^4.0.6"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^3.1.5"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    ws "^8.13.0"
+
+"@gadgetinc/react-shopify-app-bridge@^0.15.2":
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.15.2.tgz#e84bb8ee6e14f559716c7b05b6efa70260c4aee5"
+  integrity sha512-bon7osa4hvfXfAB143bTuuJb04OW1NZCc7Dd7dv8ChpRYNVEIe92c6kdiRsxHQAR7/yUzPmc7p7l2UJKQ7kwHQ==
   dependencies:
     "@gadgetinc/api-client-core" "^0.15.13"
-    crypto-js "^4.1.1"
+    crypto-js "^4.2.0"
     tslib "^2.6.2"
 
 "@gadgetinc/react@^0.15.5":
@@ -680,7 +700,14 @@ cross-fetch@^3.1.5:
   dependencies:
     node-fetch "^2.6.12"
 
-crypto-js@^4.1.1:
+cross-fetch@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-4.0.0.tgz#f037aef1580bb3a1a35164ea2a848ba81b445983"
+  integrity sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==
+  dependencies:
+    node-fetch "^2.6.12"
+
+crypto-js@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
   integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
@@ -1778,6 +1805,11 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
   integrity sha512-KXXFFdAbFXY4geFIwoyNK+f5Z1b7swfXABfL7HXCmoIWMKU3dmS26672A4EeQtDzLKy7SXmfBu51JolvEKwtGA==
 
+type-fest@^3.3.0:
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.13.1.tgz#bb744c1f0678bea7543a2d1ec24e83e68e8c8706"
+  integrity sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==
+
 typescript@4.5.5:
   version "4.5.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.5.5.tgz#d8c953832d28924a9e3d37c73d729c846c5896f3"
@@ -1855,6 +1887,11 @@ ws@^8.13.0:
   version "8.14.2"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.14.2.tgz#6c249a806eb2db7a20d26d51e7709eab7b2e6c7f"
   integrity sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==
+
+ws@^8.17.0:
+  version "8.17.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.17.0.tgz#d145d18eca2ed25aaf791a183903f7be5e295fea"
+  integrity sha512-uJq6108EgZMAl20KagGkzCKfMEjxmKvZHG7Tlq0Z6nOky7YF7aq4mOx6xK8TJ/i1LeK4Qus7INktacctDgY8Ow==
 
 yallist@^4.0.0:
   version "4.0.0"

@@ -54,6 +54,7 @@ export const schema: GadgetModel = {
       "presentmentCurrency",
       "processedAt",
       "referringSite",
+      "risk",
       "shippingAddress",
       "shop",
       "shopifyCreatedAt",

@@ -21,7 +21,7 @@ import {
   Text,
   InlineStack,
 } from "@shopify/polaris";
-import { api } from "./api";
+import { api } from "../api";
 
 // component used to display error messages
 const ErrorBanner = ({ title, error }) => {
@@ -105,7 +105,6 @@ const ShopPage = () => {
                           Add keyword
                         </Button>
                       }
-                      autoComplete="off"
                       {...fieldProps}
                     />
                   );
@@ -134,7 +133,11 @@ const ShopPage = () => {
                 {data?.map((allowedTag, i) => (
                   <Tag
                     key={i}
-                    onRemove={allowedTag.id === deletedTagId ? null : () => removeTag(allowedTag.id)}
+                    onRemove={
+                      allowedTag.id === deletedTagId
+                        ? null
+                        : () => removeTag(allowedTag.id)
+                    }
                     disabled={allowedTag.id === deletedTagId}
                   >
                     {allowedTag.keyword}

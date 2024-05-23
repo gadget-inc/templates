@@ -1,41 +1,69 @@
-import { AppType, Provider as GadgetProvider, useGadget } from "@gadgetinc/react-shopify-app-bridge";
+import {
+  AppType,
+  Provider as GadgetProvider,
+  useGadget,
+} from "@gadgetinc/react-shopify-app-bridge";
 import { NavMenu } from "@shopify/app-bridge-react";
 import { Page, Spinner, Text } from "@shopify/polaris";
 import { useEffect, useMemo } from "react";
-import { Route, Routes, useLocation, useNavigate, Link } from "react-router-dom";
-import AboutPage from "./AboutPage";
-import ShopPage from "./ShopPage";
-import { api } from "./api";
+import {
+  Outlet,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  useLocation,
+  useNavigate,
+  Link,
+} from "react-router-dom";
+import Index from "../routes/index";
+import AboutPage from "../routes/about";
+import { api } from "../api";
 
-const Error404 = () => {
+function Error404() {
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === new URL(process.env.GADGET_PUBLIC_SHOPIFY_APP_URL).pathname) return navigate("/", { replace: true });
+    if (
+      location.pathname ===
+      new URL(process.env.GADGET_PUBLIC_SHOPIFY_APP_URL).pathname
+    )
+      return navigate("/", { replace: true });
   }, [location.pathname]);
+
   return <div>404 not found</div>;
-};
+}
 
-const App = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const history = useMemo(() => ({ replace: (path) => navigate(path, { replace: true }) }), [navigate]);
-
-  const appBridgeRouter = useMemo(
-    () => ({
-      location,
-      history,
-    }),
-    [location, history]
+function App() {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Index />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="*" element={<Error404 />} />
+      </Route>
+    )
   );
 
   return (
-    <GadgetProvider type={AppType.Embedded} shopifyApiKey={window.gadgetConfig.apiKeys.shopify} api={api} router={appBridgeRouter}>
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
+}
+
+function Layout() {
+  return (
+    <GadgetProvider
+      type={AppType.Embedded}
+      shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
+      api={api}
+    >
       <AuthenticatedApp />
     </GadgetProvider>
   );
-};
+}
 
 function AuthenticatedApp() {
   // we use `isAuthenticated` to render pages once the OAuth flow is complete!
@@ -61,13 +89,11 @@ function AuthenticatedApp() {
 function EmbeddedApp() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<ShopPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="*" element={<Error404 />} />
-      </Routes>
+      <Outlet />
       <NavMenu>
-        <Link to="/" rel="home">Keywords</Link>
+        <Link to="/" rel="home">
+          Keywords
+        </Link>
         <Link to="/about">About</Link>
       </NavMenu>
     </>

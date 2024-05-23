@@ -6,16 +6,22 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Product",
-  fields: {},
+  fields: {
+    publishedScope: {
+      type: "string",
+      storageKey:
+        "ModelField-DataModel-Shopify-Product-published_scope::FieldStorageEpoch-DataModel-Shopify-Product-published_scope-initial",
+    },
+  },
   shopify: {
     fields: [
       "body",
+      "category",
       "compareAtPriceRange",
       "handle",
       "productCategory",
       "productType",
       "publishedAt",
-      "publishedScope",
       "shop",
       "shopifyCreatedAt",
       "shopifyUpdatedAt",

@@ -9,9 +9,9 @@ import {
   Text,
   DescriptionList,
 } from "@shopify/polaris";
-import { api } from "./api";
+import { api } from "../api";
 import { useCallback, useContext, useEffect, useState } from "react";
-import { ShopContext } from "./providers";
+import { ShopContext } from "../providers";
 
 /**
  * To view this page, run the following GraphQL mutation in your app's API Playground:

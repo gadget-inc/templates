@@ -21,7 +21,7 @@ import { BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
     }
  * 
  */
-const ShopPage = () => {
+export default () => {
   return (
     <Page title="Next Steps">
       <Layout sectioned>
@@ -90,5 +90,3 @@ const ShopPage = () => {
     </Page>
   );
 };
-
-export default ShopPage;

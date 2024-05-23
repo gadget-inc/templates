@@ -3,7 +3,7 @@ import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
 import { Banner, Text, Page } from "@shopify/polaris";
-import BillingPage from "../BillingPage";
+import { BillingPage } from "../routes";
 import { StyledSpinner } from "../components";
 
 export const ShopContext = createContext({});

@@ -14,11 +14,11 @@ import {
   createRoutesFromElements,
   useLocation,
   useNavigate,
-  Link
+  Link,
 } from "react-router-dom";
-import ShopPage from "./ShopPage";
-import { api } from "./api";
-import { ShopProvider } from "./providers";
+import { Index } from "../routes";
+import { api } from "../api";
+import { ShopProvider } from "../providers";
 
 function Error404() {
   const navigate = useNavigate();
@@ -35,11 +35,11 @@ function Error404() {
   return <div>404 not found</div>;
 }
 
-function App() {
+export default () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
-        <Route path="/" element={<ShopPage />} />
+        <Route path="/" index element={<Index />} />
         <Route path="*" element={<Error404 />} />
       </Route>
     )
@@ -50,7 +50,7 @@ function App() {
       <RouterProvider router={router} />
     </>
   );
-}
+};
 
 function Layout() {
   return (
@@ -63,7 +63,6 @@ function Layout() {
     </GadgetProvider>
   );
 }
-
 
 function AuthenticatedApp() {
   // we use `isAuthenticated` to render pages once the OAuth flow is complete!
@@ -87,12 +86,13 @@ function AuthenticatedApp() {
 }
 
 function EmbeddedApp() {
-
   return (
     <ShopProvider>
       <Outlet />
       <NavMenu>
-        <Link to="/" rel="home">Dashboard</Link>
+        <Link to="/" rel="home">
+          Dashboard
+        </Link>
       </NavMenu>
     </ShopProvider>
   );
@@ -107,5 +107,3 @@ function UnauthenticatedApp() {
     </Page>
   );
 }
-
-export default App;

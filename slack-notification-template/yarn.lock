@@ -7,7 +7,12 @@
   resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.0.4.tgz#9606eb651955499525d068ce0ad8bea596286ce2"
   integrity sha512-W3ezhHGfO0MS1PtGloaTpg0PbaT8aZSmmaerL7idtU5F7oCI+uu25k+MsMS31BVFlp4aMkHSrNRxiD72IlK8TA==
 
-"@babel/runtime@^7.21.0", "@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
+"@0no-co/graphql.web@^1.0.4":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.0.7.tgz#c7a762c887b3482a79ffa68f63de5e96059a62e4"
+  integrity sha512-E3Qku4mTzdrlwVWGPxklDnME5ANrEGetvYw4i2GCRlppWXXE4QD66j7pwb8HelZwS6LnqEChhrSOGCXpbiu6MQ==
+
+"@babel/runtime@^7.5.5", "@babel/runtime@^7.8.7":
   version "7.22.15"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.15.tgz#38f46494ccf6cf020bd4eed7124b425e83e523b8"
   integrity sha512-T0O+aa+4w0u06iNmapipJXMV4HoUir03hpx3/YqXXhu9xim3w+dVphjFWl1OH8NbZHw5Lbm9k45drDkgq2VNNA==
@@ -150,14 +155,6 @@
   dependencies:
     fast-json-stringify "^5.7.0"
 
-"@fastify/oauth2@^5.1.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@fastify/oauth2/-/oauth2-5.1.0.tgz#7debe1314345c2b76d405962fd8f362e2f8437f8"
-  integrity sha512-Z/2ZR8v2BB+vwFm1t0DnavxAKymCGvJiGD/lTtNV/dTPHTHRQ1X68hFs/Nl2Rd0Gv9AlSlrpYsX9hfoNjTSiYQ==
-  dependencies:
-    fastify-plugin "^4.0.0"
-    simple-oauth2 "^3.4.0"
-
 "@fastify/request-context@^5.0.0":
   version "5.0.0"
   resolved "https://registry.yarnpkg.com/@fastify/request-context/-/request-context-5.0.0.tgz#f821c98ff5a930da9d26b2dce831420d86f5db14"
@@ -169,10 +166,31 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.11", "@gadgetinc/api-client-core@^0.15.11":
-  version "0.15.11"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.11.tgz#156f03bb4e1be479ca4294061d7fccd816eefa97"
-  integrity sha512-jYn6inWJz87Jr12C3HZBTtUASFCPfTkN6LvC0wbbgVhNRDe1vPX1eMJ7gx7nWdcwnWBXTkUdNeQtPZslEhgDvQ==
+"@gadgetinc/api-client-core@0.15.23":
+  version "0.15.23"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.23.tgz#2ed216c1aa6e9d22e20a8f74598c1ed996e0a9ea"
+  integrity sha512-mgFAXpYWRmxWRWSrjJcGzO9yTHphptkg7Mx+0xlh79HO7L/tEZ4fChxtQ9pCjPn9V639wWQzRgZTSOyh9sEDJg==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.4"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^4.0.0"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    type-fest "^3.13.1"
+    wonka "^6.3.2"
+    ws "^8.17.0"
+
+"@gadgetinc/api-client-core@^0.15.13", "@gadgetinc/api-client-core@^0.15.16":
+  version "0.15.18"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.18.tgz#0d5f0de65e255fbcc371e7f8c44bfb51590039fa"
+  integrity sha512-CF42cAb5RKIwp8XakabaaDeJb1ctxC7r8GiYDDFrXuR8XBs9ctLf5b6XsZxBwJ9PMY2CNKc8Qm31mqbb/cEtZA==
   dependencies:
     "@n1ru4l/graphql-live-query" "^0.10.0"
     "@n1ru4l/graphql-live-query-patch-jsondiffpatch" "^0.8.0"
@@ -187,92 +205,25 @@
     tslib "^2.6.2"
     ws "^8.13.0"
 
-"@gadgetinc/auth@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/auth/-/auth-0.4.0.tgz#9c600b09fa8e76b0308bd9e54f826f5e6191e02c"
-  integrity sha512-9EAKVxsOYYt/bMdoSHv6aZrKVgMSlFJuzHw5EsZFJDLUnlENH/eQjA7kSpIwz6OABSrz9ei42q/zSNurMhUU7w==
+"@gadgetinc/react-shopify-app-bridge@^0.15.2":
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.15.2.tgz#e84bb8ee6e14f559716c7b05b6efa70260c4aee5"
+  integrity sha512-bon7osa4hvfXfAB143bTuuJb04OW1NZCc7Dd7dv8ChpRYNVEIe92c6kdiRsxHQAR7/yUzPmc7p7l2UJKQ7kwHQ==
   dependencies:
-    "@fastify/oauth2" "^5.1.0"
-    fastify-plugin "^4.5.1"
-    jsonwebtoken "^9.0.0"
+    "@gadgetinc/api-client-core" "^0.15.13"
+    crypto-js "^4.2.0"
+    tslib "^2.6.2"
 
-"@gadgetinc/react-shopify-app-bridge@^0.13.3":
-  version "0.13.3"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.13.3.tgz#97fda0c98e26c8309a8b7541fe088e21ea21aad3"
-  integrity sha512-XEBaTXGpa8dcqPGIJsaFtCcgLTsBSEGWPaK13WsRKfyefHwfAofOBwibxiHB7o+BIPmCGiSxIDXURWcVy6sZ1Q==
+"@gadgetinc/react@^0.15.3":
+  version "0.15.3"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.15.3.tgz#580d9a04203187e0fc947799b6454754bb8c766a"
+  integrity sha512-ZVMmFSiJDPpZxZuqmFcE2jsXXDbrrUg1w+rmJuX3BIZuyv/tkPQSF0Klde0BzABcq7klxHsmr3z0sL/ptT1VIw==
   dependencies:
-    "@gadgetinc/api-client-core" "^0.15.11"
-    "@shopify/app-bridge-utils" "^3.1.1"
-    crypto-js "^4.1.1"
-
-"@gadgetinc/react@^0.14.15":
-  version "0.14.15"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.14.15.tgz#43ac5b347b3c98a9cdb8e3c107bc5cdd21119832"
-  integrity sha512-2GXQ6FrhY/43OcXmmfdjBi33LIfDe8AYyrKsT2WKO336IrlvfvC9M0Bip0cqemb7iCybS8ff6lPCjCNfokK82A==
-  dependencies:
-    "@gadgetinc/api-client-core" "^0.15.11"
+    "@gadgetinc/api-client-core" "^0.15.16"
     react-fast-compare "^3.2.2"
-    react-hook-form "^7.46.1"
+    react-hook-form "~7.48.2"
+    tslib "^2.6.2"
     urql "^4.0.4"
-
-"@hapi/address@^2.1.2":
-  version "2.1.4"
-  resolved "https://registry.yarnpkg.com/@hapi/address/-/address-2.1.4.tgz#5d67ed43f3fd41a69d4b9ff7b56e7c0d1d0a81e5"
-  integrity sha512-QD1PhQk+s31P1ixsX0H0Suoupp3VMXzIVMSwobR3F3MSUO2YCV0B7xqLcUw/Bh8yuvd3LhpyqLQWTNcRmp6IdQ==
-
-"@hapi/boom@7.x.x":
-  version "7.4.11"
-  resolved "https://registry.yarnpkg.com/@hapi/boom/-/boom-7.4.11.tgz#37af8417eb9416aef3367aa60fa04a1a9f1fc262"
-  integrity sha512-VSU/Cnj1DXouukYxxkes4nNJonCnlogHvIff1v1RVoN4xzkKhMXX+GRmb3NyH1iar10I9WFPDv2JPwfH3GaV0A==
-  dependencies:
-    "@hapi/hoek" "8.x.x"
-
-"@hapi/bourne@1.x.x":
-  version "1.3.2"
-  resolved "https://registry.yarnpkg.com/@hapi/bourne/-/bourne-1.3.2.tgz#0a7095adea067243ce3283e1b56b8a8f453b242a"
-  integrity sha512-1dVNHT76Uu5N3eJNTYcvxee+jzX4Z9lfciqRRHCU27ihbUcYi+iSc2iml5Ke1LXe1SyJCLA0+14Jh4tXJgOppA==
-
-"@hapi/formula@^1.2.0":
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/@hapi/formula/-/formula-1.2.0.tgz#994649c7fea1a90b91a0a1e6d983523f680e10cd"
-  integrity sha512-UFbtbGPjstz0eWHb+ga/GM3Z9EzqKXFWIbSOFURU0A/Gku0Bky4bCk9/h//K2Xr3IrCfjFNhMm4jyZ5dbCewGA==
-
-"@hapi/hoek@8.x.x", "@hapi/hoek@^8.2.4", "@hapi/hoek@^8.3.0", "@hapi/hoek@^8.5.0":
-  version "8.5.1"
-  resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-8.5.1.tgz#fde96064ca446dec8c55a8c2f130957b070c6e06"
-  integrity sha512-yN7kbciD87WzLGc5539Tn0sApjyiGHAJgKvG9W8C7O+6c7qmoQMfVs0W4bX17eqz6C78QJqqFrtgdK5EWf6Qow==
-
-"@hapi/joi@^16.1.8":
-  version "16.1.8"
-  resolved "https://registry.yarnpkg.com/@hapi/joi/-/joi-16.1.8.tgz#84c1f126269489871ad4e2decc786e0adef06839"
-  integrity sha512-wAsVvTPe+FwSrsAurNt5vkg3zo+TblvC5Bb1zMVK6SJzZqw9UrJnexxR+76cpePmtUZKHAPxcQ2Bf7oVHyahhg==
-  dependencies:
-    "@hapi/address" "^2.1.2"
-    "@hapi/formula" "^1.2.0"
-    "@hapi/hoek" "^8.2.4"
-    "@hapi/pinpoint" "^1.0.2"
-    "@hapi/topo" "^3.1.3"
-
-"@hapi/pinpoint@^1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@hapi/pinpoint/-/pinpoint-1.0.2.tgz#025b7a36dbbf4d35bf1acd071c26b20ef41e0d13"
-  integrity sha512-dtXC/WkZBfC5vxscazuiJ6iq4j9oNx1SHknmIr8hofarpKUZKmlUVYVIhNVzIEgK5Wrc4GMHL5lZtt1uS2flmQ==
-
-"@hapi/topo@^3.1.3":
-  version "3.1.6"
-  resolved "https://registry.yarnpkg.com/@hapi/topo/-/topo-3.1.6.tgz#68d935fa3eae7fdd5ab0d7f953f3205d8b2bfc29"
-  integrity sha512-tAag0jEcjwH+P2quUfipd7liWCNX2F8NvYjQp2wtInsZxnMlypdw0FtAOLxtvvkO+GSRRbmNi8m/5y42PQJYCQ==
-  dependencies:
-    "@hapi/hoek" "^8.3.0"
-
-"@hapi/wreck@^15.1.0":
-  version "15.1.0"
-  resolved "https://registry.yarnpkg.com/@hapi/wreck/-/wreck-15.1.0.tgz#7917cd25950ce9b023f7fd2bea6e2ef72c71e59d"
-  integrity sha512-tQczYRTTeYBmvhsek/D49En/5khcShaBEmzrAaDjMrFXKJRuF8xA8+tlq1ETLBFwGd6Do6g2OC74rt11kzawzg==
-  dependencies:
-    "@hapi/boom" "7.x.x"
-    "@hapi/bourne" "1.x.x"
-    "@hapi/hoek" "8.x.x"
 
 "@n1ru4l/graphql-live-query-patch-jsondiffpatch@^0.8.0":
   version "0.8.0"
@@ -314,39 +265,29 @@
   resolved "https://registry.yarnpkg.com/@repeaterjs/repeater/-/repeater-3.0.5.tgz#b77571685410217a548a9c753aa3cdfc215bfc78"
   integrity sha512-l3YHBLAol6d/IKnB9LhpD0cEZWAoe3eFKUyTYWmFmCO2Q/WOckxLQAUyMZWwZV2M/m3+4vgRoaolFqaII82/TA==
 
-"@shopify/app-bridge-core@1.0.2":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-core/-/app-bridge-core-1.0.2.tgz#083835998082c1577f30c34224ab0750d9bee204"
-  integrity sha512-lI+nZHMDqBJSqTBQiI1GY3Xs7YjPuZ83/sW7TIvWtTsxQZyoanAVXloo63sGEd58t1KvKFnDtVFN1NJYe/zouQ==
+"@shopify/app-bridge-core@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-core/-/app-bridge-core-1.1.1.tgz#b8b16e7c4ba60d6d593a89f397e4abef9be6ef50"
+  integrity sha512-kEnJUpkC9vDdmGMN3Mezq/FlDBqP+DFg/A1PFzqTW8FILu0wzFmz1aFk4Hxy6Y6ilceMmn8QXsyLA9DfaeH4jQ==
 
-"@shopify/app-bridge-react@3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-react/-/app-bridge-react-3.5.0.tgz#909319f12542cc269691d8192ef6d0cb79212e89"
-  integrity sha512-ztryM5Xf+B/gHXyGt/jY/NxoeMaQkXc9roMFZriQ7tG4gawvX968JmePPXuwZexqWYcvzzz/FpUvWwMcPHpD8w==
+"@shopify/app-bridge-react@^4.1.3":
+  version "4.1.3"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-react/-/app-bridge-react-4.1.3.tgz#6a158fd98d2f1200411535c2bca04b04f23ebd3e"
+  integrity sha512-poPCdwFx/117OJmwQZK5Bklwv3ktRtWo3W/jf31nUMgN0wXrBE4q1aYk9EdYc5b5IJVYgo2M9wh+OzwWu6vVlQ==
   dependencies:
-    "@shopify/app-bridge" "^3.5.0"
+    "@shopify/app-bridge-types" "^0.0.11"
 
-"@shopify/app-bridge-utils@^3.1.1":
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-utils/-/app-bridge-utils-3.5.1.tgz#e7afd52dc7cdbd61871329843d55cc435736c5ab"
-  integrity sha512-VZRvRfg1nF/0/C7zIwYlQ2RXY2S7ALw04Lp6vXPkzBxggDYakx9Lbvc5/k7ZTvhwZv2q8+FVHh319IMW81b27Q==
-  dependencies:
-    "@shopify/app-bridge" "^3.5.1"
+"@shopify/app-bridge-types@^0.0.11":
+  version "0.0.11"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge-types/-/app-bridge-types-0.0.11.tgz#67dcbeeb37ba6baffeef58bbcba20086f430cdc8"
+  integrity sha512-GwX4vekyYRxi/fnMJQsKumLqTAyv2ufKFUSD0OkLVndHiyopiBFDIFqZ9x11bkr6WziDbjR8274i3LYnBukCTw==
 
-"@shopify/app-bridge@3.5.0":
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-3.5.0.tgz#187aaa02eaf131ca52b1954ad60292921d787e66"
-  integrity sha512-T7Oe8y+EJ5zMAJ6MpI4s7bTT3YJJC/8nD8B9PUo/T4SO5OIuAxgDIMJK76INdMLd0ijuaB737n91Q70/151b5A==
+"@shopify/app-bridge@^3.7.10":
+  version "3.7.10"
+  resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-3.7.10.tgz#f2f72a7897afdd6b48b0e5484efd56fff71892b5"
+  integrity sha512-zy4c05DEOkYXm1yWIe0FrI0lq6hzffIT4JWzb9XKqY5OPRNHRHg+ihDt0ZnR8eMVmYV03yStpGAITIfqOgn4TQ==
   dependencies:
-    base64url "^3.0.1"
-    web-vitals "^3.0.1"
-
-"@shopify/app-bridge@^3.5.0", "@shopify/app-bridge@^3.5.1":
-  version "3.7.9"
-  resolved "https://registry.yarnpkg.com/@shopify/app-bridge/-/app-bridge-3.7.9.tgz#8ee10f531af9bf8260d65d9b5adbe42351e243f8"
-  integrity sha512-ZT4Lc8wg/r8/VF5QbpGiIICyuytSPcPMiqTxsAXwT72mSgWTUog5/FMMu0hBH9c+OpvjDM4FjxDv9f8pKCC3aw==
-  dependencies:
-    "@shopify/app-bridge-core" "1.0.2"
+    "@shopify/app-bridge-core" "1.1.1"
     base64url "^3.0.1"
     web-vitals "^3.0.1"
 
@@ -749,24 +690,24 @@ cross-fetch@^3.1.5:
   dependencies:
     node-fetch "^2.6.12"
 
-crypto-js@^4.1.1:
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.1.1.tgz#9e485bcf03521041bd85844786b83fb7619736cf"
-  integrity sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==
+cross-fetch@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-4.0.0.tgz#f037aef1580bb3a1a35164ea2a848ba81b445983"
+  integrity sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==
+  dependencies:
+    node-fetch "^2.6.12"
+
+crypto-js@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 csstype@^3.0.2:
   version "3.1.2"
   resolved "https://registry.yarnpkg.com/csstype/-/csstype-3.1.2.tgz#1d4bf9d572f11c14031f0436e1c10bc1f571f50b"
   integrity sha512-I7K1Uu0MBPzaFKg4nI5Q7Vs2t+3gWWW648spaF+Rg7pI9ds18Ugn+lvg4SHczUdKlHI5LWBXyqfS8+DufyBsgQ==
 
-date-fns@^2.9.0:
-  version "2.30.0"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.30.0.tgz#f367e644839ff57894ec6ac480de40cae4b0f4d0"
-  integrity sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==
-  dependencies:
-    "@babel/runtime" "^7.21.0"
-
-debug@^4.0.0, debug@^4.1.1:
+debug@^4.0.0:
   version "4.3.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-4.3.4.tgz#1319f6579357f2338d3337d2cdd4914bb5dcc865"
   integrity sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==
@@ -928,7 +869,7 @@ fast-uri@^2.0.0, fast-uri@^2.1.0:
   resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-2.3.0.tgz#bdae493942483d299e7285dcb4627767d42e2793"
   integrity sha512-eel5UKGn369gGEWOqBShmFJWfq/xSJvsgDzgLYC845GneayWvXBf0lJCBn5qTABfewy1ZDPoaR5OZCP+kssfuw==
 
-fastify-plugin@^4.0.0, fastify-plugin@^4.5.1:
+fastify-plugin@^4.0.0:
   version "4.5.1"
   resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.5.1.tgz#44dc6a3cc2cce0988bc09e13f160120bbd91dbee"
   integrity sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==
@@ -1153,7 +1094,7 @@ json-schema-traverse@^1.0.0:
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-1.0.0.tgz#ae7bcb3656ab77a73ba5c49bf654f38e6b6860e2"
   integrity sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==
 
-jsonwebtoken@^9.0.0, jsonwebtoken@^9.0.2:
+jsonwebtoken@^9.0.2:
   version "9.0.2"
   resolved "https://registry.yarnpkg.com/jsonwebtoken/-/jsonwebtoken-9.0.2.tgz#65ff91f4abef1784697d40952bb1998c504caaf3"
   integrity sha512-PRp66vJ865SSqOlgqS8hujT5U4AOgMfhrwYIuIhfKaoSCZcirrmASQr8CX7cUg+RMih+hgznrjp99o+W4pJLHQ==
@@ -1494,7 +1435,7 @@ react-fast-compare@^3.2.0, react-fast-compare@^3.2.2:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.2.tgz#929a97a532304ce9fee4bcae44234f1ce2c21d49"
   integrity sha512-nsO+KSNgo1SbJqJEYRE9ERzo7YtYbou/OqjSQKxV7jcKox7+usiUVZOAC+XnDOABXggQTno0Y1CpVnuWEc1boQ==
 
-react-hook-form@^7.46.1:
+react-hook-form@~7.48.2:
   version "7.48.2"
   resolved "https://registry.yarnpkg.com/react-hook-form/-/react-hook-form-7.48.2.tgz#01150354d2be61412ff56a030b62a119283b9935"
   integrity sha512-H0T2InFQb1hX7qKtDIZmvpU1Xfn/bdahWBN1fH19gSe4bBEqTfmlr7H3XWTaVtiK4/tpPaI1F3355GPMZYge+A==
@@ -1670,17 +1611,6 @@ side-channel@^1.0.4:
     get-intrinsic "^1.0.2"
     object-inspect "^1.9.0"
 
-simple-oauth2@^3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/simple-oauth2/-/simple-oauth2-3.4.0.tgz#24f12619edf1efb55583c36d99519fde3254a4b1"
-  integrity sha512-gDPCC/xjq82FJnzF7+XGUUMWWfHeibuGsp3OYOV7yHwIibxHkq4+WSxywY63/3BF9j8SfIDygGqBrPLynx/iuQ==
-  dependencies:
-    "@hapi/hoek" "^8.5.0"
-    "@hapi/joi" "^16.1.8"
-    "@hapi/wreck" "^15.1.0"
-    date-fns "^2.9.0"
-    debug "^4.1.1"
-
 sonic-boom@^3.7.0:
   version "3.7.0"
   resolved "https://registry.yarnpkg.com/sonic-boom/-/sonic-boom-3.7.0.tgz#b4b7b8049a912986f4a92c51d4660b721b11f2f2"
@@ -1736,6 +1666,11 @@ tslib@^2.6.2:
   version "2.6.2"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
   integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
+
+type-fest@^3.13.1:
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.13.1.tgz#bb744c1f0678bea7543a2d1ec24e83e68e8c8706"
+  integrity sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==
 
 typescript@^4.5.3:
   version "4.9.5"
@@ -1805,6 +1740,11 @@ ws@^8.13.0:
   version "8.14.1"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.14.1.tgz#4b9586b4f70f9e6534c7bb1d3dc0baa8b8cf01e0"
   integrity sha512-4OOseMUq8AzRBI/7SLMUwO+FEDnguetSk7KMb1sHwvF2w2Wv5Hoj0nlifx8vtGsftE/jWHojPy8sMMzYLJ2G/A==
+
+ws@^8.17.0:
+  version "8.17.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.17.0.tgz#d145d18eca2ed25aaf791a183903f7be5e295fea"
+  integrity sha512-uJq6108EgZMAl20KagGkzCKfMEjxmKvZHG7Tlq0Z6nOky7YF7aq4mOx6xK8TJ/i1LeK4Qus7INktacctDgY8Ow==
 
 yallist@^4.0.0:
   version "4.0.0"

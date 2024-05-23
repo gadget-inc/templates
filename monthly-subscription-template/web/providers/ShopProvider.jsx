@@ -4,7 +4,7 @@ import { api } from "../api";
 import { trialCalculations } from "../utilities";
 import { Banner, Page, Text } from "@shopify/polaris";
 import { StyledSpinner } from "../components";
-import BillingPage from "../BillingPage";
+import { BillingPage } from "../routes";
 
 export const ShopContext = createContext({});
 

@@ -17,7 +17,7 @@ import { BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
  * The above mutation should be modified to reflect the number of trial minutes for your specific plan
  * 
  */
-const ShopPage = () => {
+export default () => {
   return (
     <Page title="Next Steps">
       <Layout>
@@ -76,5 +76,3 @@ const ShopPage = () => {
     </Page>
   );
 };
-
-export default ShopPage;

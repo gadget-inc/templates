@@ -6,15 +6,15 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@gadget-client/slack-notification-template": "link:.gadget/client",
-    "@gadgetinc/auth": "^0.4.0",
-    "@gadgetinc/react": "^0.14.15",
-    "@gadgetinc/react-shopify-app-bridge": "^0.13.3",
-    "@shopify/app-bridge": "3.5.0",
-    "@shopify/app-bridge-react": "3.5.0",
+    "@gadgetinc/react": "^0.15.3",
+    "@gadgetinc/react-shopify-app-bridge": "^0.15.2",
+    "@shopify/app-bridge": "^3.7.10",
+    "@shopify/app-bridge-react": "^4.1.3",
     "@shopify/polaris": "^12.2.0",
     "@shopify/polaris-icons": "^7.10.0",
     "@slack/web-api": "^6.9.0",
     "base64-string": "^1.1.2",
+    "fastify": "^4.24.2",
     "gadget-server": "link:.gadget/server",
     "jsonwebtoken": "^9.0.2",
     "react": "^18.2.0",
@@ -23,12 +23,12 @@
     "shopify-api-node": "^3.12.6"
   },
   "devDependencies": {
-    "vite": "^4.4.9",
-    "@vitejs/plugin-react-swc": "3.2.0",
     "@types/node": "^20.8.4",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
-    "typescript": "^4.5.3"
+    "@vitejs/plugin-react-swc": "3.2.0",
+    "typescript": "^4.5.3",
+    "vite": "^4.4.9"
   },
   "resolutions": {
     "regexp.prototype.flags": "1.5.0"

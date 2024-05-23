@@ -17,7 +17,7 @@ import { BlockStack, Layout, Page, Text, Card } from "@shopify/polaris";
  * The above mutation should be modified to reflect the number of trial minutes for your specific plan
  * 
  */
-const ShopPage = () => {
+export default () => {
   return (
     <Page title="Next steps">
       <Layout>
@@ -29,11 +29,11 @@ const ShopPage = () => {
                   Test the monthly subscription logic
                 </Text>
                 <Text as="p" variant="bodyMd">
-                  Change between plans by navigating to the Plans page. The
-                  page should populate like it did on intial app installation.
-                  Note that this template only supports non-zero plan prices.
-                  Shopify requires that you give them a positive non-zero price
-                  when creating an appSubscription record.
+                  Change between plans by navigating to the Plans page. The page
+                  should populate like it did on intial app installation. Note
+                  that this template only supports non-zero plan prices. Shopify
+                  requires that you give them a positive non-zero price when
+                  creating an appSubscription record.
                 </Text>
               </BlockStack>
             </Card>
@@ -78,5 +78,3 @@ const ShopPage = () => {
     </Page>
   );
 };
-
-export default ShopPage;

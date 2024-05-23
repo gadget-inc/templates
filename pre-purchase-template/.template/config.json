@@ -1,0 +1,78 @@
+{
+  "version": "v1",
+  "setup": "docs/Setup.md",
+  "introduction": "docs/Intro.md",
+  "featuredModels": {
+    "shopifyProduct": {
+      "description": "Synchronizes and stores product data from connected Shopify stores.",
+      "featuredFields": [
+        "id",
+        "title"
+      ]
+    },
+    "shopifyShop": {
+      "description": "Keeps track of Shopify shops that your app has been installed on.",
+      "featuredFields": [
+        "name",
+        "products",
+        "prePurchaseProduct"
+      ]
+    }
+  },
+  "featuredActions": {
+    "shopifyShop": {
+      "savePrePurchaseProduct": {
+        "description": "Stores the productId for a merchant-selected pre-purchase offer as a metafield in Shopify.",
+        "tags": [
+          "added"
+        ]
+      },
+      "install": {
+        "description": "Syncs shopifyProduct data to your Gadget database as soon as your app is installed on a store.",
+        "tags": [
+          "edited"
+        ]
+      }
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "shopifyShop": {
+        "description": "shopify-app-users have been given permission to save a selected pre-purchase product offer.",
+        "featuredFields": [
+          "savePrePurchaseProduct"
+        ]
+      }
+    }
+  },
+  "featuredFrontends": {
+    "components/App.jsx": {
+      "description": "Handles routing for the frontend pages.",
+      "tags": [
+        "edited"
+      ]
+    },
+    "routes/index.jsx": {
+      "description": "Displays an embedded Shopify Admin UI that allows merchants to select a product that will be offered to buyers in the checkout.",
+      "tags": [
+        "edited"
+      ]
+    }
+  },
+  "howToExtend": [
+    "howToExtend/checkout-ui-extension.md",
+    "howToExtend/ideas.md"
+  ],
+  "webflow": {
+    "title": "Pre-purchase upsell",
+    "description": "Shopify merchants can select a product in an embedded admin app, and that product will be offered to buyers in the checkout.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/pre-purchase.webp",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

@@ -1,0 +1,4 @@
+- Choose a product to recommend
+- Product will display at checkout before pruchase
+- *Tenancy enforced:* App data will be unique to the store it is installed on.
+- *Ready-to-Use:* No need to start from scratch – equipped with a Shopify connection, data models, and backend logic

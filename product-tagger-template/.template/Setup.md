@@ -1,71 +1,95 @@
-# Template setup
-Time to setup: 10 mins
+# Setting up your product tagger
+This template automates the process of assigning tags to products in a Shopify store's inventory. Follow the steps below to get started.
 
-## Step 1 - Create a Shopify app
+## Create an app in the [Shopify partners dashboard](https://partners.shopify.com/)
+Under apps, click `create app`
 
-### Head over to the [Shopify Partners Dashboard](https://partners.shopify.com/)
+![1-create-app](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2FM_QtBL3Rkv1OAMLrRch0a.png)
 
-### Find the apps tab
-![Create shopify app step 1](https://app-assets.gadget.dev/a/62907/124463/assets/1AppsTab-41456398.png)
+Create app manually
 
-### Click the create App button
-![Create shopify app step 2](https://app-assets.gadget.dev/a/62907/124463/assets/2CreateApp-a96b8662.png)
+![2-create-app-manually](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2FLxj7BMkevRA26eUYOHRKH.png)
 
-### Click create app manually
-![Create shopify app step 3](https://app-assets.gadget.dev/a/62907/124463/assets/CreateAppManually-c7c9c342.png)
+Name your app
 
-### You should see this screen now
-![Create shopify app step 4](https://app-assets.gadget.dev/a/62907/124463/assets/3SeeCredentials-3c3ca3b8.png)
+![3-name-your-app](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2FaEzGIHTvlYSIZco3PNq5N.png)
 
-## Step 2 - Connect app
 
-### Copy the Shopify Client ID and Client secret from your Shopify app
-![ClientID Secret](https://app-assets.gadget.dev/a/62907/124463/assets/4ClientIDsecret-c6346bc9.png)
+## Copy the `Client ID` and `Client secret`
 
-### Go to Shopify connection in Gadget, click add app credentials
-![Add Credentials](https://app-assets.gadget.dev/a/62907/124463/assets/5AddCredentials-7644e364.png)
+Copy `Client ID` from Shopify
 
-### Paste both into your Gadget app
-![Paste keys](https://app-assets.gadget.dev/a/62907/124463/assets/6Paste%20keys-e20f81b9.png)
+![4-copy-id-and-secret](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2FMLcOa9R5_fHRC5ibBg9is.png)
 
-### Copy the App URL and Redirection URL from Gadget
-![CopyURLs](https://app-assets.gadget.dev/a/62907/124463/assets/7CopyURLs-c12b0591.png)
+Within Gadget, go to `settings` -> `plugins` -> `Shopify`
 
-### Go to app setup in Shopify
-![GotoAppSetup](https://app-assets.gadget.dev/a/62907/124463/assets/8GoToAppSetup-a8a48fb2.png)
+![goto-settings](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F83237%2F165286%2FrhYiD3A9Miz9b2sfqvNTx.png)
 
-### Paste the App URL and Redirection URL into Shopify
-![PasteIntoShopify](https://app-assets.gadget.dev/a/62907/124463/assets/9PasteIntoShopify-ee3168ce.png)
+Paste your `Client ID`
 
-## Step 3 - Install app
+![6-paste-id-and-secret](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2FT-DpTi3_B40I_0QWuLguY.png)
 
-### Return to overview, test your app on a development store.
-![TestYourApp](https://app-assets.gadget.dev/a/62907/124463/assets/10Test%20your%20app-a2fc794b.png)
+Do the same thing for `Client secret`
 
-### Create a new store if you don’t have one
-![CreateStore](https://app-assets.gadget.dev/a/62907/124463/assets/11CreateStore-a4df1a4a.png)
+![4-copy-id-and-secret](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2FMLcOa9R5_fHRC5ibBg9is.png)
 
-### We recommend to populate the store with bogus data
-![TestData](https://app-assets.gadget.dev/a/62907/124463/assets/12TestData-f9820f69.png)
 
-## Step 4 - using the app
+## Copy `App URL` and `Redirection URL`
+Copy your `App URL`
 
-### You must run a store sync in Gadget
-Go to Plugins > Shopify > Shop Installs > then click sync on your shop row
+![7-copy-urls](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2F1GxpWvDw0vy0w6syozLZC.png)
 
-### View the app from your store admin
-The app allows you to create keywords. These keywords will be used to automatically create tags for the store products: make sure the keyword exists in the product description.
-![CreateKeywordsToMonitor](https://app-assets.gadget.dev/a/62907/124463/assets/13Create%20keywords%20to%20monitor-974cf360.png)
+Return to Shopify, go to app setup
 
-### For example
-If I wanted to categorize snowboards based on the level of expertise. I could add who it's for in the product description.
+![8-goto-app-setup](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2F9GGxPZUoIeaztHOGFKwV4.png)
 
-![Example1](https://app-assets.gadget.dev/a/62907/124463/assets/14Example1-b98c5573.png)
+Paste URL into Shopify
 
-### Make sure the keyword is in the description
-When the product is saved, the tag will be added.
-![Example2](https://app-assets.gadget.dev/a/62907/124463/assets/15Example2-2bd5fd30.png)
+![9-paste-app-url-and-redirection](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2Fb7XZUDr68hdfv8XGlctrX.png)
 
-### Look on the store
-Now we can find the product tagged as “for experts”
-![Example3](https://app-assets.gadget.dev/a/62907/124463/assets/16Example3-fdfd27e3.png)
+Do the same thing for `Allowed redirection URL`
+
+![7-copy-urls](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2F1GxpWvDw0vy0w6syozLZC.png)
+
+
+## Install your app to a test store
+Go back to overview
+
+![10-goto-overview](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2FWOaAbYMN-oATDiL0O65oY.png)
+
+Under test your app, click select store
+
+![11-test-your-app](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2FXnyZ6K0dAn4doN-j0Lmkd.png)
+
+Click install app
+
+![12-install-app-store1](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2F102Qzu1AEgf4k3FO-7uVj.png)
+
+Click install again
+
+![13-install-app-store2](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F84948%2F168708%2FIGVtfZxRD_rzNht7ZAVdq.png)
+
+## Product tagger installed!
+You should see this screen now:
+
+![product-tagger-installed](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F76987%2F152556%2F3YK6ZTbWAXJYBRL3uFFvF.png)
+
+## Add some keywords
+Go back to your store where you installed the app and add some keywords like `cotton` or `red`.
+
+![add-keywords](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F76987%2F152556%2FfPGuxE3KSJ2Xm92rNINrm.png)
+
+Update or create a product with this keyword in the description.
+
+![keywords-in-description](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F76987%2F152556%2FRSabRL9RVo7otdk4wr4fN.png)
+
+Refresh the page then see the tag automatically added in the tags section of your product.
+
+![see-red-added-to-tags](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F76987%2F152556%2Fr2CycoVhcmgVYvDgh7pTt.png)
+
+## If needed, run a sync to apply tags across all products
+In the gadget editor, navigate to `Plugins -> Shopify -> Shop installs`, then run sync on your store.
+
+![run-sync-on-store](https://storage.googleapis.com/assets.gadget.dev/template-assets%2Fa%2F76987%2F152556%2FW6Hp68XOtnkT5YSRgeVzh.png)
+
+

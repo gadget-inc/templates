@@ -1,36 +1,27 @@
 import { useActionForm, useGlobalAction } from "@gadgetinc/react";
 import { useNavigate, useParams } from "react-router-dom";
-import Spinner from "./Spinner";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { api } from "../api";
 import PageTemplate from "./PageTemplate";
+import { BlockStack, Card, Layout, Text } from "@shopify/polaris";
+import QuizForm from "./QuizForm";
 
 export default () => {
   const navigate = useNavigate();
   const { bundleId } = useParams();
 
-  const [
-    {
-      data: bundleComponents,
-      fetching: fetchingBundleComponents,
-      error: errorFetchingBundleComponents,
-    },
-  ] = useGlobalAction(api.getBundleComponents);
-
   const {
     control,
     submit,
     setValue,
-    formState: { errors, isDirty, isValid, isSubmitting },
+    formState: { errors, isDirty, isValid, isSubmitting, isLoading },
     getValues,
     watch,
   } = useActionForm(api.bundle.update, {
     findBy: bundleId,
     mode: "onBlur",
     defaultValues: {
-      bundle: {
-        bundleComponents: bundleComponents || [],
-      },
+      id: bundleId,
     },
     select: {
       id: true,
@@ -39,11 +30,36 @@ export default () => {
       description: true,
       price: true,
       shopId: true,
+      bundleComponents: {
+        edges: {
+          node: {
+            id: true,
+            productVariant: {
+              id: true,
+              title: true,
+              product: {
+                id: true,
+                title: true,
+                images: {
+                  edges: {
+                    node: {
+                      id: true,
+                      source: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     },
     onError: (error) => console.log(error),
   });
 
   const updateBundle = useCallback(async () => {
+    console.log(getValues(), "GET VALUES");
+
     const result = await submit();
 
     if (!result) {
@@ -52,44 +68,27 @@ export default () => {
 
     const { data, error } = result;
 
-    if (data) {
-      navigate("/");
-    } else {
-      console.error("Error submitting form", error);
-    }
+    // if (data) {
+    //   navigate("/");
+    // } else {
+    //   console.error("Error submitting form", error);
+    // }
   }, []);
 
-  useEffect(() => {
-    const run = async () => {
-      await api.getBundleComponents();
-    };
-
-    run();
-  }, []);
-
-  useEffect(() => {
-    if (!fetchingBundleComponents && errorFetchingBundleComponents) {
-      console.error(errorFetchingBundleComponents);
-    }
-  }, [fetchingBundleComponents, errorFetchingBundleComponents]);
-
-  if (fetchingBundleComponents) {
-    return <Spinner />;
-  }
+  // console.log({ isDirty, isValid, isSubmitting, isLoading });
 
   return (
     <PageTemplate
       inForm
       submit={updateBundle}
-      saveDisabled={isSubmitting || !isDirty || !isValid}
+      saveDisabled={isSubmitting || !isDirty || !isValid || isLoading}
     >
       <Layout sectioned>
         <Layout.Section>
           <Card>
             <BlockStack gap="500">
               <Text as="h2" variant="headingLg">
-                Create a new bundle
-                {/* Change this to the bundle's name */}
+                {getValues("title")}
               </Text>
               <QuizForm
                 {...{
@@ -98,6 +97,7 @@ export default () => {
                   getValues,
                   watch,
                   setValue,
+                  isDirty,
                 }}
               />
             </BlockStack>

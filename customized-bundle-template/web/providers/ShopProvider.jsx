@@ -35,8 +35,6 @@ export default ({ children }) => {
     return <Spinner />;
   }
 
-  console.log("Shop in provider", shop);
-
   return (
     <ShopContext.Provider
       value={{

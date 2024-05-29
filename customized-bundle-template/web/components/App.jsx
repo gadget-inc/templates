@@ -7,10 +7,11 @@ import { NavMenu } from "@shopify/app-bridge-react";
 import { Page, Text } from "@shopify/polaris";
 import { useEffect, useMemo } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { Bundles } from "./pages";
-import { CreateForm, Spinner, UpdateForm } from "./components";
-import { api } from "./api";
-import { ShopProvider } from "./providers";
+import { Bundles } from "../pages";
+import { Spinner, UpdateForm } from ".";
+import { api } from "../api";
+import { ShopProvider } from "../providers";
+import { CreateBundle } from "../pages";
 
 const Error404 = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Error404 = () => {
   return <div>404 not found</div>;
 };
 
-const App = () => {
+export default () => {
   const navigate = useNavigate();
   const location = useLocation();
   const history = useMemo(
@@ -57,9 +58,11 @@ const App = () => {
 function AuthenticatedApp() {
   // we use `isAuthenticated` to render pages once the OAuth flow is complete!
   const { isAuthenticated, loading } = useGadget();
+
   if (loading) {
     return <Spinner />;
   }
+
   return isAuthenticated ? <EmbeddedApp /> : <UnauthenticatedApp />;
 }
 
@@ -68,8 +71,8 @@ function EmbeddedApp() {
     <ShopProvider>
       <Routes>
         <Route path="/" element={<Bundles />} />
-        <Route path="/create-bundle" element={<CreateForm />} />
         <Route path="bundles/:bundleId" element={<UpdateForm />} />
+        <Route path="/create-bundle" element={<CreateBundle />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
       <NavMenu>
@@ -91,5 +94,3 @@ function UnauthenticatedApp() {
     </Page>
   );
 }
-
-export default App;

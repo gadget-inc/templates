@@ -2,7 +2,7 @@
 # yarn lockfile v1
 
 
-"@0no-co/graphql.web@^1.0.1":
+"@0no-co/graphql.web@^1.0.1", "@0no-co/graphql.web@^1.0.4":
   version "1.0.7"
   resolved "https://registry.yarnpkg.com/@0no-co/graphql.web/-/graphql.web-1.0.7.tgz#c7a762c887b3482a79ffa68f63de5e96059a62e4"
   integrity sha512-E3Qku4mTzdrlwVWGPxklDnME5ANrEGetvYw4i2GCRlppWXXE4QD66j7pwb8HelZwS6LnqEChhrSOGCXpbiu6MQ==
@@ -157,15 +157,32 @@
   dependencies:
     fastify-plugin "^4.0.0"
 
-"@gadget-client/bundle-template@link:.gadget/client":
-  version "0.0.0"
-  uid ""
-
 "@gadget-client/customized-bundle-template@link:.gadget/client":
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.20", "@gadgetinc/api-client-core@^0.15.13", "@gadgetinc/api-client-core@^0.15.20":
+"@gadgetinc/api-client-core@0.15.23":
+  version "0.15.23"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.23.tgz#2ed216c1aa6e9d22e20a8f74598c1ed996e0a9ea"
+  integrity sha512-mgFAXpYWRmxWRWSrjJcGzO9yTHphptkg7Mx+0xlh79HO7L/tEZ4fChxtQ9pCjPn9V639wWQzRgZTSOyh9sEDJg==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.4"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^4.0.0"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    type-fest "^3.13.1"
+    wonka "^6.3.2"
+    ws "^8.17.0"
+
+"@gadgetinc/api-client-core@^0.15.13", "@gadgetinc/api-client-core@^0.15.20":
   version "0.15.20"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.20.tgz#ad89058b59a3e12629ea84f34ba0981ea22f5891"
   integrity sha512-4Ro3LoaDo2HK42NdFO36p6jnno9o9urJ9THFnyW6Z5jV+Adixa2PUQhzH7ZABkx/44k+gA3/MYG9EZAmnMvZDA==
@@ -193,10 +210,9 @@
     crypto-js "^4.1.1"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.15.5":
+"@gadgetinc/react@github:gadget-inc/js-clients#@gadgetinc/react-v0.15.5-gitpkg-17c621b":
   version "0.15.5"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.15.5.tgz#245df76e5b4e3ef1a15d13da1c7b3e21a9b876e6"
-  integrity sha512-aBDzdeNXTnR7VEE3rMj/+60Oj+eMDTBpqVvfrIvK+eK2728CHbGc6diuO3yYlls0e27h+nWggckc7pKXA5nDJQ==
+  resolved "https://codeload.github.com/gadget-inc/js-clients/tar.gz/bc0a34f788aa38220d29a394c6b721f720042d47"
   dependencies:
     "@gadgetinc/api-client-core" "^0.15.20"
     react-fast-compare "^3.2.2"
@@ -593,6 +609,13 @@ cross-fetch@^3.1.5:
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.8.tgz#0327eba65fd68a7d119f8fb2bf9334a1a7956f82"
   integrity sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==
+  dependencies:
+    node-fetch "^2.6.12"
+
+cross-fetch@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-4.0.0.tgz#f037aef1580bb3a1a35164ea2a848ba81b445983"
+  integrity sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==
   dependencies:
     node-fetch "^2.6.12"
 
@@ -1376,6 +1399,11 @@ tslib@^2.6.2:
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.6.2.tgz#703ac29425e7b37cd6fd456e92404d46d1f3e4ae"
   integrity sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==
 
+type-fest@^3.13.1:
+  version "3.13.1"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.13.1.tgz#bb744c1f0678bea7543a2d1ec24e83e68e8c8706"
+  integrity sha512-tLq3bSNx+xSpwvAJnzrK0Ep5CLNWjvFTOp71URMaAEWBfRb9nnJiBoUe0tF8bI4ZFO3omgBR6NvnbzVUT3Ly4g==
+
 typescript@^5.2.2:
   version "5.3.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.3.3.tgz#b3ce6ba258e72e6305ba66f5c9b452aaee3ffe37"
@@ -1400,6 +1428,11 @@ urql@^4.0.4:
   dependencies:
     "@urql/core" "^4.2.0"
     wonka "^6.3.2"
+
+use-debounce@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/use-debounce/-/use-debounce-10.0.1.tgz#adc42e7f7b08a237f5bbf0ea6cadee5813863cdc"
+  integrity sha512-0uUXjOfm44e6z4LZ/woZvkM8FwV1wiuoB6xnrrOmeAEjRDDzTLQNRFtYHvqUsJdrz1X37j0rVGIVp144GLHGKg==
 
 vite@^4.4.9:
   version "4.5.1"
@@ -1444,6 +1477,11 @@ ws@^8.13.0:
   version "8.16.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.16.0.tgz#d1cd774f36fbc07165066a60e40323eab6446fd4"
   integrity sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==
+
+ws@^8.17.0:
+  version "8.17.0"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.17.0.tgz#d145d18eca2ed25aaf791a183903f7be5e295fea"
+  integrity sha512-uJq6108EgZMAl20KagGkzCKfMEjxmKvZHG7Tlq0Z6nOky7YF7aq4mOx6xK8TJ/i1LeK4Qus7INktacctDgY8Ow==
 
 yallist@^4.0.0:
   version "4.0.0"

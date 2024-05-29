@@ -8,8 +8,8 @@
     "vite:build": "NODE_ENV=production vite build"
   },
   "dependencies": {
-    "@gadget-client/bundle-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.15.5",
+    "@gadget-client/customized-bundle-template": "link:.gadget/client",
+    "@gadgetinc/react": "github:gadget-inc/js-clients#@gadgetinc/react-v0.15.5-gitpkg-17c621b",
     "@gadgetinc/react-shopify-app-bridge": "^0.14.2",
     "@shopify/app-bridge": "3.5.0",
     "@shopify/app-bridge-react": "^4.1.3",
@@ -21,7 +21,7 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "6.15.0",
     "shopify-api-node": "^3.12.6",
-    "@gadget-client/customized-bundle-template": "link:.gadget/client"
+    "use-debounce": "^10.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.8.4",

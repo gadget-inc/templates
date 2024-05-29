@@ -5,6 +5,9 @@ import { applyParams, save, ActionOptions, CreateBundleComponentActionContext } 
  */
 export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
+  record.shop = {
+    _link: connections.shopify.currentShopId
+  }
   await save(record);
 };
 

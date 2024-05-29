@@ -7,19 +7,6 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "ZzZwQ9y4-thr",
   fields: {
-    bundleComponents: {
-      type: "hasManyThrough",
-      sibling: {
-        model: "shopifyProductVariant",
-        relatedField: "bundleComponents",
-      },
-      join: {
-        model: "bundleComponent",
-        belongsToSelfField: "bundle",
-        belongsToSiblingField: "variant",
-      },
-      storageKey: "dSB_evcwPCtS",
-    },
     bundleVariant: {
       type: "belongsTo",
       parent: { model: "shopifyProductVariant" },
@@ -30,6 +17,19 @@ export const schema: GadgetModel = {
       type: "number",
       validations: { numberRange: { min: 0, max: null } },
       storageKey: "zCSKCmHj0e79",
+    },
+    productVariants: {
+      type: "hasManyThrough",
+      sibling: {
+        model: "shopifyProductVariant",
+        relatedField: "bundles",
+      },
+      join: {
+        model: "bundleComponent",
+        belongsToSelfField: "bundle",
+        belongsToSiblingField: "productVariant",
+      },
+      storageKey: "YF1Us5XmK1jH",
     },
     shop: {
       type: "belongsTo",
@@ -44,6 +44,14 @@ export const schema: GadgetModel = {
       options: ["active", "archived", "draft"],
       storageKey: "oluQn15WMTaa",
     },
-    title: { type: "string", storageKey: "NzJl8zUoaFJF" },
+    title: {
+      type: "string",
+      validations: {
+        required: true,
+        unique: { scopeByField: "shop" },
+      },
+      storageKey: "NzJl8zUoaFJF",
+    },
+    titleLowercase: { type: "string", storageKey: "UWVTWubHPQ5o" },
   },
 };

@@ -13,39 +13,21 @@ import {
   Badge,
 } from "@shopify/polaris";
 import { ImageMajor } from "@shopify/polaris-icons";
-import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useState, useMemo } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 
-export default ({ control, errors, getValues, watch, setValue }) => {
+export default ({ control, errors, getValues, watch, setValue, isDirty }) => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const { shop } = useContext(ShopContext);
   const shopify = useAppBridge();
 
-  const orignalBundleComponents = useMemo(
-    () => getValues("bundle.bundleComponents"),
-    []
-  );
-
-  console.log("Shop in form", shop);
-
-  // const orignalBundleComponents = [
-  //   {
-  //     id: "1234567890",
-  //     variant: {
-  //       id: "44396095013161",
-  //       title: "Meow",
-  //       product: { id: "8108738543913", title: "Cat" },
-  //       productImage: {
-  //         id: "40376772559145",
-  //         source:
-  //           "https://i.natgeofe.com/n/548467d8-c5f1-4551-9f58-6817a8d2c45e/NationalGeographic_2572187_square.jpg",
-  //       },
-  //     },
-  //   },
-  // ];
-
-  const { replace: replaceBundleComponents } = useFieldArray({
+  const {
+    fields: bundleComponents,
+    append: appendBundleComponent,
+    remove: removeBundleComponent,
+    replace: replaceBundleComponents,
+  } = useFieldArray({
     control,
     name: "bundle.bundleComponents",
   });
@@ -54,98 +36,95 @@ export default ({ control, errors, getValues, watch, setValue }) => {
     (selection) => {
       if (!selection) return;
 
-      console.log("SELECTION", selection);
-
       setSelectedProducts(selection);
 
       if (selection) {
-        const tempArr = [];
         const variants = selection
           .reduce((variants, product) => {
             return variants.concat(product.variants);
           }, [])
           .map((variant) => ({
-            id: variant.id.replace(/gid:\/\/shopify\/ProductVariant\//g, ""),
+            id: variant?.id.replace(/gid:\/\/shopify\/ProductVariant\//g, ""),
           }));
 
-        if (!variants?.length)
-          // return setValue("bundle.bundleComponents", tempArr);
-          return replaceBundleComponents(tempArr);
+        if (variants?.length === 0) return replaceBundleComponents([]);
 
-        for (const variant of variants) {
-          let value;
+        // find variants that arent in bundleComponents
+        // find bundleComponents that arent in variants
 
-          if (orignalBundleComponents?.length) {
-            for (const bundleComponent of orignalBundleComponents) {
-              if (bundleComponent.variant.id === variant.id) {
-                value = { id: bundleComponent.id };
-                break;
-              }
-            }
+        // add variants that aren't in bundle components
+        // remove bundle components that aren't in variants
+
+        // I need to readd missing original bundle components that are missing
+
+        for (const bundleComponent of bundleComponents) {
+          if (
+            !variants.some(
+              (v) =>
+                v.id === bundleComponent?.productVariant?.id ||
+                v.id === bundleComponent.productVariantId
+            )
+          ) {
+            removeBundleComponent(bundleComponent.id);
           }
-
-          if (!value)
-            value = {
-              shop: { _link: shop.id },
-              variant: { _link: variant.id },
-            };
-
-          tempArr.push(value);
         }
 
-        console.log("TEMP ARR", tempArr);
+        for (const variant of variants) {
+          if (
+            !bundleComponents.some((bc) => bc.productVariant.id === variant.id)
+          ) {
+            appendBundleComponent({
+              shopId: shop.id,
+              productVariantId: variant.id,
+            });
+          }
+        }
 
-        // setValue("bundle.bundleComponents", tempArr);
-        replaceBundleComponents(tempArr);
-
-        console.log(getValues("bundle.bundleComponents"));
-
-        // bundleComponent returned from the API
-        // id: true,
-        // variant: {
-        //   id: true,
-        //   productId: true,
-        // },
-
-        // Arr comparison { id: ""}, { variant: { _link: ""}}
+        console.log(
+          { bundleComponents: getValues("bundle.bundleComponents") },
+          "BUNDLECOMPONENTS"
+        );
       }
     },
-    [shop]
+    [shop, bundleComponents]
   );
 
+  console.log({ bundleComponents }, "BUNDLE COMPONENTS");
+
   useEffect(() => {
-    if (orignalBundleComponents?.length) {
+    if (bundleComponents?.length && !isDirty) {
       const tempObj = {};
 
-      for (const bundleComponent of orignalBundleComponents) {
-        if (!tempObj[bundleComponent.variant.product.id]) {
-          tempObj[bundleComponent.variant.product.id] = {
-            id: `gid://shopify/Product/${bundleComponent.variant.product.id}`,
-            title: bundleComponent.variant.product.title,
+      for (const bundleComponent of bundleComponents) {
+        if (!tempObj[bundleComponent.productVariant.product.id]) {
+          tempObj[bundleComponent.productVariant.product.id] = {
+            id: `gid://shopify/Product/${bundleComponent.productVariant.product.id}`,
+            title: bundleComponent.productVariant.product.title,
             variants: [
               {
-                id: `gid://shopify/ProductVariant/${bundleComponent.variant.id}`,
-                title: bundleComponent.variant.title,
+                id: `gid://shopify/ProductVariant/${bundleComponent.productVariant.id}`,
+                title: bundleComponent.productVariant.title,
               },
             ],
             images: [
               {
-                id: `gid://shopify/ProductImage/${bundleComponent.variant.productImage.id}`,
-                originalSrc: bundleComponent.variant.productImage.source,
+                id: `gid://shopify/ProductImage/${bundleComponent?.productVariant?.product?.images[0]?.id}`,
+                originalSrc:
+                  bundleComponent?.productVariant?.product?.images[0]?.source,
               },
             ],
           };
         } else {
-          tempObj[bundleComponent.variant.product.id].variants.push({
-            id: `gid://shopify/ProductVariant/${bundleComponent.variant.id}`,
-            title: bundleComponent.variant.title,
+          tempObj[bundleComponent.productVariant.product.id].variants.push({
+            id: `gid://shopify/ProductVariant/${bundleComponent.productVariant.id}`,
+            title: bundleComponent.productVariant.title,
           });
         }
       }
 
       setSelectedProducts(Object.values(tempObj));
     }
-  }, []);
+  }, [bundleComponents]);
 
   return (
     <Form>
@@ -166,6 +145,43 @@ export default ({ control, errors, getValues, watch, setValue }) => {
             );
           }}
         />
+        <FormLayout.Group>
+          <Controller
+            name="price"
+            control={control}
+            required
+            render={({ field }) => {
+              const { ref, ...fieldProps } = field;
+              return (
+                <TextField
+                  label="Price"
+                  type="number"
+                  autoComplete="off"
+                  {...fieldProps}
+                />
+              );
+            }}
+          />
+          <Controller
+            name="bundle.status"
+            control={control}
+            required
+            render={({ field }) => {
+              const { ref, ...fieldProps } = field;
+              return (
+                <Select
+                  label="Status"
+                  options={[
+                    { label: "Active", value: "active" },
+                    { label: "Draft", value: "draft" },
+                    { label: "Archived", value: "archived" },
+                  ]}
+                  {...fieldProps}
+                />
+              );
+            }}
+          />
+        </FormLayout.Group>
         <Controller
           name="bundle.description"
           control={control}
@@ -182,42 +198,7 @@ export default ({ control, errors, getValues, watch, setValue }) => {
             );
           }}
         />
-        <Controller
-          name="bundle.status"
-          control={control}
-          required
-          render={({ field }) => {
-            const { ref, ...fieldProps } = field;
-            return (
-              <Select
-                label="Status"
-                options={[
-                  { label: "Active", value: "active" },
-                  { label: "Draft", value: "draft" },
-                  { label: "Archived", value: "archived" },
-                ]}
-                {...fieldProps}
-              />
-            );
-          }}
-        />
 
-        {/* <Controller
-      name="price"
-      control={control}
-      required
-      render={({ field }) => {
-        const { ref, ...fieldProps } = field;
-        return (
-          <TextField
-            label="Price"
-            type="number"
-            autoComplete="off"
-            {...fieldProps}
-          />
-        );
-      }}
-    /> */}
         <Button
           onClick={async () => {
             const selection = await shopify.resourcePicker({
@@ -251,8 +232,8 @@ export default ({ control, errors, getValues, watch, setValue }) => {
                       Variants
                     </Text>
                     <InlineStack gap="300" blockAlign="center">
-                      {variants.map(({ id, title }) => (
-                        <Badge key={id}>{title}</Badge>
+                      {variants.map(({ title }, index) => (
+                        <Badge key={index}>{title}</Badge>
                       ))}
                     </InlineStack>
                   </BlockStack>

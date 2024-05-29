@@ -26,7 +26,7 @@ export const schema: GadgetModel = {
       children: { model: "bundle", belongsToField: "shop" },
       storageKey: "5abwB6m2ta5F",
     },
-    isBundleDefinition: {
+    isBundleDefinitionId: {
       type: "string",
       storageKey: "74DalOPsAuLS",
     },

@@ -1,1 +1,2 @@
-export { default as Bundles } from "./Bundles";
+export { default as Bundles } from "./bundles";
+export { default as CreateBundle } from "./create-bundle";

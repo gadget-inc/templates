@@ -1,6 +1,14 @@
-import { BlockStack, FooterHelp, Link, Page, Text } from "@shopify/polaris";
+import {
+  BlockStack,
+  FooterHelp,
+  Link,
+  Page,
+  Text,
+  TextField,
+} from "@shopify/polaris";
 import { useContext } from "react";
 import { ShopContext } from "../providers";
+import { useNavigate } from "react-router-dom";
 
 export default ({
   children,
@@ -9,11 +17,28 @@ export default ({
   inForm,
   saveDisabled,
   submit,
+  title,
+  handleSearchInputChange,
+  searchValue,
+  getNextPage,
+  getPreviousPage,
 }) => {
+  const navigate = useNavigate();
   const { shop } = useContext(ShopContext);
 
   return (
     <Page
+      title={title || ""}
+      titleMetadata={
+        !inForm && (
+          <TextField
+            value={searchValue}
+            placeholder="Search"
+            onChange={handleSearchInputChange}
+            autoComplete="off"
+          />
+        )
+      }
       backAction={
         inForm && shop?.bundleCount && { onAction: () => navigate("/") }
       }
@@ -28,6 +53,8 @@ export default ({
         !inForm && {
           hasPrevious: hasPreviousPage,
           hasNext: hasNextPage,
+          onNext: getNextPage,
+          onPrevious: getPreviousPage,
         }
       }
     >

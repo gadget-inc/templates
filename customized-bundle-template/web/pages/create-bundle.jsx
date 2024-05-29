@@ -2,8 +2,7 @@ import { useCallback, useContext } from "react";
 import { api } from "../api";
 import { useActionForm } from "@gadgetinc/react";
 import { Card, Text, Layout, BlockStack } from "@shopify/polaris";
-import QuizForm from "./QuizForm";
-import PageTemplate from "./PageTemplate";
+import { QuizForm, PageTemplate } from "../components";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../providers";
 
@@ -22,10 +21,11 @@ export default () => {
     mode: "onBlur",
     defaultValues: {
       bundle: {
+        title: "",
+        description: "",
         status: "active",
-        shop: {
-          id: shop?.id,
-        },
+        shopId: shop.id,
+        price: 0,
         bundleComponents: [],
       },
     },
@@ -33,8 +33,6 @@ export default () => {
   });
 
   const createBundle = useCallback(async () => {
-    console.log("HIT", getValues());
-
     const result = await submit();
 
     if (!result) {
@@ -43,11 +41,11 @@ export default () => {
 
     const { data, error } = result;
 
-    // if (data) {
-    //   navigate("/");
-    // } else {
-    //   console.error("Error submitting form", error);
-    // }
+    if (data) {
+      navigate("/");
+    } else {
+      console.error("Error submitting form", error);
+    }
   }, []);
 
   return (
@@ -64,7 +62,6 @@ export default () => {
                 Create a bundle
               </Text>
               <QuizForm
-                // onSubmit={createBundle}
                 {...{
                   control,
                   errors,

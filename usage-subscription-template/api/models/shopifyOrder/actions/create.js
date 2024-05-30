@@ -5,8 +5,6 @@ import {
   ActionOptions,
   CreateShopifyOrderActionContext,
 } from "gadget-server";
-import CurrencyConverter from "currency-converter-lt";
-import { getCappedAmount } from "../../../../utilities";
 
 /**
  * @param { CreateShopifyOrderActionContext } context
@@ -22,12 +20,15 @@ export async function run({ params, record, logger, api, connections }) {
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
   const shop = await api.shopifyShop.findOne(record.shopId, {
-    currency: true,
-    activeSubscriptionId: true,
-    usagePlanId: true,
-    overage: true,
-    plan: {
-      price: true,
+    select: {
+      name: true,
+      currency: true,
+      activeSubscriptionId: true,
+      usagePlanId: true,
+      overage: true,
+      plan: {
+        pricePerOrder: true,
+      },
     },
   });
 
@@ -41,7 +42,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         usagePlanId: shop.usagePlanId,
         overage: shop.overage,
         plan: {
-          price: shop.plan.price,
+          price: shop.plan.pricePerOrder,
         },
       },
       order: {

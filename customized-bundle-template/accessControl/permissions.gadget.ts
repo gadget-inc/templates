@@ -101,9 +101,6 @@ export const permissions: GadgetPermissions = {
           },
         },
       },
-      actions: {
-        getBundleComponents: true,
-      },
     },
     unauthenticated: {
       storageKey: "unauthenticated",

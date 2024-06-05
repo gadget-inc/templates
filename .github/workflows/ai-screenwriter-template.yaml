@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: AI Screenwriter Deployment
 
 on:
   push:

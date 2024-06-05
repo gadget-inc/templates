@@ -6,6 +6,7 @@ on:
       - "monthy-subscription-template/**"
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   push-to-development-environment:

@@ -6,6 +6,7 @@ on:
       - "bundle-template/**"
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   push-to-development-environment:

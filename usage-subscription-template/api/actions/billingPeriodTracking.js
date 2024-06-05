@@ -46,33 +46,28 @@ export async function run({ params, logger, api, connections }) {
     allShops = allShops.concat(shops);
   }
 
-  const enqueueArray = [];
-
   for (const shop of allShops) {
-    enqueueArray.push(
-      async () =>
-        await api.enqueue(
-          api.chargeShop,
-          {
-            shop: {
-              id: shop.id,
-              currency: shop.currency,
-              overage: shop.overage,
-              activeSubscriptionId: shop.activeSubscriptionId,
-              usagePlanId: shop.usagePlanId,
-              plan: {
-                currency: shop.plan.currency,
-                price: shop.plan.pricePerOrder,
-              },
-            },
+    await api.enqueue(
+      api.chargeShop,
+      {
+        shop: {
+          id: shop.id,
+          currency: shop.currency,
+          overage: shop.overage,
+          activeSubscriptionId: shop.activeSubscriptionId,
+          usagePlanId: shop.usagePlanId,
+          plan: {
+            currency: shop.plan.currency,
+            price: shop.plan.pricePerOrder,
           },
-          {
-            queue: {
-              name: shop.name,
-              maxConcurrency: 4,
-            },
-          }
-        )
+        },
+      },
+      {
+        queue: {
+          name: shop.name,
+          maxConcurrency: 4,
+        },
+      }
     );
 
     await api.internal.shopifyShop.update(shop.id, {

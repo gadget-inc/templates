@@ -161,10 +161,10 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.23":
-  version "0.15.23"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.23.tgz#2ed216c1aa6e9d22e20a8f74598c1ed996e0a9ea"
-  integrity sha512-mgFAXpYWRmxWRWSrjJcGzO9yTHphptkg7Mx+0xlh79HO7L/tEZ4fChxtQ9pCjPn9V639wWQzRgZTSOyh9sEDJg==
+"@gadgetinc/api-client-core@0.15.24", "@gadgetinc/api-client-core@^0.15.24":
+  version "0.15.24"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.24.tgz#73fd53e0a1ce8a8a98bc1a68d685ac0e20aa56c5"
+  integrity sha512-w1glp2SypeJrG3YPwZfzcDRFynfZNb64k17PvkuijVd3uPHwkwSOmX0E2GIlaMNt7khixHM4MOzDxThTFyW/Lg==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@n1ru4l/graphql-live-query" "^0.10.0"
@@ -182,7 +182,7 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/api-client-core@^0.15.13", "@gadgetinc/api-client-core@^0.15.20":
+"@gadgetinc/api-client-core@^0.15.13":
   version "0.15.20"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.20.tgz#ad89058b59a3e12629ea84f34ba0981ea22f5891"
   integrity sha512-4Ro3LoaDo2HK42NdFO36p6jnno9o9urJ9THFnyW6Z5jV+Adixa2PUQhzH7ZABkx/44k+gA3/MYG9EZAmnMvZDA==
@@ -210,11 +210,13 @@
     crypto-js "^4.1.1"
     tslib "^2.6.2"
 
-"@gadgetinc/react@github:gadget-inc/js-clients#@gadgetinc/react-v0.15.5-gitpkg-17c621b":
-  version "0.15.5"
-  resolved "https://codeload.github.com/gadget-inc/js-clients/tar.gz/bc0a34f788aa38220d29a394c6b721f720042d47"
+"@gadgetinc/react@^0.15.10":
+  version "0.15.10"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.15.10.tgz#2e913b0ae7963f4d9826bbb4d83ffba543185a4b"
+  integrity sha512-H/GtMU065amkaYCqMXOn6Lt0LEpMGW6kDndM4MHy/r96LfZf9JAJyyuhYVZUVd8dYwg/gq66K6xiqGUHt6QpJQ==
   dependencies:
-    "@gadgetinc/api-client-core" "^0.15.20"
+    "@0no-co/graphql.web" "^1.0.4"
+    "@gadgetinc/api-client-core" "^0.15.24"
     react-fast-compare "^3.2.2"
     react-hook-form "~7.48.2"
     tslib "^2.6.2"

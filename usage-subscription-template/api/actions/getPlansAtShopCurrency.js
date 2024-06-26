@@ -10,6 +10,7 @@ import { convertCurrency } from "../../utilities";
 export async function run({ params, logger, api, connections }) {
   const response = [];
 
+  // Getting the current shop's currency
   const shop = await api.shopifyShop.maybeFindOne(
     connections.shopify.currentShopId,
     {

@@ -7,23 +7,25 @@ import { getCappedAmount } from "../../utilities";
 export async function run({ params, logger, api, connections }) {
   const { shop, order } = params;
 
+  // Creating an instance of the Shopify Admin API
+  const shopify = await connections.shopify.forShopId(shop.id);
+
+  // Returning early if the shop is uninstalled and no Shopify instance is created
+  if (!shopify)
+    return logger.warn({
+      message: "BILLING - Shop uninstalled",
+      shopId: shop.id,
+    });
+
+  // Fetching the amount used in the period
   const { amountUsedInPeriod } = await api.shopifyShop.findOne(shop.id, {
     amountUsedInPeriod: true,
   });
 
   let remainder = 0;
 
-  const shopify = await connections.shopify.forShopId(shop.id);
-
-  // Returning early if the shop is uninstalled and no Shopify instance is created
-  if (!shopify)
-    return logger.warn({
-      message:
-        "Shop uninstalled - Cannot charge shop because the shop is uninstalled",
-      shopId: shop.id,
-    });
-
-  const activeSubscription = await api.shopifyAppSubscription.maybeFindOne(
+  // Fetching the subscription at the time
+  const subscription = await api.shopifyAppSubscription.maybeFindOne(
     shop?.activeSubscriptionId,
     {
       select: {
@@ -32,19 +34,18 @@ export async function run({ params, logger, api, connections }) {
     }
   );
 
-  if (!activeSubscription)
+  if (!subscription)
     return logger.warn({
-      message:
-        "NO ACTIVE SUBSCRIPTION - Cannot charge overages because the shop has no active subscription",
+      message: "BILLING - No subscription found for the shop",
       shopId: shop.id,
     });
 
   // Pulling out the capped amount from the active subscription
-  const cappedAmount = getCappedAmount(activeSubscription);
+  const cappedAmount = getCappedAmount(subscription);
 
   if (!cappedAmount)
     return logger.warn({
-      message: "NO CAPPED AMOUNT - Active subscription missing a capped amount",
+      message: "BILLING - No capped amount found for the shop",
       shopId: shop.id,
     });
 
@@ -59,13 +60,16 @@ export async function run({ params, logger, api, connections }) {
     });
   }
 
+  // Calculating the available amount
   const availableAmount = cappedAmount - amountUsedInPeriod;
 
+  // Setting a remainder if the price is greater than the available amount
   if (price >= availableAmount) {
     remainder = price - availableAmount;
     price = availableAmount;
   }
 
+  // Creating the usage charge with the Shopify Billing API
   const result = await shopify.graphql(
     `mutation ($description: String!, $price: MoneyInput!, $subscriptionLineItemId: ID!) {
       appUsageRecordCreate(description: $description, price: $price, subscriptionLineItemId: $subscriptionLineItemId) {
@@ -92,9 +96,11 @@ export async function run({ params, logger, api, connections }) {
     }
   );
 
+  // Throwing an error if the charge fails
   if (result?.appUsageRecordCreate?.userErrors?.length)
     throw new Error(result.appUsageRecordCreate.userErrors[0].message);
 
+  // Creating the usage charge record in the database
   await api.internal.usageRecord.create({
     id: result.appUsageRecordCreate.appUsageRecord.id.split("/")[4],
     price,
@@ -104,11 +110,11 @@ export async function run({ params, logger, api, connections }) {
     },
   });
 
-  if (remainder) {
+  // Updating the overage amount if there is a remainder
+  if (remainder)
     await api.internal.shopifyShop.update(shop.id, {
       overage: remainder,
     });
-  }
 }
 
 /** @type { ActionOptions } */

@@ -1,4 +1,7 @@
-import { BillingPeriodTrackingGlobalActionContext } from "gadget-server";
+import {
+  ActionOptions,
+  BillingPeriodTrackingGlobalActionContext,
+} from "gadget-server";
 import { DateTime } from "luxon";
 
 /**
@@ -71,6 +74,7 @@ export async function run({ params, logger, api, connections }) {
       }
     );
 
+    // Updating billing period information
     await api.internal.shopifyShop.update(shop.id, {
       billingPeriodStart: DateTime.fromJSDate(new Date(shop.billingPeriodEnd))
         .plus({ milliseconds: 1 })
@@ -82,7 +86,7 @@ export async function run({ params, logger, api, connections }) {
   }
 }
 
-// Action timeout set to 5 minutes (300,000 milliseconds)
+/** @type { ActionOptions } */
 export const options = {
   timeoutMS: 900000,
   triggers: {

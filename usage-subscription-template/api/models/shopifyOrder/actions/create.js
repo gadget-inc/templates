@@ -54,6 +54,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         name: shop.name,
         maxConcurrency: 4,
       },
+      retries: 1,
     }
   );
 }

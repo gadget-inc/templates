@@ -67,6 +67,7 @@ export async function run({ params, logger, api, connections }) {
           name: shop.name,
           maxConcurrency: 4,
         },
+        retries: 1,
       }
     );
 

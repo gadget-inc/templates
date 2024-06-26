@@ -15,6 +15,14 @@ export async function run({ params, logger, api, connections }) {
 
   const shopify = await connections.shopify.forShopId(shop.id);
 
+  // Returning early if the shop is uninstalled and no Shopify instance is created
+  if (!shopify)
+    return logger.warn({
+      message:
+        "Shop uninstalled - Cannot charge shop because the shop is uninstalled",
+      shopId: shop.id,
+    });
+
   const activeSubscription = await api.shopifyAppSubscription.maybeFindOne(
     shop?.activeSubscriptionId,
     {
@@ -24,27 +32,23 @@ export async function run({ params, logger, api, connections }) {
     }
   );
 
-  if (!activeSubscription) {
-    logger.warn({
+  if (!activeSubscription)
+    return logger.warn({
       message:
         "NO ACTIVE SUBSCRIPTION - Cannot charge overages because the shop has no active subscription",
       shopId: shop.id,
-      in: "billingPeriodTracking.js",
     });
-    return;
-  }
 
+  // Pulling out the capped amount from the active subscription
   const cappedAmount = getCappedAmount(activeSubscription);
 
-  if (!cappedAmount) {
-    logger.warn({
+  if (!cappedAmount)
+    return logger.warn({
       message: "NO CAPPED AMOUNT - Active subscription missing a capped amount",
       shopId: shop.id,
-      in: "billingPeriodTracking.js",
     });
-    return;
-  }
 
+  // Initially setting the price to the plan price and adding the overage amount if they exist
   let price = shop.plan?.price + (shop.overage || 0) || 0;
 
   // Returning early if the amount used in the period is greater than or equal to the capped amount
@@ -88,7 +92,7 @@ export async function run({ params, logger, api, connections }) {
     }
   );
 
-  if (result?.appUsageRecordCreate.userErrors.length)
+  if (result?.appUsageRecordCreate?.userErrors?.length)
     throw new Error(result.appUsageRecordCreate.userErrors[0].message);
 
   await api.internal.usageRecord.create({

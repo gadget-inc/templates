@@ -45,22 +45,21 @@ export async function run({ params, logger, api, connections }) {
     return;
   }
 
-  let price = shop.plan?.price || 0;
+  let price = shop.plan?.price + (shop.overage || 0) || 0;
 
-  if (shop.overage) {
-    price += shop.overage;
-  }
-
-  if (amountUsedInPeriod === cappedAmount) {
-    remainder = price;
+  // Returning early if the amount used in the period is greater than or equal to the capped amount
+  if (amountUsedInPeriod >= cappedAmount) {
+    // Modifying the overage amount of the current shop
     return await api.internal.shopifyShop.update(shop.id, {
-      overage: remainder,
+      overage: price,
     });
   }
 
-  if (price > cappedAmount - amountUsedInPeriod) {
-    remainder = price - (cappedAmount - amountUsedInPeriod);
-    price = cappedAmount - amountUsedInPeriod;
+  const availableAmount = cappedAmount - amountUsedInPeriod;
+
+  if (price >= availableAmount) {
+    remainder = price - availableAmount;
+    price = availableAmount;
   }
 
   const result = await shopify.graphql(

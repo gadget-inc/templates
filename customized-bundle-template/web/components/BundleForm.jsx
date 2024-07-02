@@ -11,6 +11,7 @@ import {
   Select,
   Thumbnail,
   Badge,
+  Checkbox,
 } from "@shopify/polaris";
 import { ImageMajor } from "@shopify/polaris-icons";
 import { useCallback, useContext, useEffect, useState } from "react";
@@ -176,6 +177,20 @@ export default ({
           />
         </FormLayout.Group>
         <Controller
+          name="bundle.requiresComponents"
+          control={control}
+          render={({ field }) => {
+            const { ref, ...fieldProps } = field;
+            return (
+              <Checkbox
+                {...fieldProps}
+                checked={fieldProps.value}
+                label="Requires that all variants be part of the cart to bundle"
+              />
+            );
+          }}
+        />
+        <Controller
           name="bundle.description"
           control={control}
           required
@@ -191,7 +206,6 @@ export default ({
             );
           }}
         />
-
         <Button
           onClick={async () => {
             const selection = await shopify.resourcePicker({

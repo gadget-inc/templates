@@ -30,6 +30,7 @@ export default () => {
       description: true,
       price: true,
       shopId: true,
+      requiresComponents: true,
       bundleComponents: {
         edges: {
           node: {
@@ -104,8 +105,3 @@ export default () => {
     </PageTemplate>
   );
 };
-
-// Default values for the bundleComponents needs to be fetched fro mthe API to make sure that we capture all the variants that could have been added to the bundle
-// Make sure to keep an array that you will use as a lookup table so that I don't create/delete bundle components unnecessarily. Example, removing a bundle component from the list when changing the resource picker selection and adding it back in afterwards
-
-// useFieldArray acts as a create/update/delete. When there's a value but no id the record is created, when there's a value with an id, the record is updated, when a record is removed from the array, the record is deleted.

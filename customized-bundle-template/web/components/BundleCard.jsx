@@ -24,12 +24,14 @@ const tones = {
   draft: "info",
 };
 
+// Add price to the bundle card
 export default ({ id, title, description, status, price, productVariants }) => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   return (
     <Card>
+      {/* Add a delete button to the card to delete the bundle */}
       <BlockStack gap="300">
         <InlineStack wrap={false} align="space-between">
           <InlineStack wrap={false} gap="300">
@@ -37,7 +39,6 @@ export default ({ id, title, description, status, price, productVariants }) => {
               {title}
             </Text>
             <Badge tone={tones[status]}>{status}</Badge>
-            {/* Add edit button */}
           </InlineStack>
           <ButtonGroup>
             <Button

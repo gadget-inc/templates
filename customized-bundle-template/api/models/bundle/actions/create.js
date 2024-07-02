@@ -6,7 +6,7 @@ import { applyParams, save, ActionOptions, CreateBundleActionContext } from "gad
 export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
 
-  record.titleLowercase = title.toLowerCase()
+  record.titleLowercase = record.title.toLowerCase()
 
   await save(record);
 };

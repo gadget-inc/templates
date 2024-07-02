@@ -68,6 +68,7 @@ export default () => {
                   getValues,
                   watch,
                   setValue,
+                  isDirty,
                 }}
               />
             </BlockStack>

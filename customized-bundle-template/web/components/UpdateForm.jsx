@@ -58,8 +58,6 @@ export default () => {
   });
 
   const updateBundle = useCallback(async () => {
-    console.log(getValues(), "HERE ARE THE VALUES BEFORE SUBMISSION");
-
     const result = await submit();
 
     if (!result) {
@@ -68,11 +66,11 @@ export default () => {
 
     const { data, error } = result;
 
-    // if (data) {
-    //   navigate("/");
-    // } else {
-    //   console.error("Error submitting form", error);
-    // }
+    if (data) {
+      navigate("/");
+    } else {
+      console.error("Error submitting form", error);
+    }
   }, []);
 
   return (
@@ -97,6 +95,7 @@ export default () => {
                   setValue,
                   isDirty,
                 }}
+                updateForm
               />
             </BlockStack>
           </Card>

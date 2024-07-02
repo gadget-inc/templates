@@ -3,13 +3,11 @@ import { api } from "../api";
 import { useFindMany } from "@gadgetinc/react";
 import { useCallback, useEffect, useState } from "react";
 import { BundleCard, PageTemplate, Spinner } from "../components";
-import { useNavigate } from "react-router-dom";
 import { useDebounce } from "use-debounce";
 
-const NUM_ON_PAGE = 5;
+const NUM_ON_PAGE = 10;
 
 export default () => {
-  const navigate = useNavigate();
   const [cursor, setCursor] = useState({ first: NUM_ON_PAGE });
   const [searchValue, setSearchValue] = useState("");
   const [filter] = useDebounce(

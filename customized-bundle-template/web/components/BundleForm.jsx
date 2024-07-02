@@ -17,7 +17,15 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 
-export default ({ control, errors, getValues, watch, setValue, isDirty }) => {
+export default ({
+  control,
+  errors,
+  getValues,
+  watch,
+  setValue,
+  isDirty,
+  updateForm,
+}) => {
   const [selectedProducts, setSelectedProducts] = useState([]);
   const { shop } = useContext(ShopContext);
   const shopify = useAppBridge();
@@ -63,7 +71,7 @@ export default ({ control, errors, getValues, watch, setValue, isDirty }) => {
 
         for (const variant of variants) {
           if (
-            !bundleComponents.some((bc) => bc.productVariant.id === variant.id)
+            !bundleComponents.some((bc) => bc?.productVariantId === variant.id)
           ) {
             appendBundleComponent({
               shopId: shop.id,
@@ -71,20 +79,13 @@ export default ({ control, errors, getValues, watch, setValue, isDirty }) => {
             });
           }
         }
-
-        console.log(
-          { bundleComponents: getValues("bundle.bundleComponents") },
-          "BUNDLECOMPONENTS"
-        );
       }
     },
     [shop, bundleComponents]
   );
 
-  console.log({ bundleComponents }, "BUNDLE COMPONENTS");
-
   useEffect(() => {
-    if (bundleComponents?.length && !isDirty) {
+    if (bundleComponents?.length && updateForm) {
       const tempObj = {};
 
       for (const bundleComponent of bundleComponents) {

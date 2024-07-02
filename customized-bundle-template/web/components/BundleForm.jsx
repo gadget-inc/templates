@@ -13,7 +13,7 @@ import {
   Badge,
 } from "@shopify/polaris";
 import { ImageMajor } from "@shopify/polaris-icons";
-import { useCallback, useContext, useEffect, useState, useMemo } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 
@@ -48,14 +48,6 @@ export default ({ control, errors, getValues, watch, setValue, isDirty }) => {
           }));
 
         if (variants?.length === 0) return replaceBundleComponents([]);
-
-        // find variants that arent in bundleComponents
-        // find bundleComponents that arent in variants
-
-        // add variants that aren't in bundle components
-        // remove bundle components that aren't in variants
-
-        // I need to readd missing original bundle components that are missing
 
         for (const bundleComponent of bundleComponents) {
           if (

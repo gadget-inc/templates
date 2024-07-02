@@ -2,7 +2,7 @@ import { useCallback, useContext } from "react";
 import { api } from "../api";
 import { useActionForm } from "@gadgetinc/react";
 import { Card, Text, Layout, BlockStack } from "@shopify/polaris";
-import { QuizForm, PageTemplate } from "../components";
+import { BundleForm, PageTemplate } from "../components";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../providers";
 
@@ -61,7 +61,7 @@ export default () => {
               <Text as="h2" variant="headingLg">
                 Create a bundle
               </Text>
-              <QuizForm
+              <BundleForm
                 {...{
                   control,
                   errors,

@@ -161,10 +161,10 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.24", "@gadgetinc/api-client-core@^0.15.24":
-  version "0.15.24"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.24.tgz#73fd53e0a1ce8a8a98bc1a68d685ac0e20aa56c5"
-  integrity sha512-w1glp2SypeJrG3YPwZfzcDRFynfZNb64k17PvkuijVd3uPHwkwSOmX0E2GIlaMNt7khixHM4MOzDxThTFyW/Lg==
+"@gadgetinc/api-client-core@0.15.26":
+  version "0.15.26"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.26.tgz#26a462e3792e1796bb8c21912c6b0e2db4f58e6e"
+  integrity sha512-U1g1iHcc+FXxM4LKrd4cRggxZ6/qUvhgdfEzK+qMVeCXRfT1KUYqWe/ZA1ifw3X8bhGnOmc4IC3bso2sNfhkWA==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@n1ru4l/graphql-live-query" "^0.10.0"
@@ -201,19 +201,40 @@
     tslib "^2.6.2"
     ws "^8.13.0"
 
-"@gadgetinc/react-shopify-app-bridge@^0.14.2":
-  version "0.14.2"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.14.2.tgz#70fd2d3a0ea096bfd563cd7544f1ea9bf64d40f5"
-  integrity sha512-dXcKgqOG/k8DDdRu1kepTASEaTInomH1KANMpgjMGyPzBcbSXZe6K5YpXix5IG13f5WtwijlfoVwUhVAHEJefw==
+"@gadgetinc/api-client-core@^0.15.24":
+  version "0.15.24"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.24.tgz#73fd53e0a1ce8a8a98bc1a68d685ac0e20aa56c5"
+  integrity sha512-w1glp2SypeJrG3YPwZfzcDRFynfZNb64k17PvkuijVd3uPHwkwSOmX0E2GIlaMNt7khixHM4MOzDxThTFyW/Lg==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.4"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^4.0.0"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    type-fest "^3.13.1"
+    wonka "^6.3.2"
+    ws "^8.17.0"
+
+"@gadgetinc/react-shopify-app-bridge@^0.15.2":
+  version "0.15.2"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.15.2.tgz#e84bb8ee6e14f559716c7b05b6efa70260c4aee5"
+  integrity sha512-bon7osa4hvfXfAB143bTuuJb04OW1NZCc7Dd7dv8ChpRYNVEIe92c6kdiRsxHQAR7/yUzPmc7p7l2UJKQ7kwHQ==
   dependencies:
     "@gadgetinc/api-client-core" "^0.15.13"
-    crypto-js "^4.1.1"
+    crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.15.10":
-  version "0.15.10"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.15.10.tgz#2e913b0ae7963f4d9826bbb4d83ffba543185a4b"
-  integrity sha512-H/GtMU065amkaYCqMXOn6Lt0LEpMGW6kDndM4MHy/r96LfZf9JAJyyuhYVZUVd8dYwg/gq66K6xiqGUHt6QpJQ==
+"@gadgetinc/react@^0.15.12":
+  version "0.15.12"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.15.12.tgz#8613535675719392685f7fd24820950e7355e57d"
+  integrity sha512-t78iDPdevJ7/OSy+QY4mTik2b+zw2hfL3v8c8Omw5IB64YEJ4qiZYFvKnlDnbL3bQ9aWwNAl60OocIMXPvHtbw==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@gadgetinc/api-client-core" "^0.15.24"
@@ -621,7 +642,7 @@ cross-fetch@^4.0.0:
   dependencies:
     node-fetch "^2.6.12"
 
-crypto-js@^4.1.1:
+crypto-js@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
   integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==

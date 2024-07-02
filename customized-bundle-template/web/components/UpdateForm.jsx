@@ -1,10 +1,10 @@
-import { useActionForm, useGlobalAction } from "@gadgetinc/react";
+import { useActionForm } from "@gadgetinc/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback } from "react";
 import { api } from "../api";
 import PageTemplate from "./PageTemplate";
 import { BlockStack, Card, Layout, Text } from "@shopify/polaris";
-import QuizForm from "./QuizForm";
+import BundleForm from "./BundleForm";
 
 export default () => {
   const navigate = useNavigate();
@@ -58,7 +58,7 @@ export default () => {
   });
 
   const updateBundle = useCallback(async () => {
-    console.log(getValues(), "GET VALUES");
+    console.log(getValues(), "HERE ARE THE VALUES BEFORE SUBMISSION");
 
     const result = await submit();
 
@@ -75,8 +75,6 @@ export default () => {
     // }
   }, []);
 
-  // console.log({ isDirty, isValid, isSubmitting, isLoading });
-
   return (
     <PageTemplate
       inForm
@@ -90,7 +88,7 @@ export default () => {
               <Text as="h2" variant="headingLg">
                 {getValues("title")}
               </Text>
-              <QuizForm
+              <BundleForm
                 {...{
                   control,
                   errors,

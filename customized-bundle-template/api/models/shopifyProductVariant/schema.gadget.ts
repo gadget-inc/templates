@@ -17,15 +17,21 @@ export const schema: GadgetModel = {
       },
       storageKey: "5bhdruCB4y4K",
     },
+    componentReference: {
+      type: "json",
+      shopifyMetafield: {
+        privateMetafield: false,
+        namespace: "bundle",
+        key: "componentReference",
+        metafieldType: "variant_reference",
+        allowMultipleEntries: true,
+      },
+      storageKey: "3qhbYcU7_k0A",
+    },
     grams: {
       type: "number",
       storageKey:
         "ModelField-DataModel-Shopify-ProductVariant-grams::FieldStorageEpoch-DataModel-Shopify-ProductVariant-grams-initial",
-    },
-    inventoryQuantityAdjustment: {
-      type: "number",
-      storageKey:
-        "ModelField-DataModel-Shopify-ProductVariant-inventory_quantity_adjustment::FieldStorageEpoch-DataModel-Shopify-ProductVariant-inventory_quantity_adjustment-initial",
     },
     isBundle: {
       type: "boolean",
@@ -37,11 +43,6 @@ export const schema: GadgetModel = {
         allowMultipleEntries: false,
       },
       storageKey: "cXcZnIK0yBPC",
-    },
-    oldInventoryQuantity: {
-      type: "number",
-      storageKey:
-        "ModelField-DataModel-Shopify-ProductVariant-old_inventory_quantity::FieldStorageEpoch-DataModel-Shopify-ProductVariant-old_inventory_quantity-initial",
     },
   },
   shopify: {

@@ -1,4 +1,5 @@
 import { CreateBundleInShopifyGlobalActionContext } from "gadget-server";
+import { fetchVariantGIDs } from "../../utilities";
 
 /**
  * @param { CreateBundleInShopifyGlobalActionContext } context
@@ -6,7 +7,11 @@ import { CreateBundleInShopifyGlobalActionContext } from "gadget-server";
 export async function run({ params, logger, api, connections }) {
   const {
     shopId,
-    bundle: { id, title, status, price, requiresComponents, description },
+    bundle: {
+      id,
+      product: { title, status },
+      variant: { price, requiresComponents, description },
+    },
   } = params;
 
   const shopify = await connections.shopify.forShopId(shopId);
@@ -42,31 +47,6 @@ export async function run({ params, logger, api, connections }) {
   if (productCreateResponse?.productCreate?.userErrors?.length)
     throw new Error(productCreateResponse.productCreate.userErrors[0].message);
 
-  const bundleComponents = await api.bundleComponent.findMany({
-    filter: {
-      bundleId: {
-        equals: id,
-      },
-      shop: {
-        equals: shopId,
-      },
-    },
-    first: 250,
-    select: {
-      productVariantId: true,
-    },
-  });
-
-  const variantGIDArray = [];
-
-  for (const bundleComponent of bundleComponents) {
-    variantGIDArray.push(
-      `gid://shopify/ProductVariant/${bundleComponent.productVariantId}`
-    );
-  }
-
-  logger.info({ id, title, status, price, requiresComponents, description });
-
   const productVariantUpdateResponse = await shopify.graphql(
     `mutation ($input: ProductVariantInput!) {
       productVariantUpdate(input: $input) {
@@ -90,7 +70,7 @@ export async function run({ params, logger, api, connections }) {
             namespace: "bundle",
             key: "componentReference",
             type: "list.variant_reference",
-            value: JSON.stringify(variantGIDArray),
+            value: JSON.stringify(await fetchVariantGIDs(id, shopId)),
           },
           {
             namespace: "bundle",
@@ -128,20 +108,30 @@ export const params = {
       id: {
         type: "string",
       },
-      title: {
-        type: "string",
+      product: {
+        type: "object",
+        properties: {
+          title: {
+            type: "string",
+          },
+          status: {
+            type: "string",
+          },
+        },
       },
-      status: {
-        type: "string",
-      },
-      price: {
-        type: "number",
-      },
-      requiresComponents: {
-        type: "boolean",
-      },
-      description: {
-        type: "string",
+      variant: {
+        type: "object",
+        properties: {
+          price: {
+            type: "number",
+          },
+          requiresComponents: {
+            type: "boolean",
+          },
+          description: {
+            type: "string",
+          },
+        },
       },
     },
   },

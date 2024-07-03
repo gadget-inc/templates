@@ -4,6 +4,7 @@ import {
   ActionOptions,
   UpdateBundleActionContext,
 } from "gadget-server";
+import { fetchVariantGIDs } from "../../../../utilities";
 
 /**
  * @param { UpdateBundleActionContext } context
@@ -15,70 +16,6 @@ export async function run({ params, record, logger, api, connections }) {
     record.titleLowercase = title.toLowerCase();
   }
 
-  const shopify = connections.shopify.current;
-
-  const variants = await api.bundleComponent.findMany({
-    filter: {
-      bundleId: {
-        equals: record.id,
-      },
-    },
-    first: 250,
-    select: {
-      id: true,
-    },
-  });
-
-  const variantGIDArray = [];
-
-  for (const variant of variants) {
-    variantGIDArray.push(`gid://shopify/ProductVariant/${variant.id}`);
-  }
-
-  // Will actually need to change this logic to update the product and variant in Shopify
-
-  const res = await shopify.graphql(
-    `mutation($productInput: ProductInput!) {
-      productUpdate(input: $productInput) {
-        product {
-          variants(first: 1) {
-            edges {
-              node {
-                id
-              }
-            }
-          }
-        }
-        userErrors {
-          field
-          message
-        }
-      }
-    }`,
-    {
-      productInput: {
-        status: record.status.toUpperCase(),
-        title: record.title,
-        variants: [
-          {
-            requiresComponents: true,
-            metafields: [
-              {
-                namespace: "bundle",
-                key: "componentReference",
-                type: "list.variant_reference",
-                value: JSON.stringify(variantGIDArray),
-              },
-            ],
-          },
-        ],
-      },
-    }
-  );
-
-  if (res?.metafieldsSet?.userErrors?.length)
-    throw new Error(res.metafieldsSet.userErrors[0].message);
-
   await save(record);
 }
 
@@ -86,7 +23,85 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { UpdateBundleActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  // Your logic goes here
+  const shopId = connections.shopify.currentShopId.toString();
+
+  const bundleVariant = await api.shopifyProductVariant.findOne(
+    record.bundleVariantId,
+    {
+      select: {
+        productId: true,
+        componentReference: true,
+      },
+    }
+  );
+
+  const product = { id: bundleVariant.productId },
+    productChanges = [],
+    variant = { id: record.bundleVariantId },
+    variantChanges = [];
+
+  for (const change of Object.entries(record.changes())) {
+    const [key, value] = change;
+    switch (key) {
+      case "title":
+        product.title = value.current;
+        productChanges.push("title");
+        break;
+      case "status":
+        product.status = value.current;
+        productChanges.push("status");
+        break;
+      case "price":
+        variant.price = value.current;
+        variantChanges.push("price");
+        break;
+      case "requiresComponents":
+        variant.requiresComponents = value.current;
+        variantChanges.push("requiresComponents");
+        break;
+      case "description":
+        variant.description = value.current;
+        variantChanges.push("description");
+        break;
+      default:
+        break;
+    }
+  }
+
+  const variantGIDs = JSON.stringify(await fetchVariantGIDs(record.id, shopId));
+
+  if (variantGIDs !== JSON.stringify(bundleVariant.componentReference)) {
+    variant.metafields = [
+      {
+        namespace: "bundle",
+        key: "componentReference",
+        type: "list.variant_reference",
+        value: variantGIDs,
+      },
+    ];
+    variantChanges.push("metafields");
+  }
+
+  await api.enqueue(
+    api.updateBundleInShopify,
+    {
+      shopId,
+      bundle: {
+        id: record.id,
+        product,
+        variant,
+      },
+      productChanges,
+      variantChanges,
+    },
+    {
+      queue: {
+        name: `updateBundleInShopify-${shopId}`,
+        maxConcurrency: 2,
+      },
+      retries: 1,
+    }
+  );
 }
 
 /** @type { ActionOptions } */

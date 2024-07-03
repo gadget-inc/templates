@@ -141,7 +141,7 @@ export default ({
         />
         <FormLayout.Group>
           <Controller
-            name="price"
+            name="bundle.price"
             control={control}
             required
             render={({ field }) => {
@@ -152,6 +152,10 @@ export default ({
                   type="number"
                   autoComplete="off"
                   {...fieldProps}
+                  value={fieldProps.value.toString()}
+                  onChange={(value) => {
+                    fieldProps.onChange(parseFloat(value));
+                  }}
                 />
               );
             }}

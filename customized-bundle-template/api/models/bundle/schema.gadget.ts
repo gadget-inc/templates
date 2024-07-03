@@ -15,6 +15,8 @@ export const schema: GadgetModel = {
     description: { type: "string", storageKey: "rXyzN2mr5Sm7" },
     price: {
       type: "number",
+      default: 0,
+      decimals: 2,
       validations: { numberRange: { min: 0, max: null } },
       storageKey: "zCSKCmHj0e79",
     },

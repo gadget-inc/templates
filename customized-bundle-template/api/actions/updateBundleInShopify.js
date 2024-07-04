@@ -4,6 +4,8 @@ import { UpdateBundleInShopifyGlobalActionContext } from "gadget-server";
  * @param { UpdateBundleInShopifyGlobalActionContext } context
  */
 export async function run({ params, logger, api, connections }) {
+  logger.info({ params }, "PARAMS");
+
   const {
     shopId,
     bundle: { id, product, variant },

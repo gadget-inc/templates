@@ -22,12 +22,12 @@ export default ({
   control,
   errors,
   getValues,
-  watch,
-  setValue,
   isDirty,
   updateForm,
+  defaultValues,
 }) => {
-  const [selectedProducts, setSelectedProducts] = useState([]);
+  const [selectedProducts, setSelectedProducts] = useState([]),
+    [loading, setLoading] = useState(true);
   const { shop } = useContext(ShopContext);
   const shopify = useAppBridge();
 
@@ -35,10 +35,9 @@ export default ({
     fields: bundleComponents,
     append: appendBundleComponent,
     remove: removeBundleComponent,
-    replace: replaceBundleComponents,
   } = useFieldArray({
     control,
-    name: "bundle.bundleComponents",
+    name: "bundleComponents",
   });
 
   const handleSelection = useCallback(
@@ -49,30 +48,49 @@ export default ({
 
       if (selection) {
         const variants = selection
-          .reduce((variants, product) => {
-            return variants.concat(product.variants);
+          .reduce((variantsTemp, product) => {
+            return variantsTemp.concat(product.variants);
           }, [])
           .map((variant) => ({
             id: variant?.id.replace(/gid:\/\/shopify\/ProductVariant\//g, ""),
           }));
 
-        if (variants?.length === 0) return replaceBundleComponents([]);
-
         for (const bundleComponent of bundleComponents) {
           if (
-            !variants.some(
-              (v) =>
-                v.id === bundleComponent?.productVariant?.id ||
-                v.id === bundleComponent.productVariantId
-            )
+            !variants.some((v) => {
+              // console.log(
+              //   {
+              //     bundleComponentVariantId: bundleComponent.productVariant.id,
+              //     variantId: v.id,
+              //     removeBundleComponent:
+              //       v.id !== bundleComponent.productVariant.id,
+              //   },
+              //   "COMPARE FOR REMOVAL"
+              // );
+              return v.id === bundleComponent.productVariant.id;
+            })
           ) {
+            // console.log(
+            //   bundleComponent.productVariant.id,
+            //   "REMOVED BUNDLE COMPONENT"
+            // );
             removeBundleComponent(bundleComponent.id);
           }
         }
 
         for (const variant of variants) {
           if (
-            !bundleComponents.some((bc) => bc?.productVariantId === variant.id)
+            !bundleComponents.some((bc) => {
+              // console.log(
+              //   {
+              //     bundleComponentVariantId: bc.productVariant.id,
+              //     variantId: variant.id,
+              //     addBundleComponent: variant.id !== bc.productVariant.id,
+              //   },
+              //   "COMPARE"
+              // );
+              return bc?.productVariant.id === variant.id;
+            })
           ) {
             appendBundleComponent({
               shopId: shop.id,
@@ -86,11 +104,11 @@ export default ({
   );
 
   useEffect(() => {
-    if (bundleComponents?.length && updateForm) {
+    if (bundleComponents?.length && updateForm && loading) {
       const tempObj = {};
 
       for (const bundleComponent of bundleComponents) {
-        if (!tempObj[bundleComponent.productVariant.product.id]) {
+        if (!tempObj[bundleComponent?.productVariant?.product?.id]) {
           tempObj[bundleComponent.productVariant.product.id] = {
             id: `gid://shopify/Product/${bundleComponent.productVariant.product.id}`,
             title: bundleComponent.productVariant.product.title,
@@ -117,14 +135,27 @@ export default ({
       }
 
       setSelectedProducts(Object.values(tempObj));
+      setLoading(false);
     }
   }, [bundleComponents]);
 
   return (
     <Form>
+      <button
+        type="button"
+        onClick={() =>
+          console.log({
+            defaultValues,
+            getValues: getValues(),
+            bundleComponents,
+          })
+        }
+      >
+        CLICK HERE
+      </button>
       <FormLayout>
         <Controller
-          name="bundle.title"
+          name="title"
           control={control}
           required
           render={({ field }) => {
@@ -141,7 +172,7 @@ export default ({
         />
         <FormLayout.Group>
           <Controller
-            name="bundle.price"
+            name="price"
             control={control}
             required
             render={({ field }) => {
@@ -152,7 +183,7 @@ export default ({
                   type="number"
                   autoComplete="off"
                   {...fieldProps}
-                  value={fieldProps.value.toString()}
+                  value={fieldProps?.value?.toString() || ""}
                   onChange={(value) => {
                     fieldProps.onChange(parseFloat(value));
                   }}
@@ -161,7 +192,7 @@ export default ({
             }}
           />
           <Controller
-            name="bundle.status"
+            name="status"
             control={control}
             required
             render={({ field }) => {
@@ -181,7 +212,7 @@ export default ({
           />
         </FormLayout.Group>
         <Controller
-          name="bundle.requiresComponents"
+          name="requiresComponents"
           control={control}
           render={({ field }) => {
             const { ref, ...fieldProps } = field;
@@ -195,7 +226,7 @@ export default ({
           }}
         />
         <Controller
-          name="bundle.description"
+          name="description"
           control={control}
           required
           render={({ field }) => {

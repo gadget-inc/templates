@@ -13,16 +13,17 @@ export default () => {
   const {
     control,
     submit,
-    setValue,
-    formState: { errors, isDirty, isValid, isSubmitting, isLoading },
+    formState: {
+      errors,
+      isDirty,
+      isValid,
+      isSubmitting,
+      isLoading,
+      defaultValues,
+    },
     getValues,
-    watch,
   } = useActionForm(api.bundle.update, {
     findBy: bundleId,
-    mode: "onBlur",
-    defaultValues: {
-      id: bundleId,
-    },
     select: {
       id: true,
       title: true,
@@ -59,13 +60,7 @@ export default () => {
   });
 
   const updateBundle = useCallback(async () => {
-    const result = await submit();
-
-    if (!result) {
-      return;
-    }
-
-    const { data, error } = result;
+    const { data, error, fetching } = await submit();
 
     if (data) {
       navigate("/");
@@ -92,9 +87,8 @@ export default () => {
                   control,
                   errors,
                   getValues,
-                  watch,
-                  setValue,
                   isDirty,
+                  defaultValues,
                 }}
                 updateForm
               />

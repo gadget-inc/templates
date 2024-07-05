@@ -1,0 +1,95 @@
+import {
+  AppType,
+  Provider as GadgetProvider,
+  useGadget,
+} from "@gadgetinc/react-shopify-app-bridge";
+import { Spinner } from "@shopify/polaris";
+import { useEffect } from "react";
+import {
+  Outlet,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  useLocation,
+  useNavigate,
+  Link,
+} from "react-router-dom";
+import Index from "../routes/index";
+import AboutPage from "../routes/about";
+import { api } from "../api";
+
+function Error404() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const appURL = process.env.GADGET_PUBLIC_SHOPIFY_APP_URL;
+
+    if (appURL && location.pathname === new URL(appURL).pathname) {
+      navigate("/", { replace: true });
+    }
+  }, [location.pathname]);
+
+  return <div>404 not found</div>;
+}
+
+function App() {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Index />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="*" element={<Error404 />} />
+      </Route>
+    )
+  );
+
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
+}
+
+function Layout() {
+  return (
+    <GadgetProvider
+      type={AppType.Standalone}
+      shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
+      api={api}
+    >
+      <App />
+    </GadgetProvider>
+  );
+}
+
+function AuthenticatedApp() {
+  // we use `isAuthenticated` to render pages once the OAuth flow is complete!
+  const { isAuthenticated, loading } = useGadget();
+  if (loading) {
+    return (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Spinner accessibilityLabel="Spinner example" size="large" />
+      </div>
+    );
+  }
+}
+
+function EmbeddedApp() {
+  return (
+    <>
+      <Outlet />
+    </>
+  );
+}
+
+export default App;

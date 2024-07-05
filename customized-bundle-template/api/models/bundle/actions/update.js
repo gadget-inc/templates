@@ -13,7 +13,7 @@ export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
 
   if (record.changed("title")) {
-    record.titleLowercase = title.toLowerCase();
+    record.titleLowercase = record.title.toLowerCase();
   }
 
   await save(record);
@@ -40,6 +40,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     variant = { id: record.bundleVariantId },
     variantChanges = [];
 
+  // Add quantity to definition
   for (const change of Object.entries(record.changes())) {
     const [key, value] = change;
     switch (key) {
@@ -51,6 +52,10 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         product.status = value.current;
         productChanges.push("status");
         break;
+      case "description":
+        product.descriptionHtml = value.current;
+        productChanges.push("descriptionHtml");
+        break;
       case "price":
         variant.price = value.current;
         variantChanges.push("price");
@@ -58,10 +63,6 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       case "requiresComponents":
         variant.requiresComponents = value.current;
         variantChanges.push("requiresComponents");
-        break;
-      case "description":
-        variant.description = value.current;
-        variantChanges.push("description");
         break;
       default:
         break;
@@ -73,9 +74,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   if (variantGIDs !== JSON.stringify(bundleVariant.componentReference)) {
     variant.metafields = [
       {
-        namespace: "bundle",
-        key: "componentReference",
-        type: "list.variant_reference",
+        id: record.componentReferenceMetafieldId,
         value: variantGIDs,
       },
     ];

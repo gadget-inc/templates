@@ -87,7 +87,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     isBundleDefinition.metafieldDefinitionCreate?.createdDefinition?.id
   ) {
     await api.internal.shopifyShop.update(record.id, {
-      bundleComponentsMetafieldDefinitionId:
+      componentReferenceDefinitionId:
         componentReference.metafieldDefinitionCreate.createdDefinition.id,
       isBundleDefinitionId:
         isBundleDefinition.metafieldDefinitionCreate.createdDefinition.id,

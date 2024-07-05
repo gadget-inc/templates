@@ -12,10 +12,6 @@ export const schema: GadgetModel = {
       children: { model: "bundleComponent", belongsToField: "shop" },
       storageKey: "wb2GzqBcmURH",
     },
-    bundleComponentsMetafieldDefinitionId: {
-      type: "string",
-      storageKey: "QnkCNomT-PNu",
-    },
     bundleCount: {
       type: "computed",
       sourceFile: "api/models/shopifyShop/bundleCount.gelly",
@@ -25,6 +21,10 @@ export const schema: GadgetModel = {
       type: "hasMany",
       children: { model: "bundle", belongsToField: "shop" },
       storageKey: "5abwB6m2ta5F",
+    },
+    componentReferenceDefinitionId: {
+      type: "string",
+      storageKey: "QnkCNomT-PNu",
     },
     isBundleDefinitionId: {
       type: "string",

@@ -210,10 +210,9 @@
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.15.12":
-  version "0.15.12"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.15.12.tgz#8613535675719392685f7fd24820950e7355e57d"
-  integrity sha512-t78iDPdevJ7/OSy+QY4mTik2b+zw2hfL3v8c8Omw5IB64YEJ4qiZYFvKnlDnbL3bQ9aWwNAl60OocIMXPvHtbw==
+"@gadgetinc/react@github:gadget-inc/js-clients#@gadgetinc/react-v0.15.13-gitpkg-c9dc8c0":
+  version "0.15.13"
+  resolved "https://codeload.github.com/gadget-inc/js-clients/tar.gz/d71556b553de520e2201c3d995af10e943b58f71"
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@gadgetinc/api-client-core" "^0.15.24"

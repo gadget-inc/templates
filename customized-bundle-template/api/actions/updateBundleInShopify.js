@@ -15,23 +15,8 @@ export async function run({ params, logger, api, connections }) {
 
   const shopify = await connections.shopify.forShopId(shopId);
 
-  if (productChanges.length) {
-    const input = {
-      id: `gid://shopify/Product/${product.id}`,
-    };
-
-    for (const change of productChanges) {
-      switch (change) {
-        case "title":
-          input.title = product.title;
-          break;
-        case "status":
-          input.status = product.status.toUpperCase();
-          break;
-        default:
-          break;
-      }
-    }
+  if (productChanges?.length) {
+    const { id: productId, ...productData } = product;
 
     const productUpdateResponse = await shopify.graphql(
       `mutation ($input: ProductInput!){
@@ -45,7 +30,12 @@ export async function run({ params, logger, api, connections }) {
           }
         }
       }`,
-      { input }
+      {
+        input: {
+          id: `gid://shopify/Product/${productId}`,
+          ...productData,
+        },
+      }
     );
 
     if (productUpdateResponse?.productUpdate?.userErrors?.length)
@@ -54,29 +44,8 @@ export async function run({ params, logger, api, connections }) {
       );
   }
 
-  if (variantChanges.length) {
-    const input = {
-      id: `gid://shopify/ProductVariant/${variant.id}`,
-    };
-
-    for (const change of variantChanges) {
-      switch (change) {
-        case "price":
-          input.price = variant.price;
-          break;
-        case "requiresComponents":
-          input.requiresComponents = variant.requiresComponents;
-          break;
-        case "description":
-          input.description = variant.description;
-          break;
-        case "metafields":
-          input.metafields = variant.metafields;
-          break;
-        default:
-          break;
-      }
-    }
+  if (variantChanges?.length) {
+    const { id: variantId, ...variantData } = variant;
 
     const productVariantUpdateResponse = await shopify.graphql(
       `mutation ($input: ProductVariantInput!) {
@@ -90,7 +59,12 @@ export async function run({ params, logger, api, connections }) {
             }
           }
         }`,
-      { input }
+      {
+        input: {
+          id: `gid://shopify/ProductVariant/${variantId}`,
+          ...variantData,
+        },
+      }
     );
 
     if (productVariantUpdateResponse?.productVariantUpdate?.userErrors?.length)
@@ -122,6 +96,9 @@ export const params = {
           status: {
             type: "string",
           },
+          descriptionHtml: {
+            type: "string",
+          },
         },
       },
       variant: {
@@ -136,21 +113,12 @@ export const params = {
           requiresComponents: {
             type: "boolean",
           },
-          description: {
-            type: "string",
-          },
           metafields: {
             type: "array",
             items: {
               type: "object",
               properties: {
-                namespace: {
-                  type: "string",
-                },
-                key: {
-                  type: "string",
-                },
-                type: {
+                id: {
                   type: "string",
                 },
                 value: {
@@ -161,18 +129,18 @@ export const params = {
           },
         },
       },
-      productChanges: {
-        type: "array",
-        items: {
-          type: "string",
-        },
-      },
-      variantChanges: {
-        type: "array",
-        items: {
-          type: "string",
-        },
-      },
+    },
+  },
+  productChanges: {
+    type: "array",
+    items: {
+      type: "string",
+    },
+  },
+  variantChanges: {
+    type: "array",
+    items: {
+      type: "string",
     },
   },
 };

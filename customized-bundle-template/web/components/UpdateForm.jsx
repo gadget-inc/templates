@@ -60,14 +60,14 @@ export default () => {
   });
 
   const updateBundle = useCallback(async () => {
-    const { data, error, fetching } = await submit();
+    const { data, error } = await submit();
 
     if (data) {
       navigate("/");
     } else {
       console.error("Error submitting form", error);
     }
-  }, []);
+  }, [submit]);
 
   return (
     <PageTemplate
@@ -80,7 +80,7 @@ export default () => {
           <Card>
             <BlockStack gap="500">
               <Text as="h2" variant="headingLg">
-                {getValues("title")}
+                {defaultValues.title || ""}
               </Text>
               <BundleForm
                 {...{

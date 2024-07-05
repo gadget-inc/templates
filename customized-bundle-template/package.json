@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@gadget-client/customized-bundle-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.15.12",
+    "@gadgetinc/react": "github:gadget-inc/js-clients#@gadgetinc/react-v0.15.13-gitpkg-c9dc8c0",
     "@gadgetinc/react-shopify-app-bridge": "^0.15.2",
     "@shopify/app-bridge": "3.5.0",
     "@shopify/app-bridge-react": "^4.1.3",

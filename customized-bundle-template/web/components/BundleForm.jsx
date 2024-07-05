@@ -18,14 +18,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 
-export default ({
-  control,
-  errors,
-  getValues,
-  isDirty,
-  updateForm,
-  defaultValues,
-}) => {
+export default ({ control, errors, getValues, isDirty, updateForm }) => {
   const [selectedProducts, setSelectedProducts] = useState([]),
     [loading, setLoading] = useState(true);
   const { shop } = useContext(ShopContext);
@@ -37,7 +30,7 @@ export default ({
     remove: removeBundleComponent,
   } = useFieldArray({
     control,
-    name: "bundleComponents",
+    name: "bundle.bundleComponents",
   });
 
   const handleSelection = useCallback(
@@ -56,47 +49,18 @@ export default ({
           }));
 
         for (const bundleComponent of bundleComponents) {
-          if (
-            !variants.some((v) => {
-              // console.log(
-              //   {
-              //     bundleComponentVariantId: bundleComponent.productVariant.id,
-              //     variantId: v.id,
-              //     removeBundleComponent:
-              //       v.id !== bundleComponent.productVariant.id,
-              //   },
-              //   "COMPARE FOR REMOVAL"
-              // );
-              return v.id === bundleComponent.productVariant.id;
-            })
-          ) {
-            // console.log(
-            //   bundleComponent.productVariant.id,
-            //   "REMOVED BUNDLE COMPONENT"
-            // );
+          if (!variants.some((v) => v.id === bundleComponent.productVariant.id))
             removeBundleComponent(bundleComponent.id);
-          }
         }
 
         for (const variant of variants) {
           if (
-            !bundleComponents.some((bc) => {
-              // console.log(
-              //   {
-              //     bundleComponentVariantId: bc.productVariant.id,
-              //     variantId: variant.id,
-              //     addBundleComponent: variant.id !== bc.productVariant.id,
-              //   },
-              //   "COMPARE"
-              // );
-              return bc?.productVariant.id === variant.id;
-            })
-          ) {
+            !bundleComponents.some((bc) => bc?.productVariant.id === variant.id)
+          )
             appendBundleComponent({
               shopId: shop.id,
               productVariantId: variant.id,
             });
-          }
         }
       }
     },
@@ -141,21 +105,9 @@ export default ({
 
   return (
     <Form>
-      <button
-        type="button"
-        onClick={() =>
-          console.log({
-            defaultValues,
-            getValues: getValues(),
-            bundleComponents,
-          })
-        }
-      >
-        CLICK HERE
-      </button>
       <FormLayout>
         <Controller
-          name="title"
+          name="bundle.title"
           control={control}
           required
           render={({ field }) => {
@@ -172,7 +124,7 @@ export default ({
         />
         <FormLayout.Group>
           <Controller
-            name="price"
+            name="bundle.price"
             control={control}
             required
             render={({ field }) => {
@@ -192,7 +144,7 @@ export default ({
             }}
           />
           <Controller
-            name="status"
+            name="bundle.status"
             control={control}
             required
             render={({ field }) => {
@@ -212,7 +164,7 @@ export default ({
           />
         </FormLayout.Group>
         <Controller
-          name="requiresComponents"
+          name="bundle.requiresComponents"
           control={control}
           render={({ field }) => {
             const { ref, ...fieldProps } = field;
@@ -226,7 +178,7 @@ export default ({
           }}
         />
         <Controller
-          name="description"
+          name="bundle.description"
           control={control}
           required
           render={({ field }) => {

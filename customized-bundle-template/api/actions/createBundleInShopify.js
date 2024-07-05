@@ -52,6 +52,16 @@ export async function run({ params, logger, api, connections }) {
       productVariantUpdate(input: $input) {
         productVariant {
           id
+          metafields(first: 2) {
+            edges {
+              node {
+                id
+                namespace
+                key
+                value
+              }
+            }
+          }
         }
         userErrors {
           message
@@ -83,10 +93,20 @@ export async function run({ params, logger, api, connections }) {
     }
   );
 
-  if (productVariantUpdateResponse?.productVariantCreate?.userErrors?.length)
+  if (productVariantUpdateResponse?.productVariantUpdate?.userErrors?.length)
     throw new Error(
-      productVariantUpdateResponse.productVariantCreate.userErrors[0].message
+      productVariantUpdateResponse.productVariantUpdate.userErrors[0].message
     );
+
+  let componentReferenceMetafieldId = "";
+
+  for (const metafield of productVariantUpdateResponse.productVariantUpdate
+    .productVariant.metafields.edges) {
+    if (metafield.node.key === "componentReference") {
+      componentReferenceMetafieldId = metafield.node.id;
+      break;
+    }
+  }
 
   await api.internal.bundle.update(id, {
     bundleVariant: {
@@ -95,6 +115,7 @@ export async function run({ params, logger, api, connections }) {
           "/"
         )[4],
     },
+    componentReferenceMetafieldId,
   });
 }
 

@@ -18,7 +18,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 
-export default ({ control, errors, getValues, isDirty, updateForm }) => {
+export default ({ control, errors, updateForm, isLoading, isValid }) => {
   const [selectedProducts, setSelectedProducts] = useState([]),
     [loading, setLoading] = useState(true);
   const { shop } = useContext(ShopContext);
@@ -67,6 +67,8 @@ export default ({ control, errors, getValues, isDirty, updateForm }) => {
     [shop, bundleComponents]
   );
 
+  console.log({ isLoading, isValid, errors }, "BUNDLE FORM LOG");
+
   useEffect(() => {
     if (bundleComponents?.length && updateForm && loading) {
       const tempObj = {};
@@ -110,88 +112,75 @@ export default ({ control, errors, getValues, isDirty, updateForm }) => {
           name="bundle.title"
           control={control}
           required
-          render={({ field }) => {
-            const { ref, ...fieldProps } = field;
-            return (
-              <TextField
-                label="Name"
-                type="text"
-                autoComplete="off"
-                {...fieldProps}
-              />
-            );
-          }}
+          render={({ field: { ref, ...fieldProps } }) => (
+            <TextField
+              label="Name"
+              type="text"
+              autoComplete="off"
+              {...fieldProps}
+            />
+          )}
         />
         <FormLayout.Group>
           <Controller
             name="bundle.price"
             control={control}
             required
-            render={({ field }) => {
-              const { ref, ...fieldProps } = field;
-              return (
-                <TextField
-                  label="Price"
-                  type="number"
-                  autoComplete="off"
-                  {...fieldProps}
-                  value={fieldProps?.value?.toString() || ""}
-                  onChange={(value) => {
-                    fieldProps.onChange(parseFloat(value));
-                  }}
-                />
-              );
-            }}
+            render={({ field: { ref, ...fieldProps } }) => (
+              <TextField
+                label="Price"
+                type="number"
+                autoComplete="off"
+                {...fieldProps}
+                value={fieldProps?.value?.toString() || ""}
+                onChange={(value) => {
+                  fieldProps.onChange(parseFloat(value));
+                }}
+              />
+            )}
           />
           <Controller
             name="bundle.status"
             control={control}
             required
-            render={({ field }) => {
-              const { ref, ...fieldProps } = field;
-              return (
-                <Select
-                  label="Status"
-                  options={[
-                    { label: "Active", value: "active" },
-                    { label: "Draft", value: "draft" },
-                    { label: "Archived", value: "archived" },
-                  ]}
-                  {...fieldProps}
-                />
-              );
-            }}
+            render={({ field: { ref, ...fieldProps } }) => (
+              <Select
+                label="Status"
+                options={[
+                  { label: "Active", value: "active" },
+                  { label: "Draft", value: "draft" },
+                  { label: "Archived", value: "archived" },
+                ]}
+                {...fieldProps}
+              />
+            )}
           />
         </FormLayout.Group>
         <Controller
           name="bundle.requiresComponents"
           control={control}
-          render={({ field }) => {
-            const { ref, ...fieldProps } = field;
-            return (
-              <Checkbox
-                {...fieldProps}
-                checked={fieldProps.value}
-                label="Requires that all variants be part of the cart to bundle"
-              />
-            );
-          }}
+          render={({ field: { ref, ...fieldProps } }) => (
+            <Checkbox
+              {...fieldProps}
+              checked={fieldProps.value}
+              label="Requires that all variants be part of the cart to bundle"
+            />
+          )}
         />
         <Controller
           name="bundle.description"
           control={control}
           required
-          render={({ field }) => {
-            const { ref, ...fieldProps } = field;
-            return (
-              <TextField
-                label="Description"
-                type="text"
-                autoComplete="off"
-                {...fieldProps}
-              />
-            );
-          }}
+          render={({ field: { ref, ...fieldProps } }) => (
+            <TextField
+              label="Description"
+              maxHeight={300}
+              type="text"
+              autoComplete="off"
+              multiline={4}
+              {...fieldProps}
+            />
+          )}
         />
         <Button
           onClick={async () => {

@@ -10,7 +10,6 @@ export const ShopContext = createContext({});
  *
  * React component that fetches shop and subscription data
  * Key features:
- *  - Sets the number of trial days left for this shop
  *  - Allows children to access the context from this provider
  *
  * @returns { import("react").ReactElement } A React functional component
@@ -21,6 +20,7 @@ export default ({ children }) => {
       select: {
         id: true,
         bundleCount: true,
+        currency: true,
       },
     });
 

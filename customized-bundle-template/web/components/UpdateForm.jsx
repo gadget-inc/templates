@@ -1,10 +1,65 @@
-import { useActionForm } from "@gadgetinc/react";
+import { useAction, useActionForm } from "@gadgetinc/react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { api } from "../api";
 import PageTemplate from "./PageTemplate";
-import { BlockStack, Card, Layout, Text } from "@shopify/polaris";
+import {
+  BlockStack,
+  Button,
+  ButtonGroup,
+  Card,
+  Form,
+  FormLayout,
+  InlineStack,
+  Layout,
+  SkeletonBodyText,
+  SkeletonDisplayText,
+  SkeletonPage,
+  SkeletonTabs,
+  SkeletonThumbnail,
+  Text,
+} from "@shopify/polaris";
 import BundleForm from "./BundleForm";
+
+const SkeletonForm = () => {
+  return (
+    <Card>
+      <SkeletonPage primaryAction>
+        <Form>
+          <FormLayout>
+            <SkeletonDisplayText size="small" />
+            <SkeletonBodyText lines={1} />
+            <FormLayout.Group>
+              <BlockStack gap={300}>
+                <SkeletonDisplayText size="small" />
+                <SkeletonBodyText lines={1} />
+              </BlockStack>
+              <BlockStack gap={300}>
+                <SkeletonDisplayText size="small" />
+                <SkeletonBodyText lines={1} />
+              </BlockStack>
+            </FormLayout.Group>
+            <SkeletonBodyText lines={1} />
+            <SkeletonDisplayText size="small" />
+            <SkeletonBodyText lines={4} />
+            <SkeletonDisplayText />
+            <BlockStack gap="300">
+              <Card>
+                <BlockStack gap="300">
+                  <SkeletonThumbnail />
+                  <BlockStack gap="300">
+                    <SkeletonDisplayText size="small" />
+                    <SkeletonTabs count={2} />
+                  </BlockStack>
+                </BlockStack>
+              </Card>
+            </BlockStack>
+          </FormLayout>
+        </Form>
+      </SkeletonPage>
+    </Card>
+  );
+};
 
 export default () => {
   const navigate = useNavigate();
@@ -21,7 +76,6 @@ export default () => {
       isLoading,
       defaultValues,
     },
-    getValues,
   } = useActionForm(api.bundle.update, {
     findBy: bundleId,
     select: {
@@ -59,6 +113,8 @@ export default () => {
     onError: (error) => console.log(error),
   });
 
+  const [{ data: deletedBundle }, deleteBundle] = useAction(api.bundle.delete);
+
   const updateBundle = useCallback(async () => {
     const { data, error } = await submit();
 
@@ -69,6 +125,12 @@ export default () => {
     }
   }, [submit]);
 
+  useEffect(() => {
+    if (deletedBundle) {
+      navigate("/");
+    }
+  }, [deletedBundle]);
+
   return (
     <PageTemplate
       inForm
@@ -77,23 +139,37 @@ export default () => {
     >
       <Layout sectioned>
         <Layout.Section>
-          <Card>
-            <BlockStack gap="500">
-              <Text as="h2" variant="headingLg">
-                {defaultValues.title || ""}
-              </Text>
-              <BundleForm
-                {...{
-                  control,
-                  errors,
-                  getValues,
-                  isDirty,
-                  defaultValues,
-                }}
-                updateForm
-              />
-            </BlockStack>
-          </Card>
+          {isLoading ? (
+            <SkeletonForm />
+          ) : (
+            <Card>
+              <BlockStack gap="500">
+                <InlineStack wrap={false} align="space-between">
+                  <Text as="h2" variant="headingLg">
+                    {defaultValues?.title || ""}
+                  </Text>
+                  <ButtonGroup>
+                    <Button
+                      variant="plain"
+                      tone="critical"
+                      onClick={() => deleteBundle({ id: bundleId })}
+                    >
+                      Delete
+                    </Button>
+                  </ButtonGroup>
+                </InlineStack>
+                <BundleForm
+                  {...{
+                    control,
+                    errors,
+                    isLoading,
+                    isValid,
+                  }}
+                  updateForm
+                />
+              </BlockStack>
+            </Card>
+          )}
         </Layout.Section>
       </Layout>
     </PageTemplate>

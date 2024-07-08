@@ -34,6 +34,8 @@ export default ({
           <TextField
             value={searchValue}
             placeholder="Search"
+            clearButton
+            onClearButtonClick={() => handleSearchInputChange("")}
             onChange={handleSearchInputChange}
             autoComplete="off"
           />
@@ -43,11 +45,16 @@ export default ({
         inForm && shop?.bundleCount && { onAction: () => navigate("/") }
       }
       primaryAction={
-        inForm && {
-          content: "Save",
-          disabled: saveDisabled,
-          onAction: submit,
-        }
+        inForm
+          ? {
+              content: "Save",
+              disabled: saveDisabled,
+              onAction: submit,
+            }
+          : {
+              content: "New",
+              onAction: () => navigate("create-bundle"),
+            }
       }
       pagination={
         !inForm && {

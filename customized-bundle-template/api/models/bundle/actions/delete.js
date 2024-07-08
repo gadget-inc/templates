@@ -19,7 +19,7 @@ export async function run({ params, record, logger, api, connections }) {
     }
   );
 
-  await shopify.product.delete(`gid://shopify/Product/${variant.productId}`);
+  await shopify.product.delete(variant.productId);
 
   await deleteRecord(record);
 }

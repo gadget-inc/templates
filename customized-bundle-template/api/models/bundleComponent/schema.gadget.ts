@@ -17,11 +17,6 @@ export const schema: GadgetModel = {
       parent: { model: "shopifyProductVariant" },
       storageKey: "FeDN9dHaVKfO",
     },
-    quantity: {
-      type: "number",
-      default: 1,
-      storageKey: "R995Qbs3vZC9",
-    },
     shop: {
       type: "belongsTo",
       parent: { model: "shopifyShop" },

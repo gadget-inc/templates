@@ -15,8 +15,9 @@ import {
   ChevronDownMinor,
   ImageMajor,
 } from "@shopify/polaris-icons";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ShopContext } from "../providers";
 
 const tones = {
   active: "success",
@@ -24,31 +25,36 @@ const tones = {
   draft: "info",
 };
 
-// Add price to the bundle card
 export default ({ id, title, description, status, price, productVariants }) => {
   const [open, setOpen] = useState(false);
+
   const navigate = useNavigate();
+  const { shop } = useContext(ShopContext);
 
   return (
     <Card>
-      {/* Add a delete button to the card to delete the bundle */}
       <BlockStack gap="300">
-        <InlineStack wrap={false} align="space-between">
-          <InlineStack wrap={false} gap="300">
-            <Text as="h2" variant="headingMd">
-              {title}
-            </Text>
-            <Badge tone={tones[status]}>{status}</Badge>
+        <BlockStack>
+          <InlineStack wrap={false} align="space-between">
+            <InlineStack wrap={false} gap="300">
+              <Text as="h2" variant="headingMd">
+                {title}
+              </Text>
+              <Badge tone={tones[status]}>{status}</Badge>
+            </InlineStack>
+            <ButtonGroup>
+              <Button
+                variant="monochromePlain"
+                onClick={() => navigate(`bundles/${id}`)}
+              >
+                Edit
+              </Button>
+            </ButtonGroup>
           </InlineStack>
-          <ButtonGroup>
-            <Button
-              variant="monochromePlain"
-              onClick={() => navigate(`bundles/${id}`)}
-            >
-              Edit
-            </Button>
-          </ButtonGroup>
-        </InlineStack>
+          <Text tone="subdued" as="span" variant="bodySm">
+            Price: {price} {shop.currency}
+          </Text>
+        </BlockStack>
         <Box paddingInline="500">
           <Text>{description}</Text>
         </Box>

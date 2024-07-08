@@ -22,8 +22,6 @@ export async function run({ params, record, logger, api, connections }) {
 export async function onSuccess({ params, record, logger, api, connections }) {
   const shopify = connections.shopify.current;
 
-  if (!shopify) throw new Error("Shopify connection is not available");
-
   const isBundleDefinition = await shopify.graphql(
     `mutation ($definition: MetafieldDefinitionInput!) {
       metafieldDefinitionCreate(definition: $definition){
@@ -31,7 +29,6 @@ export async function onSuccess({ params, record, logger, api, connections }) {
           id
         }
         userErrors {
-          field
           message
         }
       }
@@ -47,11 +44,10 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   );
 
-  if (isBundleDefinition.metafieldDefinitionCreate.userErrors.length) {
+  if (isBundleDefinition.metafieldDefinitionCreate.userErrors.length)
     logger.error(
       isBundleDefinition.metafieldDefinitionCreate.userErrors[0].message
     );
-  }
 
   const componentReference = await shopify.graphql(
     `mutation ($definition: MetafieldDefinitionInput!) {
@@ -60,7 +56,6 @@ export async function onSuccess({ params, record, logger, api, connections }) {
           id
         }
         userErrors {
-          field
           message
         }
       }
@@ -76,11 +71,24 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   );
 
-  if (componentReference.metafieldDefinitionCreate.userErrors.length) {
+  if (componentReference.metafieldDefinitionCreate.userErrors.length)
     logger.error(
       componentReference.metafieldDefinitionCreate.userErrors[0].message
     );
-  }
+
+  const cartTransformCreateResponse = await shopify.graphql(`
+    mutation {
+      cartTransformCreate(functionId: ${process.env.CART_TRANSFORM_FUNCTION_ID}) {
+        userErrors {
+          message
+        }
+      }
+    }`);
+
+  if (cartTransformCreateResponse?.cartTransformCreate?.userErrors?.length)
+    logger.error(
+      cartTransformCreateResponse.cartTransformCreate.userErrors[0].message
+    );
 
   if (
     componentReference.metafieldDefinitionCreate?.createdDefinition?.id &&

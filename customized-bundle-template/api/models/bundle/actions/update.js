@@ -40,7 +40,6 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     variant = { id: record.bundleVariantId },
     variantChanges = [];
 
-  // Add quantity to definition
   for (const change of Object.entries(record.changes())) {
     const [key, value] = change;
     switch (key) {

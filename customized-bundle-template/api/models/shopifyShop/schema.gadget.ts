@@ -15,7 +15,7 @@ export const schema: GadgetModel = {
     bundleCount: {
       type: "computed",
       sourceFile: "api/models/shopifyShop/bundleCount.gelly",
-      storageKey: "lekrTnb4tSDA",
+      storageKey: "HMJDRQAMngDu",
     },
     bundles: {
       type: "hasMany",

@@ -55,7 +55,7 @@ export default ({ id, title, description, status, price, productVariants }) => {
             Price: {price} {shop.currency}
           </Text>
         </BlockStack>
-        <Box paddingInline="500">
+        <Box>
           <Text>{description}</Text>
         </Box>
         <Collapsible open={open}>

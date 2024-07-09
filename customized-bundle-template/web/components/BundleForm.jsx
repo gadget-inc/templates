@@ -2,23 +2,25 @@ import { Controller, useFieldArray } from "@gadgetinc/react";
 import {
   BlockStack,
   Button,
-  Card,
   Form,
   FormLayout,
-  InlineStack,
-  Text,
   TextField,
   Select,
-  Thumbnail,
-  Badge,
   Checkbox,
 } from "@shopify/polaris";
-import { ImageMajor } from "@shopify/polaris-icons";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
+import ProductCard from "./ProductCard";
 
-export default ({ control, errors, updateForm, isLoading, isValid }) => {
+export default ({
+  control,
+  errors,
+  updateForm,
+  isLoading,
+  isValid,
+  getValues,
+}) => {
   const [selectedProducts, setSelectedProducts] = useState([]),
     [loading, setLoading] = useState(true);
   const { shop } = useContext(ShopContext);
@@ -31,6 +33,19 @@ export default ({ control, errors, updateForm, isLoading, isValid }) => {
   } = useFieldArray({
     control,
     name: "bundle.bundleComponents",
+    rules: {
+      required: "There must be at least 2 items in a bundle.",
+      validate: (value) => {
+        let quantity = 0;
+
+        for (const bc of value) {
+          quantity += bc.quantity;
+          if (quantity > 1) return true;
+        }
+
+        return false;
+      },
+    },
   });
 
   const handleSelection = useCallback(
@@ -49,25 +64,34 @@ export default ({ control, errors, updateForm, isLoading, isValid }) => {
           }));
 
         for (const bundleComponent of bundleComponents) {
-          if (!variants.some((v) => v.id === bundleComponent.productVariant.id))
+          if (
+            !variants.some(
+              (v) =>
+                v.id === bundleComponent.productVariant?.id ||
+                v.id === bundleComponent.productVariantId
+            )
+          )
             removeBundleComponent(bundleComponent.id);
         }
 
         for (const variant of variants) {
           if (
-            !bundleComponents.some((bc) => bc?.productVariant.id === variant.id)
+            !bundleComponents.some(
+              (bc) =>
+                bc?.productVariant?.id === variant.id ||
+                bc?.productVariantId === variant.id
+            )
           )
             appendBundleComponent({
               shopId: shop.id,
               productVariantId: variant.id,
+              quantity: 1,
             });
         }
       }
     },
     [shop, bundleComponents]
   );
-
-  console.log({ isLoading, isValid, errors }, "BUNDLE FORM LOG");
 
   useEffect(() => {
     if (bundleComponents?.length && updateForm && loading) {
@@ -120,12 +144,15 @@ export default ({ control, errors, updateForm, isLoading, isValid }) => {
               {...fieldProps}
             />
           )}
+          rules={{
+            required: "A title must be provided.",
+            minLength: 3,
+          }}
         />
         <FormLayout.Group>
           <Controller
             name="bundle.price"
             control={control}
-            required
             render={({ field: { ref, ...fieldProps } }) => (
               <TextField
                 label="Price"
@@ -138,6 +165,11 @@ export default ({ control, errors, updateForm, isLoading, isValid }) => {
                 }}
               />
             )}
+            rules={{
+              validate: {
+                positive: (value) => parseFloat(value) > 0,
+              },
+            }}
           />
           <Controller
             name="bundle.status"
@@ -181,6 +213,11 @@ export default ({ control, errors, updateForm, isLoading, isValid }) => {
               {...fieldProps}
             />
           )}
+          rules={{
+            minLength: 200,
+            required:
+              "A description with a minimum of 200 characters must be provided.",
+          }}
         />
         <Button
           onClick={async () => {
@@ -197,32 +234,20 @@ export default ({ control, errors, updateForm, isLoading, isValid }) => {
         >
           Select variants
         </Button>
+        {/* Gonna have to modify the cards for selected products to incorporate quantity */}
         <BlockStack gap="300">
           {selectedProducts?.map(({ id, title, images, variants }) => (
-            <Card key={id}>
-              <BlockStack gap="300">
-                <InlineStack blockAlign="center" gap="400">
-                  <Thumbnail source={images[0]?.originalSrc || ImageMajor} />
-                  <Text>
-                    {variants.length === 1 && variants[0].displayName
-                      ? variants[0].displayName
-                      : title}
-                  </Text>
-                </InlineStack>
-                {variants?.length > 1 && (
-                  <BlockStack gap="300">
-                    <Text as="h3" variant="headingMd">
-                      Variants
-                    </Text>
-                    <InlineStack gap="300" blockAlign="center">
-                      {variants.map(({ title }, index) => (
-                        <Badge key={index}>{title}</Badge>
-                      ))}
-                    </InlineStack>
-                  </BlockStack>
-                )}
-              </BlockStack>
-            </Card>
+            <ProductCard
+              {...{
+                title,
+                images,
+                variants,
+                bundleComponents,
+                control,
+                name: "bundle.bundleComponents",
+              }}
+              key={id}
+            />
           ))}
         </BlockStack>
       </FormLayout>

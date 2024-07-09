@@ -13,10 +13,8 @@ export default () => {
   const {
     control,
     submit,
-    setValue,
-    formState: { errors, isDirty, isValid, isSubmitting },
     getValues,
-    watch,
+    formState: { errors, isDirty, isValid, isSubmitting },
   } = useActionForm(api.bundle.create, {
     mode: "onBlur",
     defaultValues: {
@@ -34,20 +32,14 @@ export default () => {
   });
 
   const createBundle = useCallback(async () => {
-    const result = await submit();
-
-    if (!result) {
-      return;
-    }
-
-    const { data, error } = result;
+    const { data, error } = await submit();
 
     if (data) {
       navigate("/");
     } else {
       console.error("Error submitting form", error);
     }
-  }, []);
+  }, [submit]);
 
   return (
     <PageTemplate
@@ -66,10 +58,8 @@ export default () => {
                 {...{
                   control,
                   errors,
-                  getValues,
-                  watch,
-                  setValue,
                   isDirty,
+                  getValues,
                 }}
               />
             </BlockStack>

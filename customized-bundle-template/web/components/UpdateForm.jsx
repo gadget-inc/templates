@@ -73,11 +73,13 @@ export default () => {
       isDirty,
       isValid,
       isSubmitting,
+      isValidating,
       isLoading,
       defaultValues,
     },
   } = useActionForm(api.bundle.update, {
     findBy: bundleId,
+    mode: "onBlur",
     select: {
       id: true,
       title: true,
@@ -90,6 +92,7 @@ export default () => {
         edges: {
           node: {
             id: true,
+            quantity: true,
             productVariant: {
               id: true,
               title: true,
@@ -135,7 +138,9 @@ export default () => {
     <PageTemplate
       inForm
       submit={updateBundle}
-      saveDisabled={isSubmitting || !isDirty || !isValid || isLoading}
+      saveDisabled={
+        isSubmitting || !isDirty || !isValid || isLoading || isValidating
+      }
     >
       <Layout sectioned>
         <Layout.Section>

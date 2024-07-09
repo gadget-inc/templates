@@ -28,7 +28,7 @@ export default () => {
         requiresComponents: false,
       },
     },
-    onError: (error) => console.log(error),
+    onError: (error) => console.error(error),
   });
 
   const createBundle = useCallback(async () => {

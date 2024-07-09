@@ -134,8 +134,6 @@ export default ({ control, errors, updateForm }) => {
     }
   }, [bundleComponents]);
 
-  console.log("STATE", { errors });
-
   return (
     <Form>
       <FormLayout>

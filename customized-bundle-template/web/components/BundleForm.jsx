@@ -7,22 +7,21 @@ import {
   TextField,
   Select,
   Checkbox,
+  Text,
+  ButtonGroup,
+  InlineStack,
+  InlineError,
 } from "@shopify/polaris";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import ProductCard from "./ProductCard";
 
-export default ({
-  control,
-  errors,
-  updateForm,
-  isLoading,
-  isValid,
-  getValues,
-}) => {
+export default ({ control, errors, updateForm }) => {
   const [selectedProducts, setSelectedProducts] = useState([]),
-    [loading, setLoading] = useState(true);
+    [loading, setLoading] = useState(true),
+    [bundleComponentsQuantityError, setBundleComponentsQuantityError] =
+      useState(false);
   const { shop } = useContext(ShopContext);
   const shopify = useAppBridge();
 
@@ -34,16 +33,15 @@ export default ({
     control,
     name: "bundle.bundleComponents",
     rules: {
-      required: "There must be at least 2 items in a bundle.",
       validate: (value) => {
         let quantity = 0;
 
         for (const bc of value) {
-          quantity += bc.quantity;
-          if (quantity > 1) return true;
+          quantity += bc?.quantity || 0;
+          if (quantity > 1) return setBundleComponentsQuantityError(false);
         }
 
-        return false;
+        setBundleComponentsQuantityError(true);
       },
     },
   });
@@ -63,6 +61,8 @@ export default ({
             id: variant?.id.replace(/gid:\/\/shopify\/ProductVariant\//g, ""),
           }));
 
+        const tempBC = bundleComponents.map((bc) => bc.id);
+
         for (const bundleComponent of bundleComponents) {
           if (
             !variants.some(
@@ -70,8 +70,12 @@ export default ({
                 v.id === bundleComponent.productVariant?.id ||
                 v.id === bundleComponent.productVariantId
             )
-          )
-            removeBundleComponent(bundleComponent.id);
+          ) {
+            const index = tempBC.indexOf(bundleComponent.id);
+
+            removeBundleComponent(index);
+            tempBC.splice(index, 1);
+          }
         }
 
         for (const variant of variants) {
@@ -81,12 +85,13 @@ export default ({
                 bc?.productVariant?.id === variant.id ||
                 bc?.productVariantId === variant.id
             )
-          )
+          ) {
             appendBundleComponent({
               shopId: shop.id,
               productVariantId: variant.id,
               quantity: 1,
             });
+          }
         }
       }
     },
@@ -129,6 +134,8 @@ export default ({
     }
   }, [bundleComponents]);
 
+  console.log("STATE", { errors });
+
   return (
     <Form>
       <FormLayout>
@@ -142,11 +149,11 @@ export default ({
               type="text"
               autoComplete="off"
               {...fieldProps}
+              error={errors?.bundle?.title?.message} // Check this out
             />
           )}
           rules={{
             required: "A title must be provided.",
-            minLength: 3,
           }}
         />
         <FormLayout.Group>
@@ -163,11 +170,13 @@ export default ({
                 onChange={(value) => {
                   fieldProps.onChange(parseFloat(value));
                 }}
+                error={errors?.bundle?.price?.message}
               />
             )}
             rules={{
               validate: {
-                positive: (value) => parseFloat(value) > 0,
+                positive: (value) =>
+                  parseFloat(value) > 0 || "Price must be greater than 0.",
               },
             }}
           />
@@ -211,45 +220,66 @@ export default ({
               autoComplete="off"
               multiline={4}
               {...fieldProps}
+              error={errors?.bundle?.description?.message}
             />
           )}
           rules={{
-            minLength: 200,
-            required:
-              "A description with a minimum of 200 characters must be provided.",
+            validate: (value) =>
+              value.length >= 200 ||
+              "The description must have a minimum of 200 characters.",
           }}
         />
-        <Button
-          onClick={async () => {
-            const selection = await shopify.resourcePicker({
-              type: "product",
-              multiple: true,
-              selectionIds: selectedProducts,
-              action: "select",
-            });
+        <InlineStack align="space-between" blockAlign="center">
+          <Text as="h3" variant="headingSm">
+            Products
+          </Text>
+          <ButtonGroup>
+            <Button
+              onClick={async () => {
+                const selection = await shopify.resourcePicker({
+                  type: "product",
+                  multiple: true,
+                  selectionIds: selectedProducts,
+                  action: "select",
+                });
 
-            handleSelection(selection);
-          }}
-          variant="primary"
-        >
-          Select variants
-        </Button>
-        {/* Gonna have to modify the cards for selected products to incorporate quantity */}
-        <BlockStack gap="300">
-          {selectedProducts?.map(({ id, title, images, variants }) => (
-            <ProductCard
-              {...{
-                title,
-                images,
-                variants,
-                bundleComponents,
-                control,
-                name: "bundle.bundleComponents",
+                handleSelection(selection);
               }}
-              key={id}
-            />
-          ))}
-        </BlockStack>
+              variant="primary"
+            >
+              Select products
+            </Button>
+          </ButtonGroup>
+        </InlineStack>
+        {selectedProducts?.length ? (
+          <>
+            <BlockStack gap="300">
+              {selectedProducts?.map(({ id, title, images, variants }) => (
+                <ProductCard
+                  {...{
+                    title,
+                    images,
+                    variants,
+                    bundleComponents,
+                    control,
+                    name: "bundle.bundleComponents",
+                    errors,
+                  }}
+                  key={id}
+                />
+              ))}
+              {bundleComponentsQuantityError && (
+                <InlineError
+                  message={"There must be at least 2 items in a bundle."}
+                />
+              )}
+            </BlockStack>
+          </>
+        ) : (
+          <BlockStack align="center" inlineAlign="center">
+            <Text as="span">No products selected</Text>
+          </BlockStack>
+        )}
       </FormLayout>
     </Form>
   );

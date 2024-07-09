@@ -58,8 +58,6 @@ export default () => {
                 {...{
                   control,
                   errors,
-                  isDirty,
-                  getValues,
                 }}
               />
             </BlockStack>

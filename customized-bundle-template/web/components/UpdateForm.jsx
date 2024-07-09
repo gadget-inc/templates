@@ -113,7 +113,7 @@ export default () => {
         },
       },
     },
-    onError: (error) => console.log(error),
+    onError: (error) => console.error(error),
   });
 
   const [{ data: deletedBundle }, deleteBundle] = useAction(api.bundle.delete);
@@ -167,8 +167,6 @@ export default () => {
                   {...{
                     control,
                     errors,
-                    isLoading,
-                    isValid,
                   }}
                   updateForm
                 />

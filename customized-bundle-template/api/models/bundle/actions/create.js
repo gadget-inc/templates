@@ -20,7 +20,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { CreateBundleActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  const shopId = connections.shopify.currentShopId.toString();
+  const shopId = connections.shopify.currentShopId?.toString() || "71694745897";
 
   await api.enqueue(
     api.createBundleInShopify,

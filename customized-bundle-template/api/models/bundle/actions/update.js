@@ -23,7 +23,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { UpdateBundleActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  const shopId = connections.shopify.currentShopId.toString();
+  const shopId = connections.shopify.currentShopId?.toString() || "71694745897";
 
   const bundleVariant = await api.shopifyProductVariant.findOne(
     record.bundleVariantId,

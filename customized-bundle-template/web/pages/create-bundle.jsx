@@ -13,7 +13,6 @@ export default () => {
   const {
     control,
     submit,
-    getValues,
     formState: { errors, isDirty, isValid, isSubmitting },
   } = useActionForm(api.bundle.create, {
     mode: "onBlur",

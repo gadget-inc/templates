@@ -7,6 +7,11 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "ZzZwQ9y4-thr",
   fields: {
+    bundleComponentCount: {
+      type: "computed",
+      sourceFile: "api/models/bundle/bundleComponentCount.gelly",
+      storageKey: "3k0IVUf6txol",
+    },
     bundleVariant: {
       type: "belongsTo",
       parent: { model: "shopifyProductVariant" },

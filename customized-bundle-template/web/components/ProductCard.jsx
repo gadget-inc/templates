@@ -9,6 +9,7 @@ import {
   TextField,
 } from "@shopify/polaris";
 import { ImageMajor } from "@shopify/polaris-icons";
+import { useMemo } from "react";
 
 export default ({
   title,
@@ -19,8 +20,12 @@ export default ({
   bundleComponents,
   errors,
 }) => {
-  const productVariantIds = bundleComponents.map(
-    (bc) => bc.productVariant?.id || bc.productVariantId
+  const productVariantIds = useMemo(
+    () =>
+      bundleComponents.map(
+        (bc) => bc.productVariant?.id || bc.productVariantId
+      ),
+    [bundleComponents]
   );
 
   return (

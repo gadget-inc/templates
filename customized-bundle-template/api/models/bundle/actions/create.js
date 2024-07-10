@@ -20,12 +20,10 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { CreateBundleActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  const shopId = connections.shopify.currentShopId?.toString() || "71694745897";
-
   await api.enqueue(
     api.createBundleInShopify,
     {
-      shopId,
+      shopId: record.shopId,
       bundle: {
         id: record.id,
         product: {
@@ -41,7 +39,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     },
     {
       queue: {
-        name: `createBundleInShopify-${shopId}`,
+        name: `createBundleInShopify-${record.shopId}`,
         maxConcurrency: 2,
       },
       retries: 1,

@@ -17,10 +17,10 @@ import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import ProductCard from "./ProductCard";
 
-export default ({ control, errors, updateForm }) => {
+export default ({ control, errors, updateForm, watch, getValues }) => {
   const [selectedProducts, setSelectedProducts] = useState([]),
     [loading, setLoading] = useState(true),
-    [bundleComponentsQuantityError, setBundleComponentsQuantityError] =
+    [bundleComponentQuantityError, setBundleComponentQuantityError] =
       useState(false);
   const { shop } = useContext(ShopContext);
   const shopify = useAppBridge();
@@ -32,18 +32,6 @@ export default ({ control, errors, updateForm }) => {
   } = useFieldArray({
     control,
     name: "bundle.bundleComponents",
-    rules: {
-      validate: (value) => {
-        let quantity = 0;
-
-        for (const bc of value) {
-          quantity += bc?.quantity || 0;
-          if (quantity > 1) return setBundleComponentsQuantityError(false);
-        }
-
-        setBundleComponentsQuantityError(true);
-      },
-    },
   });
 
   const handleSelection = useCallback(
@@ -133,6 +121,22 @@ export default ({ control, errors, updateForm }) => {
       setLoading(false);
     }
   }, [bundleComponents]);
+
+  useEffect(() => {
+    const components = getValues("bundle.bundleComponents");
+
+    if (components.length) {
+      let quantity = 0;
+
+      for (const bc of components) {
+        quantity += bc?.quantity || 0;
+
+        if (quantity > 1) return setBundleComponentQuantityError(false);
+      }
+
+      setBundleComponentQuantityError(true);
+    }
+  }, [JSON.stringify(watch("bundle.bundleComponents"))]);
 
   return (
     <Form>
@@ -266,7 +270,7 @@ export default ({ control, errors, updateForm }) => {
                   key={id}
                 />
               ))}
-              {bundleComponentsQuantityError && (
+              {bundleComponentQuantityError && (
                 <InlineError
                   message={"There must be at least 2 items in a bundle."}
                 />

@@ -37,16 +37,22 @@ export default () => {
       description: true,
       status: true,
       price: true,
-      productVariants: {
+      bundleComponentCount: true,
+      bundleComponents: {
         edges: {
           node: {
-            title: true,
-            product: {
+            quantity: true,
+            productVariant: {
+              id: true,
               title: true,
-              images: {
-                edges: {
-                  node: {
-                    source: true,
+              product: {
+                id: true,
+                title: true,
+                images: {
+                  edges: {
+                    node: {
+                      source: true,
+                    },
                   },
                 },
               },

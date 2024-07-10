@@ -77,6 +77,8 @@ export default () => {
       isLoading,
       defaultValues,
     },
+    watch,
+    getValues,
   } = useActionForm(api.bundle.update, {
     findBy: bundleId,
     mode: "onBlur",
@@ -167,6 +169,8 @@ export default () => {
                   {...{
                     control,
                     errors,
+                    watch,
+                    getValues,
                   }}
                   updateForm
                 />

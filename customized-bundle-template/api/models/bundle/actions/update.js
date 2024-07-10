@@ -23,8 +23,6 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { UpdateBundleActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  const shopId = connections.shopify.currentShopId?.toString() || "71694745897";
-
   const bundleVariant = await api.shopifyProductVariant.findOne(
     record.bundleVariantId,
     {
@@ -68,7 +66,9 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   }
 
-  const variantGIDs = JSON.stringify(await fetchVariantGIDs(record.id, shopId));
+  const variantGIDs = JSON.stringify(
+    await fetchVariantGIDs(record.id, record.shopId)
+  );
 
   if (variantGIDs !== JSON.stringify(bundleVariant.componentReference)) {
     variant.metafields = [
@@ -83,7 +83,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   await api.enqueue(
     api.updateBundleInShopify,
     {
-      shopId,
+      shopId: record.shopId,
       bundle: {
         id: record.id,
         product,
@@ -94,7 +94,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     },
     {
       queue: {
-        name: `updateBundleInShopify-${shopId}`,
+        name: `updateBundleInShopify-${record.shopId}`,
         maxConcurrency: 2,
       },
       retries: 1,

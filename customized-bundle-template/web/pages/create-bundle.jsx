@@ -14,6 +14,8 @@ export default () => {
     control,
     submit,
     formState: { errors, isDirty, isValid, isSubmitting },
+    watch,
+    getValues,
   } = useActionForm(api.bundle.create, {
     mode: "onBlur",
     defaultValues: {
@@ -57,6 +59,8 @@ export default () => {
                 {...{
                   control,
                   errors,
+                  watch,
+                  getValues,
                 }}
               />
             </BlockStack>

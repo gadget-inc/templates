@@ -57,10 +57,6 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         variant.price = value.current;
         variantChanges.push("price");
         break;
-      case "requiresComponents":
-        variant.requiresComponents = value.current;
-        variantChanges.push("requiresComponents");
-        break;
       default:
         break;
     }

@@ -110,9 +110,6 @@ export const params = {
           price: {
             type: "number",
           },
-          requiresComponents: {
-            type: "boolean",
-          },
           metafields: {
             type: "array",
             items: {

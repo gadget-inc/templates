@@ -200,17 +200,6 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
           />
         </FormLayout.Group>
         <Controller
-          name="bundle.requiresComponents"
-          control={control}
-          render={({ field: { ref, ...fieldProps } }) => (
-            <Checkbox
-              {...fieldProps}
-              checked={fieldProps.value}
-              label="Requires that all variants be part of the cart to bundle"
-            />
-          )}
-        />
-        <Controller
           name="bundle.description"
           control={control}
           required

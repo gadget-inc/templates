@@ -26,7 +26,6 @@ export default () => {
         shopId: shop.id,
         price: 0,
         bundleComponents: [],
-        requiresComponents: false,
       },
     },
     onError: (error) => console.error(error),

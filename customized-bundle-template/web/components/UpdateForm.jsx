@@ -89,7 +89,6 @@ export default () => {
       description: true,
       price: true,
       shopId: true,
-      requiresComponents: true,
       bundleComponents: {
         edges: {
           node: {

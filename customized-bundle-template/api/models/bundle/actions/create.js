@@ -32,7 +32,6 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         },
         variant: {
           price: record.price,
-          requiresComponents: record.requiresComponents,
           description: record.description,
         },
       },

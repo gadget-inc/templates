@@ -44,7 +44,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   );
 
-  if (isBundleDefinition.metafieldDefinitionCreate.userErrors.length)
+  if (isBundleDefinition?.metafieldDefinitionCreate?.userErrors?.length)
     logger.error(
       isBundleDefinition.metafieldDefinitionCreate.userErrors[0].message
     );
@@ -71,14 +71,45 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   );
 
-  if (componentReference.metafieldDefinitionCreate.userErrors.length)
+  if (componentReference?.metafieldDefinitionCreate?.userErrors?.length)
     logger.error(
       componentReference.metafieldDefinitionCreate.userErrors[0].message
     );
 
+  const bundleComponentQuantitiesDefinition = await shopify.graphql(
+    `mutation ($definition: MetafieldDefinitionInput!) {
+      metafieldDefinitionCreate(definition: $definition){
+        createdDefinition {
+          id
+        }
+        userErrors {
+          message
+        }
+      }
+    }`,
+    {
+      definition: {
+        key: "productVariantQuantities",
+        type: "json",
+        namespace: "bundle",
+        name: "Product variant quantities",
+        ownerType: "PRODUCTVARIANT",
+      },
+    }
+  );
+
+  if (
+    bundleComponentQuantitiesDefinition?.metafieldDefinitionCreate?.userErrors
+      ?.length
+  )
+    logger.error(
+      bundleComponentQuantitiesDefinition.metafieldDefinitionCreate
+        .userErrors[0].message
+    );
+
   const cartTransformCreateResponse = await shopify.graphql(`
     mutation {
-      cartTransformCreate(functionId: ${process.env.CART_TRANSFORM_FUNCTION_ID}) {
+      cartTransformCreate(functionId: "${process.env.BUNDLER_FUNCTION_ID}") {
         userErrors {
           message
         }
@@ -92,13 +123,18 @@ export async function onSuccess({ params, record, logger, api, connections }) {
 
   if (
     componentReference.metafieldDefinitionCreate?.createdDefinition?.id &&
-    isBundleDefinition.metafieldDefinitionCreate?.createdDefinition?.id
+    isBundleDefinition.metafieldDefinitionCreate?.createdDefinition?.id &&
+    bundleComponentQuantitiesDefinition.metafieldDefinitionCreate
+      ?.createdDefinition?.id
   ) {
     await api.internal.shopifyShop.update(record.id, {
       componentReferenceDefinitionId:
         componentReference.metafieldDefinitionCreate.createdDefinition.id,
       isBundleDefinitionId:
         isBundleDefinition.metafieldDefinitionCreate.createdDefinition.id,
+      bundleComponentQuantitiesDefinitionId:
+        bundleComponentQuantitiesDefinition.metafieldDefinitionCreate
+          .createdDefinition.id,
     });
   }
 

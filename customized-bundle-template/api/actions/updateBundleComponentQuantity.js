@@ -46,7 +46,7 @@ export async function run({ params, logger, api, connections }) {
     {
       metafields: [
         {
-          key: "quantities",
+          key: "productVariantQuantities",
           namespace: "bundle",
           value: JSON.stringify(quantityObj),
           type: "json",

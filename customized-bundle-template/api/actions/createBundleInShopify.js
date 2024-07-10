@@ -10,7 +10,7 @@ export async function run({ params, logger, api, connections }) {
     bundle: {
       id,
       product: { title, status },
-      variant: { price, requiresComponents, description },
+      variant: { price, description },
     },
   } = params;
 
@@ -47,6 +47,24 @@ export async function run({ params, logger, api, connections }) {
   if (productCreateResponse?.productCreate?.userErrors?.length)
     throw new Error(productCreateResponse.productCreate.userErrors[0].message);
 
+  const bundleComponents = await api.bundleComponent.findMany({
+    filter: {
+      bundle: {
+        equals: id,
+      },
+    },
+    select: {
+      productVariantId: true,
+      quantity: true,
+    },
+  });
+
+  const quantityObj = {};
+
+  for (const bundleComponent of bundleComponents) {
+    quantityObj[bundleComponent.productVariantId] = bundleComponent.quantity;
+  }
+
   const productVariantUpdateResponse = await shopify.graphql(
     `mutation ($input: ProductVariantInput!) {
       productVariantUpdate(input: $input) {
@@ -74,7 +92,6 @@ export async function run({ params, logger, api, connections }) {
         id: productCreateResponse?.productCreate?.product?.variants?.edges[0]
           ?.node?.id,
         price: price.toFixed(2),
-        requiresComponents,
         metafields: [
           {
             namespace: "bundle",
@@ -88,7 +105,14 @@ export async function run({ params, logger, api, connections }) {
             type: "boolean",
             value: "true",
           },
+          {
+            namespace: "bundle",
+            key: "productVariantQuantities",
+            type: "json",
+            value: JSON.stringify(quantityObj),
+          },
         ],
+        requiresComponents: true,
       },
     }
   );
@@ -145,9 +169,6 @@ export const params = {
         properties: {
           price: {
             type: "number",
-          },
-          requiresComponents: {
-            type: "boolean",
           },
           description: {
             type: "string",

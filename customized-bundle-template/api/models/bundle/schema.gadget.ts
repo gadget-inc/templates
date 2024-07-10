@@ -42,12 +42,6 @@ export const schema: GadgetModel = {
       },
       storageKey: "YF1Us5XmK1jH",
     },
-    requiresComponents: {
-      type: "boolean",
-      default: false,
-      validations: { required: true },
-      storageKey: "cfT6FyI1ZXZY",
-    },
     shop: {
       type: "belongsTo",
       parent: { model: "shopifyShop" },

@@ -2,12 +2,6 @@ query RunInput {
   cart {
     lines {
       quantity
-      # cost {
-      #   amountPerQuantity {
-      #     currencyCode
-      #     amount
-      #   }
-      # }
       merchandise {
         __typename
         ... on ProductVariant {

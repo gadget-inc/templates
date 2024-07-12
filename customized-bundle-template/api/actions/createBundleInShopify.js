@@ -40,6 +40,9 @@ export async function run({ params, logger, api, connections }) {
         status: status.toUpperCase(),
         title: title,
         descriptionHtml: description,
+        claimOwnership: {
+          bundles: true,
+        },
       },
     }
   );
@@ -92,6 +95,7 @@ export async function run({ params, logger, api, connections }) {
         id: productCreateResponse?.productCreate?.product?.variants?.edges[0]
           ?.node?.id,
         price: price.toFixed(2),
+        inventoryPolicy: "CONTINUE",
         metafields: [
           {
             namespace: "bundle",

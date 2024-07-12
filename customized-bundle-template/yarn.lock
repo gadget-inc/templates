@@ -926,9 +926,10 @@
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@github:gadget-inc/js-clients#@gadgetinc/react-v0.15.13-gitpkg-9015ba8":
+"@gadgetinc/react@^0.15.13":
   version "0.15.13"
-  resolved "https://codeload.github.com/gadget-inc/js-clients/tar.gz/98784e522a30bfe14900ff150bcd4c275a832269"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.15.13.tgz#c5cbc8732f4efb441e8b715f55f25ca23d529c26"
+  integrity sha512-LhOuwxhWKmIT/N3q5SUfwv4HiqAAZZOzXtxj3WDzIw6h2f2uGLANgKQ0UWHDNRTJJqSPGG+qMtPMacj17qbFZw==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@gadgetinc/api-client-core" "^0.15.24"
@@ -2079,10 +2080,10 @@
   dependencies:
     undici-types "~5.26.4"
 
-"@types/node@^20.8.4":
-  version "20.10.6"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.10.6.tgz#a3ec84c22965802bf763da55b2394424f22bfbb5"
-  integrity sha512-Vac8H+NlRNNlAmDfGUP7b5h/KA+AtWIzuXy0E6OyP8f1tCLYAtPvKRRDJjAPqhpCb0t6U2j7/xqAuLEebW2kiw==
+"@types/node@^20.12.8":
+  version "20.14.10"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.14.10.tgz#a1a218290f1b6428682e3af044785e5874db469a"
+  integrity sha512-MdiXf+nDuMvY0gJKxyfZ7/6UFsETO7mGKF54MVD/ekJS6HdFtpZFBgrh6Pseu64XTb2MLyFPlbW6hj8HYRQNOQ==
   dependencies:
     undici-types "~5.26.4"
 

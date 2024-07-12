@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@gadget-client/customized-bundle-template": "link:.gadget/client",
-    "@gadgetinc/react": "github:gadget-inc/js-clients#@gadgetinc/react-v0.15.13-gitpkg-9015ba8",
+    "@gadgetinc/react": "^0.15.13",
     "@gadgetinc/react-shopify-app-bridge": "^0.15.2",
     "@shopify/app-bridge": "3.5.0",
     "@shopify/app-bridge-react": "^4.1.3",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "@shopify/app": "^3.58.2",
     "@shopify/cli": "^3.64.0",
-    "@types/node": "^20.8.4",
+    "@types/node": "^20.12.8",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "3.2.0",

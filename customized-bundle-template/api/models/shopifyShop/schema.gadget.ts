@@ -7,6 +7,10 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Shop",
   fields: {
+    bundleComponentQuantitiesDefinitionId: {
+      type: "string",
+      storageKey: "D6yY6EmA8prx",
+    },
     bundleComponents: {
       type: "hasMany",
       children: { model: "bundleComponent", belongsToField: "shop" },

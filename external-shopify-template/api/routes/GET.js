@@ -14,9 +14,12 @@ export default async function route({
   logger,
   connections,
 }) {
+  // See if the request is coming from the Shopify admin
   const shopId = connections.shopify.currentShopId;
 
+  // If the request is coming from the Shopify admin
   if (shopId) {
+    // Create a JWT token with the shopId
     const token = jwt.sign(
       {
         shopId: shopId,
@@ -27,7 +30,7 @@ export default async function route({
       }
     );
 
-    // Setting the authToken on the shop record in case the user used Google SSO
+    // Setting the authToken on the shop record in case the user uses Google SSO
     await api.internal.shopifyShop.update(shopId, {
       authToken: token,
     });

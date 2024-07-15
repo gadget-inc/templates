@@ -7,6 +7,8 @@ export default ({ children }) => {
 
   /**
    * @param {string} token
+   * Sets the token in the paramHistory state of the ParamProvider
+   * The token is then using in the signed-in route if present in context
    */
   const applyParams = useCallback(
     (token) => {

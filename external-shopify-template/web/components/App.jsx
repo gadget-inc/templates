@@ -4,7 +4,7 @@ import {
   SignedOutOrRedirect,
 } from "@gadgetinc/react";
 import { AppType, Provider } from "@gadgetinc/react-shopify-app-bridge";
-import { Suspense, useContext, useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import {
   Outlet,
   Route,
@@ -23,12 +23,7 @@ import VerifyEmailPage from "../routes/verify-email";
 import ChangePassword from "../routes/change-password";
 import ForgotPassword from "../routes/forgot-password";
 import "./App.css";
-import {
-  ParamProvider,
-  AuthProvider,
-  ShopProvider,
-  AuthContext,
-} from "../providers";
+import { ParamProvider, AuthProvider, ShopProvider } from "../providers";
 
 const App = () => {
   useEffect(() => {

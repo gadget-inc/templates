@@ -10,10 +10,11 @@ export default ({ children }) => {
 
   const [shop, setShop] = useState({ data: null, fetching: true, error: null });
 
+  // This useEffect tries to fetch the user's shop
   useEffect(() => {
     if (user?.shopId) {
       const run = async () => {
-        setShop(await api.shopifyShop.findFirst());
+        setShop(await api.shopifyShop.maybeFindFirst());
       };
       run();
     }

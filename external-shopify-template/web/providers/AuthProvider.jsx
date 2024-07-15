@@ -21,12 +21,15 @@ export default ({ children }) => {
       googleImageUrl: true,
     },
   });
+  // Get the current session
   const session = useSession();
+  // Get the applyParams function from the ParamContext
   const { applyParams } = useContext(ParamContext);
 
   const [_, setCurrentSession] = useGlobalAction(api.setCurrentSession);
 
   useEffect(() => {
+    // Setting the current session for the user
     if (user && session && !session?.user?.id) {
       setCurrentSession({
         sessionId: session.id,

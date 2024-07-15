@@ -14,14 +14,16 @@ export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
-  logger.info({ params }, "Params");
-
+  // Destructure the params object to get the token
   const { token } = params;
 
+  // Verify the token and get the shopId
   const { shopId } = jwt.verify(token, process.env.JWT_SECRET);
 
-  logger.info({ shopId }, "Shop ID");
-
+  /**
+   * If the shopId is different from the user's shopId, update the user's shopId
+   * This would typically only be from null to a valid shopId
+   */
   if (record.shopId !== shopId) {
     record.shop = { _link: shopId };
   }

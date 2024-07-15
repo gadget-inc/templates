@@ -5,6 +5,7 @@ import {
   BlockStack,
   Button,
   Card,
+  Divider,
   Form,
   FormLayout,
   InlineStack,
@@ -28,19 +29,6 @@ export default function () {
             Sign In
           </Text>
           <FormLayout>
-            <Button
-              className="google-oauth-button"
-              url={`/auth/google/start${search}`}
-            >
-              <InlineStack blockAlign="center" gap={300}>
-                <img
-                  src="https://assets.gadget.dev/assets/default-app-assets/google.svg"
-                  width={22}
-                  height={22}
-                />
-                <Text as="span">Continue with Google</Text>
-              </InlineStack>
-            </Button>
             <Controller
               name="email"
               control={control}
@@ -67,6 +55,20 @@ export default function () {
             />
             <Button disabled={isSubmitting} type="submit">
               Sign in
+            </Button>
+            <Divider />
+            <Button
+              className="google-oauth-button"
+              url={`/auth/google/start${search}`}
+            >
+              <InlineStack blockAlign="center" gap={300}>
+                <img
+                  src="https://assets.gadget.dev/assets/default-app-assets/google.svg"
+                  width={22}
+                  height={22}
+                />
+                <Text as="span">Continue with Google</Text>
+              </InlineStack>
             </Button>
             {errors?.root?.message && <Text as="p">{errors.root.message}</Text>}
             <Text as="p" variant="bodySm">

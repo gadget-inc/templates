@@ -1,32 +1,81 @@
-import { useActionForm } from "@gadgetinc/react";
+import { Controller, useActionForm } from "@gadgetinc/react";
 import { api } from "../api";
 import { Link, useLocation } from "react-router-dom";
+import {
+  BlockStack,
+  Button,
+  Card,
+  Form,
+  FormLayout,
+  InlineStack,
+  Text,
+  TextField,
+} from "@shopify/polaris";
 
 export default function () {
   const {
-    register,
     submit,
+    control,
     formState: { errors, isSubmitting },
   } = useActionForm(api.user.signIn);
   const { search } = useLocation();
 
   return (
-    <form className="custom-form" onSubmit={submit}>
-      <h1 className="form-title">Sign in</h1>
-      <div className="custom-form">
-        <a className="google-oauth-button" href={`/auth/google/start${search}`}>
-          <img src="https://assets.gadget.dev/assets/default-app-assets/google.svg" width={22} height={22} /> Continue with Google
-        </a>
-        <input className="custom-input" placeholder="Email" {...register("email")} />
-        <input className="custom-input" placeholder="Password" type="password" {...register("password")} />
-        {errors?.root?.message && <p className="format-message error">{errors.root.message}</p>}
-        <button disabled={isSubmitting} type="submit">
-          Sign in
-        </button>
-        <p>
-          Forgot your password? <Link to="/forgot-password">Reset password</Link>
-        </p>
-      </div>
-    </form>
+    <Card padding={400}>
+      <Form className="custom-form" onSubmit={submit}>
+        <BlockStack gap={300}>
+          <Text as="h1" variant="headingLg">
+            Sign In
+          </Text>
+          <FormLayout>
+            <Button
+              className="google-oauth-button"
+              url={`/auth/google/start${search}`}
+            >
+              <InlineStack blockAlign="center" gap={300}>
+                <img
+                  src="https://assets.gadget.dev/assets/default-app-assets/google.svg"
+                  width={22}
+                  height={22}
+                />
+                <Text as="span">Continue with Google</Text>
+              </InlineStack>
+            </Button>
+            <Controller
+              name="email"
+              control={control}
+              render={({ field: { ref, fieldProps } }) => (
+                <TextField
+                  label="Email"
+                  placeholder="Email"
+                  {...fieldProps}
+                  error={errors?.user?.email?.message}
+                />
+              )}
+            />
+            <Controller
+              name="password"
+              control={control}
+              render={({ field: { ref, fieldProps } }) => (
+                <TextField
+                  label="Password"
+                  placeholder="Password"
+                  {...fieldProps}
+                  error={errors?.user?.password?.message}
+                />
+              )}
+            />
+            <Button disabled={isSubmitting} type="submit">
+              Sign in
+            </Button>
+            {errors?.root?.message && <Text as="p">{errors.root.message}</Text>}
+            <Text as="p" variant="bodySm">
+              Forgot your password?{" "}
+              <Link to="/forgot-password">Reset password</Link>
+            </Text>
+          </FormLayout>
+        </BlockStack>
+      </Form>
+    </Card>
   );
 }

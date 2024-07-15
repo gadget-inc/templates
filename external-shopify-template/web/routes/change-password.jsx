@@ -1,30 +1,65 @@
-import { useUser, useActionForm } from "@gadgetinc/react";
+import { useUser, useActionForm, Controller } from "@gadgetinc/react";
 import { api } from "../api";
 import { Link } from "react-router-dom";
+import {
+  BlockStack,
+  Button,
+  Card,
+  Form,
+  FormLayout,
+  Text,
+  TextField,
+} from "@shopify/polaris";
 
 export default function () {
   const user = useUser(api);
   const {
     submit,
-    register,
+    control,
     formState: { errors, isSubmitSuccessful, isSubmitting },
   } = useActionForm(api.user.changePassword, { defaultValues: user });
 
   return isSubmitSuccessful ? (
-    <p className="format-message success">
-      Password changed successfully. <Link to="/signed-in">Back to profile</Link>
-    </p>
-  ) : (
-    <form className="custom-form" onSubmit={submit}>
-      <h1 className="form-title">Change password</h1>
-      <input className="custom-input" type="password" placeholder="Current password" {...register("currentPassword")} />
-      <input className="custom-input" type="password" placeholder="New password" {...register("newPassword")} />
-      {errors?.user?.password?.message && <p className="format-message error">Password: {errors.user.password.message}</p>}
-      {errors?.root?.message && <p className="format-message error">{errors.root.message}</p>}
+    <Text as="p" className="format-message success">
+      Password changed successfully.{" "}
       <Link to="/signed-in">Back to profile</Link>
-      <button disabled={isSubmitting} type="submit">
-        Change password
-      </button>
-    </form>
+    </Text>
+  ) : (
+    <Card>
+      <Form className="custom-form" onSubmit={submit}>
+        <FormLayout>
+          <BlockStack gap={300}>
+            <Text as="h1">Change password</Text>
+            <Controller
+              name="currentPassword"
+              control={control}
+              render={({ field: { ref, fieldProps } }) => (
+                <TextField placeholder="Current password" {...fieldProps} />
+              )}
+            />
+            <Controller
+              name="newPassword"
+              control={control}
+              render={({ field: { ref, fieldProps } }) => (
+                <TextField
+                  placeholder="New password"
+                  {...fieldProps}
+                  error={errors?.user?.newPassword?.message}
+                />
+              )}
+            />
+            {errors?.root?.message && (
+              <Text as="p" className="format-message error">
+                {errors.root.message}
+              </Text>
+            )}
+            <Link to="/signed-in">Back to profile</Link>
+            <Button disabled={isSubmitting} type="submit">
+              Change password
+            </Button>
+          </BlockStack>
+        </FormLayout>
+      </Form>
+    </Card>
   );
 }

@@ -3,6 +3,7 @@ import { api } from "../api";
 import { Link } from "react-router-dom";
 import { useContext, useEffect } from "react";
 import { AuthContext, ParamContext, ShopContext } from "../providers";
+import { BlockStack, Box, Card, Text, Button } from "@shopify/polaris";
 
 export default function () {
   const signOut = useSignOut();
@@ -13,12 +14,8 @@ export default function () {
   const [_, setShop] = useAction(api.user.setShop);
 
   useEffect(() => {
-    if (user && !user.shopId && (paramHistory?.token || shop?.authToken)) {
+    if (user && !user?.shopId && (paramHistory?.token || shop?.authToken)) {
       const run = async () => {
-        console.log("HIT", {
-          id: user.id,
-          token: paramHistory?.token || shop?.authToken,
-        });
         await setShop({
           id: user.id,
           token: paramHistory?.token || shop?.authToken,
@@ -27,24 +24,21 @@ export default function () {
 
       run();
     }
-  }, [user.id, paramHistory?.token, shop?.authToken]);
-
-  console.log({ user, shop, paramHistory }, "STATE");
+  }, [user?.id, paramHistory?.token, shop?.authToken]);
 
   return user ? (
     <>
-      <div className="app-link">
+      <Box className="app-link">
         <img
-          src="https://assets.gadget.dev/assets/default-app-assets/react-logo.svg"
-          className="app-logo"
-          alt="logo"
+          src={`https://${process.env.GADGET_PUBLIC_APP_SLUG}${process.env.GADGET_PUBLIC_APP_ENV !== "production" ? `--${process.env.GADGET_PUBLIC_APP_ENV}` : ""}.gadget.app/shopify_glyph_black.svg`}
+          alt="Shopify logo"
+          height={70}
         />
-        <span>You are now signed into {process.env.GADGET_APP}</span>
-      </div>
-      <div>
-        <p className="description" style={{ width: "100%" }}>
-          Start building your app&apos;s signed in area
-        </p>
+
+        <Text as="span">You are now signed into {process.env.GADGET_APP}</Text>
+      </Box>
+      <Box>
+        <Text as="p">Start building your app&apos;s signed in area</Text>
         <a
           href="/edit/files/web/routes/signed-in.jsx"
           target="_blank"
@@ -53,10 +47,13 @@ export default function () {
         >
           web/routes/signed-in.jsx
         </a>
-      </div>
-      <div className="card-stack">
-        <div className="card user-card">
-          <div className="card-content">
+      </Box>
+      <BlockStack className="card-stack">
+        <Card>
+          <Text as="h2" variant="headingLg">
+            User
+          </Text>
+          <Box className="card-content">
             <img
               className="icon"
               src={
@@ -64,27 +61,44 @@ export default function () {
                 "https://assets.gadget.dev/assets/default-app-assets/default-user-icon.svg"
               }
             />
-            <div className="userData">
-              <p>id: {user.id}</p>
-              <p>
-                name: {user.firstName} {user.lastName}
-              </p>
-              <p>
-                email: <a href={`mailto:${user.email}`}>{user.email}</a>
-              </p>
-              <p>created: {user.createdAt.toString()}</p>
-            </div>
-          </div>
-          <div className="sm-description">
-            This data is fetched from the user model
-          </div>
-        </div>
-        <div className="flex-vertical gap-4px">
-          <strong>Actions:</strong>
-          <Link to="/change-password">Change password</Link>
-          <a onClick={signOut}>Sign Out</a>
-        </div>
-      </div>
+            <BlockStack className="userData">
+              <Text as="p">id: {user?.id}</Text>
+              <Text as="p">
+                name: {user?.firstName} {user?.lastName}
+              </Text>
+              <Text as="p">
+                email: <a href={`mailto:${user?.email}`}>{user?.email}</a>
+              </Text>
+              <Text as="p">created: {user?.createdAt?.toString()}</Text>
+            </BlockStack>
+          </Box>
+        </Card>
+        {shop && (
+          <Card>
+            <Text as="h2" variant="headingLg">
+              Shop
+            </Text>
+            <Box className="card-content">
+              <BlockStack className="userData">
+                <Text as="p">id: {shop.id}</Text>
+                <Text as="p">domain: {shop.domain}</Text>
+                <Text as="p">shopOwner: {shop.shopOwner}</Text>
+              </BlockStack>
+            </Box>
+          </Card>
+        )}
+        <Box>
+          <Text as="h2" variant="headingLg">
+            Actions:
+          </Text>
+          <BlockStack>
+            <Link to="/change-password">Change password</Link>
+            <Button variant="monochromePlain" onClick={signOut}>
+              Sign Out
+            </Button>
+          </BlockStack>
+        </Box>
+      </BlockStack>
     </>
   ) : null;
 }

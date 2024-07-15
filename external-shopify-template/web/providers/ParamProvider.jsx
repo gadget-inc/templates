@@ -5,6 +5,9 @@ export const ParamContext = createContext(null);
 export default ({ children }) => {
   const [paramHistory, setParamHistory] = useState({});
 
+  /**
+   * @param {string} token
+   */
   const applyParams = useCallback(
     (token) => {
       if (!token) {

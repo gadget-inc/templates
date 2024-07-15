@@ -4,7 +4,7 @@ import {
   SignedOutOrRedirect,
 } from "@gadgetinc/react";
 import { AppType, Provider } from "@gadgetinc/react-shopify-app-bridge";
-import { Suspense, useEffect } from "react";
+import { Suspense, useContext, useEffect } from "react";
 import {
   Outlet,
   Route,
@@ -23,7 +23,12 @@ import VerifyEmailPage from "../routes/verify-email";
 import ChangePassword from "../routes/change-password";
 import ForgotPassword from "../routes/forgot-password";
 import "./App.css";
-import { ParamProvider, AuthProvider, ShopProvider } from "../providers";
+import {
+  ParamProvider,
+  AuthProvider,
+  ShopProvider,
+  AuthContext,
+} from "../providers";
 
 const App = () => {
   useEffect(() => {
@@ -104,8 +109,8 @@ const Layout = () => {
       shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
       api={api}
     >
-      <ShopProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <ShopProvider>
           <Header />
           <div className="app">
             <div className="app-content">
@@ -114,8 +119,8 @@ const Layout = () => {
               </div>
             </div>
           </div>
-        </AuthProvider>
-      </ShopProvider>
+        </ShopProvider>
+      </AuthProvider>
     </Provider>
   );
 };

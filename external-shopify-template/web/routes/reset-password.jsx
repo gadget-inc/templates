@@ -1,13 +1,21 @@
-import { useActionForm, useAuth } from "@gadgetinc/react";
+import { Controller, useActionForm, useAuth } from "@gadgetinc/react";
 import { api } from "../api";
 import { useLocation, Link } from "react-router-dom";
+import {
+  Button,
+  Card,
+  Form,
+  FormLayout,
+  Text,
+  TextField,
+} from "@shopify/polaris";
 
 export default function () {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const {
     submit,
-    register,
+    control,
     watch,
     formState: { errors, isSubmitSuccessful, isSubmitting },
   } = useActionForm(api.user.resetPassword, {
@@ -16,27 +24,49 @@ export default function () {
   const { configuration } = useAuth();
 
   return isSubmitSuccessful ? (
-    <p className="format-message success">
-      Password reset successfully. <Link to={configuration.signInPath}>Sign in now</Link>
-    </p>
+    <Text as="p" tone="success">
+      Password reset successfully.{" "}
+      <Link to={configuration.signInPath}>Sign in now</Link>
+    </Text>
   ) : (
-    <form className="custom-form" onSubmit={submit}>
-      <h1 className="form-title">Reset password</h1>
-      <input className="custom-input" placeholder="New password" type="password" {...register("password")} />
-      {errors?.user?.password?.message && <p className="format-message error">{errors?.user?.password?.message}</p>}
-      <input
-        className="custom-input"
-        placeholder="Confirm password"
-        type="password"
-        {...register("confirmPassword", {
-          validate: (value) => value === watch("password") || "The passwords do not match",
-        })}
-      />
-      {errors?.confirmPassword?.message && <p className="format-message error">{errors.confirmPassword.message}</p>}
-      {errors?.root?.message && <p className="format-message error">{errors.root.message}</p>}
-      <button disabled={isSubmitting} type="submit">
-        Reset password
-      </button>
-    </form>
+    <Card>
+      <Form className="custom-form" onSubmit={submit}>
+        <FormLayout>
+          <Text as="h1" variant="headingLg">
+            Reset password
+          </Text>
+          <Controller
+            name="password"
+            control={control}
+            render={({ field: { ref, fieldProps } }) => (
+              <TextField
+                placeholder="New password"
+                {...fieldProps}
+                error={errors?.user?.password?.message}
+              />
+            )}
+          />
+          <Controller
+            name="confirmPassword"
+            control={control}
+            render={({ field: { ref, fieldProps } }) => (
+              <TextField
+                placeholder="Confirm password"
+                {...fieldProps}
+                error={errors?.user?.confirmPassword?.message}
+              />
+            )}
+            rules={{
+              validate: (value) =>
+                value === watch("password") || "The passwords do not match",
+            }}
+          />
+        </FormLayout>
+        {errors?.root?.message && <Text as="p">{errors.root.message}</Text>}
+        <Button disabled={isSubmitting} type="submit">
+          Reset password
+        </Button>
+      </Form>
+    </Card>
   );
 }

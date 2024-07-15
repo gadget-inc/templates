@@ -1,22 +1,25 @@
-import { useFindFirst } from "@gadgetinc/react";
-import { createContext, useEffect } from "react";
+// import { useFindFirst } from "@gadgetinc/react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { api } from "../api";
+import { AuthContext } from "./AuthProvider";
 
 export const ShopContext = createContext(null);
 
 export default ({ children }) => {
-  const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
-    useFindFirst(api.shopifyShop);
+  const { user } = useContext(AuthContext);
+
+  const [shop, setShop] = useState({ data: null, fetching: true, error: null });
 
   useEffect(() => {
-    if (errorFetchingShop && !fetchingShop) {
-      console.warn(errorFetchingShop);
+    if (user?.shopId) {
+      const run = async () => {
+        setShop(await api.shopifyShop.findFirst());
+      };
+      run();
     }
-  }, [errorFetchingShop, fetchingShop]);
+  }, [user?.shopId]);
 
   return (
-    <ShopContext.Provider value={{ shop, fetchingShop }}>
-      {children}
-    </ShopContext.Provider>
+    <ShopContext.Provider value={{ shop }}>{children}</ShopContext.Provider>
   );
 };

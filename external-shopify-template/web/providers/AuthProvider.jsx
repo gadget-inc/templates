@@ -9,7 +9,7 @@ export const AuthContext = createContext(null);
 export default ({ children }) => {
   // Pulling the authToken from the URL query parameters
   const [params] = useSearchParams();
-  // Fetching specific user data
+  // Fetching specific user data from the Gadget database using the @gadgetinc/react useUser hook
   const user = useUser(api, {
     select: {
       id: true,
@@ -27,14 +27,15 @@ export default ({ children }) => {
   const [_, setCurrentSession] = useGlobalAction(api.setCurrentSession);
 
   useEffect(() => {
-    if (user && session) {
+    if (user && session && !session?.user?.id) {
       setCurrentSession({
         sessionId: session.id,
         userId: user.id,
       });
     }
-  }, [user]);
+  }, []);
 
+  // Setting params history on the ParamProvider in case the new user uses email/password login
   useEffect(() => {
     const authToken = params.get("authToken");
 

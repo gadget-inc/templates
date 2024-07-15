@@ -70,6 +70,7 @@ export const permissions: GadgetPermissions = {
             changePassword: {
               filter: "accessControl/filters/user/tenant.gelly",
             },
+            setShop: true,
             signOut: {
               filter: "accessControl/filters/user/tenant.gelly",
             },

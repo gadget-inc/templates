@@ -11,7 +11,6 @@ import {
   RouterProvider,
   createBrowserRouter,
   createRoutesFromElements,
-  useNavigate,
   Link,
 } from "react-router-dom";
 import { api } from "../api";
@@ -24,7 +23,7 @@ import VerifyEmailPage from "../routes/verify-email";
 import ChangePassword from "../routes/change-password";
 import ForgotPassword from "../routes/forgot-password";
 import "./App.css";
-import { AuthProvider } from "../providers";
+import { ParamProvider, AuthProvider, ShopProvider } from "../providers";
 
 const App = () => {
   useEffect(() => {
@@ -38,7 +37,7 @@ const App = () => {
           index
           path="dashboard"
           element={
-            <SignedOutOrRedirect>
+            <SignedOutOrRedirect path="signed-in">
               <Index />
             </SignedOutOrRedirect>
           }
@@ -91,30 +90,32 @@ const App = () => {
 
   return (
     <Suspense fallback={<></>}>
-      <RouterProvider router={router} />
+      <ParamProvider>
+        <RouterProvider router={router} />
+      </ParamProvider>
     </Suspense>
   );
 };
 
 const Layout = () => {
-  const navigate = useNavigate();
-
   return (
     <Provider
       type={AppType.Standalone}
       shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
       api={api}
     >
-      <AuthProvider>
-        <Header />
-        <div className="app">
-          <div className="app-content">
-            <div className="main">
-              <Outlet />
+      <ShopProvider>
+        <AuthProvider>
+          <Header />
+          <div className="app">
+            <div className="app-content">
+              <div className="main">
+                <Outlet />
+              </div>
             </div>
           </div>
-        </div>
-      </AuthProvider>
+        </AuthProvider>
+      </ShopProvider>
     </Provider>
   );
 };

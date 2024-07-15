@@ -1,29 +1,69 @@
-import { useUser, useSignOut } from "@gadgetinc/react";
+import { useSignOut, useAction } from "@gadgetinc/react";
 import { api } from "../api";
 import { Link } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { AuthContext, ParamContext, ShopContext } from "../providers";
 
 export default function () {
-  const user = useUser(api);
   const signOut = useSignOut();
+  const { user } = useContext(AuthContext);
+  const { shop } = useContext(ShopContext);
+  const { paramHistory } = useContext(ParamContext);
+
+  const [_, setShop] = useAction(api.user.setShop);
+
+  useEffect(() => {
+    if (user && !user.shopId && (paramHistory?.token || shop?.authToken)) {
+      const run = async () => {
+        console.log("HIT", {
+          id: user.id,
+          token: paramHistory?.token || shop?.authToken,
+        });
+        await setShop({
+          id: user.id,
+          token: paramHistory?.token || shop?.authToken,
+        });
+      };
+
+      run();
+    }
+  }, [user.id, paramHistory?.token, shop?.authToken]);
+
+  console.log({ user, shop, paramHistory }, "STATE");
 
   return user ? (
     <>
       <div className="app-link">
-        <img src="https://assets.gadget.dev/assets/default-app-assets/react-logo.svg" className="app-logo" alt="logo" />
+        <img
+          src="https://assets.gadget.dev/assets/default-app-assets/react-logo.svg"
+          className="app-logo"
+          alt="logo"
+        />
         <span>You are now signed into {process.env.GADGET_APP}</span>
       </div>
       <div>
         <p className="description" style={{ width: "100%" }}>
           Start building your app&apos;s signed in area
         </p>
-        <a href="/edit/files/web/routes/signed-in.jsx" target="_blank" rel="noreferrer" style={{ fontWeight: 500 }}>
+        <a
+          href="/edit/files/web/routes/signed-in.jsx"
+          target="_blank"
+          rel="noreferrer"
+          style={{ fontWeight: 500 }}
+        >
           web/routes/signed-in.jsx
         </a>
       </div>
       <div className="card-stack">
         <div className="card user-card">
           <div className="card-content">
-            <img className="icon" src={user.googleImageUrl ?? "https://assets.gadget.dev/assets/default-app-assets/default-user-icon.svg"} />
+            <img
+              className="icon"
+              src={
+                user.googleImageUrl ??
+                "https://assets.gadget.dev/assets/default-app-assets/default-user-icon.svg"
+              }
+            />
             <div className="userData">
               <p>id: {user.id}</p>
               <p>
@@ -35,14 +75,14 @@ export default function () {
               <p>created: {user.createdAt.toString()}</p>
             </div>
           </div>
-          <div className="sm-description">This data is fetched from the user model</div>
+          <div className="sm-description">
+            This data is fetched from the user model
+          </div>
         </div>
         <div className="flex-vertical gap-4px">
           <strong>Actions:</strong>
           <Link to="/change-password">Change password</Link>
-          <a onClick={signOut}>
-            Sign Out
-          </a>
+          <a onClick={signOut}>Sign Out</a>
         </div>
       </div>
     </>

@@ -27,8 +27,15 @@ export default async function route({
       }
     );
 
+    // Setting the authToken on the shop record in case the user used Google SSO
+    await api.internal.shopifyShop.update(shopId, {
+      authToken: token,
+    });
+
+    // Redirect the user to the external dashboard with the authToken as a query parameter
     return await reply.redirect(`/dashboard?authToken=${token}`);
   }
 
+  // Redirect the user to the external dashboard with no query parameters
   await reply.redirect("/dashboard");
 }

@@ -1,19 +1,30 @@
 import { useGlobalAction, useSession, useUser } from "@gadgetinc/react";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { api } from "../api";
+import { useSearchParams } from "react-router-dom";
+import { ParamContext } from "./ParamProvider";
 
 export const AuthContext = createContext(null);
 
 export default ({ children }) => {
-  const user = useUser();
+  // Pulling the authToken from the URL query parameters
+  const [params] = useSearchParams();
+  // Fetching specific user data
+  const user = useUser(api, {
+    select: {
+      id: true,
+      shopId: true,
+      lastName: true,
+      firstName: true,
+      email: true,
+      createdAt: true,
+      googleImageUrl: true,
+    },
+  });
   const session = useSession();
-
-  const [token, setToken] = useState();
+  const { applyParams } = useContext(ParamContext);
 
   const [_, setCurrentSession] = useGlobalAction(api.setCurrentSession);
-
-  // Need to find a way to user the token from the auth provider to set the user's shop record relationship
-  // That needs to be done after sign in
 
   useEffect(() => {
     if (user && session) {
@@ -22,11 +33,15 @@ export default ({ children }) => {
         userId: user.id,
       });
     }
+  }, [user]);
+
+  useEffect(() => {
+    const authToken = params.get("authToken");
+
+    applyParams(authToken);
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, token, setToken }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
   );
 };

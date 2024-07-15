@@ -1,20 +1,4 @@
-import { useContext, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
-import { AuthContext } from "../providers";
-
 export default function () {
-  const [params] = useSearchParams();
-
-  const { setToken } = useContext(AuthContext);
-
-  useEffect(() => {
-    const token = params.get("authToken");
-
-    if (token) {
-      setToken(token);
-    }
-  }, []);
-
   return (
     <>
       <div className="app-link">

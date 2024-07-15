@@ -7,6 +7,7 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Shop",
   fields: {
+    authToken: { type: "string", storageKey: "y00BfchrGyag" },
     users: {
       type: "hasMany",
       children: { model: "user", belongsToField: "shop" },

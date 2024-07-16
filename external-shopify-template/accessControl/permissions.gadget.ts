@@ -57,7 +57,9 @@ export const permissions: GadgetPermissions = {
           read: true,
         },
         shopifyShop: {
-          read: true,
+          read: {
+            filter: "accessControl/filters/shopifyShop/tenancy.gelly",
+          },
         },
         shopifySync: {
           read: true,

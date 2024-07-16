@@ -18,6 +18,8 @@ export const settings: GadgetSettings = {
           "read_products",
           "write_cart_transforms",
           "read_cart_transforms",
+          "write_publications",
+          "read_publications",
         ],
       },
     },

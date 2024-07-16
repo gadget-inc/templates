@@ -33,21 +33,6 @@ export const schema: GadgetModel = {
       },
       storageKey: "3qhbYcU7_k0A",
     },
-    fulfillmentService: {
-      type: "string",
-      storageKey:
-        "ModelField-DataModel-Shopify-ProductVariant-fulfillment_service::FieldStorageEpoch-DataModel-Shopify-ProductVariant-fulfillment_service-initial",
-    },
-    grams: {
-      type: "number",
-      storageKey:
-        "ModelField-DataModel-Shopify-ProductVariant-grams::FieldStorageEpoch-DataModel-Shopify-ProductVariant-grams-initial",
-    },
-    inventoryManagement: {
-      type: "string",
-      storageKey:
-        "ModelField-DataModel-Shopify-ProductVariant-inventory_management::FieldStorageEpoch-DataModel-Shopify-ProductVariant-inventory_management-initial",
-    },
     isBundle: {
       type: "boolean",
       shopifyMetafield: {
@@ -58,21 +43,6 @@ export const schema: GadgetModel = {
         allowMultipleEntries: false,
       },
       storageKey: "cXcZnIK0yBPC",
-    },
-    requiresShipping: {
-      type: "boolean",
-      storageKey:
-        "ModelField-DataModel-Shopify-ProductVariant-requires_shipping::FieldStorageEpoch-DataModel-Shopify-ProductVariant-requires_shipping-initial",
-    },
-    weight: {
-      type: "number",
-      storageKey:
-        "ModelField-DataModel-Shopify-ProductVariant-weight::FieldStorageEpoch-DataModel-Shopify-ProductVariant-weight-initial",
-    },
-    weightUnit: {
-      type: "string",
-      storageKey:
-        "ModelField-DataModel-Shopify-ProductVariant-weight_unit::FieldStorageEpoch-DataModel-Shopify-ProductVariant-weight_unit-initial",
     },
   },
   shopify: {

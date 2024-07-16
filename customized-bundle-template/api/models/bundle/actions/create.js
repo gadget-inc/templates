@@ -20,7 +20,6 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { CreateBundleActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  // Might need to change the logic to use the new productBundleCreate mutation from 24-07
   await api.enqueue(
     api.createBundleInShopify,
     {

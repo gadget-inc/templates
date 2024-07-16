@@ -76,6 +76,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     variantChanges.push("metafields");
   }
 
+  // Might need to change the logic to use the new productBundleUpdate mutation from 24-07
   await api.enqueue(
     api.updateBundleInShopify,
     {

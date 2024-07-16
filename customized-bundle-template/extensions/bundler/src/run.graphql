@@ -1,6 +1,7 @@
 query RunInput {
   cart {
     lines {
+      id
       quantity
       merchandise {
         __typename

@@ -38,6 +38,8 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
     (selection) => {
       if (!selection) return;
 
+      console.log(selection);
+
       setSelectedProducts(selection);
 
       if (selection) {
@@ -99,6 +101,7 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
               {
                 id: `gid://shopify/ProductVariant/${bundleComponent.productVariant.id}`,
                 title: bundleComponent.productVariant.title,
+                price: bundleComponent.productVariant.price,
               },
             ],
             images: [
@@ -113,6 +116,7 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
           tempObj[bundleComponent.productVariant.product.id].variants.push({
             id: `gid://shopify/ProductVariant/${bundleComponent.productVariant.id}`,
             title: bundleComponent.productVariant.title,
+            price: bundleComponent.productVariant.price,
           });
         }
       }
@@ -255,6 +259,7 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
                     control,
                     name: "bundle.bundleComponents",
                     errors,
+                    currency: shop.currency,
                   }}
                   key={id}
                 />

@@ -49,6 +49,7 @@ export default ({
         productVariant: {
           id: variantId,
           title: variantTitle,
+          price: variantPrice,
           product: { id, title, images },
         },
       },
@@ -58,13 +59,21 @@ export default ({
           id,
           title,
           image: images.edges[0]?.node?.source,
-          variants: [{ id: variantId, title: variantTitle, quantity }],
+          variants: [
+            {
+              id: variantId,
+              title: variantTitle,
+              quantity,
+              price: variantPrice,
+            },
+          ],
         };
       } else {
         tempObj[id].variants.push({
           id: variantId,
           title: variantTitle,
           quantity,
+          price: variantPrice,
         });
       }
     }
@@ -93,7 +102,7 @@ export default ({
             </ButtonGroup>
           </InlineStack>
           <Text tone="subdued" as="span" variant="bodySm">
-            Price: {price} {shop.currency}
+            {price} {shop.currency}
           </Text>
         </BlockStack>
         <Box>
@@ -107,7 +116,16 @@ export default ({
                   <InlineStack align="space-between">
                     <InlineStack blockAlign="center" gap="400">
                       <Thumbnail source={image || ImageMajor} />
-                      <Text>{title}</Text>
+                      <BlockStack>
+                        <Text>{title}</Text>
+                        {variants.length === 1 && (
+                          <Text as="span" tone="subdued" variant="bodySm">
+                            {parseFloat(variants[0].price)
+                              ? `${variants[0].price} ${shop.currency}`
+                              : "Free"}
+                          </Text>
+                        )}
+                      </BlockStack>
                     </InlineStack>
                     {variants.length === 1 && (
                       <BlockStack inlineAlign="end" align="center" gap={200}>
@@ -124,13 +142,20 @@ export default ({
                         </Text>
                         <Text>Quantity</Text>
                       </InlineStack>
-                      {variants.map(({ title, quantity }, index) => (
+                      {variants.map(({ title, quantity, price }, index) => (
                         <BlockStack key={index} gap={300}>
                           <InlineStack
                             align="space-between"
                             blockAlign="center"
                           >
-                            <Text as="span">{title}</Text>
+                            <BlockStack>
+                              <Text as="span">{title}</Text>
+                              <Text as="span" tone="subdued" variant="bodySm">
+                                {parseFloat(price)
+                                  ? `${price} ${shop.currency}`
+                                  : "Free"}
+                              </Text>
+                            </BlockStack>
                             <Text as="span">{quantity}</Text>
                           </InlineStack>
                           {variants.length - 1 !== index && <Divider />}

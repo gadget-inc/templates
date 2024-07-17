@@ -45,6 +45,7 @@ export default () => {
             productVariant: {
               id: true,
               title: true,
+              price: true,
               product: {
                 id: true,
                 title: true,

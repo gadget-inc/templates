@@ -29,6 +29,7 @@ A list of steps that you should follow:
   - Updates shopifyShop record using `record.field = value` notation
 
 - The user is redirected from the frontend to the subscription confirmation page
+
   - If rejected, the user is sent back to the Shopify admin
   - If approved, the page is redirected to the `confirmation-callback` route
 
@@ -46,7 +47,6 @@ Listed features that the application currently supports.
 ### Frontend
 
 - Shop wrapper (React context provider)
-- Currency conversion for plan cards
 
 ## Missing features
 

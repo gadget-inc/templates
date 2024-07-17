@@ -10,11 +10,11 @@
   "dependencies": {
     "@gadget-client/usage-subscription-template": "link:.gadget/client",
     "@gadgetinc/react": "^0.15.5",
-    "@gadgetinc/react-shopify-app-bridge": "^0.14.2",
+    "@gadgetinc/react-shopify-app-bridge": "^0.15.2",
     "@shopify/app-bridge-react": "^4.1.1",
     "@shopify/polaris": "^12.2.0",
     "@shopify/polaris-icons": "^7.10.0",
-    "currency-converter-lt": "^2.0.1",
+    "currency-converter-lt2": "^2.0.0-beta.0",
     "date-fns": "^2.30.0",
     "fastify": "^4.24.2",
     "gadget-server": "link:.gadget/server",

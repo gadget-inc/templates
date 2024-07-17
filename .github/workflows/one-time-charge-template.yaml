@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: One-Time Charge Deployment
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - "one-time-charge-template/**"
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   push-to-development-environment:

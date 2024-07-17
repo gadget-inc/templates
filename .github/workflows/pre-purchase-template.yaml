@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Pre-Purchase Deployment
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - "pre-purchase-template/**"
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   push-to-development-environment:

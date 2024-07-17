@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Product Quiz Deployment
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - "product-quiz-template/**"
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   push-to-development-environment:

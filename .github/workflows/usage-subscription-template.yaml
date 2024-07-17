@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Usage Subscription Deployment
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - "usage-subscription-template/**"
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   push-to-development-environment:

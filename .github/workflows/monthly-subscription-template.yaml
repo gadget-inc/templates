@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Monthly Subscription Deployment
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - "monthy-subscription-template/**"
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   push-to-development-environment:
@@ -14,7 +15,7 @@ jobs:
       - name: Checkout the current repository
         uses: actions/checkout@v4
       - name: Push to development environment
-        run: npx ggt push --app=monthy-subscription-template --env=development --force --allow-unknown-directory
-        working-directory: monthy-subscription-template/
+        run: npx ggt push --app=monthly-subscription-template --env=development --force --allow-unknown-directory
+        working-directory: monthly-subscription-template/
         env:
-          GGT_TOKEN: ${{ secrets.ONE_TIME_CHARGE_DEPLOY_TOKEN }}
+          GGT_TOKEN: ${{ secrets.MONTHLY_SUBSCRIPTION_DEPLOY_TOKEN }}

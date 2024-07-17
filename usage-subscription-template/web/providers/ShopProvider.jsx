@@ -3,7 +3,7 @@ import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
 import { Banner, Page, Text } from "@shopify/polaris";
-import BillingPage from "../BillingPage";
+import { BillingPage } from "../routes";
 import { StyledSpinner } from "../components";
 
 export const ShopContext = createContext({});
@@ -117,6 +117,10 @@ export default ({ children }) => {
     }
   }, [fetchingCurrentSubscription, errorFetchingCurrentSubscription]);
 
+  if (fetchingShop || loading) {
+    return <StyledSpinner />;
+  }
+
   return (
     <ShopContext.Provider
       value={{
@@ -131,38 +135,31 @@ export default ({ children }) => {
           onDismiss={handleDismiss}
         />
       )}
-      {!fetchingShop && !loading ? (
-        !!availableTrialDays && !shop?.plan ? (
-          <>
+      {!shop?.plan ? (
+        <>
+          <Page>
+            <Banner tone="warning" title="Action required">
+              <Text as="p" variant="bodyMd">
+                You must select a plan before you can access this application.
+              </Text>
+            </Banner>
+          </Page>
+          <BillingPage />
+        </>
+      ) : (
+        <>
+          {!!availableTrialDays && (
             <Page>
-              <Banner tone="warning" title="Action required">
+              <Banner title="You are currently on a trial period." tone="info">
                 <Text as="p" variant="bodyMd">
-                  You must select a plan before you can access this application.
+                  The trial will end in <strong>{availableTrialDays}</strong>{" "}
+                  days.
                 </Text>
               </Banner>
             </Page>
-            <BillingPage />
-          </>
-        ) : (
-          <>
-            {!!availableTrialDays && (
-              <Page>
-                <Banner
-                  title="You are currently on a trial period."
-                  tone="info"
-                >
-                  <Text as="p" variant="bodyMd">
-                    The trial will end in <strong>{availableTrialDays}</strong>{" "}
-                    days.
-                  </Text>
-                </Banner>
-              </Page>
-            )}
-            {children}
-          </>
-        )
-      ) : (
-        <StyledSpinner />
+          )}
+          {children}
+        </>
       )}
     </ShopContext.Provider>
   );

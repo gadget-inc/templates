@@ -2,7 +2,6 @@
   "version": "v1",
   "setup": "Setup.md",
   "introduction": "Intro.md",
-  "howToExtend": [],
   "featuredModels": {
     "allowedTag": {
       "description": "Stores the tag keyword and the shop it is associated with.",
@@ -12,7 +11,7 @@
       ]
     },
     "shopifyProduct": {
-      "description": "In-sync with product data from your installed stores.",
+      "description": "Synchronizes and stores product data from connected Shopify stores.",
       "featuredFields": [
         "title",
         "body",
@@ -31,19 +30,19 @@
   "featuredActions": {
     "shopifyProduct": {
       "create": {
-        "description": "Creates a shopifyProduct and calls applyTags() defined in shopifyProduct/utils.js.",
+        "description": "Reacts to Shopify's product/create events and copies the product data in your database, and then calls `applyTags()` defined in `shopifyProduct/utils.js`",
         "tags": [
           "edited"
         ]
       },
       "update": {
-        "description": "Updates a shopifyProduct and calls applyTags() defined in shopifyProduct/utils.js.",
+        "description": "Reacts to Shopify's product/update events and copies the product data in your database, and then calls `applyTags()` defined in `shopifyProduct/utils.js`",
         "tags": [
           "edited"
         ]
       },
       "utils.js": {
-        "description": "applyTags(): Matches saved keywords against product descriptions, and then updates the products in Shopify with any matching tags.",
+        "description": "Matches incoming product descriptions against keywords stored in the `allowedTag` model, and then updates the products in Shopify with any matching tags.",
         "tags": [
           "added"
         ]
@@ -53,7 +52,7 @@
   "featuredAccessControls": {
     "shopify-app-users": {
       "allowedTag": {
-        "description": "shopify-app-users have been given permission to create, find, update and delete allowedTag. This means you can add allowedTags from the authenticated admin view.",
+        "description": "This means you can add `allowedTags` from the authenticated admin view.",
         "featuredFilters": {
           "allowedTag/filters/tenancy.gelly": {
             "description": "has been added so that merchants are only able to read tags for their store."
@@ -64,16 +63,29 @@
   },
   "featuredFrontends": {
     "App.jsx": {
-      "description": "This page handles routing of the frontend pages.",
+      "description": "Handles routing for the frontend pages.",
       "tags": [
         "edited"
       ]
     },
     "ShopPage.jsx": {
-      "description": "Displayed in the dashboard, shopify admins can add and remove keywords from your app's database.",
+      "description": "Displays an embedded Shopify Admin UI that allows merchants to add or manage their keyword list.",
       "tags": [
         "edited"
       ]
+    }
+  },
+  "webflow": {
+    "title": "Automated Product Tagger",
+    "description": "Automate tagging products within a Shopify store inventory. This app tracks keywords within product descriptions and creates a tag for each keyword found.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/tagger.webp",
+    "wistiaId": "udboa27dyt",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
     }
   }
 }

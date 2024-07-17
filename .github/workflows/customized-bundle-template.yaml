@@ -1,4 +1,4 @@
-name: CI/CD Pipeline
+name: Customized Bundle Deployment
 
 on:
   push:
@@ -6,6 +6,7 @@ on:
       - "customized-customized-bundle-template/**"
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   push-to-development-environment:

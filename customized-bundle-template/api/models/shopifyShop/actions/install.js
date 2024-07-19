@@ -38,7 +38,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         key: "isBundle",
         type: "boolean",
         namespace: "bundle",
-        name: "Boolean for marking a product varaint as the bundle parent variant",
+        name: "Is the bundle's parent variant? Used in app logic",
         ownerType: "PRODUCTVARIANT",
       },
     }

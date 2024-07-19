@@ -33,58 +33,62 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
     name: "bundle.bundleComponents",
   });
 
+  // Handles the change of selected products/variants from the Shopify app bridge resource picker
   const handleSelection = useCallback(
     (selection) => {
       if (!selection) return;
 
+      // Sets the selected products to the products from the date picker (shape used in render)
       setSelectedProducts(selection);
 
-      if (selection) {
-        const variants = selection
-          .reduce((variantsTemp, product) => {
-            return variantsTemp.concat(product.variants);
-          }, [])
-          .map((variant) => ({
-            id: variant?.id.replace(/gid:\/\/shopify\/ProductVariant\//g, ""),
-          }));
+      const variants = selection
+        .reduce((variantsTemp, product) => {
+          return variantsTemp.concat(product.variants);
+        }, [])
+        .map((variant) => ({
+          id: variant?.id.replace(/gid:\/\/shopify\/ProductVariant\//g, ""),
+        }));
 
-        const tempBC = bundleComponents.map((bc) => bc.id);
+      // Making an array of bundle component ids to be referenced for indexes
+      const tempBC = bundleComponents.map((bc) => bc.id);
 
-        for (const bundleComponent of bundleComponents) {
-          if (
-            !variants.some(
-              (v) =>
-                v.id === bundleComponent.productVariant?.id ||
-                v.id === bundleComponent.productVariantId
-            )
-          ) {
-            const index = tempBC.indexOf(bundleComponent.id);
+      // Look for bundle components that are not in the selected products and remove them
+      for (const bundleComponent of bundleComponents) {
+        if (
+          !variants.some(
+            (v) =>
+              v.id === bundleComponent.productVariant?.id ||
+              v.id === bundleComponent.productVariantId
+          )
+        ) {
+          const index = tempBC.indexOf(bundleComponent.id);
 
-            removeBundleComponent(index);
-            tempBC.splice(index, 1);
-          }
+          removeBundleComponent(index);
+          tempBC.splice(index, 1);
         }
+      }
 
-        for (const variant of variants) {
-          if (
-            !bundleComponents.some(
-              (bc) =>
-                bc?.productVariant?.id === variant.id ||
-                bc?.productVariantId === variant.id
-            )
-          ) {
-            appendBundleComponent({
-              shopId: shop.id,
-              productVariantId: variant.id,
-              quantity: 1,
-            });
-          }
+      // Look for selected products that are not in the bundle components and add them
+      for (const variant of variants) {
+        if (
+          !bundleComponents.some(
+            (bc) =>
+              bc?.productVariant?.id === variant.id ||
+              bc?.productVariantId === variant.id
+          )
+        ) {
+          appendBundleComponent({
+            shopId: shop.id,
+            productVariantId: variant.id,
+            quantity: 1,
+          });
         }
       }
     },
     [shop, bundleComponents]
   );
 
+  // Transforms the bundle components into the shape used in the resource picker so that it can be used to preselect products
   useEffect(() => {
     if (bundleComponents?.length && updateForm && loading) {
       const tempObj = {};
@@ -233,6 +237,11 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
                   multiple: true,
                   selectionIds: selectedProducts,
                   action: "select",
+                  filter: {
+                    draft: false,
+                    archived: false,
+                    hidden: false,
+                  },
                 });
 
                 handleSelection(selection);

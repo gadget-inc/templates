@@ -31,6 +31,7 @@ export default () => {
     },
   });
 
+  // A special handler for form submission that displays an error if the title already exists or redirects to the homepage
   const createBundle = useCallback(async () => {
     const { data, error } = await submit();
 
@@ -53,6 +54,7 @@ export default () => {
         isSubmitting ||
         !isDirty ||
         !isValid ||
+        // Disables the save button if there are no bundle components
         !getValues("bundle.bundleComponents").length
       }
     >

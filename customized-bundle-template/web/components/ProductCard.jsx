@@ -21,6 +21,7 @@ export default ({
   errors,
   currency,
 }) => {
+  // Creates an array of product variant ids
   const productVariantIds = useMemo(
     () =>
       bundleComponents.map(

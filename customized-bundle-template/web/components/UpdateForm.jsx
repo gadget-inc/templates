@@ -21,6 +21,7 @@ import {
 } from "@shopify/polaris";
 import BundleForm from "./BundleForm";
 
+// A skeleton version of the bundle update card to display while the bundle is loading
 const SkeletonForm = () => {
   return (
     <Card>
@@ -119,6 +120,7 @@ export default () => {
 
   const [{ data: deletedBundle }, deleteBundle] = useAction(api.bundle.delete);
 
+  // A special handler for form submission that displays an error if the title already exists or redirects to the homepage
   const updateBundle = useCallback(async () => {
     const { data, error } = await submit();
 
@@ -133,6 +135,7 @@ export default () => {
     }
   }, [submit]);
 
+  // Redirects to the homepage if the bundle was successfully deleted
   useEffect(() => {
     if (deletedBundle) {
       navigate("/");
@@ -149,6 +152,7 @@ export default () => {
         !isValid ||
         isLoading ||
         isValidating ||
+        // Disables the save button if there are no bundle components
         !getValues("bundle.bundleComponents").length
       }
     >

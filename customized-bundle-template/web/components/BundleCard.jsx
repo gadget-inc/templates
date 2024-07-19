@@ -20,12 +20,18 @@ import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../providers";
 
+// A map for enums to the ton of a badge (Polaris)
 const tones = {
   active: "success",
   archived: "complete",
   draft: "info",
 };
 
+/**
+ * @param { { id: string, title: string, description: string, status: string, price: string, bundleComponents: Array<{}>, bundleComponentCount: number } } props The props passed to the React functional component
+ *
+ * @returns { import("react").ReactElement } A React functional component
+ */
 export default ({
   id,
   title,
@@ -40,6 +46,7 @@ export default ({
   const navigate = useNavigate();
   const { shop } = useContext(ShopContext);
 
+  // Memoize the products array based on the bundle components array
   const products = useMemo(() => {
     const tempObj = {};
 

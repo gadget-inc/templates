@@ -15,6 +15,7 @@ export default () => {
 
   const [cursor, setCursor] = useState({ first: NUM_ON_PAGE });
   const [searchValue, setSearchValue] = useState("");
+  // Debounce for the input of the bundle search bar
   const [filter] = useDebounce(
     searchValue
       ? {
@@ -66,24 +67,29 @@ export default () => {
     ...filter,
   });
 
+  // Pagination function for going to the previous page
   const getPreviousPage = useCallback(() => {
     setCursor({ last: NUM_ON_PAGE, before: bundles?.startCursor });
   }, [bundles]);
 
+  // Pagination function for going to the next page
   const getNextPage = useCallback(() => {
     setCursor({ first: NUM_ON_PAGE, after: bundles?.endCursor });
   }, [bundles]);
 
+  // Handler for the search bar input change
   const handleSearchInputChange = useCallback((value) => {
     setSearchValue(value);
   }, []);
 
+  // Error handling for fetching bundles (only logs at the moment)
   useEffect(() => {
     if (!fetchingBundles && errorFetchingBundles) {
       console.error(errorFetchingBundles);
     }
   }, [fetchingBundles, errorFetchingBundles]);
 
+  // Redirects to the create bundle page if the shop has no bundles
   useEffect(() => {
     if (!shop.bundleCount) {
       navigate("/create-bundle");

@@ -4,6 +4,7 @@ import {
   ActionOptions,
   UpdateBundleComponentActionContext,
 } from "gadget-server";
+import { isEqual } from "lodash";
 
 /**
  * @param { UpdateBundleComponentActionContext } context

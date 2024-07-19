@@ -4,16 +4,16 @@ import { UpdateBundleInShopifyGlobalActionContext } from "gadget-server";
  * @param { UpdateBundleInShopifyGlobalActionContext } context
  */
 export async function run({ params, logger, api, connections }) {
-  logger.info({ params }, "PARAMS");
-
   const {
     shopId,
-    bundle: { id, product, variant },
+    bundle: { id: bundleId, product, variant },
     productChanges,
     variantChanges,
   } = params;
 
   const shopify = await connections.shopify.forShopId(shopId);
+
+  if (!shopify) throw new Error("Shopify connection not established");
 
   if (productChanges?.length) {
     const { id: productId, ...productData } = product;
@@ -71,6 +71,23 @@ export async function run({ params, logger, api, connections }) {
       throw new Error(
         productVariantUpdateResponse.productVariantUpdate.userErrors[0].message
       );
+
+    // Call to update quantities object
+    await api.enqueue(
+      api.updateBundleComponentQuantity,
+      {
+        bundleVariantId,
+        bundleId,
+        shopId,
+      },
+      {
+        queue: {
+          name: `updateBundleComponentQuantity-${shopId}`,
+          maxConcurrency: 1,
+        },
+        retries: 1,
+      }
+    );
   }
 }
 
@@ -82,6 +99,9 @@ export const params = {
     type: "object",
     properties: {
       id: {
+        type: "string",
+      },
+      bundleVariantId: {
         type: "string",
       },
       product: {

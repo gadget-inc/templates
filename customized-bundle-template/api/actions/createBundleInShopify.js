@@ -16,6 +16,9 @@ export async function run({ params, logger, api, connections }) {
 
   const shopify = await connections.shopify.forShopId(shopId);
 
+  if (!shopify) throw new Error("Shopify connection not established");
+
+  // Creates a product in Shopify that will act as the bundle in the oneline store
   const productCreateResponse = await shopify.graphql(
     `mutation($productInput: ProductInput!) {
       productCreate(input: $productInput) {
@@ -47,9 +50,11 @@ export async function run({ params, logger, api, connections }) {
     }
   );
 
+  // Throw an error if the product creation fails
   if (productCreateResponse?.productCreate?.userErrors?.length)
     throw new Error(productCreateResponse.productCreate.userErrors[0].message);
 
+  // Fetch all the bundle components for the bundle
   const bundleComponents = await api.bundleComponent.findMany({
     filter: {
       bundle: {
@@ -64,10 +69,17 @@ export async function run({ params, logger, api, connections }) {
 
   const quantityObj = {};
 
+  // Creates an object with product variant ids as keys and their quantities as values
   for (const bundleComponent of bundleComponents) {
     quantityObj[bundleComponent.productVariantId] = bundleComponent.quantity;
   }
 
+  /**
+   * Updates the product variant with the price and the metafields
+   * - componentReference: An array of product variant gids
+   * - isBundle: Always true. This is used to identify the product variant as a bundle in later logic
+   * - productVariantQuantities: An object with the product variant ids as keys and their quantities as values
+   */
   const productVariantUpdateResponse = await shopify.graphql(
     `mutation ($input: ProductVariantInput!) {
       productVariantUpdate(input: $input) {
@@ -120,17 +132,20 @@ export async function run({ params, logger, api, connections }) {
     }
   );
 
+  // Throw an error if the product variant update fails
   if (productVariantUpdateResponse?.productVariantUpdate?.userErrors?.length)
     throw new Error(
       productVariantUpdateResponse.productVariantUpdate.userErrors[0].message
     );
 
+  // Fetch the online store publication id for the shop
   const shop = await api.shopifyShop.findOne(shopId, {
     select: {
       onlineStorePublicationId: true,
     },
   });
 
+  // Publish the product to the online store
   const publicationResponse = await shopify.graphql(
     `mutation ($id: ID!, $input: [PublicationInput!]!) {
         publishablePublish(id: $id, input: $input) {
@@ -155,6 +170,7 @@ export async function run({ params, logger, api, connections }) {
     }
   );
 
+  // Throw an error if the publication fails
   if (publicationResponse?.publishablePublish?.userErrors?.length)
     throw new Error(
       publicationResponse.publishablePublish.userErrors[0].message
@@ -162,6 +178,7 @@ export async function run({ params, logger, api, connections }) {
 
   let componentReferenceMetafieldId = "";
 
+  // Retrieve the id of the componentReference metafield
   for (const metafield of productVariantUpdateResponse.productVariantUpdate
     .productVariant.metafields.edges) {
     if (metafield.node.key === "componentReference") {
@@ -170,6 +187,7 @@ export async function run({ params, logger, api, connections }) {
     }
   }
 
+  // Update the bundle using the internal API, linking the bundle to it's parent product variant
   await api.internal.bundle.update(id, {
     bundleVariant: {
       _link:

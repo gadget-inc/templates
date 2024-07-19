@@ -4,12 +4,14 @@ import { UpdateBundleComponentQuantityGlobalActionContext } from "gadget-server"
  * @param { UpdateBundleComponentQuantityGlobalActionContext } context
  */
 export async function run({ params, logger, api, connections }) {
-  const { id, quantity, productVariantId, bundleVariantId, shopId } = params;
+  const { id, quantity, productVariantId, bundleVariantId, shopId, bundleId } =
+    params;
 
   const shopify = await connections.shopify.forShopId(shopId);
 
   if (!shopify) throw new Error("Shopify connection not established");
 
+  // Fetch all bundle components for this particular bundle
   const bundleComponents = await api.bundleComponent.findMany({
     filter: {
       bundle: {
@@ -23,10 +25,10 @@ export async function run({ params, logger, api, connections }) {
     },
   });
 
-  const quantityObj = { [productVariantId]: quantity };
+  const quantityObj = productVariantId ? { [productVariantId]: quantity } : {};
 
   for (const bundleComponent of bundleComponents) {
-    if (bundleComponent.id === id) continue;
+    if (id && bundleComponent.id === id) continue;
 
     quantityObj[bundleComponent.productVariantId] = bundleComponent.quantity;
   }

@@ -82,6 +82,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       shopId: record.shopId,
       bundle: {
         id: record.id,
+        bundleVariantId: record.bundleVariantId,
         product,
         variant,
       },

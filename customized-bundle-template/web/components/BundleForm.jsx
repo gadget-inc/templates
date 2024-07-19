@@ -15,7 +15,6 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import ProductCard from "./ProductCard";
-import { api } from "../api";
 
 export default ({ control, errors, updateForm, watch, getValues }) => {
   const [selectedProducts, setSelectedProducts] = useState([]),

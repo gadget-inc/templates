@@ -49,7 +49,6 @@ export default () => {
     <PageTemplate
       inForm
       submit={createBundle}
-      // Add more to the validations for submission since you need product variants to submit
       saveDisabled={
         isSubmitting ||
         !isDirty ||

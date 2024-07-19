@@ -140,8 +140,6 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
     }
   }, [JSON.stringify(watch("bundle.bundleComponents"))]);
 
-  console.log(errors);
-
   return (
     <Form>
       <FormLayout>
@@ -155,7 +153,7 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
               type="text"
               autoComplete="off"
               {...fieldProps}
-              error={errors?.bundle?.title?.message} // Check this out
+              error={errors?.bundle?.title?.message}
             />
           )}
           rules={{

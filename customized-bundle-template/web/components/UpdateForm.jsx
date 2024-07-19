@@ -76,7 +76,6 @@ export default () => {
       isValidating,
       isLoading,
       defaultValues,
-      dirtyFields,
     },
     watch,
     getValues,

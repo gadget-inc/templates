@@ -11,6 +11,7 @@ import {
 export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
 
+  // Set a lowercase version of the title for easier searching in the frontend
   record.titleLowercase = record.title.toLowerCase();
 
   await save(record);
@@ -20,6 +21,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { CreateBundleActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
+  // Enqueue the global action that creates the bundle
   await api.enqueue(
     api.createBundleInShopify,
     {

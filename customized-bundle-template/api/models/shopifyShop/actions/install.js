@@ -22,6 +22,7 @@ export async function run({ params, record, logger, api, connections }) {
 export async function onSuccess({ params, record, logger, api, connections }) {
   const shopify = connections.shopify.current;
 
+  // Create metafield definition for product variants that represent a bundle
   const isBundleDefinition = await shopify.graphql(
     `mutation ($definition: MetafieldDefinitionInput!) {
       metafieldDefinitionCreate(definition: $definition){
@@ -44,11 +45,13 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   );
 
+  // Throw an error if the definition creation failed
   if (isBundleDefinition?.metafieldDefinitionCreate?.userErrors?.length)
     logger.error(
       isBundleDefinition.metafieldDefinitionCreate.userErrors[0].message
     );
 
+  // Create metafield definition for product variants that are part of the bundle
   const componentReference = await shopify.graphql(
     `mutation ($definition: MetafieldDefinitionInput!) {
       metafieldDefinitionCreate(definition: $definition){
@@ -71,11 +74,13 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   );
 
+  // Throw an error if the definition creation failed
   if (componentReference?.metafieldDefinitionCreate?.userErrors?.length)
     logger.error(
       componentReference.metafieldDefinitionCreate.userErrors[0].message
     );
 
+  // Create metafield definition for defining the quantities of each product variant in a bundle
   const bundleComponentQuantitiesDefinition = await shopify.graphql(
     `mutation ($definition: MetafieldDefinitionInput!) {
       metafieldDefinitionCreate(definition: $definition){
@@ -98,6 +103,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   );
 
+  // Throw an error if the definition creation failed
   if (
     bundleComponentQuantitiesDefinition?.metafieldDefinitionCreate?.userErrors
       ?.length
@@ -107,6 +113,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         .userErrors[0].message
     );
 
+  // Query for the store's publications to retrieve the online store publication id
   const publicationsResponse = await shopify.graphql(
     `query {
       publications(first: 10) {
@@ -129,6 +136,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
 
   let onlineStorePublicationId;
 
+  // Find the online store publication id (add pagination if there are more than 10 publications)
   for (const {
     node: {
       id,
@@ -146,6 +154,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   }
 
+  // Create the cart transform function on this store
   const cartTransformCreateResponse = await shopify.graphql(`
     mutation {
       cartTransformCreate(functionId: "${process.env.BUNDLER_FUNCTION_ID}") {
@@ -155,11 +164,13 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       }
     }`);
 
+  // Throw an error if the cart transform creation failed
   if (cartTransformCreateResponse?.cartTransformCreate?.userErrors?.length)
     logger.error(
       cartTransformCreateResponse.cartTransformCreate.userErrors[0].message
     );
 
+  // If all worked as it should, update the shop record with the ids returned from each call
   if (
     componentReference.metafieldDefinitionCreate?.createdDefinition?.id &&
     isBundleDefinition.metafieldDefinitionCreate?.createdDefinition?.id &&
@@ -178,6 +189,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     });
   }
 
+  // Run a sync to fetch all products data
   await api.shopifySync.run({
     shop: {
       _link: record.id,

@@ -18,6 +18,7 @@ export async function run({ params, logger, api, connections }) {
   if (productChanges?.length) {
     const { id: productId, ...productData } = product;
 
+    // Update the product with the new data
     const productUpdateResponse = await shopify.graphql(
       `mutation ($input: ProductInput!){
         productUpdate(input: $input) {
@@ -38,6 +39,7 @@ export async function run({ params, logger, api, connections }) {
       }
     );
 
+    // Throw an error when the product update mutation returns userErrors
     if (productUpdateResponse?.productUpdate?.userErrors?.length)
       throw new Error(
         productUpdateResponse.productUpdate.userErrors[0].message
@@ -47,6 +49,7 @@ export async function run({ params, logger, api, connections }) {
   if (variantChanges?.length) {
     const { id: variantId, ...variantData } = variant;
 
+    // Update the product variant with the new data
     const productVariantUpdateResponse = await shopify.graphql(
       `mutation ($input: ProductVariantInput!) {
           productVariantUpdate(input: $input) {
@@ -67,6 +70,7 @@ export async function run({ params, logger, api, connections }) {
       }
     );
 
+    // Throw an error when the product variant update mutation returns userErrors
     if (productVariantUpdateResponse?.productVariantUpdate?.userErrors?.length)
       throw new Error(
         productVariantUpdateResponse.productVariantUpdate.userErrors[0].message

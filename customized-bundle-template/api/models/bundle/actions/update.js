@@ -12,6 +12,7 @@ import { fetchVariantGIDs } from "../../../../utilities";
 export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
 
+  // If the title changed, update the lowercase version to match
   if (record.changed("title")) {
     record.titleLowercase = record.title.toLowerCase();
   }
@@ -23,6 +24,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { UpdateBundleActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
+  // Find the bundle's parent product variant
   const bundleVariant = await api.shopifyProductVariant.findOne(
     record.bundleVariantId,
     {
@@ -33,11 +35,13 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   );
 
+  // Create some arrays and objects to store the changes
   const product = { id: bundleVariant.productId },
     productChanges = [],
     variant = { id: record.bundleVariantId },
     variantChanges = [];
 
+  // Loop through the changes and update the product and variant objects
   for (const change of Object.entries(record.changes())) {
     const [key, value] = change;
     switch (key) {
@@ -62,10 +66,12 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   }
 
+  // Create a stringified version of the component variants' GIDs
   const variantGIDs = JSON.stringify(
     await fetchVariantGIDs(record.id, record.shopId)
   );
 
+  // Compare the stringified GIDs to the metafield value. If they differ, add metafields to the list of changes
   if (variantGIDs !== JSON.stringify(bundleVariant.componentReference)) {
     variant.metafields = [
       {
@@ -76,6 +82,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     variantChanges.push("metafields");
   }
 
+  // Enqueue the global action that updates the bundle in Shopify
   await api.enqueue(
     api.updateBundleInShopify,
     {

@@ -76,6 +76,7 @@ export default () => {
       isValidating,
       isLoading,
       defaultValues,
+      dirtyFields,
     },
     watch,
     getValues,
@@ -115,7 +116,6 @@ export default () => {
         },
       },
     },
-    onError: (error) => console.error(error),
   });
 
   const [{ data: deletedBundle }, deleteBundle] = useAction(api.bundle.delete);
@@ -126,7 +126,11 @@ export default () => {
     if (data) {
       navigate("/");
     } else {
-      console.error("Error submitting form", error);
+      if (/\btitle\b/.test(error.message))
+        setError("bundle.title", {
+          message: "A bundle with this title already exists",
+          type: "submissionError",
+        });
     }
   }, [submit]);
 
@@ -141,7 +145,12 @@ export default () => {
       inForm
       submit={updateBundle}
       saveDisabled={
-        isSubmitting || !isDirty || !isValid || isLoading || isValidating
+        isSubmitting ||
+        !isDirty ||
+        !isValid ||
+        isLoading ||
+        isValidating ||
+        !getValues("bundle.bundleComponents").length
       }
     >
       <Layout sectioned>

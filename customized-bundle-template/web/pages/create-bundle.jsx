@@ -16,6 +16,7 @@ export default () => {
     formState: { errors, isDirty, isValid, isSubmitting },
     watch,
     getValues,
+    setError,
   } = useActionForm(api.bundle.create, {
     mode: "onBlur",
     defaultValues: {
@@ -28,7 +29,6 @@ export default () => {
         bundleComponents: [],
       },
     },
-    onError: (error) => console.error(error),
   });
 
   const createBundle = useCallback(async () => {
@@ -37,7 +37,11 @@ export default () => {
     if (data) {
       navigate("/");
     } else {
-      console.error("Error submitting form", error);
+      if (/\btitle\b/.test(error.message))
+        setError("bundle.title", {
+          message: "A bundle with this title already exists",
+          type: "submissionError",
+        });
     }
   }, [submit]);
 
@@ -45,7 +49,13 @@ export default () => {
     <PageTemplate
       inForm
       submit={createBundle}
-      saveDisabled={isSubmitting || !isDirty || !isValid}
+      // Add more to the validations for submission since you need product variants to submit
+      saveDisabled={
+        isSubmitting ||
+        !isDirty ||
+        !isValid ||
+        !getValues("bundle.bundleComponents").length
+      }
     >
       <Layout sectioned>
         <Layout.Section>

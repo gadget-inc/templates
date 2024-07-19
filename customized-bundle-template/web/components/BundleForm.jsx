@@ -6,7 +6,6 @@ import {
   FormLayout,
   TextField,
   Select,
-  Checkbox,
   Text,
   ButtonGroup,
   InlineStack,
@@ -16,6 +15,7 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import ProductCard from "./ProductCard";
+import { api } from "../api";
 
 export default ({ control, errors, updateForm, watch, getValues }) => {
   const [selectedProducts, setSelectedProducts] = useState([]),
@@ -37,8 +37,6 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
   const handleSelection = useCallback(
     (selection) => {
       if (!selection) return;
-
-      console.log(selection);
 
       setSelectedProducts(selection);
 
@@ -141,6 +139,8 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
       setBundleComponentQuantityError(true);
     }
   }, [JSON.stringify(watch("bundle.bundleComponents"))]);
+
+  console.log(errors);
 
   return (
     <Form>

@@ -95,7 +95,6 @@ export async function run({ params, logger, api, connections }) {
         id: productCreateResponse?.productCreate?.product?.variants?.edges[0]
           ?.node?.id,
         price: price.toFixed(2),
-        inventoryPolicy: "CONTINUE",
         metafields: [
           {
             namespace: "bundle",
@@ -124,6 +123,41 @@ export async function run({ params, logger, api, connections }) {
   if (productVariantUpdateResponse?.productVariantUpdate?.userErrors?.length)
     throw new Error(
       productVariantUpdateResponse.productVariantUpdate.userErrors[0].message
+    );
+
+  const shop = await api.shopifyShop.findOne(shopId, {
+    select: {
+      onlineStorePublicationId: true,
+    },
+  });
+
+  const publicationResponse = await shopify.graphql(
+    `mutation ($id: ID!, $input: [PublicationInput!]!) {
+        publishablePublish(id: $id, input: $input) {
+          publishable {
+            availablePublicationsCount {
+              count
+            }
+            resourcePublicationsCount {
+              count
+            }
+          }
+          userErrors {
+            message
+          }
+        }
+      }`,
+    {
+      id: productCreateResponse.productCreate.product.id,
+      input: {
+        publicationId: shop.onlineStorePublicationId,
+      },
+    }
+  );
+
+  if (publicationResponse?.publishablePublish?.userErrors?.length)
+    throw new Error(
+      publicationResponse.publishablePublish.userErrors[0].message
     );
 
   let componentReferenceMetafieldId = "";

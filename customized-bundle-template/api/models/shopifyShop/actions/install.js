@@ -107,6 +107,39 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         .userErrors[0].message
     );
 
+  const publicationsResponse = await shopify.graphql(
+    `query {
+      publications(first: 10) {
+        edges {
+          node {
+            id
+            name
+            supportsFuturePublishing
+            app {
+              id
+              title
+              type
+              description
+              installed
+              developerName
+            }
+          }
+        }
+      }
+    }`
+  );
+
+  let onlineStorePublicationId;
+
+  for (const {
+    node: { id, name },
+  } of publicationsResponse.publications.edges) {
+    if (name === "Online Store") {
+      onlineStorePublicationId = id;
+      break;
+    }
+  }
+
   const cartTransformCreateResponse = await shopify.graphql(`
     mutation {
       cartTransformCreate(functionId: "${process.env.BUNDLER_FUNCTION_ID}") {
@@ -135,6 +168,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       bundleComponentQuantitiesDefinitionId:
         bundleComponentQuantitiesDefinition.metafieldDefinitionCreate
           .createdDefinition.id,
+      onlineStorePublicationId,
     });
   }
 

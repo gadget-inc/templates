@@ -34,6 +34,10 @@ export const schema: GadgetModel = {
       type: "string",
       storageKey: "74DalOPsAuLS",
     },
+    onlineStorePublicationId: {
+      type: "string",
+      storageKey: "iP5-XeGGN_FV",
+    },
   },
   shopify: {
     fields: [

@@ -118,9 +118,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
             app {
               id
               title
-              type
               description
-              installed
               developerName
             }
           }
@@ -132,9 +130,17 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   let onlineStorePublicationId;
 
   for (const {
-    node: { id, name },
+    node: {
+      id,
+      name,
+      app: { developerName, title },
+    },
   } of publicationsResponse.publications.edges) {
-    if (name === "Online Store") {
+    if (
+      name === "Online Store" &&
+      title === "Online Store" &&
+      developerName === "Shopify"
+    ) {
       onlineStorePublicationId = id;
       break;
     }

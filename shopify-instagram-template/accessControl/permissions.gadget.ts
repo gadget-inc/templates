@@ -9,6 +9,33 @@ import type { GadgetPermissions } from "gadget-server";
 export const permissions: GadgetPermissions = {
   type: "gadget/permissions/v1",
   roles: {
+    "shopify-app-users": {
+      storageKey: "Role-Shopify-App",
+      models: {
+        shopifyShop: {
+          read: {
+            filter: "accessControl/filters/shopify/shopifyShop.gelly",
+          },
+          actions: {
+            install: true,
+            reinstall: true,
+            uninstall: true,
+            update: true,
+          },
+        },
+        shopifySync: {
+          read: {
+            filter: "accessControl/filters/shopify/shopifySync.gelly",
+          },
+          actions: {
+            abort: true,
+            complete: true,
+            error: true,
+            run: true,
+          },
+        },
+      },
+    },
     unauthenticated: {
       storageKey: "unauthenticated",
     },

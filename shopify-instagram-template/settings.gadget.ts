@@ -3,5 +3,14 @@ import type { GadgetSettings } from "gadget-server";
 export const settings: GadgetSettings = {
   type: "gadget/settings/v1",
   frameworkVersion: "v1.2.0",
-  plugins: {},
+  plugins: {
+    connections: {
+      shopify: {
+        apiVersion: "2024-07",
+        enabledModels: [],
+        type: "partner",
+        scopes: ["read_products"],
+      },
+    },
+  },
 };

@@ -13,4 +13,5 @@ export const schema: GadgetModel = {
       storageKey: "uFDodGO42ixw",
     },
   },
+  shopify: { fields: ["shop", "shopifySID"] },
 };

@@ -9,9 +9,14 @@ export const schema: GadgetModel = {
   fields: {
     authToken: { type: "string", storageKey: "y00BfchrGyag" },
     users: {
-      type: "hasMany",
-      children: { model: "user", belongsToField: "shop" },
-      storageKey: "hqPX54tWJhzn",
+      type: "hasManyThrough",
+      sibling: { model: "user", relatedField: "shops" },
+      join: {
+        model: "shopPermission",
+        belongsToSelfField: "shop",
+        belongsToSiblingField: "user",
+      },
+      storageKey: "KafJtMw2ULgl",
     },
   },
   shopify: {

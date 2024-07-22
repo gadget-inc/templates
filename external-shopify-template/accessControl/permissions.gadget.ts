@@ -64,6 +64,14 @@ export const permissions: GadgetPermissions = {
         shopifySync: {
           read: true,
         },
+        shopPermission: {
+          read: true,
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
         user: {
           read: {
             filter: "accessControl/filters/user/tenant.gelly",
@@ -80,7 +88,7 @@ export const permissions: GadgetPermissions = {
         },
       },
       actions: {
-        setCurrentSession: true,
+        verifyConnections: true,
       },
     },
     unauthenticated: {

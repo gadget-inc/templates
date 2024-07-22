@@ -26,7 +26,7 @@ export default async function route({
   const shopId = connections.shopify.currentShopId;
 
   if (shopId) {
-    session.set("shopId", shopId);
+    session.set("shop", { _link: shopId });
   }
 
   // Redirect the user to the standalone dashboard

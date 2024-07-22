@@ -1,7 +1,12 @@
-import { useSignOut, useUser } from "@gadgetinc/react";
+import {
+  useGlobalAction,
+  useSession,
+  useSignOut,
+  useUser,
+} from "@gadgetinc/react";
 import { api } from "../api";
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ShopContext } from "../providers";
 import { BlockStack, Box, Card, Text, Button } from "@shopify/polaris";
 
@@ -9,6 +14,19 @@ export default function () {
   const signOut = useSignOut();
   const user = useUser();
   const { shops } = useContext(ShopContext);
+  const session = useSession();
+
+  const [_, verifyConnections] = useGlobalAction(api.verifyConnections);
+
+  useEffect(() => {
+    const run = async () => {
+      await verifyConnections();
+    };
+
+    run();
+  }, []);
+
+  console.log(session, "session");
 
   return user ? (
     <>
@@ -69,7 +87,6 @@ export default function () {
             </Box>
           </Card>
         ))}
-
         <Box>
           <Text as="h2" variant="headingLg">
             Actions:

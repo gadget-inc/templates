@@ -6,13 +6,17 @@ export const ShopContext = createContext(null);
 
 export default ({ children }) => {
   const [{ data: shops, fetching: fetchingShops, error: errorFetchingShops }] =
-    useFindMany(api.shopifyShop);
+    useFindMany(api.shopifyShop, {
+      live: true,
+    });
 
   useEffect(() => {
     if (!fetchingShops && !errorFetchingShops) {
-      console.error(errorFetchingShops.message);
+      console.log(errorFetchingShops);
     }
   }, [errorFetchingShops, fetchingShops]);
+
+  console.log(errorFetchingShops, "errorFetchingShops");
 
   return (
     <ShopContext.Provider value={{ shops }}>{children}</ShopContext.Provider>

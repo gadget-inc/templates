@@ -54,10 +54,15 @@ export const schema: GadgetModel = {
       default: ["unauthenticated"],
       storageKey: "R4DybGcueR3j",
     },
-    shop: {
-      type: "belongsTo",
-      parent: { model: "shopifyShop" },
-      storageKey: "TQKkbcrsk8cO",
+    shops: {
+      type: "hasManyThrough",
+      sibling: { model: "shopifyShop", relatedField: "users" },
+      join: {
+        model: "shopPermission",
+        belongsToSelfField: "user",
+        belongsToSiblingField: "shop",
+      },
+      storageKey: "Y_gOk_-j8qTb",
     },
   },
 };

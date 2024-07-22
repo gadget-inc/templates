@@ -59,9 +59,7 @@ export default function () {
         </Card>
         {shops?.map(({ id, domain, shopOwner }) => (
           <Card key={id}>
-            <Text as="h2" variant="headingLg">
-              Shop
-            </Text>
+            <Text as="h2" variant="headingLg"></Text>
             <Box className="card-content">
               <BlockStack className="userData">
                 <Text as="p">id: {id}</Text>

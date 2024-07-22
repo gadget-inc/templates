@@ -1,0 +1,49 @@
+.appointment-card {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 300px;
+  gap: 5px;
+}
+
+.appointment-card h2 {
+  margin: 0;
+  text-align: start;
+}
+
+.appointment-card-date-section {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.datepicker-div {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.datepicker-save-button {
+  display: inline-block;
+  background-color: #272727;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.datepicker-save-button:hover {
+  background-color: #595959;
+}
+
+.datepicker-save-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  color: #666666;
+}

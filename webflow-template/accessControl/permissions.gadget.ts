@@ -16,6 +16,17 @@ export const permissions: GadgetPermissions = {
         action: true,
       },
       models: {
+        appointment: {
+          read: {
+            filter: "accessControl/filters/appointment/tenancy.gelly",
+          },
+          actions: {
+            confirm: true,
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
         user: {
           read: {
             filter: "accessControl/filters/user/tenant.gelly",

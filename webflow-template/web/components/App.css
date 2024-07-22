@@ -15,7 +15,11 @@
   justify-content: center;
   width: 100vw;
   height: 100%;
-  background: radial-gradient(ellipse at center, white 0.5rem, rgb(0, 0, 0, 0) 40rem);
+  background: radial-gradient(
+    ellipse at center,
+    white 0.5rem,
+    rgb(0, 0, 0, 0) 40rem
+  );
 }
 
 .app-logo {
@@ -82,25 +86,25 @@ button {
   cursor: pointer;
 }
 
-.flex-horizontal{
+.flex-horizontal {
   display: flex;
   flex-direction: row;
 }
 
-.flex-vertical{
+.flex-vertical {
   display: flex;
   flex-direction: column;
 }
 
-.gap-12px{
-  gap:12px;
+.gap-12px {
+  gap: 12px;
 }
 
-.gap-4px{
-  gap:4px;
+.gap-4px {
+  gap: 4px;
 }
 
-.green-message{
+.green-message {
   color: green !important;
 }
 
@@ -165,11 +169,11 @@ button {
   border: 1px solid #e2e2e2;
   cursor: pointer;
   text-decoration: none;
-  font-weight:400;
+  font-weight: 400;
   max-width: 350px;
 }
 
-.google-oauth-button:hover{
+.google-oauth-button:hover {
   background-color: #eee;
 }
 
@@ -245,33 +249,33 @@ button {
   line-height: 12px;
 }
 
-.custom-form{
-  display:flex;
-  gap:12px;
+.custom-form {
+  display: flex;
+  gap: 12px;
   flex-direction: column;
-  max-width:350px;
-  width:100%;
+  max-width: 350px;
+  width: 100%;
 }
 
-.custom-input{
+.custom-input {
   font-size: 1rem;
   padding: 4px 12px 4px 12px;
   border: solid 1px #ccc;
   border-radius: 4px;
-  width:100%;
+  width: 100%;
 }
 
-.custom-button{
+.custom-button {
   font-size: 1rem;
-  color:#000;
-  background:#eee;
+  color: #000;
+  background: #eee;
   padding: 6px 6px 6px 6px;
   border: 1px solid black;
   border-radius: 4px;
-  cursor:pointer;
+  cursor: pointer;
   transition: all 200ms;
   text-decoration: none;
-  width:150px;
+  width: 150px;
 }
 
 .error {
@@ -282,24 +286,23 @@ button {
   color: green;
 }
 
-.format-message::first-letter{
+.format-message::first-letter {
   text-transform: capitalize;
 }
 
-.primary{
+.primary {
   color: #fff !important;
-  background:#000;
+  background: #000;
 }
 
-.custom-button:hover{
-  opacity:80%;
+.custom-button:hover {
+  opacity: 80%;
   transition: all 200ms;
 }
 
-.form-title{
-  font-size:1.5rem;
+.form-title {
+  font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom:0;
-  padding-bottom:8;
+  margin-bottom: 0;
+  padding-bottom: 8;
 }
-

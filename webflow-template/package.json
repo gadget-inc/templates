@@ -9,10 +9,15 @@
   },
   "dependencies": {
     "@gadget-client/webflow-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.15.12",
+    "@gadgetinc/react": "^0.15.15",
+    "@react-email/components": "^0.0.21",
+    "@react-email/render": "^0.0.16",
     "gadget-server": "link:.gadget/server",
+    "luxon": "^3.4.4",
     "react": "^18.2.0",
+    "react-datepicker": "^7.3.0",
     "react-dom": "^18.2.0",
+    "react-email": "^2.1.5",
     "react-router-dom": "6.15.0"
   },
   "devDependencies": {

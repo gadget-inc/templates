@@ -1,6 +1,19 @@
-import { SignedInOrRedirect, SignedOut, SignedOutOrRedirect, Provider } from "@gadgetinc/react";
+import {
+  SignedInOrRedirect,
+  SignedOut,
+  SignedOutOrRedirect,
+  Provider,
+} from "@gadgetinc/react";
 import { Suspense, useEffect } from "react";
-import { Outlet, Route, RouterProvider, createBrowserRouter, createRoutesFromElements, useNavigate, Link } from "react-router-dom";
+import {
+  Outlet,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  useNavigate,
+  Link,
+} from "react-router-dom";
 import { api } from "../api";
 import Index from "../routes/index";
 import SignedInPage from "../routes/signed-in";
@@ -11,6 +24,7 @@ import VerifyEmailPage from "../routes/verify-email";
 import ChangePassword from "../routes/change-password";
 import ForgotPassword from "../routes/forgot-password";
 import "./App.css";
+import Confirmation from "../routes/confirmation";
 
 const App = () => {
   useEffect(() => {
@@ -68,18 +82,9 @@ const App = () => {
             </SignedOutOrRedirect>
           }
         />
-        <Route
-          path="reset-password"
-          element={
-            <ResetPasswordPage />
-          }
-        />
-        <Route
-          path="verify-email"
-          element={
-            <VerifyEmailPage />
-          }
-        />
+        <Route path="reset-password" element={<ResetPasswordPage />} />
+        <Route path="verify-email" element={<VerifyEmailPage />} />
+        <Route path="confirmation" element={<Confirmation />} />
       </Route>
     )
   );
@@ -95,7 +100,11 @@ const Layout = () => {
   const navigate = useNavigate();
 
   return (
-    <Provider api={api} navigate={navigate} auth={window.gadgetConfig.authentication}>
+    <Provider
+      api={api}
+      navigate={navigate}
+      auth={window.gadgetConfig.authentication}
+    >
       <Header />
       <div className="app">
         <div className="app-content">
@@ -111,13 +120,22 @@ const Layout = () => {
 const Header = () => {
   return (
     <div className="header">
-      <a href="/" target="_self" rel="noreferrer" style={{ textDecoration: "none" }}>
+      <a
+        href="/"
+        target="_self"
+        rel="noreferrer"
+        style={{ textDecoration: "none" }}
+      >
         <div className="logo">{process.env.GADGET_APP}</div>
       </a>
       <div className="header-content">
         <SignedOut>
-          <Link to="/sign-in" style={{ color: "black" }}>Sign in</Link>
-          <Link to="/sign-up" style={{ color: "black" }}>Sign up</Link>
+          <Link to="/sign-in" style={{ color: "black" }}>
+            Sign in
+          </Link>
+          <Link to="/sign-up" style={{ color: "black" }}>
+            Sign up
+          </Link>
         </SignedOut>
       </div>
     </div>

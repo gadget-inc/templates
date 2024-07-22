@@ -1,30 +1,14 @@
-import { useSignOut, useAction } from "@gadgetinc/react";
+import { useSignOut, useUser } from "@gadgetinc/react";
 import { api } from "../api";
 import { Link } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import { AuthContext, ParamContext, ShopContext } from "../providers";
+import { useContext } from "react";
+import { ShopContext } from "../providers";
 import { BlockStack, Box, Card, Text, Button } from "@shopify/polaris";
 
 export default function () {
   const signOut = useSignOut();
-  const { user } = useContext(AuthContext);
-  const { shop } = useContext(ShopContext);
-  const { paramHistory } = useContext(ParamContext);
-
-  const [_, setShop] = useAction(api.user.setShop);
-
-  useEffect(() => {
-    if (user && !user?.shopId && (paramHistory?.token || shop?.authToken)) {
-      const run = async () => {
-        await setShop({
-          id: user.id,
-          token: paramHistory?.token || shop?.authToken,
-        });
-      };
-
-      run();
-    }
-  }, [user?.id, paramHistory?.token, shop?.authToken]);
+  const user = useUser();
+  const { shops } = useContext(ShopContext);
 
   return user ? (
     <>
@@ -73,20 +57,21 @@ export default function () {
             </BlockStack>
           </Box>
         </Card>
-        {shop && (
-          <Card>
+        {shops?.map(({ id, domain, shopOwner }) => (
+          <Card key={id}>
             <Text as="h2" variant="headingLg">
               Shop
             </Text>
             <Box className="card-content">
               <BlockStack className="userData">
-                <Text as="p">id: {shop.id}</Text>
-                <Text as="p">domain: {shop.domain}</Text>
-                <Text as="p">shopOwner: {shop.shopOwner}</Text>
+                <Text as="p">id: {id}</Text>
+                <Text as="p">domain: {domain}</Text>
+                <Text as="p">shopOwner: {shopOwner}</Text>
               </BlockStack>
             </Box>
           </Card>
-        )}
+        ))}
+
         <Box>
           <Text as="h2" variant="headingLg">
             Actions:

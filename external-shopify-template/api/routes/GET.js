@@ -13,32 +13,22 @@ export default async function route({
   api,
   logger,
   connections,
+  session,
 }) {
+  // Might need a shop permissions model
+  // This would be a has many through relationship between user and shop
+
+  // Chase the flash from the homepage
+
+  // Might be two templates. This is more of a gadget auth template. The other would be some other auth system
+
   // See if the request is coming from the Shopify admin
   const shopId = connections.shopify.currentShopId;
 
-  // If the request is coming from the Shopify admin
   if (shopId) {
-    // Create a JWT token with the shopId
-    const token = jwt.sign(
-      {
-        shopId: shopId,
-      },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: "1h",
-      }
-    );
-
-    // Setting the authToken on the shop record in case the user uses Google SSO
-    await api.internal.shopifyShop.update(shopId, {
-      authToken: token,
-    });
-
-    // Redirect the user to the external dashboard with the authToken as a query parameter
-    return await reply.redirect(`/dashboard?authToken=${token}`);
+    session.set("shopId", shopId);
   }
 
-  // Redirect the user to the external dashboard with no query parameters
-  await reply.redirect("/dashboard");
+  // Redirect the user to the standalone dashboard
+  return await reply.redirect(`/dashboard`);
 }

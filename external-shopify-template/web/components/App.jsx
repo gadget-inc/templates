@@ -23,7 +23,7 @@ import VerifyEmailPage from "../routes/verify-email";
 import ChangePassword from "../routes/change-password";
 import ForgotPassword from "../routes/forgot-password";
 import "./App.css";
-import { ParamProvider, AuthProvider, ShopProvider } from "../providers";
+import { ShopProvider } from "../providers";
 
 const App = () => {
   useEffect(() => {
@@ -90,9 +90,7 @@ const App = () => {
 
   return (
     <Suspense fallback={<></>}>
-      <ParamProvider>
-        <RouterProvider router={router} />
-      </ParamProvider>
+      <RouterProvider router={router} />
     </Suspense>
   );
 };
@@ -104,18 +102,16 @@ const Layout = () => {
       shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
       api={api}
     >
-      <AuthProvider>
-        <ShopProvider>
-          <Header />
-          <div className="app">
-            <div className="app-content">
-              <div className="main">
-                <Outlet />
-              </div>
+      <ShopProvider>
+        <Header />
+        <div className="app">
+          <div className="app-content">
+            <div className="main">
+              <Outlet />
             </div>
           </div>
-        </ShopProvider>
-      </AuthProvider>
+        </div>
+      </ShopProvider>
     </Provider>
   );
 };

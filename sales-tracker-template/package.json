@@ -9,9 +9,8 @@
   },
   "dependencies": {
     "@gadget-client/sales-tracker-template": "link:.gadget/client",
-    "@gadgetinc/auth": "^0.4.0",
-    "@gadgetinc/react": "^0.14.13",
-    "@gadgetinc/react-shopify-app-bridge": "^0.13.3",
+    "@gadgetinc/react": "^0.15.15",
+    "@gadgetinc/react-shopify-app-bridge": "^0.13.4",
     "@shopify/app-bridge": "3.5.0",
     "@shopify/app-bridge-react": "3.5.0",
     "@shopify/polaris": "^12.0.0",
@@ -31,7 +30,7 @@
     "fastify": "^4.24.2"
   },
   "devDependencies": {
-    "@types/node": "^20.8.4",
+    "@types/node": "^20.12.8",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "3.2.0",

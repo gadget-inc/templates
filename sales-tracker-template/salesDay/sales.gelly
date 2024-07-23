@@ -1,3 +1,0 @@
-field on salesDay {
-  coalesce([round(sum(orderTransactions.shopMoney), precision: 2), 0])
-}

@@ -1,9 +1,0 @@
-field on salesMonth {
-  coalesce([
-    round(
-      sum(orderTransactions.shopMoney) / (target == 0 ? 1 : target),
-      precision: 2
-    ),
-    0
-  ])
-}

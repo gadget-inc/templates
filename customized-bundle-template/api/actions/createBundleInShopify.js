@@ -128,7 +128,6 @@ export async function run({ params, logger, api, connections }) {
           },
         ],
         requiresComponents: true,
-        inventoryPolicy: "CONTINUE", // Should be changed and inventory should be managed in the app
       },
     }
   );

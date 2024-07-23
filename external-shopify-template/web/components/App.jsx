@@ -23,7 +23,7 @@ import VerifyEmailPage from "../routes/verify-email";
 import ChangePassword from "../routes/change-password";
 import ForgotPassword from "../routes/forgot-password";
 import "./App.css";
-import { ShopProvider } from "../providers";
+import { AuthProvider, ShopProvider } from "../providers";
 
 const App = () => {
   useEffect(() => {
@@ -32,6 +32,7 @@ const App = () => {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
+      // Changed the index route to dashboard to avoid an infinite redirect loop
       <Route path="/" element={<Layout />}>
         <Route
           index
@@ -46,7 +47,11 @@ const App = () => {
           path="signed-in"
           element={
             <SignedInOrRedirect>
-              <SignedInPage />
+              <AuthProvider>
+                <ShopProvider>
+                  <SignedInPage />
+                </ShopProvider>
+              </AuthProvider>
             </SignedInOrRedirect>
           }
         />
@@ -97,21 +102,20 @@ const App = () => {
 
 const Layout = () => {
   return (
+    // Provider set to `AppType.Standalone` so tht it doesn't try to embed the app in the Shopify admin
     <Provider
       type={AppType.Standalone}
       shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
       api={api}
     >
-      <ShopProvider>
-        <Header />
-        <div className="app">
-          <div className="app-content">
-            <div className="main">
-              <Outlet />
-            </div>
+      <Header />
+      <div className="app">
+        <div className="app-content">
+          <div className="main">
+            <Outlet />
           </div>
         </div>
-      </ShopProvider>
+      </div>
     </Provider>
   );
 };

@@ -1,34 +1,13 @@
-import {
-  useGlobalAction,
-  useSession,
-  useSignOut,
-  useUser,
-} from "@gadgetinc/react";
-import { api } from "../api";
+import { useSignOut } from "@gadgetinc/react";
 import { Link } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import { ShopContext } from "../providers";
+import { useContext } from "react";
+import { ShopContext, AuthContext } from "../providers";
 import { BlockStack, Box, Card, Text, Button } from "@shopify/polaris";
 
 export default function () {
   const signOut = useSignOut();
-  const user = useUser();
+  const { user } = useContext(AuthContext);
   const { shops } = useContext(ShopContext);
-  const session = useSession();
-
-  const [_, verifyConnections] = useGlobalAction(api.verifyConnections);
-
-  useEffect(() => {
-    if (user) {
-      const run = async () => {
-        await verifyConnections();
-      };
-
-      run();
-    }
-  }, []);
-
-  console.log(session, "session");
 
   return user ? (
     <>

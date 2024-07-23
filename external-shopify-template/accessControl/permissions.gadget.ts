@@ -67,9 +67,7 @@ export const permissions: GadgetPermissions = {
         shopPermission: {
           read: true,
           actions: {
-            create: true,
             delete: true,
-            update: true,
           },
         },
         user: {

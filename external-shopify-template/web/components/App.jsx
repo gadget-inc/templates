@@ -2,7 +2,6 @@ import {
   SignedInOrRedirect,
   SignedOut,
   SignedOutOrRedirect,
-  useUser,
 } from "@gadgetinc/react";
 import { AppType, Provider } from "@gadgetinc/react-shopify-app-bridge";
 import { Suspense, useEffect } from "react";

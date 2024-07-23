@@ -16,8 +16,6 @@ export default ({ children }) => {
     }
   }, [errorFetchingShops, fetchingShops]);
 
-  console.log(errorFetchingShops, "errorFetchingShops");
-
   return (
     <ShopContext.Provider value={{ shops }}>{children}</ShopContext.Provider>
   );

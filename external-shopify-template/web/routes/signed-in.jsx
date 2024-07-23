@@ -19,11 +19,13 @@ export default function () {
   const [_, verifyConnections] = useGlobalAction(api.verifyConnections);
 
   useEffect(() => {
-    const run = async () => {
-      await verifyConnections();
-    };
+    if (user) {
+      const run = async () => {
+        await verifyConnections();
+      };
 
-    run();
+      run();
+    }
   }, []);
 
   console.log(session, "session");

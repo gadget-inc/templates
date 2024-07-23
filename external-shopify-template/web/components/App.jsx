@@ -2,6 +2,7 @@ import {
   SignedInOrRedirect,
   SignedOut,
   SignedOutOrRedirect,
+  useUser,
 } from "@gadgetinc/react";
 import { AppType, Provider } from "@gadgetinc/react-shopify-app-bridge";
 import { Suspense, useEffect } from "react";
@@ -102,7 +103,6 @@ const Layout = () => {
       shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
       api={api}
     >
-      {/* Maybe add an authprovider here so that there isn't another API call when the shop provider refreshes */}
       <ShopProvider>
         <Header />
         <div className="app">

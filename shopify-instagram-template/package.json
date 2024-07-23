@@ -8,6 +8,8 @@
     "vite:build": "NODE_ENV=production vite build"
   },
   "dependencies": {
+    "@fastify/passport": "^2.5.0",
+    "@fastify/secure-session": "^7.5.1",
     "@gadget-client/shopify-instagram-template": "link:.gadget/client",
     "@gadgetinc/react": "^0.15.15",
     "@gadgetinc/react-shopify-app-bridge": "^0.15.2",
@@ -15,6 +17,8 @@
     "@shopify/polaris": "^12.0.0",
     "@shopify/polaris-icons": "^8.1.0",
     "gadget-server": "link:.gadget/server",
+    "p-retry": "^4.6.2",
+    "passport-oauth2": "^1.8.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "6.15.0",

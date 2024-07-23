@@ -1,0 +1,10 @@
+Upsert example
+
+// const post = await api.instagramPost.upsert({
+//   id: media.id,
+//   account: { _link: record.id },
+//   shop: { _link: record.shopId },
+//   caption: media.caption,
+//   mediaType: media.media_type,
+//   mediaURL: media.media_url,
+// })

@@ -1,11 +1,8 @@
 .app {
   width: 100vw;
-  height: calc(100vh - 80px);
-  background-image: url("https://assets.gadget.dev/assets/default-app-assets/default-background.svg");
-  left: 0;
-  top: 80px;
-  position: fixed;
-  z-index: 0;
+  height: 100vh;
+  background-image: url("./assets/default-background.svg");
+  background-size: cover;
 }
 
 .app-content {
@@ -14,8 +11,12 @@
   align-items: center;
   justify-content: center;
   width: 100vw;
-  height: 100%;
-  background: radial-gradient(ellipse at center, white 0.5rem, rgb(0, 0, 0, 0) 40rem);
+  height: 100vh;
+  background: radial-gradient(
+    ellipse at center,
+    white 0.5rem,
+    rgb(0, 0, 0, 0) 40rem
+  );
 }
 
 .app-logo {
@@ -24,6 +25,29 @@
   display: block;
   pointer-events: none;
 }
+
+/*added*/
+
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+  padding-top: 100px;
+}
+.text-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  max-width: 360px;
+}
+.content-image {
+  width: 250px;
+  height: auto;
+}
+
+/*added*/
 
 @media (prefers-reduced-motion: no-preference) {
   .app-logo {
@@ -49,10 +73,11 @@
   font-family: system-ui;
   font-weight: bold;
   font-size: larger;
-  gap: 8px;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+  margin: 1rem;
+}
+
+a {
+  color: #000000;
 }
 
 .environment {
@@ -60,7 +85,7 @@
 }
 
 .development {
-  color: #404b5a;
+  color: #87550b;
   text-transform: capitalize;
 }
 
@@ -69,16 +94,6 @@
   text-transform: capitalize;
 }
 
-p {
-  font-size: 1rem !important;
+.manage-button {
+  width: "auto";
 }
-
-a {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-button {
-  cursor: pointer;
-}
-

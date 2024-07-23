@@ -1,34 +1,26 @@
-import { useFindFirst, useQuery } from "@gadgetinc/react";
-import {
-  Card,
-  Banner,
-  InlineStack,
-  Icon,
-  Layout,
-  Link,
-  Page,
-  Spinner,
-  Text,
-  BlockStack,
-} from "@shopify/polaris";
-import { StoreIcon } from "@shopify/polaris-icons";
+import { useFindFirst, useSession, useFindMany } from "@gadgetinc/react";
+import { useNavigate } from "react-router-dom";
+import { Page, Spinner, Text, Button } from "@shopify/polaris";
 import { api } from "../api";
+import InstagramImage from "../assets/InstagramImage.svg";
+import Checkmark from "../assets/checkmark.svg";
+import "../components/App.css";
 
-const gadgetMetaQuery = `
-  query {
-    gadgetMeta {
-      slug
-      editURL
-      environmentSlug
-    }
-  }
-`;
+export default () => {
+  const navigate = useNavigate();
+  const session = useSession();
 
-export default function () {
   const [{ data, fetching, error }] = useFindFirst(api.shopifyShop);
-  const [{ data: metaData, fetching: fetchingGadgetMeta }] = useQuery({
-    query: gadgetMetaQuery,
+  const [{ data: account }] = useFindFirst(api.instagramAccount, {
+    suspense: true,
   });
+  const [{ data: posts }] = useFindMany(api.instagramPost, {
+    live: true,
+    first: 10,
+    sort: { createdAt: "Descending" },
+  });
+
+  let connected = !!account;
 
   if (error) {
     return (
@@ -40,7 +32,7 @@ export default function () {
     );
   }
 
-  if (fetching || fetchingGadgetMeta) {
+  if (fetching) {
     return (
       <div
         style={{
@@ -56,71 +48,71 @@ export default function () {
     );
   }
 
-  return (
-    <Page title="App">
-      <Layout>
-        <Layout.Section >
-          <Banner tone="success">
-            <Text variant="bodyMd" as="p">
-              Successfully connected your Gadget app to Shopify
+  if (!connected) {
+    //Return connect to instagram page if not connected
+    return (
+      <Page>
+        <div className="content-wrapper">
+          <img className="content-image" src={InstagramImage} />
+          <div className="text-wrapper">
+            <Text variant="headingXl" as="h2">
+              Connect your Instagram feed
             </Text>
-          </Banner>
-        </Layout.Section>
-        <Layout.Section>
-          <Card>
-            <div style={{ width: "100%" }}>
-              <img
-                src="https://assets.gadget.dev/assets/icon.svg"
-                style={{
-                  margin: "14px auto",
-                  height: "44px",
-                }}
-              />
-            </div>
-            <BlockStack gap="200">
-              <Text variant="headingMd" as="h1" alignment="center">
-                Edit this page:{" "}
-                <Link url={`${metaData.gadgetMeta.editURL}/files/web/routes/index.jsx`} target="_blank" removeUnderline>
-                  web/routes/index.jsx
-                </Link>
-              </Text>
-            </BlockStack>
-          </Card>
-        </Layout.Section>
-        <Layout.Section>
-          <Card>
-            <BlockStack gap="400">
-              <Text variant="headingMd" as="h6">
-                Shop record fetched from:{" "}
-                <Link url={`${metaData.gadgetMeta.editURL}/${metaData.gadgetMeta.environmentSlug}/model/DataModel-Shopify-Shop/data`} target="_blank" removeUnderline>
-                    api/models/shopifyShop/data
-                </Link>
-              </Text>
-              <div
-                style={{
-                  border: "1px solid #e1e3e5",
-                  padding: "12px",
-                  borderRadius: "0.25rem",
-                }}
-              >
-                <InlineStack align="space-between" blockAlign="center">
-                  <InlineStack gap="400" blockAlign="center">
-                    <Icon source={StoreIcon} />
-                    <div>
-                      <Text variant="bodyMd" as="h6">
-                        {data?.name}
-                      </Text>
-                    </div>
-                  </InlineStack>
-                  <Text variant="bodyMd" as="p">
-                    {data?.city && `${data.city}, `}{data?.countryName}
-                  </Text>
-                </InlineStack>
-              </div>
-            </BlockStack>
-          </Card>
-        </Layout.Section>
-      </Layout>
+            <Text variant="bodyLg" alignment="center" as="p">
+              Please connect to your Instagram account to begin synchronizing
+              Instagram posts to your Shopify store.
+            </Text>
+          </div>
+          <Button
+            variant="primary"
+            size="large"
+            onClick={() =>
+              open(
+                `https://${
+                  new URL(process.env.GADGET_PUBLIC_SHOPIFY_APP_URL).hostname
+                }/auth/instagram?sessionId=${session.id}`
+              )
+            }
+          >
+            Connect
+          </Button>
+        </div>
+      </Page>
+    );
+  }
+
+  const url = "https://www.instagram.com/" + account.accountName;
+  //Return Success! if connected successfully
+  return (
+    <Page>
+      <div className="content-wrapper">
+        <img className="content-image" src={Checkmark} />
+        <div className="text-wrapper">
+          <Text variant="headingXl" as="h2">
+            Success!
+          </Text>
+          <Text variant="bodyLg" alignment="center" as="p">
+            This app is now syncing Instagram posts from{" "}
+            <a
+              href={url}
+              onClick={(e) => {
+                e.preventDefault();
+                open(url);
+              }}
+            >
+              {account.accountName}
+            </a>{" "}
+            on a hourly schedule.
+          </Text>
+        </div>
+        <Button
+          variant="primary"
+          size="large"
+          onClick={() => navigate("/content/entries", { target: "host" })}
+        >
+          Manage metaobjects
+        </Button>
+      </div>
     </Page>
   );
-}
+};

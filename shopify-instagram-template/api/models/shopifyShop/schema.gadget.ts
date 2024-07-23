@@ -6,7 +6,18 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Shop",
-  fields: {},
+  fields: {
+    instagramAccounts: {
+      type: "hasMany",
+      children: { model: "instagramAccount", belongsToField: "shop" },
+      storageKey: "TMjdxofW-_sH",
+    },
+    instagramPosts: {
+      type: "hasMany",
+      children: { model: "instagramPost", belongsToField: "shop" },
+      storageKey: "nuCrHDj_7gvO",
+    },
+  },
   shopify: {
     fields: [
       "address1",

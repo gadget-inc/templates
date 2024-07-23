@@ -15,13 +15,6 @@ export default async function route({
   connections,
   session,
 }) {
-  // Might need a shop permissions model
-  // This would be a has many through relationship between user and shop
-
-  // Chase the flash from the homepage
-
-  // Might be two templates. This is more of a gadget auth template. The other would be some other auth system
-
   // See if the request is coming from the Shopify admin
   const shopId = connections.shopify.currentShopId;
 

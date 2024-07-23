@@ -102,6 +102,7 @@ const Layout = () => {
       shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
       api={api}
     >
+      {/* Maybe add an authprovider here so that there isn't another API call when the shop provider refreshes */}
       <ShopProvider>
         <Header />
         <div className="app">

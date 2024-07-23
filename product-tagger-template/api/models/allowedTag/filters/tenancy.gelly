@@ -1,0 +1,4 @@
+fragment Filter($session: Session) on AllowedTag {
+  *
+  [where shopId == $session.shopId]
+}

@@ -1,0 +1,46 @@
+{
+  "name": "pre-purchase-template",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Internal package for Gadget app Checkout Ui Extension Tutorial V2 (Development environment)",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@gadget-client/pre-purchase-template": "link:.gadget/client",
+    "@gadgetinc/react": "^0.15.4",
+    "@gadgetinc/react-shopify-app-bridge": "^0.14.2",
+    "@shopify/app-bridge-react": "^4.0.0",
+    "@shopify/polaris": "^12.0.0",
+    "@shopify/polaris-icons": "^8.8.0",
+    "fastify": "^4.24.2",
+    "gadget-server": "link:.gadget/server",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.6.1",
+    "shopify-api-node": "3.11.3"
+  },
+  "scripts": {
+    "vite:build": "NODE_ENV=production vite build",
+    "shopify": "shopify",
+    "build": "shopify app build",
+    "dev": "shopify app dev",
+    "info": "shopify app info",
+    "generate": "shopify app generate",
+    "deploy": "shopify app deploy"
+  },
+  "devDependencies": {
+    "@shopify/app": "^3.58.0",
+    "@shopify/cli": "^3.58.0",
+    "@types/node": "^20.8.4",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react-swc": "3.2.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9"
+  },
+  "workspaces": [
+    "extensions/*"
+  ],
+  "trustedDependencies": [
+    "@shopify/plugin-cloudflare"
+  ]
+}

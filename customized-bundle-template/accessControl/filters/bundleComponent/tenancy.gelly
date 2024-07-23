@@ -1,0 +1,4 @@
+fragment Filter($session: Session) on BundleComponent {
+  *
+  [where shopId == $session.shopId]
+}

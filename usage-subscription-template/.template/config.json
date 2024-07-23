@@ -1,0 +1,85 @@
+{
+  "version": "v1",
+  "setup": "docs/setup.md",
+  "introduction": "docs/introduction.md",
+  "featuredGlobalActions": {
+    "getPlansAtShopCurrency": {
+      "description": "A global action that returns all plans at the shop's currency."
+    }
+  },
+  "featuredFrontends": {
+    "App.jsx": {
+      "description": "This page handles routing of the frontend pages.",
+      "tags": ["edited"]
+    },
+    "ShopPage.jsx": {
+      "description": "The main page of the app.",
+      "tags": ["edited"]
+    },
+    "BillingPage.jsx": {
+      "description": "The page that renders plans and allows merchants to change between them.",
+      "tags": ["added"]
+    },
+    "providers/ShopProvider.jsx": {
+      "description": "Provides information about the shop to the rest of the app.",
+      "tags": ["added"]
+    }
+  },
+  "featuredModels": {
+    "plan": {
+      "description": "Used to store data about the available plans",
+      "featuredFields": ["pricePerOrder", "cappedAmount", "trialDays", "shops"]
+    },
+    "usageRecord": {
+      "description": "Used to track the usageRecords that are successfully created in Shopify.",
+      "featuredFields": ["shop", "currency", "price"]
+    },
+    "shopifyShop": {
+      "description": "The default shop model with subscription fields added.",
+      "featuredFields": [
+        "amountUsedInPeriod",
+        "usageRecords",
+        "usagePlanId",
+        "overage",
+        "inTrial"
+      ]
+    }
+  },
+  "featuredActions": {
+    "shopifyShop": {
+      "subscribe": {
+        "description": "Fetches the selected plan's information, calculates the available trial days for the shop, converts the price of the plan to the shop's currency, calls the Shopify API's `AppSubscriptionCreate` GraphQL mutation.",
+        "tags": ["added"]
+      },
+      "uninstall": {
+        "description": "Removes any plan related data from the shop record.",
+        "tags": ["edited"]
+      }
+    }
+  },
+  "featuredRoutes": {
+    "GET-confirmation-callback.js": {
+      "description": "The URL that continues the subscription flow when a merchant accepts the plan's terms."
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "plan": {
+        "description": "The ability to read plans allows merchants to select a plan from a list.",
+        "featuredFields": ["read"]
+      }
+    }
+  },
+  "webflow": {
+    "title": "Usage based Shopify billing",
+    "description": "Bill your Shopify app users based on their usage of your app.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/usage-based-billing.webp",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

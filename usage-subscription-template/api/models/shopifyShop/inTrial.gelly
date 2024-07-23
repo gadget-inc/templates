@@ -1,0 +1,17 @@
+field on shopifyShop {
+  coalesce([
+    plan.trialDays * 24 * 60 >=
+    (
+      datePart(
+        part: "epoch",
+        date: now()
+      ) * 1000 / 60000
+    ) - (
+      datePart(
+        part: "epoch",
+        date: !isNull(trialStartedAt) ? trialStartedAt : now()
+      ) * 1000 / 60000
+    ) + usedTrialMinutes,
+    false
+  ])
+}

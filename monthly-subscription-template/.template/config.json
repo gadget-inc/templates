@@ -1,0 +1,88 @@
+{
+  "version": "v1",
+  "setup": "docs/setup.md",
+  "introduction": "docs/introduction.md",
+  "featuredGlobalActions": {
+    "getPlansAtShopCurrency": {
+      "description": "A global action that returns all plans at the shop's currency."
+    }
+  },
+  "featuredFrontends": {
+    "App.jsx": {
+      "description": "Contains frontend route definitions and other app setup.",
+      "tags": ["edited"]
+    },
+    "ShopPage.jsx": {
+      "description": "The main page of the app.",
+      "tags": ["edited"]
+    },
+    "BillingPage.jsx": {
+      "description": "The page that allows merchants to select a subscription plan.",
+      "tags": ["added"]
+    },
+    "providers/ShopProvider.jsx": {
+      "description": "Provides information about the shop and current subscription to the rest of the app.",
+      "tags": ["added"]
+    }
+  },
+  "featuredModels": {
+    "plan": {
+      "description": "Used to store data about the available plans.",
+      "featuredFields": [
+        "monthlyPrice",
+        "currency",
+        "trialDays",
+        "shops",
+        "name",
+        "description"
+      ]
+    },
+    "shopifyShop": {
+      "description": "The default shopifyShop model with additional subscription-related fields.",
+      "featuredFields": [
+        "usedTrialMinutes",
+        "activeRecurringSubscriptionId",
+        "plan"
+      ]
+    }
+  },
+  "featuredActions": {
+    "shopifyShop": {
+      "subscribe": {
+        "description": "Fetches the selected plan's information, calculates the available trial days for the shop, converts the price of the plan to the shop's currency, calls the Shopify API's `appSubscriptionCreate` GraphQL mutation.",
+        "tags": ["added"]
+      },
+      "uninstall": {
+        "description": "Updates trial data and removes any subscription related data from the shop record.",
+        "tags": ["edited"]
+      }
+    }
+  },
+  "featuredRoutes": {
+    "GET-confirmation-callback.js": {
+      "description": "The URL called after a merchant has selected a plan and entered payment information in Shopify. It links a shop record to a plan record and redirects the merchant to the Admin UI."
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "plan": {
+        "description": "Allows for plans to be displayed to merchants in your app."
+      },
+      "shopifyShop": {
+        "description": "Allows merchants to begin your app's subscription flow."
+      }
+    }
+  },
+  "webflow": {
+    "title": "Monthly subscription based Shopify billing",
+    "description": "Bill Shopify merchants for your app based on a monthly recurring amount.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/monthly-recurring-billing.webp",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

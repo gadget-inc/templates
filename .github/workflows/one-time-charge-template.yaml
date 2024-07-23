@@ -1,0 +1,21 @@
+name: One-Time Charge Deployment
+
+on:
+  push:
+    paths:
+      - "one-time-charge-template/**"
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  push-to-development-environment:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v4
+      - name: Push to development environment
+        run: npx ggt push --app=one-time-charge-template --env=development --force --allow-unknown-directory
+        working-directory: one-time-charge-template/
+        env:
+          GGT_TOKEN: ${{ secrets.ONE_TIME_CHARGE_DEPLOY_TOKEN }}

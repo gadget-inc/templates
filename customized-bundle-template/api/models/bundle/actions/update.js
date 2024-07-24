@@ -50,7 +50,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         productChanges.push("title");
         break;
       case "status":
-        product.status = value.current;
+        product.status = value.current.toUpperCase();
         productChanges.push("status");
         break;
       case "description":

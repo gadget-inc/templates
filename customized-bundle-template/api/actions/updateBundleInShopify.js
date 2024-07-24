@@ -80,7 +80,7 @@ export async function run({ params, logger, api, connections }) {
     await api.enqueue(
       api.updateBundleComponentQuantity,
       {
-        bundleVariantId,
+        bundleVariantId: variantId,
         bundleId,
         shopId,
       },

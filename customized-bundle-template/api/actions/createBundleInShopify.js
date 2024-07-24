@@ -107,6 +107,7 @@ export async function run({ params, logger, api, connections }) {
         id: productCreateResponse?.productCreate?.product?.variants?.edges[0]
           ?.node?.id,
         price: price.toFixed(2),
+        inventoryPolicy: "CONTINUE", // Make sure to make this configurable. Set to "CONTINUE" for testing
         metafields: [
           {
             namespace: "bundle",

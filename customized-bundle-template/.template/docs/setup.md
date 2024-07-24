@@ -21,7 +21,7 @@ query {
 }
 ```
 
-3. In the Shopify app dashboard, navigate to the `Extensions` tab and turn on `Development store preview`. This will allow you to run the Shopify Function on your development store.
+3. In the Shopify Partner dashboard, navigate to the `Extensions` tab and turn on `Development store preview`. This will allow you to run the Shopify Function on your development store.
 
 4. Install the application on a development store, create a bundle and test the function. When testing, make sure that you're always running `yarn dev`.
 

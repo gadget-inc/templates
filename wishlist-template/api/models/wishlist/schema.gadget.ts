@@ -9,8 +9,17 @@ export const schema: GadgetModel = {
   fields: {
     customer: {
       type: "belongsTo",
+      validations: {
+        required: true,
+        unique: { scopeByField: "shop" },
+      },
       parent: { model: "shopifyCustomer" },
       storageKey: "ILx3RJJ8XXpt",
+    },
+    shop: {
+      type: "belongsTo",
+      parent: { model: "shopifyShop" },
+      storageKey: "2FZjX5fACwrm",
     },
     variants: {
       type: "hasManyThrough",

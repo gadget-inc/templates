@@ -29,7 +29,16 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   });
 
   if (wishlist) {
-    await api.internal.wishlist.delete(wishlist.id);
+    logger.info({ wishlist }, "WISHLIST");
+
+    const p = await Promise.all([
+      api.internal.wishlist.delete(wishlist.id),
+      api.internal.wishlistItem.deleteMany({
+        filter: { wishlist: wishlist.id },
+      }),
+    ]);
+
+    logger.info({ p }, "RESULT OF PROMISEALL");
   }
 }
 

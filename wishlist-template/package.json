@@ -5,7 +5,13 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "vite:build": "NODE_ENV=production vite build"
+    "vite:build": "NODE_ENV=production vite build",
+    "shopify": "shopify",
+    "build": "shopify app build",
+    "dev": "shopify app dev --no-update",
+    "info": "shopify app info",
+    "scaffold": "shopify app scaffold",
+    "deploy": "shopify app deploy"
   },
   "dependencies": {
     "@gadget-client/wishlist-template": "link:.gadget/client",
@@ -21,6 +27,7 @@
     "shopify-api-node": "^3.12.6"
   },
   "devDependencies": {
+    "@shopify/cli": "^3.64.1",
     "@types/node": "^20.12.8",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",

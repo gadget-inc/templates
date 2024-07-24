@@ -32,7 +32,6 @@
     "use-debounce": "^10.0.1"
   },
   "devDependencies": {
-    "@shopify/app": "^3.58.2",
     "@shopify/cli": "^3.64.0",
     "@types/node": "^20.12.8",
     "@types/react": "^18.0.28",

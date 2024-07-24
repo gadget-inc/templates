@@ -62,7 +62,7 @@
     "title": "Customized bundles",
     "description": "Create and manage bundles of products in the Shopify store.",
     "content": "webflow/content.md",
-    "mainImage": "webflow/customized-bundle-template.webp",
+    "mainImage": "webflow/customized-bundle-template.png",
     "features": {
       "shopify": true,
       "frontend": true,

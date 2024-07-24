@@ -6,7 +6,18 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-ProductVariant",
-  fields: {},
+  fields: {
+    wishlists: {
+      type: "hasManyThrough",
+      sibling: { model: "wishlist", relatedField: "variants" },
+      join: {
+        model: "wishlistItem",
+        belongsToSelfField: "variant",
+        belongsToSiblingField: "wishlist",
+      },
+      storageKey: "LLgiSLrXdYPj",
+    },
+  },
   shopify: {
     fields: [
       "barcode",

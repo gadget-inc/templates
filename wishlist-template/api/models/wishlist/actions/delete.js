@@ -1,25 +1,23 @@
 import {
   deleteRecord,
   ActionOptions,
-  DeleteShopifyProductVariantActionContext,
+  DeleteWishlistActionContext,
 } from "gadget-server";
-import { preventCrossShopDataAccess } from "gadget-server/shopify";
 
 /**
- * @param { DeleteShopifyProductVariantActionContext } context
+ * @param { DeleteWishlistActionContext } context
  */
 export async function run({ params, record, logger, api, connections }) {
-  await preventCrossShopDataAccess(params, record);
   await deleteRecord(record);
 }
 
 /**
- * @param { DeleteShopifyProductVariantActionContext } context
+ * @param { DeleteWishlistActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
   let wishlistItems = await api.wishlistItem.findMany({
     filter: {
-      variant: {
+      wishlist: {
         equals: record.id,
       },
     },
@@ -45,4 +43,6 @@ export async function onSuccess({ params, record, logger, api, connections }) {
 }
 
 /** @type { ActionOptions } */
-export const options = { actionType: "delete" };
+export const options = {
+  actionType: "delete",
+};

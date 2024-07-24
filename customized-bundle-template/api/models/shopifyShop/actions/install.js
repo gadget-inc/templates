@@ -154,7 +154,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   }
 
-  // Create the cart transform function on this store
+  // Create the cart transform function on this store. See the setup steps for more information on how to get the functionId
   const cartTransformCreateResponse = await shopify.graphql(`
     mutation {
       cartTransformCreate(functionId: "${process.env.BUNDLER_FUNCTION_ID}") {

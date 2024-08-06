@@ -6,7 +6,14 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Product",
-  fields: {},
+  fields: {
+    deleted: {
+      type: "boolean",
+      default: false,
+      validations: { required: true },
+      storageKey: "l-6YsLNVOCli",
+    },
+  },
   shopify: {
     fields: [
       "body",

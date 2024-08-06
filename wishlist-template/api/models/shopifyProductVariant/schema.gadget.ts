@@ -7,6 +7,12 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-ProductVariant",
   fields: {
+    deleted: {
+      type: "boolean",
+      default: false,
+      validations: { required: true },
+      storageKey: "EnHK4gT9Oinu",
+    },
     wishlists: {
       type: "hasManyThrough",
       sibling: { model: "wishlist", relatedField: "variants" },
@@ -22,7 +28,6 @@ export const schema: GadgetModel = {
     fields: [
       "barcode",
       "compareAtPrice",
-      "inventoryItem",
       "inventoryPolicy",
       "inventoryQuantity",
       "option1",

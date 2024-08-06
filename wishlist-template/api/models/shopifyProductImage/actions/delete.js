@@ -1,4 +1,4 @@
-import { deleteRecord, ActionOptions, DeleteShopifyProductImageActionContext } from "gadget-server";
+import { save, ActionOptions, DeleteShopifyProductImageActionContext } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
 
 /**
@@ -6,7 +6,10 @@ import { preventCrossShopDataAccess } from "gadget-server/shopify";
  */
 export async function run({ params, record, logger, api, connections }) {
   await preventCrossShopDataAccess(params, record);
-  await deleteRecord(record);
+
+  record.deleted = true
+
+  await save(record)
 };
 
 /**

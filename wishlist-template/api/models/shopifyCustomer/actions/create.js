@@ -19,25 +19,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { CreateShopifyCustomerActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  const wishlist = await api.wishlist.maybeFindFirst({
-    filter: {
-      customer: {
-        equals: record.id,
-      },
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  if (!wishlist) {
-    await api.internal.wishlist.upsert({
-      customer: {
-        _link: record.id,
-      },
-      on: ["customer"],
-    });
-  }
+  // Your logic goes here
 }
 
 /** @type { ActionOptions } */

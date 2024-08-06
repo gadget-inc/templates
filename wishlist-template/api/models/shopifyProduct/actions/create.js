@@ -13,8 +13,8 @@ export async function run({ params, record, logger, api, connections }) {
 /**
  * @param { CreateShopifyProductActionContext } context
  */
-export async function onSuccess({ params, record, logger, api, connections }) {
-  // Your logic goes here
+export async function onSuccess({ params, record, logger, api, connections, trigger }) {
+  logger.info({trigger})
 };
 
 /** @type { ActionOptions } */

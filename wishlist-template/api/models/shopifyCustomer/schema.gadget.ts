@@ -7,9 +7,31 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Customer",
   fields: {
-    wishlist: {
-      type: "hasOne",
-      child: { model: "wishlist", belongsToField: "customer" },
+    sendUpdateAt: {
+      type: "dateTime",
+      includeTime: true,
+      storageKey: "hmgCSx0Oh_PN",
+    },
+    updateFrequencyOverride: {
+      type: "enum",
+      acceptMultipleSelections: false,
+      acceptUnlistedOptions: false,
+      options: ["unsubscribed", "weekly", "monthly", "quarterly"],
+      storageKey: "pPIoJ4TtYkUu",
+    },
+    wishlistCount: {
+      type: "computed",
+      sourceFile: "api/models/shopifyCustomer/wishlistCount.gelly",
+      storageKey: "PEILOC7essS1",
+    },
+    wishlistItems: {
+      type: "hasMany",
+      children: { model: "wishlistItem", belongsToField: "customer" },
+      storageKey: "eGd9HZNNVuls",
+    },
+    wishlists: {
+      type: "hasMany",
+      children: { model: "wishlist", belongsToField: "customer" },
       storageKey: "woP7H9DfLRzb",
     },
   },

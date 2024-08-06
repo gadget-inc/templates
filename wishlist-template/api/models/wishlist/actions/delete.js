@@ -15,28 +15,10 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { DeleteWishlistActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  let wishlistItems = await api.wishlistItem.findMany({
+  await api.internal.wishlistItem.deleteMany({
     filter: {
       wishlist: {
         equals: record.id,
-      },
-    },
-    select: {
-      id: true,
-    },
-  });
-
-  let allWishlistItems = wishlistItems;
-
-  while (wishlistItems.hasNextPage) {
-    wishlistItems = await wishlistItems.nextPage();
-    allWishlistItems = allWishlistItems.concat(wishlistItems);
-  }
-
-  await api.internal.wishlistItem.deleteMany({
-    filter: {
-      id: {
-        in: allWishlistItems.map((wishlistItem) => wishlistItem.id),
       },
     },
   });

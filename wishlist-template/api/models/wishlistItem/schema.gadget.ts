@@ -7,8 +7,27 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "5rOsuM8hKAvu",
   fields: {
+    bought: {
+      type: "boolean",
+      default: false,
+      validations: { required: true },
+      storageKey: "8BgCtgMnJIlA",
+    },
+    customer: {
+      type: "belongsTo",
+      validations: { required: true },
+      parent: { model: "shopifyCustomer" },
+      storageKey: "h-1C6gS8T14p",
+    },
+    shop: {
+      type: "belongsTo",
+      validations: { required: true },
+      parent: { model: "shopifyShop" },
+      storageKey: "y5sNESjKsR2T",
+    },
     variant: {
       type: "belongsTo",
+      validations: { unique: { scopeByField: "wishlist" } },
       parent: { model: "shopifyProductVariant" },
       storageKey: "2lay6D7OSivN",
     },

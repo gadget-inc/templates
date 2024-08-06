@@ -1,4 +1,8 @@
-import { deleteRecord, ActionOptions, DeleteShopifyProductActionContext } from "gadget-server";
+import {
+  save,
+  ActionOptions,
+  DeleteShopifyProductActionContext,
+} from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
 
 /**
@@ -6,15 +10,18 @@ import { preventCrossShopDataAccess } from "gadget-server/shopify";
  */
 export async function run({ params, record, logger, api, connections }) {
   await preventCrossShopDataAccess(params, record);
-  await deleteRecord(record);
-};
+
+  record.deleted = true;
+
+  await save(record);
+}
 
 /**
  * @param { DeleteShopifyProductActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  // Your logic goes here
-};
+  // Handle logic for marking as a deleted product
+}
 
 /** @type { ActionOptions } */
 export const options = { actionType: "delete" };

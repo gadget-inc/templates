@@ -12,7 +12,11 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { CreateWishlistActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  // Your logic goes here
+  await api.wishlist.update(record.id, {
+    image: {
+      copyURL: "https://picsum.photos/200"
+    }
+  })
 };
 
 /** @type { ActionOptions } */

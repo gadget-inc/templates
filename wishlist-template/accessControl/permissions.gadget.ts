@@ -28,24 +28,6 @@ export const permissions: GadgetPermissions = {
             update: true,
           },
         },
-        shopifyInventoryItem: {
-          read: {
-            filter:
-              "accessControl/filters/shopify/shopifyInventoryItem.gelly",
-          },
-        },
-        shopifyInventoryLevel: {
-          read: {
-            filter:
-              "accessControl/filters/shopify/shopifyInventoryLevel.gelly",
-          },
-        },
-        shopifyLocation: {
-          read: {
-            filter:
-              "accessControl/filters/shopify/shopifyLocation.gelly",
-          },
-        },
         shopifyProduct: {
           read: {
             filter:
@@ -84,6 +66,59 @@ export const permissions: GadgetPermissions = {
             complete: true,
             error: true,
             run: true,
+          },
+        },
+      },
+    },
+    "shopify-storefront-customers": {
+      storageKey: "Role-Shopify-Customer",
+      models: {
+        shopifyCustomer: {
+          read: {
+            filter:
+              "accessControl/filters/shopify/storefront-customers/shopifyCustomer.gelly",
+          },
+        },
+        shopifyProduct: {
+          read: {
+            filter:
+              "accessControl/filters/shopifyProduct/storefront-customers/tenancy.gelly",
+          },
+        },
+        shopifyProductImage: {
+          read: {
+            filter:
+              "accessControl/filters/shopifyProductImage/storefront-customer/tenancy.gelly",
+          },
+        },
+        shopifyProductVariant: {
+          read: {
+            filter:
+              "accessControl/filters/shopifyProductVariant/storefront-customer/tenancy.gelly",
+          },
+        },
+        shopifyShop: {
+          read: {
+            filter: "accessControl/filters/shopify/shopifyShop.gelly",
+          },
+        },
+        wishlist: {
+          read: {
+            filter:
+              "accessControl/filters/wishlist/storefront-customers-tenancy.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+          },
+        },
+        wishlistItem: {
+          read: {
+            filter:
+              "accessControl/filters/wishlistItem/storefront-customer-tenancy.gelly",
+          },
+          actions: {
+            delete: true,
           },
         },
       },

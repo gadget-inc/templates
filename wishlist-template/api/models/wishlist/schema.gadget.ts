@@ -9,15 +9,31 @@ export const schema: GadgetModel = {
   fields: {
     customer: {
       type: "belongsTo",
+      validations: { required: true },
+      parent: { model: "shopifyCustomer" },
+      storageKey: "fTJ1XCm3x37b",
+    },
+    image: {
+      type: "file",
+      allowPublicAccess: false,
+      storageKey: "ciPsdGciGbo1",
+    },
+    itemCount: {
+      type: "computed",
+      sourceFile: "api/models/wishlist/itemCount.gelly",
+      storageKey: "mhJ6sSpi-wyS",
+    },
+    name: {
+      type: "string",
       validations: {
         required: true,
-        unique: { scopeByField: "shop" },
+        unique: { scopeByField: "customer" },
       },
-      parent: { model: "shopifyCustomer" },
-      storageKey: "ILx3RJJ8XXpt",
+      storageKey: "Ch3SSNcG-CdG",
     },
     shop: {
       type: "belongsTo",
+      validations: { required: true },
       parent: { model: "shopifyShop" },
       storageKey: "2FZjX5fACwrm",
     },

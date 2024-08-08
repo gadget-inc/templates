@@ -14,7 +14,7 @@ import {
   createRoutesFromElements,
   useLocation,
   useNavigate,
-  Link
+  Link,
 } from "react-router-dom";
 import Index from "../routes/index";
 import AboutPage from "../routes/about";
@@ -91,7 +91,9 @@ function EmbeddedApp() {
     <>
       <Outlet />
       <NavMenu>
-        <Link to="/" rel="home">Shop Information</Link>
+        <Link to="/" rel="home">
+          Shop Information
+        </Link>
         <Link to="/about">About</Link>
       </NavMenu>
     </>
@@ -108,7 +110,12 @@ function UnauthenticatedApp() {
           </Text>
           <Box paddingBlockStart="200">
             <Text variant="bodyLg" as="p">
-              Edit this page: <a href={`/edit/${process.env.GADGET_PUBLIC_APP_ENV}/files/web/components/App.jsx`}>web/components/App.jsx</a>
+              Edit this page:{" "}
+              <a
+                href={`/edit/${process.env.GADGET_PUBLIC_APP_ENV}/files/web/components/App.jsx`}
+              >
+                web/components/App.jsx
+              </a>
             </Text>
           </Box>
         </Card>

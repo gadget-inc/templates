@@ -21,6 +21,10 @@ export const schema: GadgetModel = {
       children: { model: "wishlistItem", belongsToField: "shop" },
       storageKey: "nV1897_LCqr1",
     },
+    wishlistMetafieldDefinitionId: {
+      type: "string",
+      storageKey: "V40YpVDvRHvK",
+    },
     wishlists: {
       type: "hasMany",
       children: { model: "wishlist", belongsToField: "shop" },

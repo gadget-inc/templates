@@ -14,7 +14,11 @@ export const settings: GadgetSettings = {
           "shopifyProductVariant",
         ],
         type: "partner",
-        scopes: ["read_products", "read_customers"],
+        scopes: [
+          "read_products",
+          "read_customers",
+          "write_customers",
+        ],
         customerAuthenticationEnabled: true,
       },
     },

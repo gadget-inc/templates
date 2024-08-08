@@ -8,7 +8,7 @@ import {
   useApi,
 } from "@shopify/ui-extensions-react/customer-account";
 import { api } from "../api";
-import { useContext } from "react";
+import { useCallback, useContext } from "react";
 import { ShopContext } from "../providers";
 
 export default ({ wishlists }) => {
@@ -31,13 +31,14 @@ export default ({ wishlists }) => {
     onError: (error) => console.error(error),
   });
 
-  if (isSubmitted) {
+  const handleSubmit = useCallback(async () => {
+    await submit();
     ui.overlay.close("new-wishlist");
-  }
+  }, [submit]);
 
   return (
     <Modal title="New wishlist" id="new-wishlist" padding>
-      <Form onSubmit={submit}>
+      <Form onSubmit={handleSubmit}>
         <InlineLayout
           blockAlignment="start"
           columns={["fill", "20%"]}

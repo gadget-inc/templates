@@ -3,6 +3,7 @@ import {
   ActionOptions,
   DeleteWishlistActionContext,
 } from "gadget-server";
+import { updateWishlistMetafield } from "../../../lib";
 
 /**
  * @param { DeleteWishlistActionContext } context
@@ -21,6 +22,11 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         equals: record.id,
       },
     },
+  });
+
+  await updateWishlistMetafield({
+    shopId: record.shopId,
+    customerId: record.customerId,
   });
 }
 

@@ -10,6 +10,7 @@ import {
 export async function run({ params, record, logger, api, connections }) {
   const shopify = connections.shopify.current;
 
+  // Fetch the bundle's parent product variant
   const variant = await api.shopifyProductVariant.maybeFindOne(
     record.bundleVariantId,
     {
@@ -21,8 +22,10 @@ export async function run({ params, record, logger, api, connections }) {
 
   if (!variant) throw new Error("Bundle variant not found");
 
+  // Delete the product on the Shopify store
   await shopify.product.delete(variant.productId);
 
+  // Fetch all the bundle components for this bundle
   let bundleComponents = await api.bundleComponent.findMany({
     first: 250,
     filter: {
@@ -36,6 +39,7 @@ export async function run({ params, record, logger, api, connections }) {
   });
 
   if (bundleComponents.length) {
+    // If there are bundle components, check if there are more than 250
     let allBundleComponents = bundleComponents;
 
     while (bundleComponents.hasNextPage) {
@@ -43,8 +47,10 @@ export async function run({ params, record, logger, api, connections }) {
       allBundleComponents = allBundleComponents.concat(bundleComponents);
     }
 
+    // Create an array of ids
     const ids = allBundleComponents.map((bc) => bc.id);
 
+    // Delete all of this bundle's components
     await api.internal.bundleComponent.deleteMany({
       filter: {
         id: {

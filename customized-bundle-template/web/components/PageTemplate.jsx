@@ -10,6 +10,7 @@ import { useContext } from "react";
 import { ShopContext } from "../providers";
 import { useNavigate } from "react-router-dom";
 
+// This is a wrapper for all pages which allows for easy navigation and form submissions
 export default ({
   children,
   hasNextPage,

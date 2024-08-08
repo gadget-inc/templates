@@ -15,9 +15,11 @@ export async function run({ params, record, logger, api, connections }) {
 
 /**
  * @param { DeleteShopifyProductVariantActionContext } context
+ * This function has similar logic to the onSuccess function in the bundle delete action. This handles the case that a merchant deletes a bundle from the admin (products page).
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
   if (record.isBundle) {
+    // If the product variant is a bundle, delete the bundle and its components
     const bundle = await api.bundle.maybeFindFirst({
       filter: {
         bundleVariant: {
@@ -34,6 +36,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     }
   }
 
+  // Find all bundle components related to this product variant
   let bundleComponents = await api.bundleComponent.findMany({
     first: 250,
     filter: {
@@ -47,6 +50,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   });
 
   if (bundleComponents.length) {
+    // Fetch more bundle components if there are more than 250
     let allBundleComponents = bundleComponents;
 
     while (bundleComponents.hasNextPage) {
@@ -54,8 +58,10 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       allBundleComponents = allBundleComponents.concat(bundleComponents);
     }
 
+    // Create an array of bundle component IDs
     const ids = allBundleComponents.map((bc) => bc.id);
 
+    // Delete all bundle components associated with this product variant
     await api.internal.bundleComponent.deleteMany({
       filter: {
         id: {

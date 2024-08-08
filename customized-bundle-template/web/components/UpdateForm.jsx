@@ -21,6 +21,7 @@ import {
 } from "@shopify/polaris";
 import BundleForm from "./BundleForm";
 
+// A skeleton version of the bundle update card to display while the bundle is loading
 const SkeletonForm = () => {
   return (
     <Card>
@@ -97,6 +98,7 @@ export default () => {
             productVariant: {
               id: true,
               title: true,
+              price: true,
               product: {
                 id: true,
                 title: true,
@@ -114,21 +116,26 @@ export default () => {
         },
       },
     },
-    onError: (error) => console.error(error),
   });
 
   const [{ data: deletedBundle }, deleteBundle] = useAction(api.bundle.delete);
 
+  // A special handler for form submission that displays an error if the title already exists or redirects to the homepage
   const updateBundle = useCallback(async () => {
     const { data, error } = await submit();
 
     if (data) {
       navigate("/");
     } else {
-      console.error("Error submitting form", error);
+      if (/\btitle\b/.test(error.message))
+        setError("bundle.title", {
+          message: "A bundle with this title already exists",
+          type: "submissionError",
+        });
     }
   }, [submit]);
 
+  // Redirects to the homepage if the bundle was successfully deleted
   useEffect(() => {
     if (deletedBundle) {
       navigate("/");
@@ -140,7 +147,13 @@ export default () => {
       inForm
       submit={updateBundle}
       saveDisabled={
-        isSubmitting || !isDirty || !isValid || isLoading || isValidating
+        isSubmitting ||
+        !isDirty ||
+        !isValid ||
+        isLoading ||
+        isValidating ||
+        // Disables the save button if there are no bundle components
+        !getValues("bundle.bundleComponents").length
       }
     >
       <Layout sectioned>

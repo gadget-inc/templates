@@ -19,7 +19,9 @@ export default ({
   name,
   bundleComponents,
   errors,
+  currency,
 }) => {
+  // Creates an array of product variant ids
   const productVariantIds = useMemo(
     () =>
       bundleComponents.map(
@@ -34,11 +36,20 @@ export default ({
         <InlineStack align="space-between">
           <InlineStack blockAlign="center" gap="400">
             <Thumbnail source={images[0]?.originalSrc || ImageMajor} />
-            <Text>
-              {variants.length === 1 && variants[0].displayName
-                ? variants[0].displayName
-                : title}
-            </Text>
+            <BlockStack>
+              <Text>
+                {variants.length === 1 && variants[0].displayName
+                  ? variants[0].displayName
+                  : title}
+              </Text>
+              {variants.length === 1 && (
+                <Text as="span" tone="subdued" variant="bodySm">
+                  {parseFloat(variants[0].price)
+                    ? `${variants[0].price} ${currency}`
+                    : "Free"}
+                </Text>
+              )}
+            </BlockStack>
           </InlineStack>
           {variants.length == 1 && (
             <BlockStack inlineAlign="end" align="center" gap={200}>
@@ -81,44 +92,50 @@ export default ({
               </Text>
               <Text>Quantity</Text>
             </InlineStack>
-            {variants.map(({ title: variantTitle, id: variantId }, index) => {
-              const bcIndex = productVariantIds.indexOf(
-                variantId.replace(/gid:\/\/shopify\/ProductVariant\//g, "")
-              );
-
-              return (
-                <BlockStack key={index} gap={300}>
-                  <InlineStack align="space-between" blockAlign="center">
-                    <Text as="span">{variantTitle}</Text>
-                    <Controller
-                      control={control}
-                      name={`${name}.${bcIndex}.quantity`}
-                      render={({ field: { ref, ...fieldProps } }) => (
-                        <TextField
-                          {...fieldProps}
-                          type="number"
-                          autoComplete="off"
-                          onChange={(value) => {
-                            fieldProps.onChange(parseInt(value));
-                          }}
-                          error={
-                            errors?.bundle?.bundleComponents &&
-                            errors?.bundle?.bundleComponents[bcIndex]?.quantity
-                              ?.message
-                          }
-                          value={fieldProps.value?.toString() || ""}
-                        />
-                      )}
-                      rules={{
-                        validate: (value) =>
-                          value > 0 || "Must be greater than 0.",
-                      }}
-                    />
-                  </InlineStack>
-                  {variants.length - 1 !== index && <Divider />}
-                </BlockStack>
-              );
-            })}
+            {variants.map(
+              ({ title: variantTitle, id: variantId, price }, index) => {
+                const bcIndex = productVariantIds.indexOf(
+                  variantId.replace(/gid:\/\/shopify\/ProductVariant\//g, "")
+                );
+                return (
+                  <BlockStack key={index} gap={300}>
+                    <InlineStack align="space-between" blockAlign="center">
+                      <BlockStack>
+                        <Text>{variantTitle}</Text>
+                        <Text as="span" tone="subdued" variant="bodySm">
+                          {parseFloat(price) ? `${price} ${currency}` : "Free"}
+                        </Text>
+                      </BlockStack>
+                      <Controller
+                        control={control}
+                        name={`${name}.${bcIndex}.quantity`}
+                        render={({ field: { ref, ...fieldProps } }) => (
+                          <TextField
+                            {...fieldProps}
+                            type="number"
+                            autoComplete="off"
+                            onChange={(value) => {
+                              fieldProps.onChange(parseInt(value));
+                            }}
+                            error={
+                              errors?.bundle?.bundleComponents &&
+                              errors?.bundle?.bundleComponents[bcIndex]
+                                ?.quantity?.message
+                            }
+                            value={fieldProps.value?.toString() || ""}
+                          />
+                        )}
+                        rules={{
+                          validate: (value) =>
+                            value > 0 || "Must be greater than 0.",
+                        }}
+                      />
+                    </InlineStack>
+                    {variants.length - 1 !== index && <Divider />}
+                  </BlockStack>
+                );
+              }
+            )}
           </BlockStack>
         )}
       </BlockStack>

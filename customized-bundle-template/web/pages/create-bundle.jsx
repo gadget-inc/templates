@@ -16,6 +16,7 @@ export default () => {
     formState: { errors, isDirty, isValid, isSubmitting },
     watch,
     getValues,
+    setError,
   } = useActionForm(api.bundle.create, {
     mode: "onBlur",
     defaultValues: {
@@ -28,16 +29,20 @@ export default () => {
         bundleComponents: [],
       },
     },
-    onError: (error) => console.error(error),
   });
 
+  // A special handler for form submission that displays an error if the title already exists or redirects to the homepage
   const createBundle = useCallback(async () => {
     const { data, error } = await submit();
 
     if (data) {
       navigate("/");
     } else {
-      console.error("Error submitting form", error);
+      if (/\btitle\b/.test(error.message))
+        setError("bundle.title", {
+          message: "A bundle with this title already exists",
+          type: "submissionError",
+        });
     }
   }, [submit]);
 
@@ -45,7 +50,13 @@ export default () => {
     <PageTemplate
       inForm
       submit={createBundle}
-      saveDisabled={isSubmitting || !isDirty || !isValid}
+      saveDisabled={
+        isSubmitting ||
+        !isDirty ||
+        !isValid ||
+        // Disables the save button if there are no bundle components
+        !getValues("bundle.bundleComponents").length
+      }
     >
       <Layout sectioned>
         <Layout.Section>

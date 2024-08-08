@@ -4,6 +4,7 @@ import {
   ActionOptions,
   UpdateBundleComponentActionContext,
 } from "gadget-server";
+import { isEqual } from "lodash";
 
 /**
  * @param { UpdateBundleComponentActionContext } context
@@ -17,7 +18,9 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { UpdateBundleComponentActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
+  // Check if the quantity has changed
   if (record.changed("quantity")) {
+    // Fetch the parent bundle
     const bundle = await api.bundle.findOne(record.bundleId, {
       select: {
         bundleVariant: {
@@ -26,6 +29,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       },
     });
 
+    // Enqueue the global action that updates the bundle component quantity metafield in Shopify
     await api.enqueue(
       api.updateBundleComponentQuantity,
       {

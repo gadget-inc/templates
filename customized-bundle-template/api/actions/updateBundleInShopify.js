@@ -4,20 +4,21 @@ import { UpdateBundleInShopifyGlobalActionContext } from "gadget-server";
  * @param { UpdateBundleInShopifyGlobalActionContext } context
  */
 export async function run({ params, logger, api, connections }) {
-  logger.info({ params }, "PARAMS");
-
   const {
     shopId,
-    bundle: { id, product, variant },
+    bundle: { id: bundleId, product, variant },
     productChanges,
     variantChanges,
   } = params;
 
   const shopify = await connections.shopify.forShopId(shopId);
 
+  if (!shopify) throw new Error("Shopify connection not established");
+
   if (productChanges?.length) {
     const { id: productId, ...productData } = product;
 
+    // Update the product with the new data
     const productUpdateResponse = await shopify.graphql(
       `mutation ($input: ProductInput!){
         productUpdate(input: $input) {
@@ -38,6 +39,7 @@ export async function run({ params, logger, api, connections }) {
       }
     );
 
+    // Throw an error when the product update mutation returns userErrors
     if (productUpdateResponse?.productUpdate?.userErrors?.length)
       throw new Error(
         productUpdateResponse.productUpdate.userErrors[0].message
@@ -47,6 +49,7 @@ export async function run({ params, logger, api, connections }) {
   if (variantChanges?.length) {
     const { id: variantId, ...variantData } = variant;
 
+    // Update the product variant with the new data
     const productVariantUpdateResponse = await shopify.graphql(
       `mutation ($input: ProductVariantInput!) {
           productVariantUpdate(input: $input) {
@@ -67,10 +70,28 @@ export async function run({ params, logger, api, connections }) {
       }
     );
 
+    // Throw an error when the product variant update mutation returns userErrors
     if (productVariantUpdateResponse?.productVariantUpdate?.userErrors?.length)
       throw new Error(
         productVariantUpdateResponse.productVariantUpdate.userErrors[0].message
       );
+
+    // Call to update quantities object
+    await api.enqueue(
+      api.updateBundleComponentQuantity,
+      {
+        bundleVariantId: variantId,
+        bundleId,
+        shopId,
+      },
+      {
+        queue: {
+          name: `updateBundleComponentQuantity-${shopId}`,
+          maxConcurrency: 1,
+        },
+        retries: 1,
+      }
+    );
   }
 }
 
@@ -82,6 +103,9 @@ export const params = {
     type: "object",
     properties: {
       id: {
+        type: "string",
+      },
+      bundleVariantId: {
         type: "string",
       },
       product: {

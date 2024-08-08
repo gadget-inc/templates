@@ -13,6 +13,7 @@ import { api } from "../api";
 import { ShopProvider } from "../providers";
 import { CreateBundle } from "../pages";
 
+// This component redirects users to the home page if they hit a page that doesn't exist
 const Error404 = () => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -56,7 +57,7 @@ export default () => {
 };
 
 function AuthenticatedApp() {
-  // we use `isAuthenticated` to render pages once the OAuth flow is complete!
+  // We use `isAuthenticated` to render pages once the OAuth flow is complete!
   const { isAuthenticated, loading } = useGadget();
 
   if (loading) {
@@ -66,6 +67,7 @@ function AuthenticatedApp() {
   return isAuthenticated ? <EmbeddedApp /> : <UnauthenticatedApp />;
 }
 
+// The component that's displayed if the application is opened in the Shopify embedded UI
 function EmbeddedApp() {
   return (
     <ShopProvider>
@@ -85,6 +87,7 @@ function EmbeddedApp() {
   );
 }
 
+// The component that's rendered if the application is not opened in the Shopify embedded UI
 function UnauthenticatedApp() {
   return (
     <Page title="Unauthenticated">

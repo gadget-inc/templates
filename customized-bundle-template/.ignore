@@ -1,0 +1,3 @@
+# Shopify extension build folders
+extensions/**/dist
+extensions/**/generated

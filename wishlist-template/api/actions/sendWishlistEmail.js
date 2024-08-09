@@ -109,8 +109,6 @@ export async function run({ params, logger, api, connections, emails }) {
     }
   }
 
-  logger.info({ changes }, "CHANGES");
-
   // Send the email to the customer
   await emails.sendMail({
     to: email,

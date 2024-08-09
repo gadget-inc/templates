@@ -29,8 +29,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     createSpinner = document.getElementById("creation-spinner");
     createBtnText = document.getElementById("create-button-text");
 
-    console.log({ form, createSpinner, createBtnText });
-
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
 

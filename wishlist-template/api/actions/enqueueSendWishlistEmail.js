@@ -30,7 +30,6 @@ export const params = {
     items: {
       type: "object",
       properties: {
-        currency: { type: "string" },
         email: { type: "string" },
         firstName: { type: "string" },
         id: { type: "string" },
@@ -41,10 +40,8 @@ export const params = {
         shop: {
           type: "object",
           properties: {
-            customerEmail: { type: "string" },
             name: { type: "string" },
             defaultUpdateFrequency: { type: "string" },
-            currency: { type: "string" },
           },
         },
       },

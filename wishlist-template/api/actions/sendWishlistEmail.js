@@ -3,7 +3,6 @@ import React from "react";
 import { render } from "@react-email/render";
 import { Email } from "../utilities";
 import { DateTime } from "luxon";
-import { default as CC } from "currency-converter-lt2";
 
 /**
  * @param { SendWishlistEmailGlobalActionContext } context
@@ -17,13 +16,7 @@ export async function run({ params, logger, api, connections, emails }) {
       lastName,
       updateFrequencyOverride,
       sendUpdateAt,
-      currency,
-      shop: {
-        customerEmail,
-        name: shopName,
-        defaultUpdateFrequency,
-        currency: shopCurrency,
-      },
+      shop: { name: shopName, defaultUpdateFrequency },
     },
   } = params;
 
@@ -42,12 +35,17 @@ export async function run({ params, logger, api, connections, emails }) {
         title: true,
         compareAtPrice: true,
         deleted: true,
-        productImage: {
-          source: true,
-          alt: true,
-        },
+        price: true,
         product: {
           title: true,
+          images: {
+            edges: {
+              node: {
+                source: true,
+                alt: true,
+              },
+            },
+          },
         },
       },
     },
@@ -67,9 +65,6 @@ export async function run({ params, logger, api, connections, emails }) {
   };
   let count = 0;
 
-  // Instantiating the currency converter
-  const currencyConverter = new CC({ from: shopCurrency, to: currency });
-
   // Loop through all the wishlist items to build the current state
   for (const {
     variant: {
@@ -78,20 +73,20 @@ export async function run({ params, logger, api, connections, emails }) {
       deleted,
       compareAtPrice,
       price,
-      productImage: { source, alt },
-      product: { title: productTitle },
+      product: { title: productTitle, images },
     },
   } of allWishlistItems) {
     if (deleted) {
       count++;
+
       if (!changes.removed[variantId]) {
         changes.removed[variantId] = {
           id: variantId,
           title,
           productTitle,
           image: {
-            source,
-            alt,
+            source: images[0]?.node?.source,
+            alt: images[0]?.node?.alt,
           },
         };
       }
@@ -103,24 +98,21 @@ export async function run({ params, logger, api, connections, emails }) {
           id: variantId,
           title,
           productTitle,
-          price: parseFloat(price)
-            ? currencyConverter.convert(parseFloat(price))
-            : 0,
-          compareAtPrice: parseFloat(compareAtPrice)
-            ? currencyConverter.convert(parseFloat(compareAtPrice))
-            : 0,
+          price,
+          compareAtPrice,
           image: {
-            source,
-            alt,
+            source: images[0]?.node?.source,
+            alt: images[0]?.node?.alt,
           },
         };
       }
     }
   }
 
+  logger.info({ changes }, "CHANGES");
+
   // Send the email to the customer
   await emails.sendMail({
-    from: customerEmail,
     to: email,
     subject: `${shopName} wishlist update`,
     html: render(
@@ -128,8 +120,8 @@ export async function run({ params, logger, api, connections, emails }) {
         name={
           `${firstName || ""} ${lastName || ""}`.trim() || "cherished customer"
         }
-        onSale={changes.onSale?.values()?.splice(0, 3)}
-        removed={changes.removed?.values()?.splice(0, 3)}
+        onSale={Object.values(changes.onSale)?.splice(0, 3)}
+        removed={Object.values(changes.removed)?.splice(0, 3)}
         count={count}
       />
     ),
@@ -172,16 +164,14 @@ export const params = {
       email: { type: "string" },
       firstName: { type: "string" },
       lastName: { type: "string" },
-      currency: { type: "string" },
       updateFrequencyOverride: { type: "string" },
       sendUpdateAt: { type: "string" },
+      wishlistCount: { type: "number" },
       shop: {
         type: "object",
         properties: {
-          customerEmail: { type: "string" },
           name: { type: "string" },
           defaultUpdateFrequency: { type: "string" },
-          currency: { type: "string" },
         },
       },
     },

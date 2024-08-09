@@ -29,15 +29,12 @@ export async function run({ params, logger, api, connections }) {
       email: true,
       firstName: true,
       lastName: true,
-      currency: true,
       wishlistCount: true,
       sendUpdateAt: true,
       updateFrequencyOverride: true,
       shop: {
-        customerEmail: true,
         name: true,
         defaultUpdateFrequency: true,
-        currency: true,
       },
     },
   });
@@ -59,6 +56,9 @@ export async function run({ params, logger, api, connections }) {
   };
 
   if (!allCustomers.length) return;
+
+  // Remove __typename from the customers
+  allCustomers = allCustomers.map(({ __typename, ...rest }) => rest);
 
   // Start enqueuing email sending jobs
   await api.enqueue(

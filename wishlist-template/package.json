@@ -28,6 +28,7 @@
     "currency-converter-lt2": "^2.0.0-beta.0",
     "fastify": "^4.24.2",
     "gadget-server": "link:.gadget/server",
+    "luxon": "^3.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-email": "2.1.6",

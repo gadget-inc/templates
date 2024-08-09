@@ -3,7 +3,7 @@ import {
   ActionOptions,
   DeleteWishlistActionContext,
 } from "gadget-server";
-import { updateWishlistMetafield } from "../../../lib";
+import { updateWishlistMetafield } from "../../../utilities";
 
 /**
  * @param { DeleteWishlistActionContext } context

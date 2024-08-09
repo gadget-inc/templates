@@ -6,8 +6,7 @@ import { RemoveFromWishlistGlobalActionContext } from "gadget-server";
 export async function run({ params, logger, api, connections }) {
   const { variantId, customerId, shopId, wishlistId } = params;
 
-  logger.info({ params }, "Removing item from wishlist");
-
+  // Find the wishlist item that matches the given parameters
   const wishlistItem = await api.wishlistItem.maybeFindFirst({
     filter: {
       wishlist: {
@@ -28,6 +27,7 @@ export async function run({ params, logger, api, connections }) {
     },
   });
 
+  // If the wishlist item is not found, return an error
   if (!wishlistItem) {
     return {
       success: false,
@@ -35,6 +35,7 @@ export async function run({ params, logger, api, connections }) {
     };
   }
 
+  // Delete the wishlist item
   await api.wishlistItem.delete(wishlistItem.id);
 
   return {

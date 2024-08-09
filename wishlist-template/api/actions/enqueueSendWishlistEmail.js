@@ -6,12 +6,15 @@ import { EnqueueSendWishlistEmailGlobalActionContext } from "gadget-server";
 export async function run({ params, logger, api, connections }) {
   const { allCustomers, options } = params;
 
+  // Limit the number of actions to enqueue to 50
   const customers = allCustomers.splice(0, 50);
 
+  // Enqueue the sendWishlistEmail action for each customer
   for (const customer of customers) {
     await api.enqueue(api.sendWishlistEmail, { customer }, options);
   }
 
+  // Enqueue another of the same action if there are more customers to process
   if (allCustomers.length) {
     await api.enqueue(
       api.enqueueSendWishlistEmail,
@@ -27,13 +30,14 @@ export const params = {
     items: {
       type: "object",
       properties: {
-        id: { type: "string" },
+        currency: { type: "string" },
         email: { type: "string" },
         firstName: { type: "string" },
+        id: { type: "string" },
         lastName: { type: "string" },
-        currency: { type: "string" },
-        updateFrequencyOverride: { type: "string" },
         sendUpdateAt: { type: "string" },
+        updateFrequencyOverride: { type: "string" },
+        wishlistCount: { type: "number" },
         shop: {
           type: "object",
           properties: {

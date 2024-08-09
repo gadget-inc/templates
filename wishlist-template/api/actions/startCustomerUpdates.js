@@ -48,6 +48,8 @@ export async function run({ params, logger, api, connections }) {
     allCustomers = allCustomers.concat(customers);
   }
 
+  logger.info({ allCustomers }, "HERE");
+
   const options = {
     queue: {
       name: `send-wishlist-emails-${uuid()}`,
@@ -55,6 +57,8 @@ export async function run({ params, logger, api, connections }) {
     },
     retries: 1,
   };
+
+  if (!allCustomers.length) return;
 
   await api.enqueue(
     api.enqueueSendWishlistEmail,
@@ -66,8 +70,8 @@ export async function run({ params, logger, api, connections }) {
   );
 }
 
-// export const options = {
-//   triggers: {
-//     scheduler: [{ cron: "*/5 * * * *" }],
-//   },
-// };
+export const options = {
+  triggers: {
+    scheduler: [{ cron: "*/5 * * * *" }],
+  },
+};

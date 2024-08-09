@@ -4,7 +4,7 @@ import {
   ActionOptions,
   CreateWishlistItemActionContext,
 } from "gadget-server";
-import { updateWishlistMetafield } from "../../../lib";
+import { updateWishlistMetafield } from "../../../utilities";
 
 /**
  * @param { CreateWishlistItemActionContext } context

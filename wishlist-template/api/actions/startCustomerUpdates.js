@@ -5,6 +5,7 @@ import { uuid } from "uuidv4";
  * @param { StartCustomerUpdatesGlobalActionContext } context
  */
 export async function run({ params, logger, api, connections }) {
+  // Get all customers that have opted in to email marketing and have not unsubscribed in the app (unsub code not written)
   let customers = await api.shopifyCustomer.findMany({
     first: 250,
     filter: {
@@ -43,12 +44,11 @@ export async function run({ params, logger, api, connections }) {
 
   let allCustomers = customers;
 
+  // Paginate if there are more than 250 customers
   while (customers.hasNextPage) {
     customers = await customers.nextPage();
     allCustomers = allCustomers.concat(customers);
   }
-
-  logger.info({ allCustomers }, "HERE");
 
   const options = {
     queue: {
@@ -60,6 +60,7 @@ export async function run({ params, logger, api, connections }) {
 
   if (!allCustomers.length) return;
 
+  // Start enqueuing email sending jobs
   await api.enqueue(
     api.enqueueSendWishlistEmail,
     {

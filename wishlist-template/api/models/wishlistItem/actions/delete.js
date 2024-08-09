@@ -16,6 +16,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { DeleteWishlistItemActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
+  // Update the wishlist metafield after deleting a wishlist item
   await updateWishlistMetafield({
     shopId: record.shopId,
     customerId: record.customerId,

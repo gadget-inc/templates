@@ -10,7 +10,8 @@ export const ShopContext = createContext({});
  *
  * React component that fetches shop and subscription data
  * Key features:
- *  - Allows children to access the context from this provider
+ * - Allows children to access the context from this provider
+ * - Gives context to which shop and customer the extension is running for
  *
  * @returns { import("react").ReactElement } A React functional component
  */

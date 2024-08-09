@@ -18,6 +18,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { UpdateWishlistItemActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
+  // Update the wishlist metafield after updating a wishlist
   await updateWishlistMetafield({
     shopId: record.shopId,
     customerId: record.customerId,

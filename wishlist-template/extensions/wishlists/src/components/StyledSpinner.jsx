@@ -4,6 +4,7 @@ import {
 } from "@shopify/ui-extensions-react/customer-account";
 
 export default () => {
+  // A spinner component to display while loading, styled to be closer to the Shopify UI
   return (
     <BlockStack
       blockAlignment="center"

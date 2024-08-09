@@ -16,6 +16,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { DeleteWishlistActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
+  // Delete all wishlist items associated with the wishlist
   await api.internal.wishlistItem.deleteMany({
     filter: {
       wishlist: {
@@ -24,6 +25,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     },
   });
 
+  // Update the wishlist metafield
   await updateWishlistMetafield({
     shopId: record.shopId,
     customerId: record.customerId,

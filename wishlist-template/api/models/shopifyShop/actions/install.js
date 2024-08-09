@@ -13,6 +13,7 @@ export async function run({ params, record, logger, api, connections }) {
 
   const shopify = connections.shopify.current;
 
+  // Create a metafield definition for wishlists to be used in the storefront
   const res = await shopify.graphql(
     `mutation ($definition: MetafieldDefinitionInput!) {
       metafieldDefinitionCreate(definition: $definition) {
@@ -39,15 +40,17 @@ export async function run({ params, record, logger, api, connections }) {
   if (res?.metafieldDefinitionCreate?.userErrors?.length)
     throw new Error(res.metafieldDefinitionCreate.userErrors[0].message);
 
-  (record.wishlistMetafieldDefinitionId =
-    res.metafieldDefinitionCreate.createdDefinition.id),
-    await save(record);
+  record.wishlistMetafieldDefinitionId =
+    res.metafieldDefinitionCreate.createdDefinition.id;
+
+  await save(record);
 }
 
 /**
  * @param { InstallShopifyShopActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
+  // Sync the shop data when the app is installed
   await api.shopifySync.run({
     shop: {
       _link: record.id,

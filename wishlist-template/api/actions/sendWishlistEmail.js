@@ -27,6 +27,7 @@ export async function run({ params, logger, api, connections, emails }) {
     },
   } = params;
 
+  // Find all wishlist items for the customer
   let wishlistItems = await api.wishlistItem.findMany({
     first: 250,
     filter: {
@@ -54,6 +55,7 @@ export async function run({ params, logger, api, connections, emails }) {
 
   let allWishlistItems = wishlistItems;
 
+  // Paginate if there are more than 250 wishlist items
   while (wishlistItems.hasNextPage) {
     wishlistItems = await wishlistItems.nextPage();
     allWishlistItems = allWishlistItems.concat(wishlistItems);
@@ -65,8 +67,10 @@ export async function run({ params, logger, api, connections, emails }) {
   };
   let count = 0;
 
+  // Instantiating the currency converter
   const currencyConverter = new CC({ from: shopCurrency, to: currency });
 
+  // Loop through all the wishlist items to build the current state
   for (const {
     variant: {
       id: variantId,
@@ -114,6 +118,7 @@ export async function run({ params, logger, api, connections, emails }) {
     }
   }
 
+  // Send the email to the customer
   await emails.sendMail({
     from: customerEmail,
     to: email,
@@ -130,6 +135,7 @@ export async function run({ params, logger, api, connections, emails }) {
     ),
   });
 
+  // Update the customer's sendUpdateAt date
   const frequency = updateFrequencyOverride || defaultUpdateFrequency;
   let nextDate;
 

@@ -17,6 +17,7 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { DeleteShopifyCustomerActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
+  // Delete the customer's wishlist data when the customer is deleted
   await Promise.all([
     api.internal.wishlist.deleteMany({
       filter: {

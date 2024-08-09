@@ -27,6 +27,7 @@ function App() {
 function FullPageExtension() {
   const { ready } = useGadget();
 
+  // Fetching wishlists for the current shop (add pagination like in WishlistModal.jsx if needed)
   const [
     {
       data: wishlists,

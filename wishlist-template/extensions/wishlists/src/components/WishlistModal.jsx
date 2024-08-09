@@ -17,14 +17,18 @@ import StyledSpinner from "./StyledSpinner.jsx";
 const NUM_ON_PAGE = 5;
 
 export default ({ id, name }) => {
+  // A cursor for the pagination of the wishlist items
   const [cursor, setCursor] = useState({ first: NUM_ON_PAGE });
   const { ui } = useApi();
 
+  // Formatting for the customer's currency
   const { formatCurrency } = useI18n();
 
+  // Hook for deleting a wishlist
   const [{ data: deletionData, fetching: fetchingDeletion }, deleteWishlist] =
     useAction(api.wishlist.delete);
 
+  // Fetching wishlist items for the current wishlist
   const [
     {
       data: wishlistItems,
@@ -65,25 +69,30 @@ export default ({ id, name }) => {
     live: true,
   });
 
+  // Callback for deleting a wishlist
   const handleDelete = useCallback(async () => {
     await deleteWishlist({ id });
     ui.overlay.close(`${id}-wishlist-modal`);
   }, [id]);
 
+  // Callback for getting the previous page of wishlist items
   const getPreviousPage = useCallback(() => {
     setCursor({ last: NUM_ON_PAGE, before: wishlistItems.startCursor });
   }, [wishlistItems]);
 
+  // Callback for getting the next page of wishlist items
   const getNextPage = useCallback(() => {
     setCursor({ first: NUM_ON_PAGE, after: wishlistItems.endCursor });
   }, [wishlistItems]);
 
+  // useEffect for showing an error if there's an error fetching wishlist items
   useEffect(() => {
     if (!fetchingWishlistItems && errorFetchingWishlistItems) {
       console.error(errorFetchingWishlistItems);
     }
   }, [fetchingWishlistItems, errorFetchingWishlistItems]);
 
+  // If fetching wishlist items, show a spinner
   if (fetchingWishlistItems) {
     return (
       <Modal title={name} padding>

@@ -33,10 +33,12 @@ export default ({
   const { shop } = useContext(ShopContext);
   const { navigate } = useNavigation();
 
+  // Hook for deleting a wishlist item
   const [{ fetching: fetchingDeletion }, deleteWishlistItem] = useAction(
     api.wishlistItem.delete
   );
 
+  // Callback for handling deletion of a wishlist item
   const handleDelete = useCallback(async () => {
     await deleteWishlistItem({ id });
   }, [id]);

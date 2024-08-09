@@ -1,6 +1,7 @@
 import { api, connections, logger } from "gadget-server";
 
 export default async ({ shopId, customerId }) => {
+  // INstantiate the Shopify API and fetch the first page of wishlists
   let [shopify, wishlists] = await Promise.all([
     connections.shopify.forShopId(shopId),
     api.wishlist.findMany({
@@ -22,6 +23,7 @@ export default async ({ shopId, customerId }) => {
 
   let allWishlists = wishlists;
 
+  // Paginate to get all the wishlists
   while (wishlists.hasNextPage) {
     wishlists = await wishlists.nextPage();
     allWishlists = allWishlists.concat(wishlists);
@@ -29,6 +31,7 @@ export default async ({ shopId, customerId }) => {
 
   const wishlistObj = {};
 
+  // Create an object to map wishlist items to wishlists
   for (const { id, name } of allWishlists) {
     wishlistObj[id] = {
       id,
@@ -37,6 +40,7 @@ export default async ({ shopId, customerId }) => {
     };
   }
 
+  // Fetch the first page of wishlist items
   let wishlistItems = await api.wishlistItem.findMany({
     first: 250,
     filter: {
@@ -55,15 +59,18 @@ export default async ({ shopId, customerId }) => {
 
   let allWishlistItems = wishlistItems;
 
+  // Paginate to get all the wishlist items
   while (wishlistItems.hasNextPage) {
     wishlistItems = await wishlistItems.nextPage();
     allWishlistItems = allWishlistItems.concat(wishlistItems);
   }
 
+  // Add the variant to the wishlist object
   for (const { variantId, wishlistId } of allWishlistItems) {
     wishlistObj[wishlistId].variants[variantId] = true;
   }
 
+  // Update the metafield with the new wishlist object
   const metafieldsSetResponse = await shopify.graphql(
     `mutation ($metafields: [MetafieldsSetInput!]!) {
       metafieldsSet(metafields: $metafields) {

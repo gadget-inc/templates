@@ -14,6 +14,7 @@ export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
+  // Fetch the shop to get the default update frequency
   const shop = await api.shopifyShop.maybeFindOne(record.shopId, {
     select: {
       defaultUpdateFrequency: true,
@@ -22,6 +23,7 @@ export async function run({ params, record, logger, api, connections }) {
 
   let date;
 
+  // Set the date for the next update based on the default update frequency
   switch (shop.defaultUpdateFrequency) {
     case "weekly":
       date = DateTime.fromJSDate(new Date()).plus({ weeks: 1 }).toJSDate();

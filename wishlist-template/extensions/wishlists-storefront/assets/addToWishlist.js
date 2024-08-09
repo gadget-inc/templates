@@ -1,8 +1,10 @@
 const state = {};
 
 document.addEventListener("DOMContentLoaded", async () => {
+  // Instantiate your Gadget API
   const api = new Gadget();
 
+  // idInputs holds the variant id
   const idInputs = document.getElementsByName("id");
   const modal = document.getElementById("new-wishlist-modal");
   const btn = document.getElementById("openModalBtn");
@@ -11,15 +13,18 @@ document.addEventListener("DOMContentLoaded", async () => {
   let createSpinner;
   let createBtnText;
 
+  // Setting an event listener in case the selected variant changes
   idInputs[0].addEventListener("change", (event) => {
     const { value } = event?.target;
 
     if (value) applyCheckmarks(value);
   });
 
+  // Event listener for the modal open button
   btn.onclick = () => {
     modal.style.display = "block";
 
+    // Getting the tags from the modal
     form = document.getElementById("new-wishlist-form");
     createSpinner = document.getElementById("creation-spinner");
     createBtnText = document.getElementById("create-button-text");
@@ -62,10 +67,15 @@ document.addEventListener("DOMContentLoaded", async () => {
         createSpinner.style.display = "none";
         createBtnText.style.display = "block";
         modal.style.display = "none";
+      } else {
+        createSpinner.style.display = "none";
+        createBtnText.style.display = "block";
+        // Add error displaying logic here
       }
     });
   };
 
+  // Event listener for the modal close button
   closeIcon.onclick = () => {
     if (form) form.removeEventListener("submit", () => {});
     createSpinner.style.display = "none";
@@ -73,6 +83,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     modal.style.display = "none";
   };
 
+  // Event listener for clicking outside the modal
   window.onclick = (event) => {
     if (event.target === modal) {
       if (form) form.removeEventListener("submit", () => {});
@@ -82,24 +93,30 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   };
 
+  // Applying checkmarks to the wishlist cards on initial load
   applyCheckmarks(window.currentVariant);
 
+  // Loop through each wishlist in the array and add an event listener for it
   for (const { id } of window.wishlistArr) {
     const wishlistCard = document.getElementById(`wishlist-${id}`);
 
+    // On click, add or remove the item from the wishlist
     wishlistCard.addEventListener("click", async (e) => {
       const wishlistId = e.target.id.replace("wishlist-", "");
 
+      // Get the current state of the wishlist item
       const current = state[wishlistId];
 
       const checkmarkIcon = document.getElementById(`check-icon-${id}`);
       const plusIcon = document.getElementById(`plus-icon-${id}`);
       const spinner = document.getElementById(`loading-spinner-${id}`);
 
+      // Change the icons to the spinner
       spinner.style.display = "block";
       checkmarkIcon.style.display = "none";
       plusIcon.style.display = "none";
 
+      // If the item is already in the wishlist, remove it
       if (current) {
         const deleteResponse = await api.removeFromWishlist({
           wishlistId,
@@ -112,6 +129,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         if (deleteResponse.success) state[id] = false;
       } else {
+        // If the item is not in the wishlist, add it
         const addResponse = await api.wishlistItem.create({
           wishlist: {
             _link: id,
@@ -132,11 +150,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (addResponse) state[id] = true;
       }
 
+      // Hide the spinner
       spinner.style.display = "none";
     });
   }
 });
 
+// Function to apply checkmarks to the wishlist cards
 function applyCheckmarks(value) {
   if (window.currentVariant !== value) window.currentVariant = value;
 

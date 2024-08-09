@@ -31,6 +31,7 @@ export default ({ wishlists }) => {
     onError: (error) => console.error(error),
   });
 
+  // Callback for handling form submission, closes the modal after submission
   const handleSubmit = useCallback(async () => {
     await submit();
     ui.overlay.close("new-wishlist");

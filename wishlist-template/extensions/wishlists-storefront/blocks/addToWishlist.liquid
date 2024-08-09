@@ -1,9 +1,11 @@
-<script src="https://wishlist-template--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
+{% comment %} Make sure to change this to your environment's CDN URL {% endcomment %}
+<script src="https://<YOUR-APP>--<YOUR-ENV>.gadget.app/api/client/web.min.js" defer="defer"></script>
 <script src="{{ 'addToWishlist.js' | asset_url }}" defer="defer"></script>
 {{ 'addToWishlist.css' | asset_url | stylesheet_tag }}
 
 {% assign wishlists = customer.metafields.wishlist_app.wishlists.value %}
 
+{% comment %} Initializing values to be used in the addToWishlist.js file {% endcomment %}
  <script>
     document.addEventListener("DOMContentLoaded", function () {
       window.wishlistArr = {{ wishlists | json }};
@@ -13,10 +15,8 @@
     });
  </script>
 
-
 {% comment %} https://shopify.dev/docs/api/liquid/objects/customer {% endcomment %}
 {% if customer %}
-  {% comment %} Add border radius, thickness, color, etc {% endcomment %}
   <div>
     <div class="wishlist-container-heading">
       <h3>Wishlists</h3>
@@ -39,7 +39,6 @@
   </div>
 {% endif %}
 
-
 <div id="new-wishlist-modal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
@@ -57,9 +56,6 @@
     </form>
   </div>
 </div>
-
-
-
 
 {% schema %}
 {

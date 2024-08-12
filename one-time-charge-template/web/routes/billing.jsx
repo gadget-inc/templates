@@ -13,24 +13,6 @@ import { api } from "../api";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 
-/**
- * To view this page, run the following GraphQL mutation in your app's API Playground:
- * 
-    mutation {
-      internal {
-        updateShopifyShop(
-          id: "shopId",
-          shopifyShop: {
-            oneTimeChargeId: null,
-            usedTrialMinutes: 10080
-          }
-        ) {
-        success
-        }
-      }
-    }
- * 
- */
 export default () => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");

@@ -8,6 +8,8 @@ A list of steps that you should follow:
 
 3. Add an empty `shopify.app.toml` file to the root of your application. This will be used to run the Shopify CLI.
 
-4. Run `yarn dev` to run the Shopify CLI and connect to the Shopify app created in step 1.
+4. Modify the CDN URL on `line 2` of `extensions/wishlists-storefront/blocks/addToWishlist.liquid` to point to the correct application and environment.
 
-5. Install the application on a development store and create a customer account on the online store. Once this is done, you can step through the application and test the functionality.
+5. Run `yarn dev` to run the Shopify CLI and connect to the Shopify app created in step 1.
+
+6. Install the application on a development store and create a customer account on the online store. Once this is done, you can step through the application and test the functionality.

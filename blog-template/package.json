@@ -13,7 +13,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@gadget-client/blog-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.15.3",
+    "@gadgetinc/react": "^0.16.1",
     "@mdxeditor/editor": "^1.13.5",
     "chakra-ui-markdown-renderer": "^4.1.0",
     "framer-motion": "^10.16.16",
@@ -25,7 +25,7 @@
     "fastify": "^4.24.2"
   },
   "devDependencies": {
-    "@types/node": "^20.8.4",
+    "@types/node": "^20.12.8",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "3.2.0",

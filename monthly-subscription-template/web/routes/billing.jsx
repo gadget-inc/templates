@@ -1,10 +1,8 @@
-import { useAction, useGlobalAction } from "@gadgetinc/react";
+import { useGlobalAction } from "@gadgetinc/react";
 import { Banner, BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
 import { api } from "../api";
 import { PlanCard, StyledSpinner } from "../components";
-import { useCallback, useContext, useEffect, useState } from "react";
-import { trialCalculations } from "../utilities";
-import { ShopContext } from "../providers";
+import { useCallback, useEffect, useState } from "react";
 
 /**
  * This is the billing page that will be displayed when a user hasn't selected a plan or they want to change plans.
@@ -70,6 +68,7 @@ export default () => {
                   name={plan.name}
                   description={plan.description}
                   monthlyPrice={plan.monthlyPrice}
+                  trialDays={plan.trialDays}
                 />
               </Layout.Section>
             ))

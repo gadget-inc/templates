@@ -1,23 +1,57 @@
-import { BlockStack, Layout, Page, Text, Card } from "@shopify/polaris";
+import { BlockStack, Layout, Page, Text, Card, Button } from "@shopify/polaris";
+import { useQuery } from "@gadgetinc/react";
+import { StyledSpinner } from "../components";
+import { useEffect } from "react";
 
 /**
  * This is where your main app logic should go
- * 
- * To end the trial period, make use of your app's API Playgound. Use the following GraphQL mutation:
- * 
-  mutation {
-    internal {
-      updateShopifyShop(id: "SHOPID", shopifyShop: { usedTrialMinutes: 10800}) {
-        success
-        shopifyShop
-      } 
-    }
-  }
  *
- * The above mutation should be modified to reflect the number of trial minutes for your specific plan
- * 
+ * To end the trial period, make use of your app's API Playgound. The button in the UI will bring you to the playground with data prefilled.
+ *
  */
 export default () => {
+  const [
+    {
+      data: gadgetMetadata,
+      fetching: fetchingGadgetMetadata,
+      error: errorFetchingGadgetMetadata,
+    },
+  ] = useQuery({
+    query: `
+      query { 
+        gadgetMeta {
+          productionRenderURL
+          environmentName
+        }
+      }
+    `,
+  });
+
+  useEffect(() => {
+    if (!fetchingGadgetMetadata && errorFetchingGadgetMetadata) {
+      console.error(errorFetchingGadgetMetadata);
+    }
+  }, [fetchingGadgetMetadata, errorFetchingGadgetMetadata]);
+
+  useEffect(() => {
+    if (gadgetMetadata) {
+      console.log(
+        `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("1", {
+  // Make sure to change this 1440 * number of days on the trial
+  usedTrialMinutes: 10080
+})`)}&enviroment=${gadgetMetadata.gadgetMeta.environmentName.toLowerCase()}`
+      );
+    }
+  }, [gadgetMetadata]);
+
+  if (fetchingGadgetMetadata) {
+    return (
+      <Page>
+        <StyledSpinner />
+      </Page>
+    );
+  }
+
   return (
     <Page title="Next steps">
       <Layout>
@@ -50,26 +84,20 @@ export default () => {
                   minutes). Make sure to adjust the number if you have more
                   trial days.
                 </Text>
-                <Text as="p" variant="bodyMd">
-                  Run the following mutation in your Gadget application's API
-                  Playground:
-                </Text>
-                <Card background="bg-surface-secondary">
-                  <code
-                    style={{
-                      whiteSpace: "break-spaces",
-                    }}
-                  >
-                    {`mutation {
-  internal {
-    updateShopifyShop(id: "SHOPID", shopifyShop: { usedTrialMinutes: 10800}) {
-      success
-      shopifyShop
-    } 
-  }
-}`}
-                  </code>
-                </Card>
+                <Button
+                  variant="primary"
+                  onClick={() =>
+                    open(
+                      `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("1", {
+  // Make sure to change this 1440 * number of days on the trial
+  usedTrialMinutes: 10080
+})`)}&enviroment=${gadgetMetadata.gadgetMeta.environmentName.toLowerCase()}`,
+                      "_blank"
+                    )
+                  }
+                >
+                  Open API Playground
+                </Button>
               </BlockStack>
             </Card>
           </BlockStack>

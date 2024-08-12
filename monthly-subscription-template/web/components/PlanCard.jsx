@@ -10,13 +10,14 @@ import { AutoButton } from "@gadgetinc/react/auto/polaris";
 import { api } from "../api";
 import { useContext, useState } from "react";
 import { ShopContext } from "../providers";
+import { trialCalculations } from "../utilities";
 
 /**
  * @param { { id: string, name: string, description: string, monthlyPrice: number } } props The props passed to the React functional component
  *
  * @returns { import("react").ReactElement } A React functional component
  */
-export default ({ id, name, description, monthlyPrice }) => {
+export default ({ id, name, description, monthlyPrice, trialDays }) => {
   const { shop } = useContext(ShopContext);
   const [disabled, setDisabled] = useState(false);
 
@@ -47,7 +48,7 @@ export default ({ id, name, description, monthlyPrice }) => {
                 shop?.usedTrialMinutes,
                 shop?.usedTrialMinutesUpdatedAt,
                 new Date(),
-                plan?.trialDays
+                trialDays
               ).availableTrialDays
             }{" "}
             trial days

@@ -17,8 +17,8 @@ import {
   Link,
 } from "react-router-dom";
 import Index from "../routes/index";
-import AboutPage from "../routes/about";
 import { api } from "../api";
+import { ShopProvider } from "../providers";
 
 function Error404() {
   const navigate = useNavigate();
@@ -40,7 +40,6 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Index />} />
-        <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<Error404 />} />
       </Route>
     )
@@ -88,7 +87,7 @@ function AuthenticatedApp() {
 
 function EmbeddedApp() {
   return (
-    <>
+    <ShopProvider>
       <Outlet />
       <NavMenu>
         <Link to="/" rel="home">
@@ -96,7 +95,7 @@ function EmbeddedApp() {
         </Link>
         <Link to="/about">About</Link>
       </NavMenu>
-    </>
+    </ShopProvider>
   );
 }
 

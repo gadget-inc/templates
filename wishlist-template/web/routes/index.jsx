@@ -8,6 +8,7 @@ import {
   FormLayout,
   ButtonGroup,
   InlineStack,
+  Text,
 } from "@shopify/polaris";
 import { api } from "../api";
 import { useContext } from "react";
@@ -31,6 +32,10 @@ export default function () {
     <Page title="Wishlist template">
       <Layout>
         <Layout.Section>
+          <Text>
+            The following is an example of updating the default update
+            frequency. This is a field on the `shopifyShop` model.
+          </Text>
           <Form>
             <FormLayout>
               <Controller
@@ -41,9 +46,9 @@ export default function () {
                     label="Customer wishlist email frequency"
                     placeholder={
                       defaultValues?.defaultUpdateFrequency
-                        .charAt(0)
-                        .toUpperCase() +
-                      defaultValues?.defaultUpdateFrequency.slice(1)
+                        ?.charAt(0)
+                        ?.toUpperCase() +
+                      defaultValues?.defaultUpdateFrequency?.slice(1)
                     }
                     options={[
                       { label: "Weekly", value: "weekly" },

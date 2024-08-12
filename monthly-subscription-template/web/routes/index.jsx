@@ -33,17 +33,6 @@ export default () => {
     }
   }, [fetchingGadgetMetadata, errorFetchingGadgetMetadata]);
 
-  useEffect(() => {
-    if (gadgetMetadata) {
-      console.log(
-        `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("1", {
-  // Make sure to change this 1440 * number of days on the trial
-  usedTrialMinutes: 10080
-})`)}&enviroment=${gadgetMetadata.gadgetMeta.environmentName.toLowerCase()}`
-      );
-    }
-  }, [gadgetMetadata]);
-
   if (fetchingGadgetMetadata) {
     return (
       <Page>

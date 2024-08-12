@@ -14,41 +14,11 @@ import { ShopContext } from "../providers";
 export default () => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
-  const { shop } = useContext(ShopContext);
 
   const [
     { data: plans, fetching: fetchingPlans, error: errorFetchingPlans },
     getPlansAtShopCurrency,
   ] = useGlobalAction(api.getPlansAtShopCurrency);
-
-  const [
-    {
-      data: subscription,
-      fetching: fetchingSubscription,
-      error: errorSubscribing,
-    },
-    subscribe,
-  ] = useAction(api.shopifyShop.subscribe, {
-    select: {
-      confirmationUrl: true,
-    },
-  });
-
-  /**
-   * @type { (planId: string) => void }
-   *
-   * Callback used to subscribe to a plan and redirect to the Shopify subscription confirmation page
-   */
-  const handleSubscribe = useCallback(
-    async (planId) => {
-      const res = await subscribe({ id: shop.id, planId });
-
-      if (res?.data?.confirmationUrl) {
-        open(res.data.confirmationUrl, "_top");
-      }
-    },
-    [shop, subscribe]
-  );
 
   /**
    * @type { () => void }
@@ -77,16 +47,6 @@ export default () => {
     }
   }, [fetchingPlans, errorFetchingPlans]);
 
-  // useEffect for showing an error banner when there's an issue subscribing
-  useEffect(() => {
-    if (!fetchingSubscription && errorSubscribing) {
-      setBannerContext(errorSubscribing.message);
-      setShow(true);
-    } else if (fetchingSubscription) {
-      setShow(false);
-    }
-  }, [fetchingSubscription, errorSubscribing]);
-
   if (fetchingPlans) {
     return <StyledSpinner />;
   }
@@ -110,21 +70,6 @@ export default () => {
                   name={plan.name}
                   description={plan.description}
                   monthlyPrice={plan.monthlyPrice}
-                  trialDays={
-                    trialCalculations(
-                      shop?.usedTrialMinutes,
-                      shop?.usedTrialMinutesUpdatedAt,
-                      new Date(),
-                      plan?.trialDays
-                    ).availableTrialDays
-                  }
-                  currency={shop.currency}
-                  handleSubscribe={handleSubscribe}
-                  buttonDisabled={
-                    fetchingSubscription ||
-                    subscription ||
-                    shop?.plan?.id === plan.id
-                  }
                 />
               </Layout.Section>
             ))

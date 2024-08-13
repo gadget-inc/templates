@@ -4,5 +4,4 @@
  * @exports (ShopContext) The shop context (React context)
  */
 
-export { default as ShopProvider } from "./ShopProvider";
-export { ShopContext } from "./ShopProvider";
+export { default as ShopProvider, ShopContext } from "./ShopProvider";

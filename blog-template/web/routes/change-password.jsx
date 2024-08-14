@@ -11,7 +11,7 @@ import {
   Flex,
 } from "@chakra-ui/react";
 
-export default function () {
+export default () => {
   const user = useUser(api);
   const {
     submit,
@@ -69,4 +69,4 @@ export default function () {
       )}
     </Center>
   );
-}
+};

@@ -15,14 +15,16 @@
     "@gadget-client/blog-template": "link:.gadget/client",
     "@gadgetinc/react": "^0.16.1",
     "@mdxeditor/editor": "^1.13.5",
+    "@shopify/polaris": "^13.9.0",
+    "@shopify/polaris-icons": "^9.3.0",
     "chakra-ui-markdown-renderer": "^4.1.0",
+    "fastify": "^4.24.2",
     "framer-motion": "^10.16.16",
     "gadget-server": "link:.gadget/server",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",
-    "react-router-dom": "6.15.0",
-    "fastify": "^4.24.2"
+    "react-router-dom": "6.15.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",

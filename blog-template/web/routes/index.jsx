@@ -16,7 +16,7 @@ import { api } from "../api";
 import ChakraUIRenderer from "chakra-ui-markdown-renderer";
 import ReactMarkdown from "react-markdown";
 
-export default function () {
+export default () => {
   const [displayPosts, setDisplayPosts] = useState([]);
 
   // the useFindMany hook is used to read blog posts from the backend API
@@ -83,7 +83,18 @@ export default function () {
           </Box>
         ))}
         {!fetching && !displayPosts.length && (
-          <Text fontSize="2xl" mb="4" mt="100" style={{ width: "100%", textAlign: "center", display: "flex", flexDirection: "column", gap: 8 }}>
+          <Text
+            fontSize="2xl"
+            mb="4"
+            mt="100"
+            style={{
+              width: "100%",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              gap: 8,
+            }}
+          >
             No blog posts yet!
             <Link to="/sign-up">
               <Button>Sign up to create a post</Button>
@@ -93,4 +104,4 @@ export default function () {
       </Box>
     </Container>
   );
-}
+};

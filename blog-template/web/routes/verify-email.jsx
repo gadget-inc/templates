@@ -4,7 +4,7 @@ import { useLocation, Link } from "react-router-dom";
 import { useAction, useAuth } from "@gadgetinc/react";
 import { Button, Center, Text } from "@chakra-ui/react";
 
-export default function () {
+export default () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const code = params.get("code");
@@ -39,4 +39,4 @@ export default function () {
       </Text>
     </Center>
   ) : null;
-}
+};

@@ -12,7 +12,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 
-export default function () {
+export default () => {
   const {
     register,
     submit,
@@ -66,4 +66,4 @@ export default function () {
       </form>
     </Center>
   );
-}
+};

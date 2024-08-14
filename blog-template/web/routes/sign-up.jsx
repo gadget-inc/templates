@@ -12,7 +12,7 @@ import {
   Center,
 } from "@chakra-ui/react";
 
-export default function () {
+export default () => {
   const {
     register,
     submit,
@@ -43,10 +43,7 @@ export default function () {
               <img src={GoogleIcon} width={22} height={22} />
               Continue with Google
             </Button>
-            <Input
-              placeholder="Email"
-              {...register("email")}
-            />
+            <Input placeholder="Email" {...register("email")} />
             {errors?.user?.email?.message && (
               <Text color="red">Email: {errors.user.email.message}</Text>
             )}
@@ -72,4 +69,4 @@ export default function () {
       </form>
     </Center>
   );
-}
+};

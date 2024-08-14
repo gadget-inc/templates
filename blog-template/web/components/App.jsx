@@ -17,18 +17,20 @@ import {
   useNavigate,
   Link,
 } from "react-router-dom";
-import { api } from "./api";
-import Index from "./routes/index";
-import SignedInPage from "./routes/signed-in";
-import SignInPage from "./routes/sign-in";
-import SignUpPage from "./routes/sign-up";
-import ResetPasswordPage from "./routes/reset-password";
-import VerifyEmailPage from "./routes/verify-email";
-import ChangePassword from "./routes/change-password";
-import ForgotPassword from "./routes/forgot-password";
+import { api } from "../api";
+import {
+  Index,
+  SignedInPage,
+  SignInPage,
+  SignUpPage,
+  ResetPasswordPage,
+  VerifyEmailPage,
+  ChangePassword,
+  ForgotPassword,
+} from "../routes";
 import { Avatar, Button, Box, Flex } from "@chakra-ui/react";
 
-const App = () => {
+export default () => {
   useEffect(() => {
     document.title = `Home - ${process.env.GADGET_PUBLIC_APP_SLUG} - Gadget`;
   }, []);
@@ -170,5 +172,3 @@ const Header = () => {
     </Box>
   );
 };
-
-export default App;

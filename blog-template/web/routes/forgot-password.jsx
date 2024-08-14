@@ -1,8 +1,16 @@
 import { useActionForm } from "@gadgetinc/react";
 import { api } from "../api";
-import { Button, Center, Input, Text, Heading, Flex, FormControl } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Input,
+  Text,
+  Heading,
+  Flex,
+  FormControl,
+} from "@chakra-ui/react";
 
-export default function () {
+export default () => {
   const {
     submit,
     register,
@@ -26,17 +34,14 @@ export default function () {
               <Heading as="h1" size="md">
                 Reset password
               </Heading>
-              <Input
-                placeholder="Email"
-                {...register("email")}
-              />
+              <Input placeholder="Email" {...register("email")} />
               <Button disabled={isSubmitting} w="100%" type="submit">
                 Send reset link
               </Button>
             </Flex>
           </FormControl>
-        </form>)
-      }
+        </form>
+      )}
     </Center>
   );
-}
+};

@@ -11,7 +11,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 
-export default function () {
+export default () => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const {
@@ -75,4 +75,4 @@ export default function () {
       )}
     </Center>
   );
-}
+};

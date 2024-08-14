@@ -15,6 +15,7 @@ import {
 import { api } from "../api";
 import ChakraUIRenderer from "chakra-ui-markdown-renderer";
 import ReactMarkdown from "react-markdown";
+import { AutoTable } from "@gadgetinc/react/auto/polaris";
 
 export default () => {
   const [displayPosts, setDisplayPosts] = useState([]);
@@ -73,7 +74,7 @@ export default () => {
             <Collapse in={post.show}>
               <ReactMarkdown
                 components={ChakraUIRenderer()}
-                children={post.content.markdown}
+                children={post?.content?.markdown}
                 skipHtml
               />
             </Collapse>

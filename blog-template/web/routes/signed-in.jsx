@@ -30,11 +30,12 @@ import {
   Card,
   BlockStack,
   Tooltip,
+  FormLayout,
 } from "@shopify/polaris";
 
 export default () => {
-  // state for the post being edited
-  const [postToEdit, setPostToEdit] = useState(null);
+  // The id of the post currently being edited
+  const [currentPostId, setCurrentPostId] = useState(null);
   // state for error messages
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -54,16 +55,6 @@ export default () => {
     setErrorMessage(publishError?.message || errorFetchingPosts?.message);
   }, [errorFetchingPosts, publishError]);
 
-  // toggle the isPublished field of a post by updating the record
-  const changePublished = async (id, currentState) => {
-    await changePublishState({
-      id,
-      post: {
-        isPublished: !currentState,
-      },
-    });
-  };
-
   return (
     <Container maxW="100vw" py="40px">
       <Flex>
@@ -74,7 +65,7 @@ export default () => {
                 Posts
               </Text>
               <Button
-                onClick={() => setPostToEdit(null)}
+                onClick={() => setCurrentPostId(null)}
                 colorScheme="blue"
                 variant="outline"
                 size="sm"
@@ -98,7 +89,7 @@ export default () => {
                     gap="2"
                     alignItems="center"
                     p="10px"
-                    background={postToEdit === id ? "whitesmoke" : "white"}
+                    background={currentPostId === id ? "whitesmoke" : "white"}
                     borderRadius="4px"
                   >
                     <Tooltip
@@ -125,7 +116,7 @@ export default () => {
                       <IconButton
                         variant="link"
                         icon={<EditIcon />}
-                        onClick={() => setPostToEdit(id)}
+                        onClick={() => setCurrentPostId(id)}
                       />
                     </Tooltip>
                     <Tooltip content="Delete post" hoverDelay={500}>
@@ -133,8 +124,8 @@ export default () => {
                         action={api.post.delete}
                         icon={<DeleteIcon />}
                         onSuccess={() => {
-                          if (postToEdit === id) {
-                            setPostToEdit(null);
+                          if (currentPostId === id) {
+                            setCurrentPostId(null);
                           }
                         }}
                         variables={{ id }}
@@ -151,22 +142,24 @@ export default () => {
         </Container>
         <Container flexGrow="1" maxW="70vw">
           <AutoForm
-            action={postToEdit ? api.post.update : api.post.create}
+            action={currentPostId ? api.post.update : api.post.create}
             defaultValues={
-              postToEdit
+              currentPostId
                 ? null
                 : { title: "", content: "Start writing your blog post here!" }
             }
-            findBy={postToEdit ? postToEdit : null}
+            findBy={currentPostId ? currentPostId : null}
             onSuccess={() => {
-              setPostToEdit(null);
+              setCurrentPostId(null);
             }}
             children={
               <Card>
                 <BlockStack gap="300">
                   <AutoTextInput field="title" />
-                  <AutoBelongsToInput field="user" />
-                  <AutoBooleanInput field="isPublished" />
+                  <FormLayout.Group>
+                    <AutoBelongsToInput field="user" />
+                    <AutoBooleanInput field="isPublished" />
+                  </FormLayout.Group>
                   <AutoInput field="content" />
                   <InlineStack align="end">
                     <ButtonGroup>

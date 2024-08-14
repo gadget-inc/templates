@@ -6,5 +6,12 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-gLx4HgNG_YPV",
-  fields: { user: { type: "belongsTo", parent: { model: "user" }, storageKey: "ModelField-2MxC2kXGl4SB::FieldStorageEpoch-DYk2tKW_BsLY" } },
+  fields: {
+    user: {
+      type: "belongsTo",
+      parent: { model: "user" },
+      storageKey:
+        "ModelField-2MxC2kXGl4SB::FieldStorageEpoch-DYk2tKW_BsLY",
+    },
+  },
 };

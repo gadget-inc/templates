@@ -15,7 +15,6 @@ import {
 import { api } from "../api";
 import ChakraUIRenderer from "chakra-ui-markdown-renderer";
 import ReactMarkdown from "react-markdown";
-import { AutoTable } from "@gadgetinc/react/auto/polaris";
 
 export default () => {
   const [displayPosts, setDisplayPosts] = useState([]);

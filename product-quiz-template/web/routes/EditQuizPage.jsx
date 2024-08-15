@@ -1,9 +1,7 @@
 import { api } from "../api";
-
 import { Text, Layout, Card, Spinner, BlockStack } from "@shopify/polaris";
-import { PageTemplate } from "../components/PageTemplate";
-import { QuizForm } from "../components/QuizForm";
-
+import { PageTemplate } from "../components";
+import { QuizForm } from "../components";
 import { useCallback } from "react";
 import { useActionForm } from "@gadgetinc/react";
 import { useParams, useNavigate } from "react-router-dom";

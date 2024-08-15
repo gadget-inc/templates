@@ -13,7 +13,7 @@ import {
 import { api } from "../api";
 import { default as Answers } from "./Answers";
 import { Controller, useFieldArray } from "@gadgetinc/react";
-import { CirclePlusMajor } from "@shopify/polaris-icons";
+import { PlusCircleIcon } from "@shopify/polaris-icons";
 
 export default ({
   isUpdating,
@@ -152,8 +152,8 @@ export default ({
         ))}
 
         <Button
-          variant="plain"
-          icon={<Icon source={CirclePlusMajor} />}
+          variant="monochromePlain"
+          icon={<Icon source={PlusCircleIcon} />}
           onClick={() =>
             addQuestion({
               answers: [{ text: "" }],

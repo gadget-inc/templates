@@ -12,7 +12,7 @@ import { useFindMany, useAction, useFindFirst } from "@gadgetinc/react";
 import { api } from "../api";
 import { useCallback } from "react";
 import { useState } from "react";
-import { PageTemplate } from "./PageTemplate";
+import { default as PageTemplate } from "./PageTemplate";
 
 export default () => {
   const navigate = useNavigate();
@@ -69,7 +69,11 @@ export default () => {
   return (
     <BlockStack gap="500">
       <BlockStack inlineAlign="end">
-        <Button size="large" primary onClick={() => onCreateNewQuiz()}>
+        <Button
+          size="large"
+          variant="primary"
+          onClick={() => onCreateNewQuiz()}
+        >
           Create new quiz
         </Button>
       </BlockStack>

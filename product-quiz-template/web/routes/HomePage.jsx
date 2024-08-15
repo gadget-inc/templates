@@ -1,7 +1,7 @@
 import { Layout, Tabs, Card } from "@shopify/polaris";
 import { useCallback } from "react";
 import { useState } from "react";
-import { InstallTab, SetupTab, PageTemplate } from "../components";
+import { InstallTab, QuizzesTab, PageTemplate } from "../components";
 
 export default () => {
   const [selected, setSelected] = useState(0);
@@ -14,7 +14,7 @@ export default () => {
   const tabs = [
     {
       id: "quiz-setup",
-      content: "Setup",
+      content: "Quizzes",
       panelID: "quiz-setup-content",
     },
     {
@@ -24,7 +24,7 @@ export default () => {
     },
   ];
 
-  const tabPanels = [<SetupTab />, <InstallTab />];
+  const tabPanels = [<QuizzesTab />, <InstallTab />];
 
   return (
     <PageTemplate>
@@ -35,7 +35,7 @@ export default () => {
               tabs={tabs}
               selected={selected}
               onSelect={handleTabChange}
-              fitted
+              // fitted
             >
               {tabPanels[selected]}
             </Tabs>

@@ -9,10 +9,9 @@ import {
   InlineStack,
   FormLayout,
 } from "@shopify/polaris";
-import { CircleCancelMajor } from "@shopify/polaris-icons";
 import { Fragment } from "react";
 import { useFieldArray, Controller } from "@gadgetinc/react";
-import { CirclePlusMajor } from "@shopify/polaris-icons";
+import { PlusCircleIcon, XCircleIcon, ImageIcon } from "@shopify/polaris-icons";
 
 const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
   const productSuggestionWatch = watch(
@@ -28,7 +27,7 @@ const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
           source={productImages[productSuggestionWatch]}
         />
       ) : (
-        <p>no image</p>
+        <Thumbnail size="large" alt={name} source={ImageIcon} />
       )}
     </BlockStack>
   ) : undefined;
@@ -115,8 +114,8 @@ export default ({ name, questionIndex, products, control, errors, watch }) => {
             />
 
             <Button
-              icon={<Icon source={CircleCancelMajor} />}
-              plain
+              icon={<Icon source={XCircleIcon} />}
+              variant="monochromePlain"
               disabled={answers.length <= 1}
               onClick={() => removeAnswer(i)}
             ></Button>
@@ -127,8 +126,8 @@ export default ({ name, questionIndex, products, control, errors, watch }) => {
 
       <BlockStack inlineAlign="start">
         <Button
-          variant="plain"
-          icon={<Icon source={CirclePlusMajor} />}
+          variant="monochromePlain"
+          icon={<Icon source={PlusCircleIcon} />}
           onClick={() => addAnswer({ text: "" })}
         >
           <p>Add answer</p>

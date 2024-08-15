@@ -1,12 +1,11 @@
 import { api } from "../api";
 
 import { Text, Layout, Card, Spinner, BlockStack } from "@shopify/polaris";
-import { PageTemplate } from "../components/PageTemplate";
+import { PageTemplate } from "../components";
 import { QuizForm } from "../components";
 
 import { useCallback } from "react";
 import { useActionForm } from "@gadgetinc/react";
-import { AutoForm } from "@gadgetinc/react/auto/polaris";
 import { useNavigate } from "react-router-dom";
 
 export default () => {
@@ -67,7 +66,6 @@ export default () => {
       <Layout sectioned>
         <Layout.Section>
           <Card>
-            <AutoForm />
             <Text as="h2" variant="headingLg">
               Create a new quiz
             </Text>

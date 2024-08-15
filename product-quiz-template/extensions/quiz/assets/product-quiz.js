@@ -74,12 +74,18 @@ const saveSelections = async (quizId, email, recommendedProducts) => {
         product: {
           _link: rp.recommendedProduct.productSuggestion.id,
         },
+        shop: {
+          _link: window.shopId,
+        },
       },
     };
   });
   await api.quizResult.create({
     quiz: {
       _link: quizId,
+    },
+    shop: {
+      _link: window.shopId,
     },
     email: email,
     shopperSuggestions: [...productsQuery],

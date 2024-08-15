@@ -65,45 +65,37 @@ export default ({ name, questionIndex, products, control, errors, watch }) => {
                 control={control}
                 name={`${name}.${i}.text`}
                 rules={{ required: "Required" }}
-                render={({ field }) => {
-                  const { ref, ...fieldProps } = field;
-
-                  return (
-                    <TextField
-                      requiredIndicator
-                      label={`Answer ${i + 1}`}
-                      autoComplete="off"
-                      {...fieldProps}
-                      error={
-                        errors.quiz?.questions?.[questionIndex]?.answers?.[i]
-                          ?.text?.message
-                      }
-                    />
-                  );
-                }}
+                render={({ ref, ...fieldProps }) => (
+                  <TextField
+                    requiredIndicator
+                    label={`Answer ${i + 1}`}
+                    autoComplete="off"
+                    {...fieldProps}
+                    error={
+                      errors.quiz?.questions?.[questionIndex]?.answers?.[i]
+                        ?.text?.message
+                    }
+                  />
+                )}
               />
 
               <Controller
                 control={control}
                 name={`${name}.${i}.recommendedProduct.productSuggestion.id`}
                 rules={{ required: "Required" }}
-                render={({ field }) => {
-                  const { ref, ...fieldProps } = field;
-
-                  return (
-                    <Select
-                      label="Recommended product"
-                      placeholder="-"
-                      options={productsOptions}
-                      requiredIndicator
-                      error={
-                        errors.quiz?.questions?.[questionIndex]?.answers?.[i]
-                          ?.recommendedProduct?.productSuggestion?.id?.message
-                      }
-                      {...fieldProps}
-                    />
-                  );
-                }}
+                render={({ ref, ...fieldProps }) => (
+                  <Select
+                    label="Recommended product"
+                    placeholder="-"
+                    options={productsOptions}
+                    requiredIndicator
+                    error={
+                      errors.quiz?.questions?.[questionIndex]?.answers?.[i]
+                        ?.recommendedProduct?.productSuggestion?.id?.message
+                    }
+                    {...fieldProps}
+                  />
+                )}
               />
             </FormLayout.Group>
 

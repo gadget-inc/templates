@@ -69,38 +69,30 @@ export default ({
           name="quiz.title"
           control={control}
           rules={{ required: "Name is required" }}
-          render={({ field }) => {
-            const { ref, ...fieldProps } = field;
-
-            return (
-              <TextField
-                requiredIndicator
-                label="Name"
-                autoComplete="off"
-                error={errors.quiz?.title?.message}
-                {...fieldProps}
-              />
-            );
-          }}
+          render={({ ref, ...fieldProps }) => (
+            <TextField
+              requiredIndicator
+              label="Name"
+              autoComplete="off"
+              error={errors.quiz?.title?.message}
+              {...fieldProps}
+            />
+          )}
         />
 
         <Controller
           name="quiz.body"
           control={control}
           rules={{ required: "Description is required" }}
-          render={({ field }) => {
-            const { ref, ...fieldProps } = field;
-
-            return (
-              <TextField
-                requiredIndicator
-                label="Description"
-                autoComplete="off"
-                error={errors.quiz?.body?.message}
-                {...fieldProps}
-              />
-            );
-          }}
+          render={({ ref, ...fieldProps }) => (
+            <TextField
+              requiredIndicator
+              label="Description"
+              autoComplete="off"
+              error={errors.quiz?.body?.message}
+              {...fieldProps}
+            />
+          )}
         />
 
         <Text variant="headingMd" as="h2">
@@ -126,19 +118,15 @@ export default ({
                 name={`quiz.questions.${i}.text`}
                 control={control}
                 rules={{ required: "Field is required" }}
-                render={({ field }) => {
-                  const { ref, ...fieldProps } = field;
-
-                  return (
-                    <TextField
-                      requiredIndicator
-                      label="Question"
-                      autoComplete="off"
-                      error={errors.quiz?.questions?.[i]?.text?.message}
-                      {...fieldProps}
-                    />
-                  );
-                }}
+                render={({ ref, ...fieldProps }) => (
+                  <TextField
+                    requiredIndicator
+                    label="Question"
+                    autoComplete="off"
+                    error={errors.quiz?.questions?.[i]?.text?.message}
+                    {...fieldProps}
+                  />
+                )}
               />
 
               <Answers

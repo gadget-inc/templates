@@ -44,18 +44,12 @@ export default function () {
                 render={({ field: { ref, ...fieldProps } }) => (
                   <Select
                     label="Customer wishlist email frequency"
-                    placeholder={
-                      defaultValues?.defaultUpdateFrequency
-                        ?.charAt(0)
-                        ?.toUpperCase() +
-                      defaultValues?.defaultUpdateFrequency?.slice(1)
-                    }
                     options={[
                       { label: "Weekly", value: "weekly" },
                       { label: "Monthly", value: "monthly" },
                       { label: "Quarterly", value: "quarterly" },
                     ]}
-                    {...{ fieldProps }}
+                    {...fieldProps}
                   />
                 )}
               />

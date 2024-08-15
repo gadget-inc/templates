@@ -20,48 +20,6 @@
     ansi-styles "^6.2.1"
     is-fullwidth-code-point "^4.0.0"
 
-"@ast-grep/napi-darwin-arm64@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-darwin-arm64/-/napi-darwin-arm64-0.11.0.tgz#421872714ba8b1297d262e6961fdc0b7c4a0dfbc"
-  integrity sha512-IxY3b102tNNm+cYLngZvUKzM1fNKCpDDWz69Yt+QnKCZNx10Hvd7mqrYE2aXTtkaNalmg/p1n6kMA8KmshGgCA==
-
-"@ast-grep/napi-darwin-x64@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-darwin-x64/-/napi-darwin-x64-0.11.0.tgz#97bc9c5b9c482ab58e651c0ea3b1451b3ac0dfbb"
-  integrity sha512-6afu1fNUwTkyE7tknVx8+d+BPKVL3623QLI9uJbJ0SZQShzSb1+dRegT4NpzPaPtFdPkflh6KfvOQ4chTw8hUg==
-
-"@ast-grep/napi-linux-x64-gnu@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-linux-x64-gnu/-/napi-linux-x64-gnu-0.11.0.tgz#98e603fa2d4fd5081a691ee9f80d18d3531056c0"
-  integrity sha512-Rm0biBfIxg14tL9yAMxW6RngAEA2vYLIq1guff6Uc9Vb7yQ3HE8dnW8WAysyieIqXdVkraTTV2ZwfoUqeKfc1Q==
-
-"@ast-grep/napi-win32-arm64-msvc@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-win32-arm64-msvc/-/napi-win32-arm64-msvc-0.11.0.tgz#7a63e1eccc1f814bacd36082b98df0c7002b2e40"
-  integrity sha512-TfX6KXxtXGQS/sWzJ1wWwWbpm3OJWpqiWGttpifSGs6DJmzfwuK0b63yX5JlhNXeUVqXkZyfYqIh5RPIPOtXSA==
-
-"@ast-grep/napi-win32-ia32-msvc@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-win32-ia32-msvc/-/napi-win32-ia32-msvc-0.11.0.tgz#a6e7a4d7ea2c7b1a3ed58f8e3b9931337131a8e4"
-  integrity sha512-oQGbxYYfQn6LPbMKQ1T2cjQ+DelYDO06w/gFPmdWrE6M/YUIv+KfKdEscBkr3ehJyvXZW5h3vmxuApiMuCyfAQ==
-
-"@ast-grep/napi-win32-x64-msvc@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-win32-x64-msvc/-/napi-win32-x64-msvc-0.11.0.tgz#cf045a88d80a8e1da11f4df53bd94bd35a629435"
-  integrity sha512-qrXI4+S8W7IF6e1nlDYX2KfdzxGHyAOj5kGvWk+TqBuAnA0rWQ513hJzdviiGpbB5VPnJkEhOVsDets8acKd6w==
-
-"@ast-grep/napi@0.11.0":
-  version "0.11.0"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi/-/napi-0.11.0.tgz#576f2b1378c79cd3dcc83efdc495e84307fb2c24"
-  integrity sha512-b+R8h20+ClsYZBJqcyguLy4THfGmg2a54HgfZ0a1vdCkfe9ftjblALiZf2DsOc0+Si8BDWd09TMNn2psUuibJA==
-  optionalDependencies:
-    "@ast-grep/napi-darwin-arm64" "0.11.0"
-    "@ast-grep/napi-darwin-x64" "0.11.0"
-    "@ast-grep/napi-linux-x64-gnu" "0.11.0"
-    "@ast-grep/napi-win32-arm64-msvc" "0.11.0"
-    "@ast-grep/napi-win32-ia32-msvc" "0.11.0"
-    "@ast-grep/napi-win32-x64-msvc" "0.11.0"
-
 "@babel/runtime@^7.21.0":
   version "7.25.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.25.0.tgz#3af9a91c1b739c569d5d80cc917280919c544ecb"
@@ -834,14 +792,6 @@
     ts-error "1.0.6"
     unique-string "3.0.0"
     zod "3.22.3"
-
-"@shopify/cli@^3.64.1":
-  version "3.65.3"
-  resolved "https://registry.yarnpkg.com/@shopify/cli/-/cli-3.65.3.tgz#1951d70fadf8d58c151f064d34593f47afa4443e"
-  integrity sha512-K4FLkqhPsYf3A3OvHzB11MoVewHeA8qDlAfaw0IePmNMgKhrDtBUvBkSHT7Ta2bzE1wJ58giPdiEUt+zxOOWhA==
-  dependencies:
-    "@ast-grep/napi" "0.11.0"
-    esbuild "0.19.8"
 
 "@shopify/create-app@3.58.2":
   version "3.58.2"

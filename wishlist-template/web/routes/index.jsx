@@ -20,7 +20,7 @@ export default function () {
   const {
     control,
     submit,
-    formState: { isDirty, defaultValues },
+    formState: { isDirty },
   } = useActionForm(api.shopifyShop.update, {
     findBy: shop.id,
     select: {

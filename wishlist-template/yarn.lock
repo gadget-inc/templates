@@ -1729,7 +1729,7 @@
   resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-8.0.0.tgz#22b1540e2c5bf9e2f05bfe662db38ef6999b00e0"
   integrity sha512-NyO/gkBvJfLiIDHywTFRQpwrA+wHHb9xk3uiApArBBB3zluWK1Gos+6zldfXPRZzHSzk2gB6IP2dQDJ2zJmIcg==
 
-"@shopify/polaris-icons@^8.0.0", "@shopify/polaris-icons@^8.1.0", "@shopify/polaris-icons@^8.11.1":
+"@shopify/polaris-icons@^8.0.0":
   version "8.11.1"
   resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-8.11.1.tgz#b47f39bba109d53e72dadc6200f705ed46d92c56"
   integrity sha512-2HLzvJWMejKIwS5P2bs7k5CAjBKwPnD/iy9ncPzcgqRjmFInBXLtUXFQhPWDw6JwXzb1ZjNQK/ssTctcfz87Sw==
@@ -1739,7 +1739,7 @@
   resolved "https://registry.yarnpkg.com/@shopify/polaris-icons/-/polaris-icons-9.3.0.tgz#560e268244904cafd4ad6e1547a8d57d7a9be5b4"
   integrity sha512-fnH5Lcd3WFZNjlxGYGNtnjeq3P2xonRV8vChW4PqBfxdKlY/GQ/3/rIuxHzIgmLL0zukeZUaqERUN0lwSU+Xmg==
 
-"@shopify/polaris-tokens@^8.10.0", "@shopify/polaris-tokens@^8.5.0":
+"@shopify/polaris-tokens@^8.5.0":
   version "8.10.0"
   resolved "https://registry.yarnpkg.com/@shopify/polaris-tokens/-/polaris-tokens-8.10.0.tgz#c7bca460e9aed91a801b95f4953b4ccb36b72b31"
   integrity sha512-y4PDtRbFKGHwA6Lu7a3L4N9SDP6gZv4tw6u0viumtcXcbF0T2j1xPmyuJZNc9c7vmhNSARCg27NGQFpPgxuaEg==
@@ -1760,19 +1760,6 @@
   dependencies:
     "@shopify/polaris-icons" "^8.0.0"
     "@shopify/polaris-tokens" "^8.5.0"
-    "@types/react" "^18.2.0"
-    "@types/react-dom" "^18.2.0"
-    "@types/react-transition-group" "^4.4.2"
-    react-fast-compare "^3.2.0"
-    react-transition-group "^4.4.2"
-
-"@shopify/polaris@^12.0.0":
-  version "12.27.0"
-  resolved "https://registry.yarnpkg.com/@shopify/polaris/-/polaris-12.27.0.tgz#341b146e016c0773d5bcc585e9219cbe5c6040d5"
-  integrity sha512-Y8yus6iEjcfW2ZtEJtlqxbWeDJqTX3S/MOLH4GWRvU5gFYJQhlaHaETs0+OimbhEpO95mXbY8qB+KnIJaVBHwA==
-  dependencies:
-    "@shopify/polaris-icons" "^8.11.1"
-    "@shopify/polaris-tokens" "^8.10.0"
     "@types/react" "^18.2.0"
     "@types/react-dom" "^18.2.0"
     "@types/react-transition-group" "^4.4.2"

@@ -1,7 +1,7 @@
 import { Text, BlockStack, Divider } from "@shopify/polaris";
 
-import rawQuizPageLiquid from "../assets/quiz-page.liquid?raw";
-import rawProductQuizJs from "../assets/product-quiz.js?raw";
+import rawQuizPageLiquid from "../../extensions/quiz/blocks/quiz-page.liquid?raw";
+import rawProductQuizJs from "../../extensions/quiz/assets/product-quiz.js?raw";
 import { default as CodeBlock } from "./CodeBlock";
 
 export default ({ quizId }) => {

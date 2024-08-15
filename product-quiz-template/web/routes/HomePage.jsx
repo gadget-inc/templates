@@ -1,11 +1,9 @@
 import { Layout, Tabs, Card } from "@shopify/polaris";
 import { useCallback } from "react";
 import { useState } from "react";
-import { PageTemplate } from "../components/PageTemplate";
-import { SetupTab } from "../components/SetupTab";
-import { InstallTab } from "../components/InstallTab";
+import { InstallTab, SetupTab, PageTemplate } from "../components";
 
-export default function HomePage() {
+export default () => {
   const [selected, setSelected] = useState(0);
 
   const handleTabChange = useCallback(
@@ -46,4 +44,4 @@ export default function HomePage() {
       </Layout>
     </PageTemplate>
   );
-}
+};

@@ -14,7 +14,7 @@ import { useCallback } from "react";
 import { useState } from "react";
 import { PageTemplate } from "./PageTemplate";
 
-export function SetupTab() {
+export default () => {
   const navigate = useNavigate();
 
   const [storeResponse] = useFindFirst(api.shopifyShop, {
@@ -130,4 +130,4 @@ export function SetupTab() {
       )}
     </BlockStack>
   );
-}
+};

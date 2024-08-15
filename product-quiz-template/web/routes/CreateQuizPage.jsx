@@ -2,13 +2,14 @@ import { api } from "../api";
 
 import { Text, Layout, Card, Spinner, BlockStack } from "@shopify/polaris";
 import { PageTemplate } from "../components/PageTemplate";
-import { QuizForm } from "../components/QuizForm";
+import { QuizForm } from "../components";
 
 import { useCallback } from "react";
 import { useActionForm } from "@gadgetinc/react";
+import { AutoForm } from "@gadgetinc/react/auto/polaris";
 import { useNavigate } from "react-router-dom";
 
-export default function CreateQuizPage() {
+export default () => {
   const navigate = useNavigate();
 
   const {
@@ -66,6 +67,7 @@ export default function CreateQuizPage() {
       <Layout sectioned>
         <Layout.Section>
           <Card>
+            <AutoForm />
             <Text as="h2" variant="headingLg">
               Create a new quiz
             </Text>
@@ -78,4 +80,4 @@ export default function CreateQuizPage() {
       </Layout>
     </PageTemplate>
   );
-}
+};

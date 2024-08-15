@@ -2,9 +2,9 @@ import { Text, BlockStack, Divider } from "@shopify/polaris";
 
 import rawQuizPageLiquid from "../assets/quiz-page.liquid?raw";
 import rawProductQuizJs from "../assets/product-quiz.js?raw";
-import { CodeBlock } from "./CodeBlock";
+import { default as CodeBlock } from "./CodeBlock";
 
-export function Store1Instructions({ quizId }) {
+export default ({ quizId }) => {
   const pageQuizJson = `{
   "sections": {
     "main": {
@@ -65,4 +65,4 @@ export function Store1Instructions({ quizId }) {
       </BlockStack>
     </BlockStack>
   );
-}
+};

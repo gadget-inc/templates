@@ -11,11 +11,11 @@ import {
   Icon,
 } from "@shopify/polaris";
 import { api } from "../api";
-import { Answers } from "./Answers";
+import { default as Answers } from "./Answers";
 import { Controller, useFieldArray } from "@gadgetinc/react";
 import { CirclePlusMajor } from "@shopify/polaris-icons";
 
-export function QuizForm({
+export default ({
   isUpdating,
   onSubmit,
   control,
@@ -23,7 +23,7 @@ export function QuizForm({
   isDirty,
   watch,
   getValues,
-}) {
+}) => {
   const {
     fields: questions,
     append: addQuestion,
@@ -170,4 +170,4 @@ export function QuizForm({
       </FormLayout>
     </Form>
   );
-}
+};

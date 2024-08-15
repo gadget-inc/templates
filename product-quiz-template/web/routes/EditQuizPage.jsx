@@ -8,7 +8,7 @@ import { useCallback } from "react";
 import { useActionForm } from "@gadgetinc/react";
 import { useParams, useNavigate } from "react-router-dom";
 
-export default function EditQuizPage() {
+export default () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -98,4 +98,4 @@ export default function EditQuizPage() {
       </Layout>
     </PageTemplate>
   );
-}
+};

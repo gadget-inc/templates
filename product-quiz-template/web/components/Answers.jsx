@@ -22,7 +22,7 @@ const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
   return productSuggestionWatch ? (
     <BlockStack inlineAlign="center">
       {productImages[productSuggestionWatch] ? (
-        <Thumbnail  
+        <Thumbnail
           size="large"
           alt={name}
           source={productImages[productSuggestionWatch]}
@@ -34,14 +34,7 @@ const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
   ) : undefined;
 };
 
-export function Answers({
-  name,
-  questionIndex,
-  products,
-  control,
-  errors,
-  watch,
-}) {
+export default ({ name, questionIndex, products, control, errors, watch }) => {
   const {
     fields: answers,
     append: addAnswer,
@@ -143,4 +136,4 @@ export function Answers({
       </BlockStack>
     </BlockStack>
   );
-}
+};

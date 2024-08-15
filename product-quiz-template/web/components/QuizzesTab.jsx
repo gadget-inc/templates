@@ -90,7 +90,7 @@ export default () => {
                   </BlockStack>
                 ) : (
                   <BlockStack>
-                    <InlineStack gap="200">
+                    <InlineStack gap="200" blockAlign="center">
                       <Text variant="headingMd" as="h2">
                         {quiz.title}
                       </Text>

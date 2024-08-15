@@ -65,7 +65,7 @@ export default ({ name, questionIndex, products, control, errors, watch }) => {
                 control={control}
                 name={`${name}.${i}.text`}
                 rules={{ required: "Required" }}
-                render={({ ref, ...fieldProps }) => (
+                render={({ field: { ref, ...fieldProps } }) => (
                   <TextField
                     requiredIndicator
                     label={`Answer ${i + 1}`}
@@ -83,7 +83,7 @@ export default ({ name, questionIndex, products, control, errors, watch }) => {
                 control={control}
                 name={`${name}.${i}.recommendedProduct.productSuggestion.id`}
                 rules={{ required: "Required" }}
-                render={({ ref, ...fieldProps }) => (
+                render={({ field: { ref, ...fieldProps } }) => (
                   <Select
                     label="Recommended product"
                     placeholder="-"

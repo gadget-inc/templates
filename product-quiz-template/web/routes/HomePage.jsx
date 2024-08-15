@@ -35,7 +35,7 @@ export default () => {
               tabs={tabs}
               selected={selected}
               onSelect={handleTabChange}
-              // fitted
+              fitted
             >
               {tabPanels[selected]}
             </Tabs>

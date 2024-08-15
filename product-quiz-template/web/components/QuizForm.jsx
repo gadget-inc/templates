@@ -69,7 +69,7 @@ export default ({
           name="quiz.title"
           control={control}
           rules={{ required: "Name is required" }}
-          render={({ ref, ...fieldProps }) => (
+          render={({ field: { ref, ...fieldProps } }) => (
             <TextField
               requiredIndicator
               label="Name"
@@ -84,7 +84,7 @@ export default ({
           name="quiz.body"
           control={control}
           rules={{ required: "Description is required" }}
-          render={({ ref, ...fieldProps }) => (
+          render={({ field: { ref, ...fieldProps } }) => (
             <TextField
               requiredIndicator
               label="Description"
@@ -118,7 +118,7 @@ export default ({
                 name={`quiz.questions.${i}.text`}
                 control={control}
                 rules={{ required: "Field is required" }}
-                render={({ ref, ...fieldProps }) => (
+                render={({ field: { ref, ...fieldProps } }) => (
                   <TextField
                     requiredIndicator
                     label="Question"

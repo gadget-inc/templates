@@ -12,6 +12,7 @@ export const schema: GadgetModel = {
       "acceptsMarketing",
       "acceptsMarketingUpdatedAt",
       "currency",
+      "dataSaleOptOut",
       "email",
       "emailMarketingConsent",
       "firstName",

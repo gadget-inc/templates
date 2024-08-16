@@ -39,6 +39,7 @@ export const schema: GadgetModel = {
       "estimatedTaxes",
       "financialStatus",
       "fulfillmentStatus",
+      "fulfillmentsCount",
       "landingSite",
       "merchantOfRecordAppId",
       "name",
@@ -55,6 +56,7 @@ export const schema: GadgetModel = {
       "presentmentCurrency",
       "processedAt",
       "referringSite",
+      "risk",
       "shippingAddress",
       "shop",
       "shopifyCreatedAt",
@@ -84,6 +86,7 @@ export const schema: GadgetModel = {
       "totalTipReceived",
       "totalWeight",
       "transactions",
+      "transactionsCount",
     ],
   },
 };

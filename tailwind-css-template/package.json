@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@gadget-client/tailwind-css-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.15.3",
+    "@gadgetinc/react": "^0.16.1",
     "fastify": "^4.24.2",
     "gadget-server": "link:.gadget/server",
     "react": "^18.2.0",
@@ -17,7 +17,7 @@
     "react-router-dom": "6.15.0"
   },
   "devDependencies": {
-    "@types/node": "^20.8.4",
+    "@types/node": "^20.12.8",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "3.2.0",

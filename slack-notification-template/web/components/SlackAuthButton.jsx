@@ -6,11 +6,7 @@ export default ({ reauth = false, setShow, setBannerContext }) => {
   return (
     <AutoButton
       action={api.getSlackAuthRedirect}
-      onSuccess={({ data }) => {
-        console.log(data);
-
-        open(data, "_top");
-      }}
+      onSuccess={({ data }) => open(data, "_top")}
     >
       <InlineStack blockAlign="center">
         <svg

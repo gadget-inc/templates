@@ -1,7 +1,8 @@
 import { BlockStack, Layout, Page, Text, Card, Button } from "@shopify/polaris";
 import { useQuery } from "@gadgetinc/react";
 import { StyledSpinner } from "../components";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
+import { ShopContext } from "../providers";
 
 /**
  * This is where your main app logic should go
@@ -10,6 +11,8 @@ import { useEffect } from "react";
  *
  */
 export default () => {
+  const { shop } = useContext(ShopContext);
+
   const [
     {
       data: gadgetMetadata,
@@ -77,10 +80,10 @@ export default () => {
                   variant="primary"
                   onClick={() =>
                     open(
-                      `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("1", {
+                      `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("${shop?.id}", {
   // Make sure to change this 1440 * number of days on the trial
   usedTrialMinutes: 10080
-})`)}&enviroment=${gadgetMetadata.gadgetMeta.environmentName.toLowerCase()}`,
+})`)}&enviroment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,
                       "_blank"
                     )
                   }

@@ -810,37 +810,8 @@
   dependencies:
     fast-json-stringify "^5.7.0"
 
-"@fastify/request-context@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@fastify/request-context/-/request-context-5.0.0.tgz#f821c98ff5a930da9d26b2dce831420d86f5db14"
-  integrity sha512-HEJoAF5+28PO9kcX+A7vFY0vv45k4Fllzp7rzDyaZ9Lcz99YQmMsXVS1GWkhy+24jv5SWNyyZiiJklSa6BiFPA==
-  dependencies:
-    fastify-plugin "^4.0.0"
-
 "@gadget-client/customized-bundle-template@link:.gadget/client":
   version "0.0.0"
-  uid ""
-
-"@gadgetinc/api-client-core@0.15.26", "@gadgetinc/api-client-core@^0.15.24":
-  version "0.15.26"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.26.tgz#26a462e3792e1796bb8c21912c6b0e2db4f58e6e"
-  integrity sha512-U1g1iHcc+FXxM4LKrd4cRggxZ6/qUvhgdfEzK+qMVeCXRfT1KUYqWe/ZA1ifw3X8bhGnOmc4IC3bso2sNfhkWA==
-  dependencies:
-    "@0no-co/graphql.web" "^1.0.4"
-    "@n1ru4l/graphql-live-query" "^0.10.0"
-    "@n1ru4l/json-patch-plus" "^0.2.0"
-    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
-    "@urql/core" "^4.0.10"
-    cross-fetch "^4.0.0"
-    graphql "^16.8.1"
-    graphql-ws "^5.13.1"
-    isomorphic-ws "^5.0.0"
-    klona "^2.0.6"
-    tiny-graphql-query-compiler "^0.2.2"
-    tslib "^2.6.2"
-    type-fest "^3.13.1"
-    wonka "^6.3.2"
-    ws "^8.17.0"
 
 "@gadgetinc/api-client-core@^0.15.13":
   version "0.15.20"
@@ -860,6 +831,27 @@
     tiny-graphql-query-compiler "^0.2.2"
     tslib "^2.6.2"
     ws "^8.13.0"
+
+"@gadgetinc/api-client-core@^0.15.24":
+  version "0.15.26"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.26.tgz#26a462e3792e1796bb8c21912c6b0e2db4f58e6e"
+  integrity sha512-U1g1iHcc+FXxM4LKrd4cRggxZ6/qUvhgdfEzK+qMVeCXRfT1KUYqWe/ZA1ifw3X8bhGnOmc4IC3bso2sNfhkWA==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.4"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^4.0.0"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    type-fest "^3.13.1"
+    wonka "^6.3.2"
+    ws "^8.17.0"
 
 "@gadgetinc/react-shopify-app-bridge@^0.15.2":
   version "0.15.2"
@@ -2646,11 +2638,6 @@ fast-url-parser@^1.1.3:
   dependencies:
     punycode "^1.3.2"
 
-fastify-plugin@^4.0.0:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.5.1.tgz#44dc6a3cc2cce0988bc09e13f160120bbd91dbee"
-  integrity sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==
-
 fastify@^4.24.2:
   version "4.25.2"
   resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.25.2.tgz#ce725c9f457149244ebfec848468fa3550f0981f"
@@ -2765,7 +2752,6 @@ function-bind@^1.1.2:
 
 "gadget-server@link:.gadget/server":
   version "0.0.0"
-  uid ""
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
@@ -4442,10 +4428,10 @@ value-or-promise@^1.0.11, value-or-promise@^1.0.12:
   resolved "https://registry.yarnpkg.com/value-or-promise/-/value-or-promise-1.0.12.tgz#0e5abfeec70148c78460a849f6b003ea7986f15c"
   integrity sha512-Z6Uz+TYwEqE7ZN50gwn+1LCVo9ZVrpxRPOhOLnncYkY1ZzOYtrX8Fwf/rFktZ8R5mJms6EZf5TqNOMeZmnPq9Q==
 
-vite@^4.4.9:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-4.5.1.tgz#3370986e1ed5dbabbf35a6c2e1fb1e18555b968a"
-  integrity sha512-AXXFaAJ8yebyqzoNB9fu2pHoo/nWX+xZlaRwoeYUxEqBO+Zj4msE5G+BhGBll9lYEKv9Hfks52PAF2X7qDYXQA==
+vite@^4.5.3:
+  version "4.5.3"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-4.5.3.tgz#d88a4529ea58bae97294c7e2e6f0eab39a50fb1a"
+  integrity sha512-kQL23kMeX92v3ph7IauVkXkikdDRsYMGTVl5KY2E9OY4ONLvkHf04MDTbnfo6NKxZiDLWzVpP5oTa8hQD8U3dg==
   dependencies:
     esbuild "^0.18.10"
     postcss "^8.4.27"

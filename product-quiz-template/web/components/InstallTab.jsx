@@ -10,10 +10,10 @@ import { useFindFirst } from "@gadgetinc/react";
 import { api } from "../api";
 import { useCallback } from "react";
 import { useState } from "react";
-import { Store1Instructions } from "./Store1Instructions";
+import { default as Store1Instructions } from "./Store1Instructions";
 import store2Install from "../assets/store2Install.webm";
 
-export function InstallTab() {
+export default () => {
   const [selected, setSelected] = useState("Select");
 
   const handleSelectChange = useCallback((value) => setSelected(value), []);
@@ -87,4 +87,4 @@ export function InstallTab() {
       )}
     </BlockStack>
   );
-}
+};

@@ -7,15 +7,15 @@
       "description": "This page handles routing of the frontend pages.",
       "tags": ["edited"]
     },
-    "pages/HomePage.jsx": {
+    "routes/HomePage.jsx": {
       "description": "Main page for the shopify admin app.",
       "tags": ["added"]
     },
-    "pages/CreateQuizPage.jsx": {
+    "routes/CreateQuizPage.jsx": {
       "description": "The page containing the form used for creating new quizzes.",
       "tags": ["added"]
     },
-    "pages/EditQuizPage.jsx": {
+    "routes/EditQuizPage.jsx": {
       "description": "The page containing the form used for editing existing quizzes.",
       "tags": ["added"]
     },

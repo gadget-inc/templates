@@ -7,11 +7,11 @@
   "dependencies": {
     "@fastify/request-context": "^3.0.0",
     "@gadget-client/product-quiz-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.15.4",
-    "@gadgetinc/react-shopify-app-bridge": "^0.14.1",
+    "@gadgetinc/react": "^0.16.1",
+    "@gadgetinc/react-shopify-app-bridge": "^0.16.0",
     "@shopify/app-bridge-react": "^4.1.1",
-    "@shopify/polaris": "12.1.1",
-    "@shopify/polaris-icons": "6.10.0",
+    "@shopify/polaris": "^13.9.0",
+    "@shopify/polaris-icons": "^9.3.0",
     "ejs": "^3.1.9",
     "fastify": "^4.24.2",
     "gadget-server": "link:.gadget/server",
@@ -22,10 +22,18 @@
     "shopify-api-node": "3.11.3"
   },
   "scripts": {
-    "vite:build": "NODE_ENV=production vite build"
+    "vite:build": "NODE_ENV=production vite build",
+    "shopify": "shopify",
+    "build": "shopify app build",
+    "dev": "shopify app dev --no-update",
+    "info": "shopify app info",
+    "scaffold": "shopify app scaffold",
+    "deploy": "shopify app deploy",
+    "generate": "shopify app generate"
   },
   "devDependencies": {
-    "@types/node": "^20.8.4",
+    "@shopify/app": "^3.58.2",
+    "@types/node": "^20.12.8",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "3.2.0",

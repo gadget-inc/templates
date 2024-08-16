@@ -9,10 +9,9 @@ import {
   InlineStack,
   FormLayout,
 } from "@shopify/polaris";
-import { CircleCancelMajor } from "@shopify/polaris-icons";
 import { Fragment } from "react";
 import { useFieldArray, Controller } from "@gadgetinc/react";
-import { CirclePlusMajor } from "@shopify/polaris-icons";
+import { PlusCircleIcon, XCircleIcon, ImageIcon } from "@shopify/polaris-icons";
 
 const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
   const productSuggestionWatch = watch(
@@ -22,26 +21,19 @@ const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
   return productSuggestionWatch ? (
     <BlockStack inlineAlign="center">
       {productImages[productSuggestionWatch] ? (
-        <Thumbnail  
+        <Thumbnail
           size="large"
           alt={name}
           source={productImages[productSuggestionWatch]}
         />
       ) : (
-        <p>no image</p>
+        <Thumbnail size="large" alt={name} source={ImageIcon} />
       )}
     </BlockStack>
   ) : undefined;
 };
 
-export function Answers({
-  name,
-  questionIndex,
-  products,
-  control,
-  errors,
-  watch,
-}) {
+export default ({ name, questionIndex, products, control, errors, watch }) => {
   const {
     fields: answers,
     append: addAnswer,
@@ -73,45 +65,37 @@ export function Answers({
                 control={control}
                 name={`${name}.${i}.text`}
                 rules={{ required: "Required" }}
-                render={({ field }) => {
-                  const { ref, ...fieldProps } = field;
-
-                  return (
-                    <TextField
-                      requiredIndicator
-                      label={`Answer ${i + 1}`}
-                      autoComplete="off"
-                      {...fieldProps}
-                      error={
-                        errors.quiz?.questions?.[questionIndex]?.answers?.[i]
-                          ?.text?.message
-                      }
-                    />
-                  );
-                }}
+                render={({ field: { ref, ...fieldProps } }) => (
+                  <TextField
+                    requiredIndicator
+                    label={`Answer ${i + 1}`}
+                    autoComplete="off"
+                    {...fieldProps}
+                    error={
+                      errors.quiz?.questions?.[questionIndex]?.answers?.[i]
+                        ?.text?.message
+                    }
+                  />
+                )}
               />
 
               <Controller
                 control={control}
                 name={`${name}.${i}.recommendedProduct.productSuggestion.id`}
                 rules={{ required: "Required" }}
-                render={({ field }) => {
-                  const { ref, ...fieldProps } = field;
-
-                  return (
-                    <Select
-                      label="Recommended product"
-                      placeholder="-"
-                      options={productsOptions}
-                      requiredIndicator
-                      error={
-                        errors.quiz?.questions?.[questionIndex]?.answers?.[i]
-                          ?.recommendedProduct?.productSuggestion?.id?.message
-                      }
-                      {...fieldProps}
-                    />
-                  );
-                }}
+                render={({ field: { ref, ...fieldProps } }) => (
+                  <Select
+                    label="Recommended product"
+                    placeholder="-"
+                    options={productsOptions}
+                    requiredIndicator
+                    error={
+                      errors.quiz?.questions?.[questionIndex]?.answers?.[i]
+                        ?.recommendedProduct?.productSuggestion?.id?.message
+                    }
+                    {...fieldProps}
+                  />
+                )}
               />
             </FormLayout.Group>
 
@@ -122,8 +106,8 @@ export function Answers({
             />
 
             <Button
-              icon={<Icon source={CircleCancelMajor} />}
-              plain
+              icon={<Icon source={XCircleIcon} />}
+              variant="monochromePlain"
               disabled={answers.length <= 1}
               onClick={() => removeAnswer(i)}
             ></Button>
@@ -134,8 +118,8 @@ export function Answers({
 
       <BlockStack inlineAlign="start">
         <Button
-          variant="plain"
-          icon={<Icon source={CirclePlusMajor} />}
+          variant="monochromePlain"
+          icon={<Icon source={PlusCircleIcon} />}
           onClick={() => addAnswer({ text: "" })}
         >
           <p>Add answer</p>
@@ -143,4 +127,4 @@ export function Answers({
       </BlockStack>
     </BlockStack>
   );
-}
+};

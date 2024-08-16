@@ -11,11 +11,11 @@ import {
   Icon,
 } from "@shopify/polaris";
 import { api } from "../api";
-import { Answers } from "./Answers";
+import { default as Answers } from "./Answers";
 import { Controller, useFieldArray } from "@gadgetinc/react";
-import { CirclePlusMajor } from "@shopify/polaris-icons";
+import { PlusCircleIcon } from "@shopify/polaris-icons";
 
-export function QuizForm({
+export default ({
   isUpdating,
   onSubmit,
   control,
@@ -23,7 +23,7 @@ export function QuizForm({
   isDirty,
   watch,
   getValues,
-}) {
+}) => {
   const {
     fields: questions,
     append: addQuestion,
@@ -69,38 +69,30 @@ export function QuizForm({
           name="quiz.title"
           control={control}
           rules={{ required: "Name is required" }}
-          render={({ field }) => {
-            const { ref, ...fieldProps } = field;
-
-            return (
-              <TextField
-                requiredIndicator
-                label="Name"
-                autoComplete="off"
-                error={errors.quiz?.title?.message}
-                {...fieldProps}
-              />
-            );
-          }}
+          render={({ field: { ref, ...fieldProps } }) => (
+            <TextField
+              requiredIndicator
+              label="Name"
+              autoComplete="off"
+              error={errors.quiz?.title?.message}
+              {...fieldProps}
+            />
+          )}
         />
 
         <Controller
           name="quiz.body"
           control={control}
           rules={{ required: "Description is required" }}
-          render={({ field }) => {
-            const { ref, ...fieldProps } = field;
-
-            return (
-              <TextField
-                requiredIndicator
-                label="Description"
-                autoComplete="off"
-                error={errors.quiz?.body?.message}
-                {...fieldProps}
-              />
-            );
-          }}
+          render={({ field: { ref, ...fieldProps } }) => (
+            <TextField
+              requiredIndicator
+              label="Description"
+              autoComplete="off"
+              error={errors.quiz?.body?.message}
+              {...fieldProps}
+            />
+          )}
         />
 
         <Text variant="headingMd" as="h2">
@@ -126,19 +118,15 @@ export function QuizForm({
                 name={`quiz.questions.${i}.text`}
                 control={control}
                 rules={{ required: "Field is required" }}
-                render={({ field }) => {
-                  const { ref, ...fieldProps } = field;
-
-                  return (
-                    <TextField
-                      requiredIndicator
-                      label="Question"
-                      autoComplete="off"
-                      error={errors.quiz?.questions?.[i]?.text?.message}
-                      {...fieldProps}
-                    />
-                  );
-                }}
+                render={({ field: { ref, ...fieldProps } }) => (
+                  <TextField
+                    requiredIndicator
+                    label="Question"
+                    autoComplete="off"
+                    error={errors.quiz?.questions?.[i]?.text?.message}
+                    {...fieldProps}
+                  />
+                )}
               />
 
               <Answers
@@ -152,8 +140,8 @@ export function QuizForm({
         ))}
 
         <Button
-          variant="plain"
-          icon={<Icon source={CirclePlusMajor} />}
+          variant="monochromePlain"
+          icon={<Icon source={PlusCircleIcon} />}
           onClick={() =>
             addQuestion({
               answers: [{ text: "" }],
@@ -170,4 +158,4 @@ export function QuizForm({
       </FormLayout>
     </Form>
   );
-}
+};

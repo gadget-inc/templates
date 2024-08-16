@@ -6,7 +6,44 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Shop",
-  fields: {},
+  fields: {
+    answers: {
+      type: "hasMany",
+      children: { model: "answer", belongsToField: "shop" },
+      storageKey: "-8QjM60m5Tzg",
+    },
+    questions: {
+      type: "hasMany",
+      children: { model: "question", belongsToField: "shop" },
+      storageKey: "0NNDucOuUPzh",
+    },
+    quizResults: {
+      type: "hasMany",
+      children: { model: "quizResult", belongsToField: "shop" },
+      storageKey: "1dUcmA4xdhhU",
+    },
+    quizzes: {
+      type: "hasMany",
+      children: { model: "quiz", belongsToField: "shop" },
+      storageKey: "O5wkGV3yXK7F",
+    },
+    recommendedProducts: {
+      type: "hasMany",
+      children: {
+        model: "recommendedProduct",
+        belongsToField: "shop",
+      },
+      storageKey: "rGVnQ8FbOdwP",
+    },
+    shopperSuggestions: {
+      type: "hasMany",
+      children: {
+        model: "shopperSuggestion",
+        belongsToField: "shop",
+      },
+      storageKey: "PQ9E4HBgynpF",
+    },
+  },
   shopify: {
     fields: [
       "address1",

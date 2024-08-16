@@ -13,7 +13,9 @@ export const permissions: GadgetPermissions = {
       storageKey: "Role-Shopify-App",
       models: {
         answer: {
-          read: true,
+          read: {
+            filter: "accessControl/filters/answer/tenancy.gelly",
+          },
           actions: {
             create: true,
             delete: true,
@@ -21,7 +23,9 @@ export const permissions: GadgetPermissions = {
           },
         },
         question: {
-          read: true,
+          read: {
+            filter: "accessControl/filters/question/tenancy.gelly",
+          },
           actions: {
             create: true,
             delete: true,
@@ -29,7 +33,9 @@ export const permissions: GadgetPermissions = {
           },
         },
         quiz: {
-          read: true,
+          read: {
+            filter: "accessControl/filters/quiz/tenancy.gelly",
+          },
           actions: {
             create: true,
             delete: true,
@@ -37,7 +43,10 @@ export const permissions: GadgetPermissions = {
           },
         },
         recommendedProduct: {
-          read: true,
+          read: {
+            filter:
+              "accessControl/filters/recommendedProduct/tenancy.gelly",
+          },
           actions: {
             create: true,
             delete: true,

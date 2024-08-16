@@ -1,1 +1,3 @@
-extensions/*/dist
+# Shopify
+extensions/**/dist
+shopify.app.**.toml

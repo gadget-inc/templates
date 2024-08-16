@@ -14,7 +14,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@gadget-client/chatgpt-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.14.16",
+    "@gadgetinc/react": "^0.16.1",
     "framer-motion": "^10.15.0",
     "gadget-server": "link:.gadget/server",
     "lodash": "^4.17.21",
@@ -22,10 +22,11 @@
     "openai": "^4.16.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "6.15.0"
+    "react-router-dom": "6.15.0",
+    "fastify": "^4.24.2"
   },
   "devDependencies": {
-    "@types/node": "^20.8.4",
+    "@types/node": "^20.12.8",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "3.2.0",

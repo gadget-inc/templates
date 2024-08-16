@@ -1308,13 +1308,6 @@
   dependencies:
     fast-json-stringify "^5.7.0"
 
-"@fastify/request-context@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@fastify/request-context/-/request-context-5.0.0.tgz#f821c98ff5a930da9d26b2dce831420d86f5db14"
-  integrity sha512-HEJoAF5+28PO9kcX+A7vFY0vv45k4Fllzp7rzDyaZ9Lcz99YQmMsXVS1GWkhy+24jv5SWNyyZiiJklSa6BiFPA==
-  dependencies:
-    fastify-plugin "^4.0.0"
-
 "@floating-ui/core@^1.4.2":
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.5.2.tgz#53a0f7a98c550e63134d504f26804f6b83dbc071"
@@ -1344,9 +1337,8 @@
 
 "@gadget-client/blog-template@link:.gadget/client":
   version "0.0.0"
-  uid ""
 
-"@gadgetinc/api-client-core@0.15.30", "@gadgetinc/api-client-core@^0.15.24":
+"@gadgetinc/api-client-core@^0.15.24":
   version "0.15.30"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.30.tgz#73756633eee48b5e250b3a7451e97072a87d24bd"
   integrity sha512-7rdA6exg9OOXRReXt0DL3YIMmZvG7XWOTwB9KIoWAxKKF1fCblr+hHm/bQsd3AZiUDRVj/9ga1fWhuKRR3SfbQ==
@@ -2712,13 +2704,14 @@ error-ex@^1.3.1:
   dependencies:
     is-arrayish "^0.2.1"
 
-es5-ext@^0.10.35, es5-ext@^0.10.50:
-  version "0.10.62"
-  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.62.tgz#5e6adc19a6da524bf3d1e02bbc8960e5eb49a9a5"
-  integrity sha512-BHLqn0klhEpnOKSrzn/Xsz2UIW8j+cGmo9JLzr8BiUapV8hPL9+FliFqjwr9ngW7jWdnxv6eO+/LqyhJVqgrjA==
+es5-ext@^0.10.35, es5-ext@^0.10.50, es5-ext@^0.10.62, es5-ext@~0.10.14:
+  version "0.10.64"
+  resolved "https://registry.yarnpkg.com/es5-ext/-/es5-ext-0.10.64.tgz#12e4ffb48f1ba2ea777f1fcdd1918ef73ea21714"
+  integrity sha512-p2snDhiLaXe6dahss1LddxqEm+SkuDvV8dnIQG0MWjyHpcMNfXKPE+/Cc0y+PhxJX3A4xGNeFCj5oc0BUh6deg==
   dependencies:
     es6-iterator "^2.0.3"
     es6-symbol "^3.1.3"
+    esniff "^2.0.1"
     next-tick "^1.1.0"
 
 es6-iterator@^2.0.3:
@@ -2781,6 +2774,16 @@ escape-string-regexp@^4.0.0:
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
   integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
+esniff@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/esniff/-/esniff-2.0.1.tgz#a4d4b43a5c71c7ec51c51098c1d8a29081f9b308"
+  integrity sha512-kTUIGKQ/mDPFoJ0oVfcmyJn4iBDRptjNVIzwIFR7tqWXdVI9xfA2RMwY/gbSpJG3lkdWNEjLap/NqVHZiJsdfg==
+  dependencies:
+    d "^1.0.1"
+    es5-ext "^0.10.62"
+    event-emitter "^0.3.5"
+    type "^2.7.2"
+
 estree-util-is-identifier-name@^2.0.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/estree-util-is-identifier-name/-/estree-util-is-identifier-name-2.1.0.tgz#fb70a432dcb19045e77b05c8e732f1364b4b49b2"
@@ -2798,6 +2801,14 @@ estree-util-visit@^1.0.0:
   dependencies:
     "@types/estree-jsx" "^1.0.0"
     "@types/unist" "^2.0.0"
+
+event-emitter@^0.3.5:
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/event-emitter/-/event-emitter-0.3.5.tgz#df8c69eef1647923c7157b9ce83840610b02cc39"
+  integrity sha512-D9rRn9y7kLPnJ+hMq7S/nhvoKwwvVJahBi2BPmx3bvbsEdK3W9ii8cBSGjP+72/LnM4n6fo3+dkCX5FeTQruXA==
+  dependencies:
+    d "1"
+    es5-ext "~0.10.14"
 
 event-target-shim@^5.0.0:
   version "5.0.1"
@@ -2865,11 +2876,6 @@ fast-uri@^2.0.0, fast-uri@^2.1.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-2.3.0.tgz#bdae493942483d299e7285dcb4627767d42e2793"
   integrity sha512-eel5UKGn369gGEWOqBShmFJWfq/xSJvsgDzgLYC845GneayWvXBf0lJCBn5qTABfewy1ZDPoaR5OZCP+kssfuw==
-
-fastify-plugin@^4.0.0:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.5.1.tgz#44dc6a3cc2cce0988bc09e13f160120bbd91dbee"
-  integrity sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==
 
 fastify@^4.24.2:
   version "4.24.3"
@@ -2971,7 +2977,6 @@ function-bind@^1.1.2:
 
 "gadget-server@link:.gadget/server":
   version "0.0.0"
-  uid ""
 
 get-nonce@^1.0.0:
   version "1.0.1"

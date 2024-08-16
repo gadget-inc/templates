@@ -1,23 +1,10 @@
-import { BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
+import { BlockStack, Button, Card, Layout, Page, Text } from "@shopify/polaris";
+import { useContext } from "react";
+import { ShopContext } from "../providers";
 
-/**
- * This is where your main app logic should go
- * 
- * To end the trial period, make use of your app's API Playgound. Use the following GraphQL mutation:
- * 
-  mutation {
-    internal {
-      updateShopifyShop(id: "SHOPID", shopifyShop: { usedTrialMinutes: 10800}) {
-        success
-        shopifyShop
-      } 
-    }
-  }
- *
- * The above mutation should be modified to reflect the number of trial minutes for your specific plan
- * 
- */
 export default () => {
+  const { shop } = useContext(ShopContext);
+
   return (
     <Page title="Next Steps">
       <Layout>
@@ -49,25 +36,20 @@ export default () => {
                   field equal to 7 days (in minutes). Make sure to adjust the
                   number if you have more or less trial days.
                 </Text>
-                <Text as="p" variant="bodyMd">
-                  Run the following mutation in your API Playground:
-                </Text>
-                <Card background="bg-surface-secondary">
-                  <code
-                    style={{
-                      whiteSpace: "break-spaces",
-                    }}
-                  >
-                    {`mutation {
-  internal {
-    updateShopifyShop(id: "SHOPID", shopifyShop: { usedTrialMinutes: 10800}) {
-      success
-      shopifyShop
-    } 
-  }
-}`}
-                  </code>
-                </Card>
+                <Button
+                  variant="primary"
+                  onClick={() =>
+                    open(
+                      `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("${shop?.id}", {
+  // Make sure to change this 1440 * number of days on the trial
+  usedTrialMinutes: 10080
+})`)}&enviroment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,
+                      "_blank"
+                    )
+                  }
+                >
+                  Open API Playground
+                </Button>
               </BlockStack>
             </Card>
           </BlockStack>

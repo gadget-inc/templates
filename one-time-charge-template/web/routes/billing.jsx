@@ -1,10 +1,8 @@
-import { useAction } from "@gadgetinc/react";
 import {
   Banner,
   BlockStack,
   Layout,
   Page,
-  Button,
   Card,
   Text,
   DescriptionList,
@@ -12,51 +10,13 @@ import {
 import { api } from "../api";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
+import { AutoButton } from "@gadgetinc/react/auto/polaris";
 
-/**
- * To view this page, run the following GraphQL mutation in your app's API Playground:
- * 
-    mutation {
-      internal {
-        updateShopifyShop(
-          id: "shopId",
-          shopifyShop: {
-            oneTimeChargeId: null,
-            usedTrialMinutes: 10080
-          }
-        ) {
-        success
-        }
-      }
-    }
- * 
- */
 export default () => {
-  const [show, setShow] = useState(false);
+  const [show, setShow] = useState(false),
+    [disabled, setDisabled] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
   const { shop } = useContext(ShopContext);
-
-  const [
-    { fetching: fetchingSubscription, error: errorSubscribing },
-    subscribe,
-  ] = useAction(api.shopifyShop.subscribe, {
-    select: {
-      confirmationUrl: true,
-    },
-  });
-
-  /**
-   * @type { () => void }
-   *
-   * Callback used to start the one-time purchase flow and redirect to the Shopify one-time purchase confirmation page
-   */
-  const handleSubscribe = useCallback(async () => {
-    const res = await subscribe({ id: shop.id });
-
-    if (res?.data?.confirmationUrl) {
-      open(res.data.confirmationUrl, "_top");
-    }
-  }, [shop, subscribe]);
 
   /**
    * @type { () => void }
@@ -124,15 +84,16 @@ export default () => {
                   />
                 </BlockStack>
               </Card>
-              <Button
-                variant="primary"
-                size="large"
-                onClick={handleSubscribe}
-                disabled={fetchingSubscription}
-                loading={fetchingSubscription}
-              >
-                Buy now
-              </Button>
+              <AutoButton
+                action={api.shopifyShop.subscribe}
+                disabled={disabled}
+                onSuccess={(res) => {
+                  setDisabled(true);
+                  open(res.data.confirmationUrl, "_top");
+                }}
+                variables={{ id: shop.id, planId: id }}
+                children={"Buy now"}
+              />
             </BlockStack>
           </Layout.Section>
         </Layout>

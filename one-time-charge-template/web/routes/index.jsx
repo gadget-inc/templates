@@ -1,27 +1,49 @@
-import { BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
+import { BlockStack, Card, Layout, Page, Text, Button } from "@shopify/polaris";
+import { useQuery } from "@gadgetinc/react";
+import { StyledSpinner } from "../components";
+import { useEffect, useContext } from "react";
+import { ShopContext } from "../providers";
 
 /**
  * This is where your main app logic should go
  * Note that this is just a skeleton of what an app might look like
- * 
+ *
  * To view the billing page, make use of your app's API Playgound. Use the following GraphQL mutation:
- * 
-    mutation {
-      internal {
-        updateShopifyShop(
-          id: "shopId",
-          shopifyShop: {
-            oneTimeChargeId: null,
-            usedTrialMinutes: 10080
-          }
-        ) {
-        success
-        }
-      }
-    }
- * 
  */
 export default () => {
+  const { shop } = useContext(ShopContext);
+
+  const [
+    {
+      data: gadgetMetadata,
+      fetching: fetchingGadgetMetadata,
+      error: errorFetchingGadgetMetadata,
+    },
+  ] = useQuery({
+    query: `
+      query { 
+        gadgetMeta {
+          productionRenderURL
+          environmentName
+        }
+      }
+    `,
+  });
+
+  useEffect(() => {
+    if (!fetchingGadgetMetadata && errorFetchingGadgetMetadata) {
+      console.error(errorFetchingGadgetMetadata);
+    }
+  }, [fetchingGadgetMetadata, errorFetchingGadgetMetadata]);
+
+  if (fetchingGadgetMetadata) {
+    return (
+      <Page>
+        <StyledSpinner />
+      </Page>
+    );
+  }
+
   return (
     <Page title="Next Steps">
       <Layout sectioned>
@@ -58,30 +80,21 @@ export default () => {
                   <strong>oneTimeChargeId</strong> is set to{" "}
                   <strong>null</strong>.
                 </Text>
-                <Text as="p" variant="bodyMd">
-                  Run the following mutation in your API Playground:
-                </Text>
-                <Card background="bg-surface-secondary">
-                  <code
-                    style={{
-                      whiteSpace: "break-spaces",
-                    }}
-                  >
-                    {`mutation {
-  internal {
-    updateShopifyShop(
-      id: "shopId",
-      shopifyShop: {
-        oneTimeChargeId: null,
-        usedTrialMinutes: 10080
-      }
-    ) {
-    success
-    }
-  }
-}`}
-                  </code>
-                </Card>
+                <Button
+                  variant="primary"
+                  onClick={() =>
+                    open(
+                      `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("${shop?.id}", {
+  // Make sure to change this 1440 * number of days on the trial
+  oneTimeChargeId: null,
+  usedTrialMinutes: 10080
+})`)}&enviroment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,
+                      "_blank"
+                    )
+                  }
+                >
+                  Open API Playground
+                </Button>
               </BlockStack>
             </Card>
           </BlockStack>

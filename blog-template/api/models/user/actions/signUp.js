@@ -13,6 +13,7 @@ export async function run({ params, record, logger, api, session }) {
   applyParams(params, record);
   record.lastSignedIn = new Date();
 
+  // This assures that there will only be one user able to log in to create posts
   const doesUserExist = await checkForSingleUser({ api });
   if (!doesUserExist) {
     await save(record);

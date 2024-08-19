@@ -7,6 +7,16 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "05LmzBe_CIyf",
   fields: {
+    anonymous: {
+      type: "boolean",
+      default: false,
+      storageKey: "fyHMWNtwRseY",
+    },
+    content: {
+      type: "string",
+      validations: { required: true },
+      storageKey: "IU5npbrI6A3h",
+    },
     customer: {
       type: "belongsTo",
       validations: { required: true },
@@ -23,6 +33,21 @@ export const schema: GadgetModel = {
       validations: { required: true },
       parent: { model: "shopifyProduct" },
       storageKey: "YkA-cs5aMejq",
+    },
+    rating: {
+      type: "number",
+      decimals: 0,
+      validations: {
+        required: true,
+        numberRange: { min: 0, max: 5 },
+      },
+      storageKey: "Cuw9VTG9Higw",
+    },
+    shop: {
+      type: "belongsTo",
+      validations: { required: true },
+      parent: { model: "shopifyShop" },
+      storageKey: "K1OxV12nco9E",
     },
   },
 };

@@ -1,3 +1,9 @@
 .gadget/
 node_modules/
 **/.DS_Store
+
+# Shopify
+extensions/**/dist/
+extensions/**/generated/
+
+shopify.app.**.toml

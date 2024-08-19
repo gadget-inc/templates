@@ -6,7 +6,23 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Shop",
-  fields: {},
+  fields: {
+    daysUntilReviewRequest: {
+      type: "number",
+      default: 7,
+      decimals: 0,
+      validations: {
+        required: true,
+        numberRange: { min: 0, max: null },
+      },
+      storageKey: "V66nKdXdjiQO",
+    },
+    reviews: {
+      type: "hasMany",
+      children: { model: "review", belongsToField: "shop" },
+      storageKey: "f5lg7DH1ZzLI",
+    },
+  },
   shopify: {
     fields: [
       "address1",

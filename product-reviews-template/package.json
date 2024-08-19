@@ -5,18 +5,26 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "build": "NODE_ENV=production vite build"
+    "build": "NODE_ENV=production vite build",
+    "shopify": "shopify",
+    "dev": "shopify app dev --no-update",
+    "info": "shopify app info",
+    "scaffold": "shopify app scaffold",
+    "deploy": "shopify app deploy",
+    "generate": "shopify app generate"
   },
   "dependencies": {
     "@gadget-client/product-reviews-template": "link:.gadget/client",
     "@gadgetinc/react": "^0.16.1",
     "@gadgetinc/react-shopify-app-bridge": "^0.16.0",
+    "@react-email/components": "0.0.22",
     "@shopify/app-bridge-react": "4.0.0",
     "@shopify/polaris": "^13.8.0",
     "@shopify/polaris-icons": "^9.3.0",
     "gadget-server": "link:.gadget/server",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-email": "^2.1.6",
     "react-router-dom": "6.15.0",
     "shopify-api-node": "^3.12.6"
   },

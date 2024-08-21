@@ -50,7 +50,7 @@
   },
   "featuredRoutes": {
     "POST-chat": {
-      "description": "A backend route that is used to fetch and serve a streaming response from the OpenAI API. A route was used as opposed to a Gadget action because actions do not support streaming as of yet."
+      "description": "A backend route used to fetch and stream a response from the OpenAI API to the client. An HTTP route is used because Gadget actions do not support response streaming."
     }
   },
   

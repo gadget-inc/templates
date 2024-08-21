@@ -29,5 +29,10 @@ export async function onSuccess({ params, record, logger, api }) {
 /** @type { ActionOptions } */
 export const options = {
   actionType: "create",
-  returnType: true
+  returnType: true,
+  triggers: {
+    api: false,
+    googleOAuthSignUp: true,
+    emailSignUp: true,
+  },
 };

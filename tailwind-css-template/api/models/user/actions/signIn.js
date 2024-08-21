@@ -20,5 +20,10 @@ export async function onSuccess({ params, record, logger, api }) {
 
 /** @type { ActionOptions } */
 export const options = {
-  actionType: "update"
+  actionType: "update",
+  triggers: {
+    api: false,
+    googleOAuthSignIn: true,
+    emailSignIn: true,
+  },
 };

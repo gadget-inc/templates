@@ -25,7 +25,7 @@ export default function () {
       <div className="flex flex-col gap-4">
         <div className="flex flex-col flex-auto rounded-lg border-[1px] border-solid border-[#e2e2e2] bg-white p-6 g-4 text-black">
           <div className="flex flex-wrap text-left justify-evenly items-center self-stretch g-8 rounded-lg font-[14px] whitespace-nowrap">
-            <img className="rounded-[100px] w-16 h-16" src={user.googleImageUrl ?? userIcon} />
+            <img className="rounded-[100px] w-16 h-16 m-2" src={user.googleImageUrl ?? userIcon} />
             <div className="flex flex-col items-start g-1 font-light">
               <p>id: {user.id}</p>
               <p>

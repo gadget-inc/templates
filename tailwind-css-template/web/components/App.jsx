@@ -1,15 +1,15 @@
 import { SignedInOrRedirect, SignedOut, SignedOutOrRedirect, Provider } from "@gadgetinc/react";
 import { Suspense, useEffect } from "react";
 import { Outlet, Route, RouterProvider, createBrowserRouter, createRoutesFromElements, useNavigate, Link } from "react-router-dom";
-import { api } from "./api";
-import Index from "./routes/index";
-import SignedInPage from "./routes/signed-in";
-import SignInPage from "./routes/sign-in";
-import SignUpPage from "./routes/sign-up";
-import ResetPasswordPage from "./routes/reset-password";
-import VerifyEmailPage from "./routes/verify-email";
-import ChangePassword from "./routes/change-password";
-import ForgotPassword from "./routes/forgot-password";
+import { api } from "../api";
+import Index from "../routes/index";
+import SignedInPage from "../routes/signed-in";
+import SignInPage from "../routes/sign-in";
+import SignUpPage from "../routes/sign-up";
+import ResetPasswordPage from "../routes/reset-password";
+import VerifyEmailPage from "../routes/verify-email";
+import ChangePassword from "../routes/change-password";
+import ForgotPassword from "../routes/forgot-password";
 
 const App = () => {
   useEffect(() => {
@@ -96,7 +96,7 @@ const Layout = () => {
   return (
     <Provider api={api} navigate={navigate} auth={window.gadgetConfig.authentication}>
       <Header />
-      <div className="w-screen h-[calc(100vh-80px)] left-0 top-20 fixed z-0 bg-[url('./assets/default-background.svg')]">
+      <div className="w-screen h-[calc(100vh-80px)] left-0 top-20 fixed z-0 bg-grid">
         <div className="text-center items-center justify-center flex w-screen h-full bg-gradient-radial-custom">
           <div className="min-w-[372px] flex font-[system-ui] items-center flex-col gap-4 max-h-full">
             <Outlet />

@@ -21,5 +21,6 @@ export async function onSuccess({ params, record, logger, api, emails }) {
 /** @type { ActionOptions } */
 export const options = {
   actionType: "custom",
-  returnType: true
+  returnType: true,
+  triggers: { api: false, resetPassword: true },
 };

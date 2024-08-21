@@ -39,11 +39,11 @@ export async function run({ params, record, logger, api, connections }) {
             required: true,
             validations: [
               {
-                name: "max",
+                name: "scale_max",
                 value: "5",
               },
               {
-                name: "min",
+                name: "scale_min",
                 value: "0",
               },
             ],

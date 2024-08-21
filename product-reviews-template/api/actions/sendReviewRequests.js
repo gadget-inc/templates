@@ -15,6 +15,7 @@ export async function run({ params, logger, api, connections }) {
       },
     },
     select: {
+      id: true,
       lineItems: {
         edges: {
           node: {
@@ -31,4 +32,6 @@ export async function run({ params, logger, api, connections }) {
     orders = await orders.nextPage();
     allOrders = allOrders.concat(orders);
   }
+
+  logger.info({ allOrders }, "All orders");
 }

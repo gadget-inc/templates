@@ -35,15 +35,15 @@ export async function run({ params, record, logger, api, connections }) {
           },
           {
             key: "rating",
-            type: "rating",
+            type: "number_integer",
             required: true,
             validations: [
               {
-                name: "scale_max",
+                name: "max",
                 value: "5",
               },
               {
-                name: "scale_min",
+                name: "min",
                 value: "0",
               },
             ],

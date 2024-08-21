@@ -64,7 +64,7 @@
   },
   "webflow": {
     "title": "Screenwriter GPT",
-    "description": "This template uses the built-in OpenAI connection to stream a unique movie scene to your frontend.",
+    "description": "This template uses the built-in OpenAI connection to generate fake movie scenes based on a user-entered quote.",
     "content": "webflow/content.md",
     "mainImage": "webflow/screenwriter-gpt.webp",
     "wistiaId":"ypddsfou6b",

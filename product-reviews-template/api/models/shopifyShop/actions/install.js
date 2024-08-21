@@ -27,6 +27,9 @@ export async function run({ params, record, logger, api, connections }) {
     {
       definition: {
         type: "review",
+        access: {
+          storefront: "PUBLIC_READ",
+        },
         fieldDefinitions: [
           {
             key: "anonymous",
@@ -35,15 +38,15 @@ export async function run({ params, record, logger, api, connections }) {
           },
           {
             key: "rating",
-            type: "number_integer",
+            type: "rating",
             required: true,
             validations: [
               {
-                name: "max",
+                name: "scale_max",
                 value: "5",
               },
               {
-                name: "min",
+                name: "scale_min",
                 value: "0",
               },
             ],
@@ -89,11 +92,17 @@ export async function run({ params, record, logger, api, connections }) {
       {
         definition: {
           name: "Reviews",
-          namespace: "reviews",
-          key: "productMetaobjects",
+          namespace: "productReviews",
+          key: "reviewMetaobjects",
           description: "A list of metaobjects assoicated to this product",
           type: "list.metaobject_reference",
           ownerType: "PRODUCT",
+          validations: [
+            {
+              name: "metaobject_definition_id",
+              value: record.reviewMetaobjectDefinitionId,
+            },
+          ],
         },
       }
     );

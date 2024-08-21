@@ -12,6 +12,11 @@ export const schema: GadgetModel = {
       default: false,
       storageKey: "fyHMWNtwRseY",
     },
+    approved: {
+      type: "boolean",
+      default: false,
+      storageKey: "yZssP-8duQ5f",
+    },
     content: {
       type: "string",
       validations: { required: true },

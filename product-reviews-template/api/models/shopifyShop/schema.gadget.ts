@@ -17,6 +17,16 @@ export const schema: GadgetModel = {
       },
       storageKey: "V66nKdXdjiQO",
     },
+    metaobjectReferenceMetafieldDefinitionId: {
+      type: "string",
+      validations: { unique: true },
+      storageKey: "19hnN32KHdzM",
+    },
+    reviewMetaobjectDefinitionId: {
+      type: "string",
+      validations: { unique: true },
+      storageKey: "bLb7uPSnlZDw",
+    },
     reviews: {
       type: "hasMany",
       children: { model: "review", belongsToField: "shop" },
@@ -62,6 +72,7 @@ export const schema: GadgetModel = {
       "multiLocationEnabled",
       "myshopifyDomain",
       "name",
+      "orderLineItems",
       "orders",
       "passwordEnabled",
       "phone",

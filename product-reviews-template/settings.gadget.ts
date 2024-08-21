@@ -10,6 +10,7 @@ export const settings: GadgetSettings = {
         enabledModels: [
           "shopifyCustomer",
           "shopifyOrder",
+          "shopifyOrderLineItem",
           "shopifyProduct",
         ],
         type: "partner",
@@ -18,6 +19,10 @@ export const settings: GadgetSettings = {
           "read_products",
           "read_orders",
           "read_customers",
+          "write_metaobject_definitions",
+          "read_metaobject_definitions",
+          "write_metaobjects",
+          "read_metaobjects",
         ],
       },
     },

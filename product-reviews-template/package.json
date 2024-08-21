@@ -22,6 +22,7 @@
     "@shopify/polaris": "^13.8.0",
     "@shopify/polaris-icons": "^9.3.0",
     "gadget-server": "link:.gadget/server",
+    "luxon": "^3.5.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-email": "^2.1.6",

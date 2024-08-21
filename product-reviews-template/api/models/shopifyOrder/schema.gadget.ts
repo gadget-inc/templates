@@ -7,6 +7,11 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Order",
   fields: {
+    requestReviewAfter: {
+      type: "dateTime",
+      includeTime: true,
+      storageKey: "ztIqc2_TMPaB",
+    },
     reviews: {
       type: "hasMany",
       children: { model: "review", belongsToField: "order" },
@@ -47,6 +52,7 @@ export const schema: GadgetModel = {
       "fulfillmentStatus",
       "fulfillmentsCount",
       "landingSite",
+      "lineItems",
       "merchantOfRecordAppId",
       "name",
       "note",

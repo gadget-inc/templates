@@ -1,26 +1,20 @@
-import {
-  applyParams,
-  save,
-  ActionOptions,
-  CreateShopifyOrderActionContext,
-} from "gadget-server";
+import { deleteRecord, ActionOptions, DeleteShopifyOrderLineItemActionContext } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
 
 /**
- * @param { CreateShopifyOrderActionContext } context
+ * @param { DeleteShopifyOrderLineItemActionContext } context
  */
 export async function run({ params, record, logger, api, connections }) {
-  applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
-  await save(record);
-}
+  await deleteRecord(record);
+};
 
 /**
- * @param { CreateShopifyOrderActionContext } context
+ * @param { DeleteShopifyOrderLineItemActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
   // Your logic goes here
-}
+};
 
 /** @type { ActionOptions } */
-export const options = { actionType: "create" };
+export const options = { actionType: "delete" };

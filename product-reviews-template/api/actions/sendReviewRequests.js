@@ -33,5 +33,19 @@ export async function run({ params, logger, api, connections }) {
     allOrders = allOrders.concat(orders);
   }
 
-  logger.info({ allOrders }, "All orders");
+  const options = {
+    queue: {
+      name: `send-wishlist-emails-${uuid()}`,
+      maxConcurrency: 50,
+    },
+    retries: 1,
+  };
+
+  await api.enqueue(
+    api.enqueueEmails,
+    { allOrders: allOrders.map(({ __typeName, ...rest }) => rest) },
+    { queue }
+  );
+
+  logger.info({ allOrders, date: new Date() }, "All orders");
 }

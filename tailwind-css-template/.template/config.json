@@ -8,7 +8,7 @@
 },
 "featuredFrontends": {
   "tailwind.config.js": {
-    "description": "Sets up the design system as well as all possible utilities and classes that can be used across the project.",
+    "description": "Used to set up and manage Tailwind configuration and customization for your app.",
     "tags": [
       "added"
     ]

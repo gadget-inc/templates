@@ -12,9 +12,9 @@ import {
   Thumbnail,
 } from "@shopify/polaris";
 import {
-  ChevronUpMinor,
-  ChevronDownMinor,
-  ImageMajor,
+  ChevronUpIcon,
+  ChevronDownIcon,
+  ImageIcon,
 } from "@shopify/polaris-icons";
 import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -122,7 +122,7 @@ export default ({
                 <BlockStack gap="300">
                   <InlineStack align="space-between">
                     <InlineStack blockAlign="center" gap="400">
-                      <Thumbnail source={image || ImageMajor} />
+                      <Thumbnail source={image || ImageIcon} />
                       <BlockStack>
                         <Text>{title}</Text>
                         {variants.length === 1 && (
@@ -180,7 +180,7 @@ export default ({
             <ButtonGroup>
               <Button
                 variant="monochromePlain"
-                icon={open ? ChevronUpMinor : ChevronDownMinor}
+                icon={open ? ChevronUpIcon : ChevronDownIcon}
                 onClick={() => setOpen(!open)}
               >
                 {open ? "Less" : "More"}

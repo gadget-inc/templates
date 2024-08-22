@@ -3,7 +3,7 @@ name: Customized Bundle Deployment
 on:
   push:
     paths:
-      - "customized-customized-bundle-template/**"
+      - "customized-bundle-template/**"
     branches:
       - main
   workflow_dispatch:

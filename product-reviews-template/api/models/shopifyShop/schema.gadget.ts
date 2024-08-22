@@ -80,6 +80,7 @@ export const schema: GadgetModel = {
       "planName",
       "preLaunchEnabled",
       "primaryLocale",
+      "productImages",
       "products",
       "province",
       "provinceCode",

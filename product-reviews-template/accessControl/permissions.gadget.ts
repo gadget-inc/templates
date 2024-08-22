@@ -59,6 +59,17 @@ export const permissions: GadgetPermissions = {
             update: true,
           },
         },
+        shopifyProductImage: {
+          read: {
+            filter:
+              "accessControl/filters/shopify/shopifyProductImage.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
         shopifyShop: {
           read: {
             filter: "accessControl/filters/shopify/shopifyShop.gelly",
@@ -85,6 +96,19 @@ export const permissions: GadgetPermissions = {
     },
     unauthenticated: {
       storageKey: "unauthenticated",
+      models: {
+        review: {
+          actions: {
+            create: true,
+          },
+        },
+        shopifyProduct: {
+          read: true,
+        },
+        shopifyProductImage: {
+          read: true,
+        },
+      },
     },
   },
 };

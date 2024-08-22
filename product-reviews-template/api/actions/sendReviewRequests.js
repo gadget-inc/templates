@@ -1,4 +1,5 @@
 import { SendReviewRequestsGlobalActionContext } from "gadget-server";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * @param { SendReviewRequestsGlobalActionContext } context
@@ -16,12 +17,16 @@ export async function run({ params, logger, api, connections }) {
     },
     select: {
       id: true,
+      orderNumber: true,
       lineItems: {
         edges: {
           node: {
             productId: true,
           },
         },
+      },
+      customer: {
+        email: true,
       },
     },
   });
@@ -35,17 +40,16 @@ export async function run({ params, logger, api, connections }) {
 
   const options = {
     queue: {
-      name: `send-wishlist-emails-${uuid()}`,
+      name: `send-wishlist-emails-${uuidv4()}`,
       maxConcurrency: 50,
     },
     retries: 1,
   };
 
-  await api.enqueue(
-    api.enqueueEmails,
-    { allOrders: allOrders.map(({ __typeName, ...rest }) => rest) },
-    { queue }
-  );
-
-  logger.info({ allOrders, date: new Date() }, "All orders");
+  if (allOrders.length)
+    await api.enqueue(
+      api.enqueueEmails,
+      { allOrders: allOrders.map(({ __typeName, ...rest }) => rest), options },
+      options
+    );
 }

@@ -4,7 +4,7 @@ import {
   useGadget,
 } from "@gadgetinc/react-shopify-app-bridge";
 import { NavMenu } from "@shopify/app-bridge-react";
-import { Box, Card, Page, Spinner, Text } from "@shopify/polaris";
+import { Spinner } from "@shopify/polaris";
 import { useEffect } from "react";
 import {
   Link,
@@ -17,9 +17,9 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { api } from "../api";
-import AboutPage from "../routes/about";
-import Index from "../routes/index";
+import { AboutPage, Index } from "../routes";
 import "./App.css";
+import ReviewForm from "./ReviewForm";
 
 function Error404() {
   const navigate = useNavigate();
@@ -36,13 +36,14 @@ function Error404() {
   return <div>404 not found</div>;
 }
 
-function App() {
+export default function () {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Index />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<Error404 />} />
+        <Route path="/:orderId" element={<ReviewForm />} />
       </Route>
     )
   );
@@ -84,6 +85,7 @@ function AuthenticatedApp() {
       </div>
     );
   }
+
   return isAuthenticated ? <EmbeddedApp /> : <UnauthenticatedApp />;
 }
 
@@ -102,27 +104,5 @@ function EmbeddedApp() {
 }
 
 function UnauthenticatedApp() {
-  return (
-    <Page>
-      <div style={{ height: "80px" }}>
-        <Card padding="500">
-          <Text variant="headingLg" as="h1">
-            App must be viewed in the Shopify Admin
-          </Text>
-          <Box paddingBlockStart="200">
-            <Text variant="bodyLg" as="p">
-              Edit this page:{" "}
-              <a
-                href={`/edit/${process.env.GADGET_PUBLIC_APP_ENV}/files/web/components/App.jsx`}
-              >
-                web/components/App.jsx
-              </a>
-            </Text>
-          </Box>
-        </Card>
-      </div>
-    </Page>
-  );
+  return <ReviewForm />;
 }
-
-export default App;

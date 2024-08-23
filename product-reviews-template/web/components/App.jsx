@@ -20,6 +20,7 @@ import { api } from "../api";
 import { AboutPage, Index } from "../routes";
 import "./App.css";
 import ReviewForm from "./ReviewForm";
+import StyledSpinner from "./StyledSpinner";
 
 function Error404() {
   const navigate = useNavigate();
@@ -71,19 +72,7 @@ function AuthenticatedApp() {
   // we use `isAuthenticated` to render pages once the OAuth flow is complete!
   const { isAuthenticated, loading } = useGadget();
   if (loading) {
-    return (
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100%",
-          width: "100%",
-        }}
-      >
-        <Spinner accessibilityLabel="Spinner example" size="large" />
-      </div>
-    );
+    return <StyledSpinner />;
   }
 
   return isAuthenticated ? <EmbeddedApp /> : <UnauthenticatedApp />;

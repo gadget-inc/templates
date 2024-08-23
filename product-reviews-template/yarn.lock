@@ -522,7 +522,7 @@
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.16.2":
+"@gadgetinc/react@^0.16.3":
   version "0.16.4"
   resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.16.4.tgz#5833bff9e72ef2fa151a90b470f6ca6c471f9736"
   integrity sha512-QtTJX4W80y7Vvvvkb/sBEdTNvCer0hbPHrzj6LX0WLz4E1p5dGyPWaiF6JkE8yi03tpi9/Mi6q8aO+UIV3xvcw==

@@ -3,7 +3,7 @@ import { useFindMany } from "@gadgetinc/react";
 
 import { api } from "../api";
 import { BlockStack, Page } from "@shopify/polaris";
-import ProductCard from "./ProductCard";
+import ReviewCard from "./ReviewCard";
 import StyledSpinner from "./StyledSpinner";
 
 export default () => {
@@ -47,8 +47,16 @@ export default () => {
   return (
     <Page title={`Products on order #${searchParams.get("orderNumber")}`}>
       <BlockStack gap="300">
-        {products?.map(({ id, title }) => (
-          <ProductCard key={id} {...{ id, title, orderId }} />
+        {products?.map(({ id, title, images }) => (
+          <ReviewCard
+            key={id}
+            {...{
+              id,
+              title,
+              orderId,
+              images,
+            }}
+          />
         ))}
       </BlockStack>
     </Page>

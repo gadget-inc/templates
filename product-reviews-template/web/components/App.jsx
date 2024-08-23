@@ -4,7 +4,6 @@ import {
   useGadget,
 } from "@gadgetinc/react-shopify-app-bridge";
 import { NavMenu } from "@shopify/app-bridge-react";
-import { Spinner } from "@shopify/polaris";
 import { useEffect } from "react";
 import {
   Link,
@@ -19,7 +18,7 @@ import {
 import { api } from "../api";
 import { AboutPage, Index } from "../routes";
 import "./App.css";
-import ReviewForm from "./ReviewForm";
+import Reviews from "./Reviews";
 import StyledSpinner from "./StyledSpinner";
 
 function Error404() {
@@ -44,7 +43,7 @@ export default function () {
         <Route index element={<Index />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<Error404 />} />
-        <Route path="/:orderId" element={<ReviewForm />} />
+        <Route path="/:orderId" element={<Reviews />} />
       </Route>
     )
   );
@@ -93,5 +92,5 @@ function EmbeddedApp() {
 }
 
 function UnauthenticatedApp() {
-  return <ReviewForm />;
+  return <Reviews />;
 }

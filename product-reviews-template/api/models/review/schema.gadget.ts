@@ -28,6 +28,7 @@ export const schema: GadgetModel = {
       parent: { model: "shopifyCustomer" },
       storageKey: "bT0Adl6mg5Lc",
     },
+    metaobjectId: { type: "string", storageKey: "MDTelmNZFvN8" },
     order: {
       type: "belongsTo",
       validations: { required: true },

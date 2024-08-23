@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Icon, InlineStack } from "@shopify/polaris";
+import { Box, Icon, InlineStack } from "@shopify/polaris";
 import { StarFilledIcon, StarIcon } from "@shopify/polaris-icons";
 import { Controller, useFormContext } from "@gadgetinc/react";
 
@@ -23,13 +23,13 @@ export default ({ totalStars = 5 }) => {
       render={({ field: { ref, ...fieldProps } }) => (
         <InlineStack>
           {Array.from({ length: totalStars }, (_, index) => (
-            <div
+            <Box
               key={index}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
               onClick={() => fieldProps.onChange(index + 1)}
               style={{ cursor: "pointer" }}
-              {...{ fieldProps }}
+              fieldprops={fieldProps}
             >
               <Icon
                 source={
@@ -38,7 +38,7 @@ export default ({ totalStars = 5 }) => {
                     : StarIcon
                 }
               />
-            </div>
+            </Box>
           ))}
         </InlineStack>
       )}

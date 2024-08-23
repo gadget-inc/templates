@@ -1,5 +1,5 @@
 {% comment %} Make sure to change this to your environment's CDN URL {% endcomment %}
-<script src="https://<YOUR-APP>--<YOUR-ENV>.gadget.app/api/client/web.min.js" defer="defer"></script>
+<script src="https://wishlist-template--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
 <script src="{{ 'addToWishlist.js' | asset_url }}" defer="defer"></script>
 {{ 'addToWishlist.css' | asset_url | stylesheet_tag }}
 
@@ -8,7 +8,7 @@
 {% comment %} Initializing values to be used in the addToWishlist.js file {% endcomment %}
  <script>
     document.addEventListener("DOMContentLoaded", function () {
-      window.wishlistArr = {{ wishlists | json }};
+      window.initialWishlistArr = {{ wishlists | json }};
       window.currentVariant = {{ product.selected_or_first_available_variant.id | json }}
       window.customerId = {{ customer.id | json }}
       window.shopId = {{ shop.id | json }}
@@ -23,7 +23,7 @@
       <button id="openModalBtn">New</button>
     </div>
     <div class="wishlist-container">
-      {% for wishlist in wishlists %}
+      {% for wishlist in window.wishlistObj %}
         <div class="wishlist-card" id="wishlist-{{wishlist.id}}">
             <h4 class="wishlist-title">{{ wishlist.name }}</h3>
             <svg class="svg" id="check-icon-{{wishlist.id}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">

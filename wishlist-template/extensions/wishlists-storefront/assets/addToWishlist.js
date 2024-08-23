@@ -4,6 +4,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   // Instantiate your Gadget API
   const api = new Gadget();
 
+  window.wishlistObj = {};
+
+  for (const wishlist of window.initialWishlistArr) {
+    window.wishlistObj[wishlist.id] = wishlist;
+  }
+
   // idInputs holds the variant id
   const idInputs = document.getElementsByName("id");
   const modal = document.getElementById("new-wishlist-modal");
@@ -95,7 +101,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   applyCheckmarks(window.currentVariant);
 
   // Loop through each wishlist in the array and add an event listener for it
-  for (const { id } of window.wishlistArr) {
+  for (const { id } of window.initialWishlistArr) {
     const wishlistCard = document.getElementById(`wishlist-${id}`);
 
     // On click, add or remove the item from the wishlist
@@ -158,7 +164,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 function applyCheckmarks(value) {
   if (window.currentVariant !== value) window.currentVariant = value;
 
-  for (const { id, variants } of window.wishlistArr) {
+  for (const { id, variants } of Object.values(wishlistObj)) {
     const checkmarkIcon = document.getElementById(`check-icon-${id}`);
     const plusIcon = document.getElementById(`plus-icon-${id}`);
 

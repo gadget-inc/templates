@@ -70,6 +70,24 @@ export const permissions: GadgetPermissions = {
         },
       },
     },
+    unauthenticated: {
+      storageKey: "unauthenticated",
+      models: {
+        wishlist: {
+          actions: {
+            create: true,
+          },
+        },
+        wishlistItem: {
+          actions: {
+            create: true,
+          },
+        },
+      },
+      actions: {
+        removeFromWishlist: true,
+      },
+    },
     "shopify-storefront-customers": {
       storageKey: "Role-Shopify-Customer",
       models: {
@@ -121,24 +139,6 @@ export const permissions: GadgetPermissions = {
             delete: true,
           },
         },
-      },
-    },
-    unauthenticated: {
-      storageKey: "unauthenticated",
-      models: {
-        wishlist: {
-          actions: {
-            create: true,
-          },
-        },
-        wishlistItem: {
-          actions: {
-            create: true,
-          },
-        },
-      },
-      actions: {
-        removeFromWishlist: true,
       },
     },
   },

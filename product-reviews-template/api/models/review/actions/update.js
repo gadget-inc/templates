@@ -1,4 +1,9 @@
-import { applyParams, save, ActionOptions, UpdateReviewActionContext } from "gadget-server";
+import {
+  applyParams,
+  save,
+  ActionOptions,
+  UpdateReviewActionContext,
+} from "gadget-server";
 
 /**
  * @param { UpdateReviewActionContext } context
@@ -6,14 +11,17 @@ import { applyParams, save, ActionOptions, UpdateReviewActionContext } from "gad
 export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
   await save(record);
-};
+}
 
 /**
  * @param { UpdateReviewActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  // Add logic to create metaobject in Shopify (if approved)
-};
+  const approved = record.changes("approved");
+
+  if (approved.changed) {
+  }
+}
 
 /** @type { ActionOptions } */
 export const options = {

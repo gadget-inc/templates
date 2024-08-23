@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { Icon, InlineStack } from "@shopify/polaris";
 import { StarFilledIcon, StarIcon } from "@shopify/polaris-icons";
+import { Controller, useFormContext } from "@gadgetinc/react";
 
-export default ({ rating = 0, totalStars = 5, onRate }) => {
+export default ({ totalStars = 5 }) => {
   const [hoveredStar, setHoveredStar] = useState(0);
+
+  const { control } = useFormContext();
 
   const handleMouseEnter = (index) => {
     setHoveredStar(index + 1);
@@ -13,27 +16,32 @@ export default ({ rating = 0, totalStars = 5, onRate }) => {
     setHoveredStar(0);
   };
 
-  const handleClick = (index) => {
-    if (onRate) {
-      onRate(index + 1);
-    }
-  };
-
   return (
-    <InlineStack>
-      {Array.from({ length: totalStars }, (_, index) => (
-        <div
-          key={index}
-          onMouseEnter={() => handleMouseEnter(index)}
-          onMouseLeave={handleMouseLeave}
-          onClick={() => handleClick(index)}
-          style={{ cursor: "pointer" }}
-        >
-          <Icon
-            source={index < (hoveredStar || rating) ? StarFilledIcon : StarIcon}
-          />
-        </div>
-      ))}
-    </InlineStack>
+    <Controller
+      control={control}
+      name="rating"
+      render={({ field: { ref, ...fieldProps } }) => (
+        <InlineStack>
+          {Array.from({ length: totalStars }, (_, index) => (
+            <div
+              key={index}
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={handleMouseLeave}
+              onClick={() => fieldProps.onChange(index + 1)}
+              style={{ cursor: "pointer" }}
+              {...{ fieldProps }}
+            >
+              <Icon
+                source={
+                  index < (hoveredStar || fieldProps.value)
+                    ? StarFilledIcon
+                    : StarIcon
+                }
+              />
+            </div>
+          ))}
+        </InlineStack>
+      )}
+    />
   );
 };

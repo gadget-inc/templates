@@ -1,6 +1,5 @@
 import {
   AutoForm,
-  AutoNumberInput,
   AutoSubmit,
   AutoTextInput,
 } from "@gadgetinc/react/auto/polaris";
@@ -19,9 +18,6 @@ import Stars from "./Stars";
 
 export default ({ id, title, orderId }) => {
   const [open, setOpen] = useState(false);
-  const [rating, setRating] = useState(0);
-
-  // const controller = useNumberController()
 
   return (
     <Card>
@@ -37,10 +33,9 @@ export default ({ id, title, orderId }) => {
             productId: id,
           }}
           exclude={["anonymous", "approved", "customer", "order", "product"]}
+          onSuccess={() => setOpen(false)}
         >
-          {/* <AutoNumberInput> */}
-          <Stars rating={rating} onRate={setRating} />
-          {/* </AutoNumberInput> */}
+          <Stars />
           <AutoTextInput field="content" multiline={4} maxHeight={90} />
           <InlineStack>
             <ButtonGroup>

@@ -30,6 +30,7 @@ export const schema: GadgetModel = {
     },
     order: {
       type: "belongsTo",
+      validations: { required: true },
       parent: { model: "shopifyOrder" },
       storageKey: "6cS42mJLsWyc",
     },

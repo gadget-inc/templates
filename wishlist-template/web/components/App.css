@@ -1,0 +1,84 @@
+.app {
+  width: 100vw;
+  height: calc(100vh - 80px);
+  background-image: url("https://assets.gadget.dev/assets/default-app-assets/default-background.svg");
+  left: 0;
+  top: 80px;
+  position: fixed;
+  z-index: 0;
+}
+
+.app-content {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100%;
+  background: radial-gradient(ellipse at center, white 0.5rem, rgb(0, 0, 0, 0) 40rem);
+}
+
+.app-logo {
+  height: 5rem;
+  margin: 0 auto;
+  display: block;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .app-logo {
+    animation: app-logo-spin infinite 20s linear;
+  }
+}
+
+@keyframes app-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.text {
+  display: inline;
+  font-family: system-ui;
+}
+
+.app-link {
+  font-family: system-ui;
+  font-weight: bold;
+  font-size: larger;
+  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.environment {
+  font-weight: 250;
+}
+
+.development {
+  color: #404b5a;
+  text-transform: capitalize;
+}
+
+.production {
+  color: #5d39bb;
+  text-transform: capitalize;
+}
+
+p {
+  font-size: 1rem !important;
+}
+
+a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+button {
+  cursor: pointer;
+}
+

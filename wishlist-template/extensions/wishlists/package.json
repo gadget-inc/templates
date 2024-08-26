@@ -1,0 +1,20 @@
+{
+  "name": "wishlist",
+  "private": true,
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@gadget-client/wishlist-template": "link:../../.gadget/client",
+    "@gadgetinc/react": "^0.15.15",
+    "@gadgetinc/shopify-extensions": "^0.2.1",
+    "@shopify/polaris": "^13.9.0",
+    "@shopify/ui-extensions": "unstable",
+    "@shopify/ui-extensions-react": "unstable",
+    "react": "^18.0.0",
+    "react-router-dom": "^6.25.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "react-reconciler": "0.29.0"
+  }
+}

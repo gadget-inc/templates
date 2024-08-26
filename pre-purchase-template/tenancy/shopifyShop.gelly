@@ -1,5 +1,0 @@
-
-fragment Filter($session: Session) on ShopifyShop {
-  *
-  [where id == $session.shopId]
-}

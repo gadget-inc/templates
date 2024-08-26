@@ -2,12 +2,13 @@
 module.exports = {
   content: [
     "./index.html",
-    "./frontend/**/*.{js,ts,jsx,tsx}",
+    "./web/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
       backgroundImage: {
         "gradient-radial-custom": "radial-gradient(ellipse at center, white 0.5rem, rgb(0, 0, 0, 0) 40rem)",
+        "grid": "url('/web/assets/default-background.svg')",
       },
       keyframes: {
         "app-logo-spin": {

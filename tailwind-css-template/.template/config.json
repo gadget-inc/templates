@@ -1,0 +1,42 @@
+{
+  "version": "v1",
+  "introduction": "Intro.md",
+  "featuredModels": {
+    "user": {
+      "description": "Stores and manages signups and user information for all of your application's users."
+    }
+},
+"featuredFrontends": {
+  "tailwind.config.js": {
+    "description": "Used to set up and manage Tailwind configuration and customization for your app.",
+    "tags": [
+      "added"
+    ]
+  },
+  "postcss.config.js": {
+    "description": "Config file that sits at the root and allows Tailwind to run on Vite, Gadget's underlying build tool for frontends.",
+    "tags": [
+      "added"
+    ]
+  }
+},
+"featuredFiles": {
+  "package.json": {
+    "description": "Tailwind has been added",
+    "tags": [
+      "edited"
+    ]
+  }
+},
+"webflow": {
+  "title": "Start with TailwindCSS",
+  "description": "This template has TailwindCSS pre-installed and can be extended to create any user interface in Gadget.",
+  "content": "webflow/content.md",
+  "mainImage": "webflow/tailwind.webp",
+  "features": {
+    "frontend": true,
+    "models": true,
+    "actions": true
+  }
+}
+}

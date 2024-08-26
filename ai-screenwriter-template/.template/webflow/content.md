@@ -1,0 +1,4 @@
+- OpenAI connection with $50 worth of credits.
+- Example connection to create movie scripts from your prompt.
+- _Ready-to-use:_ No need to start from scratch – equipped with data models, backend logic, and an OpenAI connection streamed to the frontend.
+- _Ready-to-extend:_ Logic can be added to change the allowed user inputs, modify languages supported or customize anything else with JavaScript.

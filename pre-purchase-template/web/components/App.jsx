@@ -14,10 +14,9 @@ import {
   createRoutesFromElements,
   useLocation,
   useNavigate,
-  Link
+  Link,
 } from "react-router-dom";
-import Index from "../routes/index";
-import AboutPage from "../routes/about";
+import { Index } from "../routes";
 import { api } from "../api";
 
 function Error404() {
@@ -35,12 +34,11 @@ function Error404() {
   return <div>404 not found</div>;
 }
 
-function App() {
+export default () => {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<Index />} />
-        <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<Error404 />} />
       </Route>
     )
@@ -51,7 +49,7 @@ function App() {
       <RouterProvider router={router} />
     </>
   );
-}
+};
 
 function Layout() {
   return (
@@ -91,7 +89,9 @@ function EmbeddedApp() {
     <>
       <Outlet />
       <NavMenu>
-        <Link to="/" rel="home">Shop Information</Link>
+        <Link to="/" rel="home">
+          Shop Information
+        </Link>
         <Link to="/about">About</Link>
       </NavMenu>
     </>
@@ -107,5 +107,3 @@ function UnauthenticatedApp() {
     </Page>
   );
 }
-
-export default App;

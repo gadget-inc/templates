@@ -27,7 +27,7 @@ or watch the [video](https://youtu.be/rCXC4tabpSE?t=975).
 To test your app, you need to:
 
 1. Select a product to be offered in the embedded admin app on your development store
-2. Run your Shopify CLI app using `npm dev`, `yarn dev`, or `pnpm dev`
+2. Run your Shopify CLI app using `npm dev`, `yarn dev`, or `pnpm dev`. Make sure to install the [Shopify CLI](https://shopify.dev/docs/api/shopify-cli#installation) and create an empty `shopify.app.toml`
 3. Open the Shopify Developer Console once your app has started (press `p` in your terminal when prompted, or copy the generated URL)
 4. Copy the **Preview link** for your extension and paste in a browser tab
 

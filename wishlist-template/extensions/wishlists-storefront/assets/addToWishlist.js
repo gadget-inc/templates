@@ -2,7 +2,7 @@ const state = {};
 
 document.addEventListener("DOMContentLoaded", async () => {
   // Instantiate your Gadget API
-  const api = new Gadget();
+  window.gadgetAPI = new Gadget();
 
   window.wishlistObj = {};
 
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       createSpinner.style.display = "block";
       createBtnText.style.display = "none";
 
-      const wishlist = await api.wishlist.create({
+      const wishlist = await window.gadgetAPI.wishlist.create({
         name: document.getElementById("new-wishlist-input").value,
         shop: {
           _link: window.shopId,
@@ -110,56 +110,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // On click, add or remove the item from the wishlist
     wishlistCard.addEventListener("click", async (e) => {
-      const wishlistId = e.target.id.replace("wishlist-", "");
-
-      // Get the current state of the wishlist item
-      const current = state[wishlistId];
-
-      const checkmarkIcon = document.getElementById(`check-icon-${id}`);
-      const plusIcon = document.getElementById(`plus-icon-${id}`);
-      const spinner = document.getElementById(`loading-spinner-${id}`);
-
-      // Change the icons to the spinner
-      spinner.style.display = "block";
-      checkmarkIcon.style.display = "none";
-      plusIcon.style.display = "none";
-
-      // If the item is already in the wishlist, remove it
-      if (current) {
-        const deleteResponse = await api.removeFromWishlist({
-          wishlistId,
-          shopId: window.shopId.toString(),
-          customerId: window.customerId.toString(),
-          variantId: window.currentVariant.toString(),
-        });
-
-        plusIcon.style.display = "block";
-
-        if (deleteResponse.success) state[id] = false;
-      } else {
-        // If the item is not in the wishlist, add it
-        const addResponse = await api.wishlistItem.create({
-          wishlist: {
-            _link: id,
-          },
-          shop: {
-            _link: window.shopId,
-          },
-          customer: {
-            _link: window.customerId,
-          },
-          variant: {
-            _link: window.currentVariant,
-          },
-        });
-
-        checkmarkIcon.style.display = "block";
-
-        if (addResponse) state[id] = true;
-      }
-
-      // Hide the spinner
-      spinner.style.display = "none";
+      await handleWishlistClick(e);
     });
   }
 });
@@ -194,6 +145,8 @@ function appendNewWishlist(wishlist, parent) {
   newWishlist.className = "wishlist-card";
   newWishlist.id = `wishlist-${wishlist.id}`;
 
+  state[wishlist.id] = true;
+
   // Create the h4 element for the title
   const title = document.createElement("h4");
   title.className = "wishlist-title";
@@ -226,7 +179,8 @@ function appendNewWishlist(wishlist, parent) {
     "http://www.w3.org/2000/svg",
     "svg"
   );
-  plusIcon.className = "svg";
+
+  plusIcon.classList.add(["svg"]);
   plusIcon.id = `plus-icon-${wishlist.id}`;
   plusIcon.setAttribute("viewBox", "0 0 50 50");
   plusIcon.style.display = "none";
@@ -250,11 +204,62 @@ function appendNewWishlist(wishlist, parent) {
   newWishlist.appendChild(spinner);
 
   // Attach event listener to the new div
-  newWishlist.addEventListener("click", () => {
-    console.log(`Wishlist ${wishlist.name} clicked!`);
-    // Show the spinner, for example
-    spinner.style.display = "block";
+  newWishlist.addEventListener("click", async (e) => {
+    await handleWishlistClick(e);
   });
 
   parent.appendChild(newWishlist);
+}
+
+async function handleWishlistClick(e) {
+  const wishlistId = e.target.id.replace("wishlist-", "");
+
+  // Get the current state of the wishlist item
+  const current = state[wishlistId];
+
+  const checkmarkIcon = document.getElementById(`check-icon-${wishlistId}`);
+  const plusIcon = document.getElementById(`plus-icon-${wishlistId}`);
+  const spinner = document.getElementById(`loading-spinner-${wishlistId}`);
+
+  // Change the icons to the spinner
+  spinner.style.display = "block";
+  checkmarkIcon.style.display = "none";
+  plusIcon.style.display = "none";
+
+  // If the item is already in the wishlist, remove it
+  if (current) {
+    const deleteResponse = await window.gadgetAPI.removeFromWishlist({
+      wishlistId,
+      shopId: window.shopId.toString(),
+      customerId: window.customerId.toString(),
+      variantId: window.currentVariant.toString(),
+    });
+
+    plusIcon.style.display = "block";
+
+    if (deleteResponse.success) state[wishlistId] = false;
+  } else {
+    // If the item is not in the wishlist, add it
+    const addResponse = await window.gadgetAPI.wishlistItem.create({
+      wishlist: {
+        _link: wishlistId,
+      },
+      shop: {
+        _link: window.shopId,
+      },
+      customer: {
+        _link: window.customerId,
+      },
+      variant: {
+        _link: window.currentVariant,
+      },
+    });
+
+    checkmarkIcon.style.display = "block";
+
+    if (addResponse) state[wishlistId] = true;
+  }
+
+  // Hide the spinner
+  spinner.style.display = "none";
 }

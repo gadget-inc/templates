@@ -25,6 +25,7 @@ export async function applyTags({ record, api, connections }) {
     // write tags back to Shopify
     const shopify = await connections.shopify.current;
     if (shopify) {
+      logger.info({ message: `writing back to Shopify product ${record.id}` })
       await shopify.product.update(parseInt(record.id), {
         tags: finalTags.join(","),
       });

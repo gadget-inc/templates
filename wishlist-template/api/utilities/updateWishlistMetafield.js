@@ -1,4 +1,4 @@
-import { api, connections, logger } from "gadget-server";
+import { api, connections } from "gadget-server";
 
 export default async ({ shopId, customerId }) => {
   // INstantiate the Shopify API and fetch the first page of wishlists
@@ -89,6 +89,7 @@ export default async ({ shopId, customerId }) => {
           namespace: "wishlist_app",
           ownerId: `gid://shopify/Customer/${customerId}`,
           value: JSON.stringify(Object.values(wishlistObj)),
+          type: "json",
         },
       ],
     }

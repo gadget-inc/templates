@@ -5,9 +5,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.gadgetAPI = new Gadget();
 
   window.wishlistObj = {};
-
-  for (const wishlist of window.initialWishlistArr) {
-    window.wishlistObj[wishlist.id] = wishlist;
+  if (window.initialWishlistArr) {
+    for (const wishlist of window.initialWishlistArr) {
+      window.wishlistObj[wishlist.id] = wishlist;
+    }
   }
 
   // idInputs holds the variant id
@@ -105,13 +106,15 @@ document.addEventListener("DOMContentLoaded", async () => {
   applyCheckmarks(window.currentVariant);
 
   // Loop through each wishlist in the array and add an event listener for it
-  for (const { id } of window.initialWishlistArr) {
-    const wishlistCard = document.getElementById(`wishlist-${id}`);
+  if (window.initialWishlistArr) {
+    for (const { id } of window.initialWishlistArr) {
+      const wishlistCard = document.getElementById(`wishlist-${id}`);
 
-    // On click, add or remove the item from the wishlist
-    wishlistCard.addEventListener("click", async (e) => {
-      await handleWishlistClick(e);
-    });
+      // On click, add or remove the item from the wishlist
+      wishlistCard.addEventListener("click", async (e) => {
+        await handleWishlistClick(e);
+      });
+    }
   }
 });
 
@@ -140,8 +143,13 @@ function applyCheckmarks(value) {
 }
 
 function appendNewWishlist(wishlist, parent) {
+  const noWishlists = document.getElementById("no-wishlists");
+
+  if (noWishlists) noWishlists.style.display = "none";
+
   // Create the div element node
   const newWishlist = document.createElement("div");
+
   newWishlist.className = "wishlist-card";
   newWishlist.id = `wishlist-${wishlist.id}`;
 

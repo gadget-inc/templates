@@ -23,18 +23,22 @@
       <button id="openModalBtn">New</button>
     </div>
     <div id="wishlist-container">
-      {% for wishlist in wishlists %}
-        <div class="wishlist-card" id="wishlist-{{wishlist.id}}">
-            <h4 class="wishlist-title">{{ wishlist.name }}</h4>
-            <svg class="svg" id="check-icon-{{wishlist.id}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
-              <path d="M12,2c-5.51693,0 -10,4.48308 -10,10c0,5.51693 4.48307,10 10,10c5.51693,0 10,-4.48307 10,-10c0,-5.51692 -4.48307,-10 -10,-10zM16.49805,9c0.128,0 0.25602,0.04898 0.35352,0.14648c0.195,0.195 0.19695,0.51103 0.00195,0.70703l-6,6c-0.098,0.097 -0.22552,0.14648 -0.35352,0.14648c-0.128,0 -0.25552,-0.04948 -0.35352,-0.14648l-3,-3c-0.195,-0.195 -0.195,-0.51203 0,-0.70703c0.195,-0.195 0.51203,-0.195 0.70703,0l2.64453,2.64649l5.64648,-5.64648c0.0975,-0.0975 0.22552,-0.14648 0.35352,-0.14648z"></path>
-            </svg>
-            <svg class="svg" id="plus-icon-{{wishlist.id}}" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 50 50" style="display: none;">
-              <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"></path>
-            </svg>
-            <div id="loading-spinner-{{wishlist.id}}" class="spinner" style="display: none;"></div>
-        </div>
-      {% endfor %}
+      {% if wishlists %}
+        {% for wishlist in wishlists %}
+          <div class="wishlist-card" id="wishlist-{{wishlist.id}}">
+              <h4 class="wishlist-title">{{ wishlist.name }}</h4>
+              <svg class="svg" id="check-icon-{{wishlist.id}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+                <path d="M12,2c-5.51693,0 -10,4.48308 -10,10c0,5.51693 4.48307,10 10,10c5.51693,0 10,-4.48307 10,-10c0,-5.51692 -4.48307,-10 -10,-10zM16.49805,9c0.128,0 0.25602,0.04898 0.35352,0.14648c0.195,0.195 0.19695,0.51103 0.00195,0.70703l-6,6c-0.098,0.097 -0.22552,0.14648 -0.35352,0.14648c-0.128,0 -0.25552,-0.04948 -0.35352,-0.14648l-3,-3c-0.195,-0.195 -0.195,-0.51203 0,-0.70703c0.195,-0.195 0.51203,-0.195 0.70703,0l2.64453,2.64649l5.64648,-5.64648c0.0975,-0.0975 0.22552,-0.14648 0.35352,-0.14648z"></path>
+              </svg>
+              <svg class="svg" id="plus-icon-{{wishlist.id}}" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 50 50" style="display: none;">
+                <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"></path>
+              </svg>
+              <div id="loading-spinner-{{wishlist.id}}" class="spinner" style="display: none;"></div>
+          </div>
+        {% endfor %}
+      {% else %}
+          <p id="no-wishlists">No wishlists</p>
+      {% endif %}
     </div>
   </div>
 {% endif %}

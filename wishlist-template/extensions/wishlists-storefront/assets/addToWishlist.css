@@ -180,3 +180,10 @@
     transform: rotate(360deg);
   }
 }
+
+#no-wishlist {
+  display: block;
+  color: #202223;
+  font-size: 16px;
+  margin: 20px auto;
+}

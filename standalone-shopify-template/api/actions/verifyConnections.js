@@ -8,6 +8,9 @@ export async function run({ params, logger, api, connections, session }) {
   const user = session.get("user");
   const shop = session.get("shop");
 
+  // Clear shop from session
+  session.set("shop", null)
+
   // Throw error if this global action is called from outside of the signed-in area
   if (!user) throw new Error("User is not signed in");
   if (!shop) return;

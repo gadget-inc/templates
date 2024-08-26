@@ -1,5 +1,4 @@
 import { RouteContext } from "gadget-server";
-import { default as jwt } from "jsonwebtoken";
 
 /**
  * Route handler for GET hello

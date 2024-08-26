@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   const modal = document.getElementById("new-wishlist-modal");
   const btn = document.getElementById("openModalBtn");
   const closeIcon = document.getElementsByClassName("close")[0];
+  const wishlistContainer = document.getElementById("wishlist-container");
+
   let form;
   let createSpinner;
   let createBtnText;
@@ -71,6 +73,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         createSpinner.style.display = "none";
         createBtnText.style.display = "block";
         modal.style.display = "none";
+
+        appendNewWishlist(wishlist, wishlistContainer);
       } else {
         createSpinner.style.display = "none";
         createBtnText.style.display = "block";
@@ -182,4 +186,75 @@ function applyCheckmarks(value) {
       state[id] = false;
     }
   }
+}
+
+function appendNewWishlist(wishlist, parent) {
+  // Create the div element node
+  const newWishlist = document.createElement("div");
+  newWishlist.className = "wishlist-card";
+  newWishlist.id = `wishlist-${wishlist.id}`;
+
+  // Create the h4 element for the title
+  const title = document.createElement("h4");
+  title.className = "wishlist-title";
+  title.textContent = wishlist.name;
+  newWishlist.appendChild(title);
+
+  // Create the checkmark SVG
+  const checkIcon = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  checkIcon.className = "svg";
+  checkIcon.id = `check-icon-${wishlist.id}`;
+  checkIcon.setAttribute("viewBox", "0 0 24 24");
+  checkIcon.style.display = "block";
+  // Add the checkmark path to the SVG
+  const checkPath = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "path"
+  );
+  checkPath.setAttribute(
+    "d",
+    "M12,2c-5.51693,0 -10,4.48308 -10,10c0,5.51693 4.48307,10 10,10c5.51693,0 10,-4.48307 10,-10c0,-5.51692 -4.48307,-10 -10,-10zM16.49805,9c0.128,0 0.25602,0.04898 0.35352,0.14648c0.195,0.195 0.19695,0.51103 0.00195,0.70703l-6,6c-0.098,0.097 -0.22552,0.14648 -0.35352,0.14648c-0.128,0 -0.25552,-0.04948 -0.35352,-0.14648l-3,-3c-0.195,-0.195 -0.195,-0.51203 0,-0.70703c0.195,-0.195 0.51203,-0.195 0.70703,0l2.64453,2.64649l5.64648,-5.64648c0.0975,-0.0975 0.22552,-0.14648 0.35352,-0.14648z"
+  );
+  checkIcon.appendChild(checkPath);
+  newWishlist.appendChild(checkIcon);
+
+  // Create the plus icon SVG
+  const plusIcon = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "svg"
+  );
+  plusIcon.className = "svg";
+  plusIcon.id = `plus-icon-${wishlist.id}`;
+  plusIcon.setAttribute("viewBox", "0 0 50 50");
+  plusIcon.style.display = "none";
+  // Add the plus icon path to the SVG
+  const plusPath = document.createElementNS(
+    "http://www.w3.org/2000/svg",
+    "path"
+  );
+  plusPath.setAttribute(
+    "d",
+    "M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"
+  );
+  plusIcon.appendChild(plusPath);
+  newWishlist.appendChild(plusIcon);
+
+  // Create the loading spinner div
+  const spinner = document.createElement("div");
+  spinner.className = "spinner";
+  spinner.id = `loading-spinner-${wishlist.id}`;
+  spinner.style.display = "none";
+  newWishlist.appendChild(spinner);
+
+  // Attach event listener to the new div
+  newWishlist.addEventListener("click", () => {
+    console.log(`Wishlist ${wishlist.name} clicked!`);
+    // Show the spinner, for example
+    spinner.style.display = "block";
+  });
+
+  parent.appendChild(newWishlist);
 }

@@ -1,5 +1,6 @@
-{% comment %} Make sure to change this to your environment's CDN URL {% endcomment %}
-<script src="https://wishlist-template--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
+{% comment %} Make sure to change this to your environment's CDN URL. Look at your "installing" docs {% endcomment %}
+<script src="https://<appName>--<environment>.gadget.app/api/client/web.min.js" defer="defer"></script>
+
 <script src="{{ 'addToWishlist.js' | asset_url }}" defer="defer"></script>
 {{ 'addToWishlist.css' | asset_url | stylesheet_tag }}
 

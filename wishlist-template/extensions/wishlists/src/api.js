@@ -1,3 +1,5 @@
+// Change this to your application's API client
 import { Client } from "@gadget-client/wishlist-template";
 
-export const api = new Client({ environment: "devaoc" });
+// Change this to your desired environment
+export const api = new Client({ environment: "development" });

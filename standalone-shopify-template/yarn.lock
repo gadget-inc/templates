@@ -163,7 +163,32 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.26", "@gadgetinc/api-client-core@^0.15.13", "@gadgetinc/api-client-core@^0.15.24":
+"@gadget-client/standalone-shopify-template@link:.gadget/client":
+  version "0.0.0"
+  uid ""
+
+"@gadgetinc/api-client-core@0.15.30":
+  version "0.15.30"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.30.tgz#73756633eee48b5e250b3a7451e97072a87d24bd"
+  integrity sha512-7rdA6exg9OOXRReXt0DL3YIMmZvG7XWOTwB9KIoWAxKKF1fCblr+hHm/bQsd3AZiUDRVj/9ga1fWhuKRR3SfbQ==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.4"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^4.0.0"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    type-fest "^3.13.1"
+    wonka "^6.3.2"
+    ws "^8.17.0"
+
+"@gadgetinc/api-client-core@^0.15.13", "@gadgetinc/api-client-core@^0.15.24":
   version "0.15.26"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.26.tgz#26a462e3792e1796bb8c21912c6b0e2db4f58e6e"
   integrity sha512-U1g1iHcc+FXxM4LKrd4cRggxZ6/qUvhgdfEzK+qMVeCXRfT1KUYqWe/ZA1ifw3X8bhGnOmc4IC3bso2sNfhkWA==

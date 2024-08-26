@@ -7,6 +7,12 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-ProductVariant",
   fields: {
+    customersToEmail: {
+      type: "json",
+      default: {},
+      validations: { required: true },
+      storageKey: "Ij59EyhVp-Nz",
+    },
     deleted: {
       type: "boolean",
       default: false,

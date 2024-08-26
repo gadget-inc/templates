@@ -1,7 +1,7 @@
 import { SendWishlistEmailGlobalActionContext } from "gadget-server";
 import React from "react";
 import { render } from "@react-email/render";
-import { Email } from "../utilities";
+import { WishlistEmail } from "../utilities";
 import { DateTime } from "luxon";
 
 /**
@@ -114,7 +114,7 @@ export async function run({ params, logger, api, connections, emails }) {
     to: email,
     subject: `${shopName} wishlist update`,
     html: render(
-      <Email
+      <WishlistEmail
         name={
           `${firstName || ""} ${lastName || ""}`.trim() || "cherished customer"
         }

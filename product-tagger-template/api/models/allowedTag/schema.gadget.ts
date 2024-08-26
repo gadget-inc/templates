@@ -7,7 +7,16 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-RinUX4NwXsfG",
   fields: {
-    keyword: { type: "string", storageKey: "ModelField-42-1qAYlxKO1::FieldStorageEpoch-WTtkWL6c2sz4" },
-    shop: { type: "belongsTo", parent: { model: "shopifyShop" }, storageKey: "ModelField-JVUragzgah1x::FieldStorageEpoch-nRrg8cVs9QLD" },
+    keyword: {
+      type: "string",
+      storageKey:
+        "ModelField-42-1qAYlxKO1::FieldStorageEpoch-WTtkWL6c2sz4",
+    },
+    shop: {
+      type: "belongsTo",
+      parent: { model: "shopifyShop" },
+      storageKey:
+        "ModelField-JVUragzgah1x::FieldStorageEpoch-nRrg8cVs9QLD",
+    },
   },
 };

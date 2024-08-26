@@ -6,6 +6,13 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-aQztXkYKakCq",
-  fields: { roles: { type: "roleList", default: ["unauthenticated"], storageKey: "ModelField-DzmD5PDItMna::FieldStorageEpoch-uVEZeiVx2UX4" } },
+  fields: {
+    roles: {
+      type: "roleList",
+      default: ["unauthenticated"],
+      storageKey:
+        "ModelField-DzmD5PDItMna::FieldStorageEpoch-uVEZeiVx2UX4",
+    },
+  },
   shopify: { fields: ["shop", "shopifySID"] },
 };

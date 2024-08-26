@@ -205,7 +205,7 @@ function appendNewWishlist(wishlist, parent) {
     "http://www.w3.org/2000/svg",
     "svg"
   );
-  checkIcon.className = "svg";
+  checkIcon.classList.add(["svg"]);
   checkIcon.id = `check-icon-${wishlist.id}`;
   checkIcon.setAttribute("viewBox", "0 0 24 24");
   checkIcon.style.display = "block";

@@ -53,7 +53,11 @@ export async function run({ params, record, logger, api, connections }) {
               },
               {
                 key: "rating",
-                value: record.rating.toString(),
+                value: JSON.stringify({
+                  value: record.rating,
+                  scale_max: "5",
+                  scale_min: "0",
+                }),
               },
               {
                 key: "content",

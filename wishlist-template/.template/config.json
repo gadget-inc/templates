@@ -47,7 +47,7 @@
     "title": "Customer wishlists",
     "description": "Sell more by keeping your customers up to date on your store's items.",
     "content": "webflow/content.md",
-    "mainImage": "webflow/wishlist-template.webp",
+    "mainImage": "webflow/wishlist-template.png",
     "features": {
       "shopify": true,
       "frontend": true,

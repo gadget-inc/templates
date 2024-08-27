@@ -8,35 +8,17 @@ import {
   DescriptionList,
 } from "@shopify/polaris";
 import { api } from "../api";
-import { useCallback, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { ShopContext } from "../providers";
 import { AutoButton } from "@gadgetinc/react/auto/polaris";
 
 export default () => {
-  const [show, setShow] = useState(false),
-    [disabled, setDisabled] = useState(false);
-  const [bannerContext, setBannerContext] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const { shop } = useContext(ShopContext);
-
-  /**
-   * @type { () => void }
-   *
-   * Dismisses the error banner
-   */
-  const handleDismiss = useCallback(() => {
-    setShow(false);
-  }, []);
 
   return (
     <Page>
       <BlockStack gap="500">
-        {show && (
-          <Banner
-            title={bannerContext}
-            tone="critical"
-            onDismiss={handleDismiss}
-          />
-        )}
         <Banner title="Your free trial has ended" tone="warning">
           <Text as="p" variant="bodyLg">
             The complimentary trial for the service has concluded, and continued
@@ -81,7 +63,7 @@ export default () => {
                   setDisabled(true);
                   open(res.data.confirmationUrl, "_top");
                 }}
-                variables={{ id: shop.id, planId: id }}
+                variables={{ id: shop?.id }}
                 children={"Buy now"}
               />
             </BlockStack>

@@ -1,4 +1,4 @@
-import { AutoTable } from "@gadgetinc/react/auto/polaris";
+import { AutoButton, AutoTable } from "@gadgetinc/react/auto/polaris";
 import {
   Banner,
   BlockStack,
@@ -10,6 +10,7 @@ import {
   Text,
 } from "@shopify/polaris";
 import { api } from "../api";
+import { Stars } from "../components";
 
 export default function () {
   return (
@@ -27,14 +28,29 @@ export default function () {
               },
               customer: { firstName: true, lastName: true },
             }}
-            excludeColumns={[
-              "id",
-              "anonymous",
-              "metaobjectId",
-              "createdAt",
-              "updatedAt",
-            ]}
             selectable={false}
+            columns={[
+              { field: "product.title", header: "Product" },
+              { field: "content", header: "Review" },
+              { field: "customer.firstName", header: "Customer" },
+              {
+                field: "rating",
+                header: "Rating",
+                render: ({ record }) => <Stars rating={record.rating} />,
+              },
+              {
+                field: "approved",
+                header: "",
+                render: ({ record }) => (
+                  <AutoButton
+                    action={api.review.update}
+                    variables={{ id: record.id, approved: !record.approved }}
+                  >
+                    {record.approved ? "Remove" : "Approve"}
+                  </AutoButton>
+                ),
+              },
+            ]}
           />
         </Layout.Section>
       </Layout>

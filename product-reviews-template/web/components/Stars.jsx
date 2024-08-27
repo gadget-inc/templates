@@ -3,10 +3,10 @@ import { Box, Icon, InlineStack } from "@shopify/polaris";
 import { StarFilledIcon, StarIcon } from "@shopify/polaris-icons";
 import { Controller, useFormContext } from "@gadgetinc/react";
 
-export default ({ totalStars = 5 }) => {
+export default ({ rating }) => {
   const [hoveredStar, setHoveredStar] = useState(0);
 
-  const { control } = useFormContext();
+  const formContext = useFormContext();
 
   const handleMouseEnter = (index) => {
     setHoveredStar(index + 1);
@@ -16,13 +16,22 @@ export default ({ totalStars = 5 }) => {
     setHoveredStar(0);
   };
 
-  return (
+  // Add the non-null version here
+  return rating ? (
+    <InlineStack>
+      {Array.from({ length: 5 }, (_, index) => (
+        <Box key={index}>
+          <Icon source={index < rating ? StarFilledIcon : StarIcon} />
+        </Box>
+      ))}
+    </InlineStack>
+  ) : (
     <Controller
-      control={control}
+      control={formContext?.control}
       name="rating"
       render={({ field: { ref, ...fieldProps } }) => (
         <InlineStack>
-          {Array.from({ length: totalStars }, (_, index) => (
+          {Array.from({ length: 5 }, (_, index) => (
             <Box
               key={index}
               onMouseEnter={() => handleMouseEnter(index)}

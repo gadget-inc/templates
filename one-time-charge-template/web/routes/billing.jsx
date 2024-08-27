@@ -1,92 +1,24 @@
-import { useAction } from "@gadgetinc/react";
 import {
   Banner,
   BlockStack,
   Layout,
   Page,
-  Button,
   Card,
   Text,
   DescriptionList,
 } from "@shopify/polaris";
 import { api } from "../api";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { ShopContext } from "../providers";
+import { AutoButton } from "@gadgetinc/react/auto/polaris";
 
-/**
- * To view this page, run the following GraphQL mutation in your app's API Playground:
- * 
-    mutation {
-      internal {
-        updateShopifyShop(
-          id: "shopId",
-          shopifyShop: {
-            oneTimeChargeId: null,
-            usedTrialMinutes: 10080
-          }
-        ) {
-        success
-        }
-      }
-    }
- * 
- */
 export default () => {
-  const [show, setShow] = useState(false);
-  const [bannerContext, setBannerContext] = useState("");
+  const [disabled, setDisabled] = useState(false);
   const { shop } = useContext(ShopContext);
-
-  const [
-    { fetching: fetchingSubscription, error: errorSubscribing },
-    subscribe,
-  ] = useAction(api.shopifyShop.subscribe, {
-    select: {
-      confirmationUrl: true,
-    },
-  });
-
-  /**
-   * @type { () => void }
-   *
-   * Callback used to start the one-time purchase flow and redirect to the Shopify one-time purchase confirmation page
-   */
-  const handleSubscribe = useCallback(async () => {
-    const res = await subscribe({ id: shop.id });
-
-    if (res?.data?.confirmationUrl) {
-      open(res.data.confirmationUrl, "_top");
-    }
-  }, [shop, subscribe]);
-
-  /**
-   * @type { () => void }
-   *
-   * Dismisses the error banner
-   */
-  const handleDismiss = useCallback(() => {
-    setShow(false);
-  }, []);
-
-  // useEffect for showing an error banner when there's an issue starting the purchase flow
-  useEffect(() => {
-    if (!fetchingSubscription && errorSubscribing) {
-      setBannerContext(errorSubscribing.message);
-      setShow(true);
-    } else if (fetchingSubscription) {
-      setShow(false);
-    }
-  }, [fetchingSubscription, errorSubscribing]);
 
   return (
     <Page>
       <BlockStack gap="500">
-        {show && (
-          <Banner
-            title={bannerContext}
-            tone="critical"
-            onDismiss={handleDismiss}
-          />
-        )}
         <Banner title="Your free trial has ended" tone="warning">
           <Text as="p" variant="bodyLg">
             The complimentary trial for the service has concluded, and continued
@@ -124,15 +56,16 @@ export default () => {
                   />
                 </BlockStack>
               </Card>
-              <Button
-                variant="primary"
-                size="large"
-                onClick={handleSubscribe}
-                disabled={fetchingSubscription}
-                loading={fetchingSubscription}
-              >
-                Buy now
-              </Button>
+              <AutoButton
+                action={api.shopifyShop.subscribe}
+                disabled={disabled}
+                onSuccess={(res) => {
+                  setDisabled(true);
+                  open(res.data.confirmationUrl, "_top");
+                }}
+                variables={{ id: shop?.id }}
+                children={"Buy now"}
+              />
             </BlockStack>
           </Layout.Section>
         </Layout>

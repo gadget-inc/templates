@@ -8,7 +8,7 @@ import {
   Divider,
   TextField,
 } from "@shopify/polaris";
-import { ImageMajor } from "@shopify/polaris-icons";
+import { ImageIcon } from "@shopify/polaris-icons";
 import { useMemo } from "react";
 
 export default ({
@@ -35,7 +35,7 @@ export default ({
       <BlockStack gap="300">
         <InlineStack align="space-between">
           <InlineStack blockAlign="center" gap="400">
-            <Thumbnail source={images[0]?.originalSrc || ImageMajor} />
+            <Thumbnail source={images[0]?.originalSrc || ImageIcon} />
             <BlockStack>
               <Text>
                 {variants.length === 1 && variants[0].displayName

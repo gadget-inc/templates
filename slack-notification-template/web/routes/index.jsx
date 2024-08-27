@@ -21,7 +21,7 @@ import {
   Toast,
   Banner,
 } from "@shopify/polaris";
-import { SearchMinor } from "@shopify/polaris-icons";
+import { SearchIcon } from "@shopify/polaris-icons";
 import { api } from "../api";
 import { SlackAuthButton } from "../components";
 import { useState, useCallback, useEffect, useMemo } from "react";
@@ -137,7 +137,7 @@ const SlackChannelSelectionForm = ({
                 <Combobox
                   activator={
                     <Combobox.TextField
-                      prefix={<Icon source={SearchMinor} />}
+                      prefix={<Icon source={SearchIcon} />}
                       onChange={updateText}
                       label="Select a channel"
                       value={inputValue}

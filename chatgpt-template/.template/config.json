@@ -1,0 +1,130 @@
+{
+  "version": "v1",
+  "introduction": "docs/Intro.md",
+"featuredFrontends": {
+  "App.jsx": {
+    "description": "This page handles routing of the frontend pages.",
+    "tags": [
+      "edited"
+    ]
+  },
+  "chat.jsx": {
+    "description": "The logged in view of the app",
+    "tags": [
+      "edited"
+    ]
+  },
+  "CurrentChat.jsx": {
+    "description": "This component is displayed in Chat.jsx and builds the current chat",
+    "tags": [
+      "edited"
+    ]
+  },
+  "index.jsx": {
+    "description": "Unauthenticated page",
+    "tags": [
+      "edited"
+    ]
+  }
+},
+"featuredModels": {
+  "chat": {
+    "description": "Handles storing the chat data and what user it belongs to.",
+    "featuredFields": [
+      "messages",
+      "name",
+      "user"
+    ]
+  },
+  "message": {
+    "description": "Handles storing the message data and which chat it belongs to.",
+    "featuredFields": [
+      "content",
+      "chat",
+      "order"
+    ]
+  },
+  "user": {
+    "description": "Tracks user authentication, email verification and other auth methods.",
+    "featuredFields": [
+      "email",
+      "chats"
+    ]
+  }
+},
+"featuredActions": {
+  "chat": {
+    "create": {
+      "description": "Creates a chat associated to the user who created it",
+      "tags": [
+        "added"
+      ]
+    },
+    "update": {
+      "description": "Used to update chat with new messages",
+      "tags": [
+        "added"
+      ]
+    },
+    "delete": {
+      "description": "Deletes chat from the database",
+      "tags": [
+        "added"
+      ]
+    },
+    "name": {
+      "description": "Uses the first message sent to create a name for the chat",
+      "tags": [
+        "added"
+      ]
+    }
+  },
+  "message": {
+    "create": {
+      "description": "Creates a message associated to a chat",
+      "tags": [
+        "added"
+      ]
+    }
+  }
+},
+"featuredAccessControls": {
+  "signed-in": {
+    "chat": {
+      "description": "Signed in users can see all their chats and make changes",
+      "tags": [
+        "read, create, update, delete"
+      ],
+      "featuredFilters":{
+        "chat/filters/tenant.gelly":{
+          "description":"Users are only able to read their own chats"
+        }
+      }
+    },
+    "message": {
+      "description": "Signed in users can see all their messages and make create new ones",
+      "tags": [
+        "read, create"
+      ],
+      "featuredFilters": {
+        "message/filters/tenant.gelly": {
+          "description": "Users are only able to read their own messages"
+        }
+      }
+    }
+  }
+},
+  "webflow": {
+    "title": "ChatGPT clone",
+    "description": "This template uses the built-in OpenAI connection to showcase how a chatbot can be created in Gadget.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/chatgpt-clone.webp",
+    "wistiaId":"aw5t9o6lht",
+    "features": {
+      "openAi": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

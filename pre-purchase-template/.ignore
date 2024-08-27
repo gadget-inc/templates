@@ -1,1 +1,4 @@
-extensions/*/dist
+# Shopify
+extensions/**/dist
+shopify.app.**.toml
+extensions/**/node_modules

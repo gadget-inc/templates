@@ -1,0 +1,3 @@
+- Let merchants log in to a non-embedded dashboard and view data related to their shop
+- _Tenancy enforced:_ App data will be unique to each installed shop.
+- _Ready-to-Use:_ No need to start from scratch – equipped with a Shopify connection, data models, and backend logic

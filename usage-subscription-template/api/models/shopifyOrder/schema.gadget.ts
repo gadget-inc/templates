@@ -38,6 +38,7 @@ export const schema: GadgetModel = {
       "estimatedTaxes",
       "financialStatus",
       "fulfillmentStatus",
+      "fulfillmentsCount",
       "landingSite",
       "merchantOfRecordAppId",
       "name",
@@ -83,6 +84,7 @@ export const schema: GadgetModel = {
       "totalTaxSet",
       "totalTipReceived",
       "totalWeight",
+      "transactionsCount",
     ],
   },
 };

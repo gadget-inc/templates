@@ -1,0 +1,72 @@
+{% comment %} Make sure to change this to your environment's CDN URL. Look at your "installing" docs {% endcomment %}
+<script src="https://<appName>--<environment>.gadget.app/api/client/web.min.js" defer="defer"></script>
+
+<script src="{{ 'addToWishlist.js' | asset_url }}" defer="defer"></script>
+{{ 'addToWishlist.css' | asset_url | stylesheet_tag }}
+
+{% assign wishlists = customer.metafields.wishlist_app.wishlists.value %}
+
+{% comment %} Initializing values to be used in the addToWishlist.js file {% endcomment %}
+ <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      window.initialWishlistArr = {{ wishlists | json }};
+      window.currentVariant = {{ product.selected_or_first_available_variant.id | json }}
+      window.customerId = {{ customer.id | json }}
+      window.shopId = {{ shop.id | json }}
+    });
+ </script>
+
+{% comment %} https://shopify.dev/docs/api/liquid/objects/customer {% endcomment %}
+{% if customer %}
+  <div>
+    <div class="wishlist-container-heading">
+      <h3>Wishlists</h3>
+      <button id="openModalBtn">New</button>
+    </div>
+    <div id="wishlist-container">
+      {% if wishlists %}
+        {% for wishlist in wishlists %}
+          <div class="wishlist-card" id="wishlist-{{wishlist.id}}">
+              <h4 class="wishlist-title">{{ wishlist.name }}</h4>
+              <svg class="svg" id="check-icon-{{wishlist.id}}" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" style="display: none;">
+                <path d="M12,2c-5.51693,0 -10,4.48308 -10,10c0,5.51693 4.48307,10 10,10c5.51693,0 10,-4.48307 10,-10c0,-5.51692 -4.48307,-10 -10,-10zM16.49805,9c0.128,0 0.25602,0.04898 0.35352,0.14648c0.195,0.195 0.19695,0.51103 0.00195,0.70703l-6,6c-0.098,0.097 -0.22552,0.14648 -0.35352,0.14648c-0.128,0 -0.25552,-0.04948 -0.35352,-0.14648l-3,-3c-0.195,-0.195 -0.195,-0.51203 0,-0.70703c0.195,-0.195 0.51203,-0.195 0.70703,0l2.64453,2.64649l5.64648,-5.64648c0.0975,-0.0975 0.22552,-0.14648 0.35352,-0.14648z"></path>
+              </svg>
+              <svg class="svg" id="plus-icon-{{wishlist.id}}" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 50 50" style="display: none;">
+                <path d="M 25 2 C 12.309295 2 2 12.309295 2 25 C 2 37.690705 12.309295 48 25 48 C 37.690705 48 48 37.690705 48 25 C 48 12.309295 37.690705 2 25 2 z M 25 4 C 36.609824 4 46 13.390176 46 25 C 46 36.609824 36.609824 46 25 46 C 13.390176 46 4 36.609824 4 25 C 4 13.390176 13.390176 4 25 4 z M 24 13 L 24 24 L 13 24 L 13 26 L 24 26 L 24 37 L 26 37 L 26 26 L 37 26 L 37 24 L 26 24 L 26 13 L 24 13 z"></path>
+              </svg>
+              <div id="loading-spinner-{{wishlist.id}}" class="spinner" style="display: none;"></div>
+          </div>
+        {% endfor %}
+      {% else %}
+          <p id="no-wishlists">No wishlists</p>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+<div id="new-wishlist-modal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 class="modal-header-text">New wishlist</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="svg close" viewBox="0 0 50 50">
+        <path d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
+      </svg>
+    </div>
+    <form id="new-wishlist-form">
+      <input id="new-wishlist-input" type="">
+      <button type="submit" class="new-wishlist-button">
+        <span id="create-button-text">Create</span>
+        <div id="creation-spinner" class="spinner-white" style="display: none;"></div>
+        </button>
+    </form>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Wishlist selector",
+  "target": "section",
+  "settings": []
+}
+{% endschema %}
+

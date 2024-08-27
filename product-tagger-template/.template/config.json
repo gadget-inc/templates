@@ -62,13 +62,13 @@
     }
   },
   "featuredFrontends": {
-    "App.jsx": {
+    "components/App.jsx": {
       "description": "Handles routing for the frontend pages.",
       "tags": [
         "edited"
       ]
     },
-    "ShopPage.jsx": {
+    "routes/index.jsx": {
       "description": "Displays an embedded Shopify Admin UI that allows merchants to add or manage their keyword list.",
       "tags": [
         "edited"

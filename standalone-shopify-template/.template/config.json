@@ -17,7 +17,7 @@
     "title": "Standalone Shopify app with Gadget auth",
     "description": "Write a non-embedded app with Gadget managed Shopify auth.",
     "content": "webflow/content.md",
-    "mainImage": "webflow/external-shopify-app-template.png",
+    "mainImage": "webflow/standalone-shopify-template.png",
     "features": {
       "shopify": true,
       "frontend": true,

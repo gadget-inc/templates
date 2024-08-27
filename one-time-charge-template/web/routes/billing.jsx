@@ -8,7 +8,7 @@ import {
   DescriptionList,
 } from "@shopify/polaris";
 import { api } from "../api";
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { ShopContext } from "../providers";
 import { AutoButton } from "@gadgetinc/react/auto/polaris";
 
@@ -26,16 +26,6 @@ export default () => {
   const handleDismiss = useCallback(() => {
     setShow(false);
   }, []);
-
-  // useEffect for showing an error banner when there's an issue starting the purchase flow
-  useEffect(() => {
-    if (!fetchingSubscription && errorSubscribing) {
-      setBannerContext(errorSubscribing.message);
-      setShow(true);
-    } else if (fetchingSubscription) {
-      setShow(false);
-    }
-  }, [fetchingSubscription, errorSubscribing]);
 
   return (
     <Page>

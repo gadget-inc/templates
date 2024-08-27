@@ -102,6 +102,8 @@ export async function run({ params, record, logger, api, connections }) {
         throw new Error(
           metaobjectDeleteResponse.metaobjectDelete.userErrors[0].message
         );
+
+      record.metaobjectId = null;
     }
   }
 

@@ -1,18 +1,14 @@
 import { AutoButton, AutoTable } from "@gadgetinc/react/auto/polaris";
-import {
-  Banner,
-  BlockStack,
-  Box,
-  Card,
-  Layout,
-  Link,
-  Page,
-  Text,
-} from "@shopify/polaris";
+import { BlockStack, Layout, Page, Text, Tooltip } from "@shopify/polaris";
 import { api } from "../api";
 import { Stars } from "../components";
+import { useAppBridge } from "@shopify/app-bridge-react";
+import { useState } from "react";
 
 export default function () {
+  const { toast, modal } = useAppBridge();
+  const [modalContent, setModelContent] = useState("");
+
   return (
     <Page>
       <Layout>
@@ -31,7 +27,24 @@ export default function () {
             selectable={false}
             columns={[
               { field: "product.title", header: "Product" },
-              { field: "content", header: "Review" },
+              {
+                field: "content",
+                header: "Review",
+                render: ({ record: { content } }) => (
+                  <Tooltip {...{ content }}>
+                    <div
+                      onClick={() => {
+                        setModelContent(content);
+                        modal.show("review-content-modal");
+                      }}
+                    >
+                      <Text as="span" variant="bodyMd" truncate>
+                        {content}
+                      </Text>
+                    </div>
+                  </Tooltip>
+                ),
+              },
               { field: "customer.firstName", header: "Customer" },
               {
                 field: "rating",
@@ -45,6 +58,23 @@ export default function () {
                   <AutoButton
                     action={api.review.update}
                     variables={{ id: record.id, approved: !record.approved }}
+                    tone={record.approved ? "critical" : "primary"}
+                    onSuccess={({ data: { approved } }) =>
+                      toast.show(
+                        approved
+                          ? "Review added to store"
+                          : "Review removed from store",
+                        {
+                          duration: 5000,
+                        }
+                      )
+                    }
+                    onError={() =>
+                      toast.show("Error submitting change", {
+                        duration: 5000,
+                        isError: true,
+                      })
+                    }
                   >
                     {record.approved ? "Remove" : "Approve"}
                   </AutoButton>
@@ -53,6 +83,12 @@ export default function () {
             ]}
           />
         </Layout.Section>
+        <ui-modal id="review-content-modal">
+          <BlockStack gap="300">
+            <ui-title-bar title="Review" />
+            <Text variant="bodyMd">{modalContent}</Text>
+          </BlockStack>
+        </ui-modal>
       </Layout>
     </Page>
   );

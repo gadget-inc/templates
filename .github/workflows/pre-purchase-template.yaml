@@ -3,7 +3,7 @@ name: Pre-Purchase Deployment
 on:
   push:
     paths:
-      - "pre-purchase-template/**"
+      - "shopify/pre-purchase-template/**"
     branches:
       - main
   workflow_dispatch:
@@ -16,6 +16,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Push to development environment
         run: npx ggt push --app=pre-purchase-template --env=development --force --allow-unknown-directory
-        working-directory: pre-purchase-template/
+        working-directory: shopify/pre-purchase-template/
         env:
           GGT_TOKEN: ${{ secrets.PRE_PURCHASE_DEPLOY_TOKEN }}

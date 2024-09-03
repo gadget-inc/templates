@@ -58,7 +58,7 @@
     }
   },
   "webflow": {
-    "title": "Slack notifications",
+    "title": "Shopify order notifications with Slack",
     "description": "Allow merchants to receive notifications when a transaction has been completed.",
     "content": "webflow/content.md",
     "mainImage": "webflow/slack.webp",

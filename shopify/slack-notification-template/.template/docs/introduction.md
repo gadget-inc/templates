@@ -1,4 +1,4 @@
-# Slack notifications
+# Shopify order notifications with Slack
 
 This template has [setup instructions](template-setup).
 

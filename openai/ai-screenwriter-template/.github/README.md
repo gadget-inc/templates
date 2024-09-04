@@ -9,3 +9,4 @@ Use the button below to fork the application.
 - OpenAI connection
 - Vector embedding
 - Google SSO and email/password signin
+- Multi-tenant

@@ -7,13 +7,19 @@ The application "Screenwriter GPT" is a template designed to generate fake movie
 ## Key features
 
 - Models
+
   - Movie: Stores movie titles, quotes, and vector embeddings
   - User: Manages signups and user information.
+
 - Global actions:
+
   - `ingestData`: Fetches movie data from Hugging Face, sends it to OpenAI for embeddings, and stores the results.
   - `findSimilarMovies`: Uses a user-submitted quote to find similar quotes from the database and generates screenplay suggestions based on vector embeddings.
-- Backend
-  - routes
-    - `POST-chat`: Streams responses from the OpenAI API to the client.
+
+- Routes
+
+  - `POST-chat`: Streams responses from the OpenAI API to the client.
+
 - Frontend
+
   - `App.jsx`: Manages routing for the application's frontend.

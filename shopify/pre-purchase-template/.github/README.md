@@ -1,93 +1,38 @@
 # Pre-purchase upsell
 
-This app manages the data used for the selected product, and provides the embedded admin app that merchants use. It does not have the checkout UI extension itself, that code, and setup steps, can be found in the [written tutorial](https://docs.gadget.dev/guides/tutorials/checkout-ui-extension#build-a-pre-purchase-checkout-ui-extension).
+This application allows Shopify merchants to select a product from their store, which will be offered to buyers during checkout as a pre-purchase upsell. It integrates with Shopify to sync products and allows merchants to manage offers through an embedded Admin UI. There's a Shopify Checkout UI Extension included in this application.
 
 [![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=pre-purchase-template.gadget.app)
 
-## Table of contents
+## Key features
 
-- [Getting started](#getting-started)
-- [App overview](#app-overview)
-  - [Starter template](#starter-template)
-  - [Connections](#connections)
-  - [Data modeling + template overview](#data-modeling-template-overview)
-    - [Template default models](#template-default-models)
-  - [Environment variables](#environment-variables)
-  - [Backend (actions + code)](#backend-actions-code)
-  - [Access roles + API permissions](#access-roles-api-permissions)
-  - [Frontend](#frontend)
-- [Extending this template](#extending-this-template)
-- [Questions?](#questions)
+- Models
 
-## Getting started
+  - ShopifyProduct: Synchronizes and stores product data from connected Shopify stores.
+    - Fields
+      - `id`: Unique identifier for the product.
+      - `title`: Name of the product.
+  - ShopifyShop: Tracks Shopify shops where the app is installed.
+    - Fields
+      - `name`: Name of the Shopify store.
+      - `products`: List of products available in the store.
+      - `prePurchaseProduct`: Selected product for the pre-purchase upsell.
 
-To test out this app, do the following:
+- Frontend
 
-- Go to the Shopify Connections page in Gadget: Connections -> Shopify -> add a Development app
-- Set up a Shopify connection by creating a new Shopify Partners app
-  - Copy the Client Key and Secret from the Partners dashboard into Gadget
-  - Copy the URL and Redirection URL over to the Partners dashboard
-- Install the Shopify app on a development store
-- Continue with the [tutorial](https://docs.gadget.dev/guides/tutorials/checkout-ui-extension#build-a-pre-purchase-checkout-ui-extension) to build, test, and deploy the checkout UI extension
+  - `App.jsx`: Handles routing for the frontend pages.
+  - `index.jsx`: Displays the embedded Shopify Admin UI, allowing merchants to select a pre-purchase product.
 
-### Connections
+- Actions
 
-- A **Shopify** connection is already set up for this app, with the **products/read** scope selected and the **shopifyProduct** models imported.
-  - You need to add your Shopify Client Key and Secret for the development environment (and production, if desired!)
+  - `shopifyShop/savePrePurchaseProduct`: Stores the `productId` for the selected pre-purchase offer as a Shopify metafield.
+  - `shopifyShop/install`: Syncs Shopify product data to your Gadget database upon app installation.
 
-### Data modeling + template overview
+- Access Controls
 
-Describe data models used for this app.
+  - `shopify-app-users`: Grants users permission to save a selected pre-purchase product offer for the shop.
 
-- `shopifyProduct`
-  - synced Shopify product data
+## How to extend
 
-#### Template default models
-
-- `shopifyShop`
-  - keeps track Shopify shops that your app has been installed on
-  - a custom `prePurchaseProduct` metafield has been added to this model
-- `shopifyGdprRequest`
-  - provides an interface for dealing with GDPR requests
-- `shopifySync`
-  - records all attempted syncs, triggered manually, via code, or the automatic nightly sync
-- `session`
-  - keeps track of user sessions
-
-### Environment variables
-
-No environment variables are used in this app.
-
-### Backend (actions + code)
-
-- `shopifyShop/actions/savePrePurchaseProduct.js`
-  - a custom action added to the `shopifyShop` model
-  - this action is called by the embedded frontend, and saves the selected product to the `prePurchaseProduct` metafield stored on the `shopifyShop` model
-
-### Access roles + API permissions
-
-Custom permissions have been granted to the `shopify-app-users` role, to allow the embedded admin app to save the selected product as a metafield.
-
-- `shopify-app-users` role
-  - `shopifyShop`: `savePrePurchaseProduct` permission has been granted
-
-### Frontend
-
-This frontend uses Gadget's standard Shopify app frontend setup.
-
-- `frontend/ShopPage.jsx`
-  - contains the actual embedded frontend code
-  - sends requests to the `savePrePurchaseProduct` action using Gadget's React hooks
-
-## Extending this template
-
-Some ideas for extending this template are:
-
-- add Shopify product variants to the connection, and allow merchants to select a variant
-- allow for custom image upload
-
-You can also use the same setup steps for other [Shopify checkout UI extensions](https://shopify.dev/docs/api/checkout-ui-extensions), or other types of Shopify extension such as [admin UI extensions](https://shopify.dev/docs/api/admin-extensions) or [Shopify Functions](https://shopify.dev/docs/apps/functions)!
-
-## Questions?
-
-Join our [developer Discord](https://ggt.link/discord) if you have any questions about this template or Gadget!
+- [Checkout UI extension](howToExtend/checkout-ui-extension.md)
+- [Ideas for extending functionality](howToExtend/ideas.md)

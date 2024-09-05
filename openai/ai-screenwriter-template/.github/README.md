@@ -1,8 +1,8 @@
 # AI Screenwriter
 
-[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=ai-screenwriter-template.gadget.app)
-
 The application "Screenwriter GPT" is a template designed to generate fake movie scenes based on user-entered quotes, using the built-in OpenAI connection. It stores movie titles and quotes fetched from the Hugging Face dataset, alongside vector embeddings produced by the OpenAI API. The app also manages user signups and information.
+
+[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=ai-screenwriter-template.gadget.app)
 
 ## Key features
 

@@ -9,18 +9,13 @@ This application allows Shopify merchants to select a product from their store, 
 - Models
 
   - ShopifyProduct: Synchronizes and stores product data from connected Shopify stores.
-    - Fields
-      - `id`: Unique identifier for the product.
-      - `title`: Name of the product.
   - ShopifyShop: Tracks Shopify shops where the app is installed.
     - Fields
-      - `name`: Name of the Shopify store.
       - `products`: List of products available in the store.
       - `prePurchaseProduct`: Selected product for the pre-purchase upsell.
 
 - Frontend
 
-  - `App.jsx`: Handles routing for the frontend pages.
   - `index.jsx`: Displays the embedded Shopify Admin UI, allowing merchants to select a pre-purchase product.
 
 - Actions
@@ -31,8 +26,3 @@ This application allows Shopify merchants to select a product from their store, 
 - Access Controls
 
   - `shopify-app-users`: Grants users permission to save a selected pre-purchase product offer for the shop.
-
-## How to extend
-
-- [Checkout UI extension](howToExtend/checkout-ui-extension.md)
-- [Ideas for extending functionality](howToExtend/ideas.md)

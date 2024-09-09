@@ -1,4 +1,4 @@
-# TailwindCSS template
+# TailwindCSS
 
 This template comes pre-installed with TailwindCSS, making it easy to create custom user interfaces in Gadget. Tailwind's configuration is ready to be extended as needed for your app.
 

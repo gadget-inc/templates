@@ -9,7 +9,7 @@ The application is a template designed to showcase how a chatbot can be built us
 - Models
 
   - Chat: Stores chat data, including messages, the user it belongs to, and other related information.
-    - Actions:
+    - Actions
       - `name`: Generates a chat name using the first message sent.
   - Message: Stores messages, associating them with chats and ordering them appropriately.
   - User: Tracks user authentication and manages chats and email verification.

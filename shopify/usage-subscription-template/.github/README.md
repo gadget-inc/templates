@@ -13,22 +13,29 @@ This app template enables Shopify app developers to implement a usage-based bill
 - Frontends
 
   - `App.jsx`: Manages routing for the frontend pages.
-    - Tags: `edited`
   - `ShopPage.jsx`: Main page of the app.
-    - Tags: `edited`
   - `BillingPage.jsx`: Displays plans and allows merchants to switch between them.
-    - Tags: `added`
   - `providers/ShopProvider.jsx`: Supplies shop information to the rest of the app.
-    - Tags: `added`
 
 - Models
 
   - `plan`: Stores data about available plans.
-    - Featured Fields: `pricePerOrder`, `cappedAmount`, `trialDays`, `shops`
+    - Fields
+      - `pricePerOrder`: The amount of money that will be charged to the customer per order
+      - `cappedAmount`: The amount that can be charged to the customer per month
+      - `trialDays`: The number of trial days that the customer has on that plan
+      - `shops`: The shops using this plan
   - `usageRecord`: Tracks usage records successfully created in Shopify.
-    - Featured Fields: `shop`, `currency`, `price`
+    - Fields
+      - `shop`: The shop that the record belongs to
+      - `currency`: The currency that was used to charge the customer
+      - `price`: The amount that was charged to the customer
   - `shopifyShop`: The default shop model with additional subscription fields.
-    - Featured Fields: `amountUsedInPeriod`, `usageRecords`, `usagePlanId`, `overage`, `inTrial`
+    - Fields
+      - `amountUsedInPeriod`: The amount of money that has been charged to the user in the current billing period
+      - `usagePlanId`: The id of the usage billing plan in the Shopify database
+      - `overage`: The amount of money that should be charged on the next billing period
+      - `inTrial`: If the user is currently in a trial
 
 - Actions
 

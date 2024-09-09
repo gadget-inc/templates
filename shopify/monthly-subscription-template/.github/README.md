@@ -10,7 +10,7 @@ This application enables merchants to select subscription plans for an app, with
 
   - Plan: Stores available plans with fields like monthly price, currency, trial days, and name.
   - ShopifyShop: The default Shopify shop model, extended with fields for managing subscription-related data.
-    - Fields:
+    - Fields
       - `usedTrialMinutes`: Tracks the trial usage.
       - `activeRecurringSubscriptionId`: Stores the current subscription's ID.
       - `plan`: Links the shop to its subscription plan.

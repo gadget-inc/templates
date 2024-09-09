@@ -9,12 +9,12 @@ The application is designed to manage and create product bundles within a Shopif
 - Models
 
   - Bundle: Stores data about product bundles, including title, description, status, price, and components.
-    - Actions:
+    - Actions
       - `create`: Used to create bundles using the Shopify API.
       - `update`: Used to update existing bundles using the Shopify API.
   - BundleComponent: Manages the relationship between bundles and product variants, including the quantity of each variant.
   - ShopifyShop: Stores shop data related to the Shopify store's configuration.
-    - Actions:
+    - Actions
       - `install`: Sets up metafield definitions, the cart transformation function, and retrieves information about the shop's sales channels.
 
 - Frontend

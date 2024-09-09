@@ -10,7 +10,7 @@ This application enables merchants to subscribe to an app with a one-time paymen
 
   - Plan: Stores plan information and history, including fields for price, currency, and whether it is the current plan.
   - ShopifyShop: Extends the Shopify shop model to include billing-related fields.
-    - Fields:
+    - Fields
       - `oneTimeChargeId`: Tracks the charge for a one-time purchase.
       - `trialDays`: Number of trial days available.
       - `usedTrialMinutes`: Time used in trial.

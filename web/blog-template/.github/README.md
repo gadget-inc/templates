@@ -1,4 +1,4 @@
-# CRUD blog template
+# CRUD blog with authentication
 
 This template demonstrates how to implement basic CRUD operations for a blog using Gadget, with both public and protected routes for authenticated and unauthenticated users.
 

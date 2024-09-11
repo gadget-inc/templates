@@ -1,7 +1,5 @@
 import { BlockStack, Layout, Page, Text, Card, Button } from "@shopify/polaris";
-import { useQuery } from "@gadgetinc/react";
-import { StyledSpinner } from "../components";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { ShopContext } from "../providers";
 
 /**
@@ -11,38 +9,7 @@ import { ShopContext } from "../providers";
  *
  */
 export default () => {
-  const { shop } = useContext(ShopContext);
-
-  const [
-    {
-      data: gadgetMetadata,
-      fetching: fetchingGadgetMetadata,
-      error: errorFetchingGadgetMetadata,
-    },
-  ] = useQuery({
-    query: `
-      query { 
-        gadgetMeta {
-          productionRenderURL
-          environmentName
-        }
-      }
-    `,
-  });
-
-  useEffect(() => {
-    if (!fetchingGadgetMetadata && errorFetchingGadgetMetadata) {
-      console.error(errorFetchingGadgetMetadata);
-    }
-  }, [fetchingGadgetMetadata, errorFetchingGadgetMetadata]);
-
-  if (fetchingGadgetMetadata) {
-    return (
-      <Page>
-        <StyledSpinner />
-      </Page>
-    );
-  }
+  const { shop, gadgetMetadata } = useContext(ShopContext);
 
   return (
     <Page title="Next steps">
@@ -83,7 +50,7 @@ export default () => {
                       `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("${shop?.id}", {
   // Make sure to change this 1440 * number of days on the trial
   usedTrialMinutes: 10080
-})`)}&enviroment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,
+})`)}&environment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,
                       "_blank"
                     )
                   }

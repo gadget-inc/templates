@@ -1,8 +1,17 @@
 import { useGlobalAction } from "@gadgetinc/react";
-import { Banner, BlockStack, Card, Layout, Page, Text } from "@shopify/polaris";
+import {
+  Banner,
+  BlockStack,
+  Button,
+  Card,
+  Layout,
+  Page,
+  Text,
+} from "@shopify/polaris";
 import { api } from "../api";
 import { PlanCard, StyledSpinner } from "../components";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
+import { ShopContext } from "../providers";
 
 /**
  * This is the billing page that will be displayed when a user hasn't selected a plan or they want to change plans.
@@ -10,6 +19,7 @@ import { useCallback, useEffect, useState } from "react";
  * @returns { import("react").ReactElement } A React functional component
  */
 export default () => {
+  const { gadgetMetadata } = useContext(ShopContext);
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
 
@@ -73,21 +83,40 @@ export default () => {
               </Layout.Section>
             ))
           ) : (
-            <Card>
-              <BlockStack gap="500">
-                <Text as="p" variant="bodyMd">
-                  To complete the subscription process, you must first create a
-                  plan record. You can do this by navigating to your{" "}
-                  <strong>plan</strong> model's <strong>create</strong> action
-                  and clicking on run action on the right of the page.
-                </Text>
-                <Text as="p" variant="bodyLg">
-                  Since the database is split between development and
-                  production, make sure to also add plans to your production
-                  database once deploying and going live.
-                </Text>
-              </BlockStack>
-            </Card>
+            <Layout.Section>
+              <Card>
+                <BlockStack gap="500">
+                  <Text as="p" variant="bodyMd">
+                    To complete the subscription process, you must first create
+                    a plan record. You can do this by navigating to your{" "}
+                    <strong>plan</strong> model's <strong>create</strong> action
+                    and clicking on run action on the right of the page.
+                  </Text>
+                  <Text as="p" variant="bodyLg">
+                    Since the database is split between development and
+                    production, make sure to also add plans to your production
+                    database once deploying and going live.
+                  </Text>
+                  <Button
+                    variant="primary"
+                    onClick={() =>
+                      open(
+                        `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.plan.create({
+  currency: "CAD",
+  description: "example value for description",
+  name: "Some plan name",
+  monthlyPrice: 123,
+  trialDays: 7,
+})`)}&environment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,
+                        "_blank"
+                      )
+                    }
+                  >
+                    Create a plan
+                  </Button>
+                </BlockStack>
+              </Card>
+            </Layout.Section>
           )}
         </Layout>
       </BlockStack>

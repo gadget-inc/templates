@@ -1,4 +1,4 @@
-import { useFindFirst, useMaybeFindFirst } from "@gadgetinc/react";
+import { useFindFirst, useMaybeFindFirst, useQuery } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
@@ -41,6 +41,23 @@ export default ({ children }) => {
         },
       },
     });
+
+  const [
+    {
+      data: gadgetMetadata,
+      fetching: fetchingGadgetMetadata,
+      error: errorFetchingGadgetMetadata,
+    },
+  ] = useQuery({
+    query: `
+        query { 
+          gadgetMeta {
+            productionRenderURL
+            environmentName
+          }
+        }
+      `,
+  });
 
   const [
     {
@@ -117,8 +134,19 @@ export default ({ children }) => {
     }
   }, [fetchingCurrentSubscription, errorFetchingCurrentSubscription]);
 
-  if (fetchingShop || loading) {
-    return <StyledSpinner />;
+  // useEffect showing an error in the console if there's an error fetching gadget metadata
+  useEffect(() => {
+    if (!fetchingGadgetMetadata && errorFetchingGadgetMetadata) {
+      console.error(errorFetchingGadgetMetadata);
+    }
+  }, [fetchingGadgetMetadata, errorFetchingGadgetMetadata]);
+
+  if (fetchingShop || fetchingGadgetMetadata || loading) {
+    return (
+      <Page>
+        <StyledSpinner />
+      </Page>
+    );
   }
 
   return (
@@ -126,6 +154,7 @@ export default ({ children }) => {
       value={{
         shop,
         currentCappedAmount,
+        gadgetMetadata,
       }}
     >
       {show && (

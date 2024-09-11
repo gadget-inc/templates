@@ -1,4 +1,4 @@
-import { useFindFirst } from "@gadgetinc/react";
+import { useFindFirst, useQuery } from "@gadgetinc/react";
 import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
@@ -38,6 +38,23 @@ export default ({ children }) => {
         },
       },
     });
+
+  const [
+    {
+      data: gadgetMetadata,
+      fetching: fetchingGadgetMetadata,
+      error: errorFetchingGadgetMetadata,
+    },
+  ] = useQuery({
+    query: `
+        query { 
+          gadgetMeta {
+            productionRenderURL
+            environmentName
+          }
+        }
+      `,
+  });
 
   /**
    * @type { () => void }
@@ -83,14 +100,25 @@ export default ({ children }) => {
     }
   }, [fetchingShop, errorFetchingShop]);
 
-  if (fetchingShop || loading) {
-    return <StyledSpinner />;
+  useEffect(() => {
+    if (!fetchingGadgetMetadata && errorFetchingGadgetMetadata) {
+      console.error(errorFetchingGadgetMetadata);
+    }
+  }, [fetchingGadgetMetadata, errorFetchingGadgetMetadata]);
+
+  if (fetchingShop || fetchingGadgetMetadata || loading) {
+    return (
+      <Page>
+        <StyledSpinner />
+      </Page>
+    );
   }
 
   return (
     <ShopContext.Provider
       value={{
         shop,
+        gadgetMetadata,
       }}
     >
       {show && (

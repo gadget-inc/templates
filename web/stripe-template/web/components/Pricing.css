@@ -1,0 +1,105 @@
+.section-stripe-products {
+  display: flex;
+}
+
+.div-stripe-product {
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  justify-content: space-between;
+  margin: 8px;
+  border: solid 1px #556cd6;
+  border-radius: 6px;
+}
+
+.div-stripe-product form {
+  margin: 0;
+}
+
+.div-product-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.div-product-header h3 {
+  flex-grow: 1;
+  padding-right: 4rem;
+}
+
+.div-product-body {
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.div-stripe-price {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 4px;
+  gap: 8px;
+}
+
+.p-stripe-message {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.154px;
+  color: #242d60;
+  height: 100%;
+  width: 100%;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.img-stripe-payment {
+  border-radius: 6px;
+  margin: 10px;
+  width: 54px;
+  height: 57px;
+}
+
+.h-stripe-payment {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.154px;
+  color: #242d60;
+  margin: 0;
+}
+
+h3.h-stripe-payment {
+  opacity: 0.5;
+  font-size: 16px
+}
+
+h5.h-stripe-payment {
+  opacity: 0.5;
+}
+
+.btn-stripe-subscribe {
+  height: 36px;
+  background: #556cd6;
+  color: white;
+  width: 100%;
+  font-size: 14px;
+  border: 0;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.6;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0px 4px 5.5px 0px rgba(0, 0, 0, 0.07);
+}
+
+.btn-stripe-subscribe:hover {
+  opacity: 0.8;
+}

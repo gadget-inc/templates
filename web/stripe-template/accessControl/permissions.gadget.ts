@@ -16,29 +16,14 @@ export const permissions: GadgetPermissions = {
         action: true,
       },
       models: {
-        price: {
+        "stripe/price": {
           read: true,
-          actions: {
-            create: true,
-            delete: true,
-            update: true,
-          },
         },
-        product: {
+        "stripe/product": {
           read: true,
-          actions: {
-            create: true,
-            delete: true,
-            update: true,
-          },
         },
-        stripeSubscription: {
+        "stripe/subscription": {
           read: true,
-          actions: {
-            create: true,
-            delete: true,
-            update: true,
-          },
         },
         user: {
           read: {

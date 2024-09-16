@@ -28,7 +28,7 @@ export const schema: GadgetModel = {
     packageDimensions: { type: "json", storageKey: "2oltFkEiMUcH" },
     prices: {
       type: "hasMany",
-      children: { model: "price", belongsToField: "product" },
+      children: { model: "stripe/price", belongsToField: "product" },
       storageKey: "pyXY3YvhcvF9",
     },
     shippable: { type: "boolean", storageKey: "2iV2KsufV0p6" },

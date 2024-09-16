@@ -57,7 +57,7 @@ export const schema: GadgetModel = {
     stripeCustomerId: { type: "string", storageKey: "L7QuHLk2q15W" },
     stripeSubscription: {
       type: "hasOne",
-      child: { model: "stripeSubscription", belongsToField: "user" },
+      child: { model: "stripe/subscription", belongsToField: "user" },
       storageKey: "bZjZkeQMnmeh",
     },
   },

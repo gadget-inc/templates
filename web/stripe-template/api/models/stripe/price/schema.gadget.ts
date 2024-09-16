@@ -31,8 +31,8 @@ export const schema: GadgetModel = {
     object: { type: "string", storageKey: "9YOTewAQptS2" },
     product: {
       type: "belongsTo",
-      parent: { model: "product" },
-      storageKey: "Hq45KjJQDlUq",
+      parent: { model: "stripe/product" },
+      storageKey: "dtf0K-fqBa87",
     },
     recurring: { type: "json", storageKey: "XHQbJKD0ImTo" },
     stripeCreated: {

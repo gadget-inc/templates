@@ -36,7 +36,7 @@ export const schema: GadgetModel = {
       type: "string",
       storageKey: "CSqqDpV3gzBo",
     },
-    stripeCreated: {
+    stripeCreatedAt: {
       type: "dateTime",
       includeTime: true,
       storageKey: "-sf0sVBY7i5d",
@@ -49,7 +49,7 @@ export const schema: GadgetModel = {
       },
       storageKey: "tg-kJAJpIBfH",
     },
-    stripeUpdated: {
+    stripeUpdatedAt: {
       type: "dateTime",
       includeTime: true,
       storageKey: "5jlvTsBQifT_",

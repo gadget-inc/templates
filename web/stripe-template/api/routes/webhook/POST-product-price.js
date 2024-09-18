@@ -1,6 +1,6 @@
 import { RouteContext } from "gadget-server";
 import { stripe, getStripeWebhookEvent } from "../../stripe";
-import { objKeyConvert } from "../../utils/caseConvert";
+import { destructure, objKeyConvert } from "../../utils/caseConvert";
 
 // Change all to use background actions
 
@@ -16,7 +16,7 @@ export default async function route({ request, reply, api, logger }) {
   try {
     event = getStripeWebhookEvent({
       request,
-      endpointSecret: process.env.STRIPE_PRODUCT_PRICE_WEBHOOK_SECRET,
+      endpointSecret: process.env.STRIPE_PRODUCT_PRODUCT_PRICE_WEBHOOK_SECRET,
     });
     logger.info({ event }, "my event");
   } catch (err) {
@@ -24,15 +24,14 @@ export default async function route({ request, reply, api, logger }) {
     return await reply.status(400).send();
   }
 
-  // /**
-  //  * Note: objKeyConvert is used to convert snake_case data coming from Stripe to camelCase. Date/time fields are converted, and stripe "id" fields are changed to "stripeId"
-  //  */
-
   // handle webhook events
   // all webhooks fire corresponding create, update, or delete actions for the "product" and "price" models
   switch (event.type) {
     case "price.created":
-      const priceCreated = objKeyConvert(event.data.object);
+      const priceCreated = destructure({
+        topic: "price",
+        obj: objKeyConvert(event.data.object),
+      });
 
       // see if the product has already been added to the Gadget db
       let product = await api.stripe.product.maybeFindFirst({
@@ -49,13 +48,13 @@ export default async function route({ request, reply, api, logger }) {
         try {
           // try creating the fetched product
           product = await api.internal.stripe.product.create(
-            objKeyConvert(stripeProduct)
+            destructure({
+              topic: "product",
+              obj: objKeyConvert(stripeProduct),
+            })
           );
         } catch (e) {
-          logger.info(
-            { e },
-            "Product already created in Gadget DB, refetching..."
-          );
+          logger.warn({ e }, e?.message);
           // if the create fails, an incoming product webhook may have been processed, so fetch the product instead
           product = await api.stripe.product.maybeFindFirst({
             filter: { stripeId: { equals: priceCreated.product } },
@@ -68,13 +67,17 @@ export default async function route({ request, reply, api, logger }) {
       priceCreated.product = {
         _link: product.id,
       };
+
       // call the price.create action to add a new price record
       await api.internal.stripe.price.create(priceCreated);
       logger.info({ priceCreated }, "Stripe Price created");
       break;
 
     case "price.deleted":
-      const priceDeleted = objKeyConvert(event.data.object);
+      const priceDeleted = destructure({
+        topic: "price",
+        obj: objKeyConvert(event.data.object),
+      });
       // grab the Gadget id of the price to delete
       const priceToDelete = await api.stripe.price.maybeFindFirst({
         filter: { stripeId: { equals: priceDeleted.stripeId } },
@@ -90,7 +93,10 @@ export default async function route({ request, reply, api, logger }) {
       break;
 
     case "price.updated":
-      const priceUpdated = objKeyConvert(event.data.object);
+      const priceUpdated = destructure({
+        topic: "price",
+        obj: objKeyConvert(event.data.object),
+      });
       // grab the Gadget id of the price to update
       const priceToUpdate = await api.stripe.price.maybeFindFirst({
         filter: { stripeId: { equals: priceUpdated.stripeId } },
@@ -122,7 +128,10 @@ export default async function route({ request, reply, api, logger }) {
       break;
 
     case "product.created":
-      const productCreated = objKeyConvert(event.data.object);
+      const productCreated = destructure({
+        topic: "product",
+        obj: objKeyConvert(event.data.object),
+      });
       // handle any duplicate webhook events or retries
       const doesProductExist = await api.stripe.product.maybeFindFirst({
         filter: { stripeId: { equals: productCreated.stripeId } },
@@ -135,7 +144,11 @@ export default async function route({ request, reply, api, logger }) {
       break;
 
     case "product.deleted":
-      const productDeleted = objKeyConvert(event.data.object);
+      const productDeleted = destructure({
+        topic: "product",
+        obj: objKeyConvert(event.data.object),
+      });
+
       // get the Gadget id of the product to delete
       const productToDelete = await api.stripe.product.maybeFindFirst({
         filter: { stripeId: { equals: productDeleted.stripeId } },
@@ -151,7 +164,10 @@ export default async function route({ request, reply, api, logger }) {
       break;
 
     case "product.updated":
-      const productUpdated = objKeyConvert(event.data.object);
+      const productUpdated = destructure({
+        topic: "product",
+        obj: objKeyConvert(event.data.object),
+      });
       // get the Gadget id of the product that needs updating
       const productToUpdate = await api.stripe.product.maybeFindFirst({
         filter: { stripeId: { equals: productUpdated.stripeId } },

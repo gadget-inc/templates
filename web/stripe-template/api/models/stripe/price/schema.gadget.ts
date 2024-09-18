@@ -17,13 +17,6 @@ export const schema: GadgetModel = {
     },
     currency: { type: "string", storageKey: "vOYaUm8TbLrh" },
     customUnitAmount: { type: "string", storageKey: "eVEfMRekz9oj" },
-    interval: {
-      type: "enum",
-      acceptMultipleSelections: false,
-      acceptUnlistedOptions: false,
-      options: ["year", "month"],
-      storageKey: "WT8imJqr1TXp",
-    },
     livemode: { type: "boolean", storageKey: "nWyd6cv8AqMa" },
     lookupKey: { type: "string", storageKey: "3tm-y3l60iBZ" },
     metadata: { type: "json", storageKey: "ocSSR497JonQ" },
@@ -35,7 +28,7 @@ export const schema: GadgetModel = {
       storageKey: "dtf0K-fqBa87",
     },
     recurring: { type: "json", storageKey: "XHQbJKD0ImTo" },
-    stripeCreated: {
+    stripeCreatedAt: {
       type: "dateTime",
       includeTime: true,
       storageKey: "B2HWkkmHGaoF",

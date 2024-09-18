@@ -3,6 +3,7 @@ import { getStripeWebhookEvent } from "../../stripe";
 import {
   subscriptionDestructure,
   objKeyConvert,
+  destructure,
 } from "../../utils/caseConvert";
 
 /**
@@ -40,7 +41,10 @@ export default async function route({
   // Handle the event
   switch (event.type) {
     case "customer.subscription.created":
-      subscription = subscriptionDestructure(objKeyConvert(event.data.object));
+      subscription = destructure({
+        topic: "subscription",
+        obj: objKeyConvert(event.data.object),
+      });
 
       // if there is an active user for this customer, then add the relationship to this subscription
       const user = await api.user.maybeFindFirst({
@@ -61,13 +65,17 @@ export default async function route({
       break;
 
     case "customer.subscription.updated":
-      subscription = subscriptionDestructure(objKeyConvert(event.data.object));
+      subscription = destructure({
+        topic: "subscription",
+        obj: objKeyConvert(event.data.object),
+      });
       // get the Gadget id of the subscription
-      const subscriptionToUpdate =
-        await api.internal.stripe.subscription.maybeFindFirst({
-          filter: { stripeId: { equals: subscription.id } },
+      const subscriptionToUpdate = await api.stripe.subscription.maybeFindFirst(
+        {
+          filter: { stripeId: { equals: subscription.stripeId } },
           select: { id: true },
-        });
+        }
+      );
 
       if (subscriptionToUpdate) {
         // call the stripeSubscription.update action to update the subscription record
@@ -86,27 +94,45 @@ export default async function route({
       }
       break;
     case "customer.subscription.deleted":
-      subscription = objKeyConvert(event.data.object);
+      subscription = destructure({
+        topic: "subscription",
+        obj: objKeyConvert(event.data.object),
+      });
       // Handle deleting a subscription
       break;
     case "customer.subscription.paused":
-      subscription = objKeyConvert(event.data.object);
+      subscription = destructure({
+        topic: "subscription",
+        obj: objKeyConvert(event.data.object),
+      });
       // Handle pausing a subscription
       break;
     case "customer.subscription.resumed":
-      subscription = objKeyConvert(event.data.object);
+      subscription = destructure({
+        topic: "subscription",
+        obj: objKeyConvert(event.data.object),
+      });
       // Handle the resumption of a subscriptions
       break;
     case "customer.subscription.pending_update_applied":
-      subscription = objKeyConvert(event.data.object);
+      subscription = destructure({
+        topic: "subscription",
+        obj: objKeyConvert(event.data.object),
+      });
       // Handle the application of pending updates
       break;
     case "customer.subscription.pending_update_expired":
-      subscription = objKeyConvert(event.data.object);
+      subscription = destructure({
+        topic: "subscription",
+        obj: objKeyConvert(event.data.object),
+      });
       // Handle the expiration of pending updates
       break;
     case "customer.subscription.trial_will_end":
-      subscription = objKeyConvert(event.data.object);
+      subscription = destructure({
+        topic: "subscription",
+        obj: objKeyConvert(event.data.object),
+      });
       // Handle trail ending here
       break;
     default:

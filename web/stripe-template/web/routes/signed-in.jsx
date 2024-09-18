@@ -27,20 +27,23 @@ export default function () {
   });
 
   // fetch available products (Sass subscriptions) from Stripe
-  const [{ data: products, fetching, error }] = useFindMany(api.product, {
-    select: {
-      name: true,
-      prices: {
-        edges: {
-          node: {
-            unitAmount: true,
-            lookupKey: true,
-            recurring: true,
+  const [{ data: products, fetching, error }] = useFindMany(
+    api.stripe.product,
+    {
+      select: {
+        name: true,
+        prices: {
+          edges: {
+            node: {
+              unitAmount: true,
+              lookupKey: true,
+              recurring: true,
+            },
           },
         },
       },
-    },
-  });
+    }
+  );
 
   // save a new Stripe customer id to the user record after successful payment
   // customer data and error are unused in this template

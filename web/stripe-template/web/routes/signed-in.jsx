@@ -15,9 +15,9 @@ const gadgetMetaQuery = `
 `;
 
 export default function () {
-  let [message, setMessage] = useState("");
-  let [success, setSuccess] = useState(false);
-  let [sessionId, setSessionId] = useState("");
+  const [message, setMessage] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [sessionId, setSessionId] = useState("");
 
   // fetch user data
   const user = useUser(api);

@@ -18,6 +18,7 @@ export default function () {
   const [message, setMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [sessionId, setSessionId] = useState("");
+  const [toggled, setToggled] = useState(false);
 
   // fetch user data
   const user = useUser(api);
@@ -93,11 +94,34 @@ export default function () {
     }
     // if this is a new user without a stripeCustomerId
     return (
-      <section className="section-stripe-products">
-        {products.map((product, i) => (
-          <ProductDisplay key={`product_${i}`} product={product} />
-        ))}
-      </section>
+      <div>
+        <div id="billing-header">
+          <h2>Plans</h2>
+          <div id="toggle-div">
+            <span>{toggled ? "Yearly" : "Monthly"}</span>
+            <div class="toggle-container">
+              <input
+                type="checkbox"
+                id="toggle"
+                class="toggle-input"
+                onClick={() => setToggled(!toggled)}
+              />
+              <label for="toggle" class="toggle-label">
+                <span class="toggle-switch"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <section className="section-stripe-products">
+          {products.map((product, i) => (
+            <ProductDisplay
+              key={`product_${i}`}
+              {...{ product, interval: toggled ? "year" : "month" }}
+            />
+          ))}
+        </section>
+      </div>
     );
   } else if (user.stripeCustomerId || (success && sessionId !== "")) {
     // if this user does have a stripeCustomerId, go to a success page where they can manage their subscription

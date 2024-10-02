@@ -7,7 +7,7 @@
   display: flex;
   flex-direction: column;
   width: 400px;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   margin: 8px;
   border: solid 1px #556cd6;
   border-radius: 6px;
@@ -40,7 +40,7 @@
   flex-direction: row;
   align-items: center;
   padding: 4px;
-  gap: 8px;
+  /* gap: 8px; */
 }
 
 .p-stripe-message {
@@ -78,7 +78,7 @@
 
 h3.h-stripe-payment {
   opacity: 0.5;
-  font-size: 16px
+  font-size: 16px;
 }
 
 h5.h-stripe-payment {
@@ -102,4 +102,103 @@ h5.h-stripe-payment {
 
 .btn-stripe-subscribe:hover {
   opacity: 0.8;
+}
+
+/* body {
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+} */
+
+.pricing-card-container {
+  display: flex;
+  gap: 20px;
+}
+
+.pricing-card {
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  width: 300px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
+}
+
+.pricing-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+}
+
+.card-header {
+  padding: 20px;
+  text-align: center;
+  background-color: #f9fafc;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.plan-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  color: #32325d;
+}
+
+.plan-price {
+  font-size: 32px;
+  font-weight: bold;
+  color: #6772e5;
+  margin: 10px 0 0;
+}
+
+.plan-price span {
+  font-size: 16px;
+  color: #8898aa;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: center;
+}
+
+.features-list li {
+  font-size: 16px;
+  padding: 10px 0;
+  border-bottom: 1px solid #e0e0e0;
+  color: #525f7f;
+}
+
+.features-list li:last-child {
+  border-bottom: none;
+}
+
+.card-footer {
+  padding: 20px;
+  text-align: center;
+}
+
+.select-button {
+  background-color: #6772e5;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.select-button:hover {
+  background-color: #5469d4;
 }

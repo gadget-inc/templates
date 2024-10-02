@@ -373,3 +373,16 @@ button {
   align-items: center;
   gap: 8px;
 }
+
+.product-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+}
+
+.plan-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}

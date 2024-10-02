@@ -1,55 +1,28 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { api } from "../api";
-import { useQuery, useFindMany, useAction, useUser } from "@gadgetinc/react";
-import ProductDisplay from "../components/ProductDisplay";
-import SuccessDisplay from "../components/SuccessDisplay";
-import Message from "../components/Message";
-
-const gadgetMetaQuery = `
-  query {
-    gadgetMeta {
-      slug
-      editURL
-    }
-  }
-`;
+import { useAction, useGlobalAction } from "@gadgetinc/react";
+import Logo from "../components/Logo";
+import { useContext } from "react";
+import { UserContext } from "../providers";
+import { useNavigate } from "react-router-dom";
 
 export default function () {
-  const [message, setMessage] = useState("");
-  const [success, setSuccess] = useState(false);
   const [sessionId, setSessionId] = useState("");
-  const [toggled, setToggled] = useState(false);
-
-  // fetch user data
-  const user = useUser(api);
-
-  const [{ data: metaData, fetching: fetchingGadgetMeta }] = useQuery({
-    query: gadgetMetaQuery,
-  });
-
-  // fetch available products (Sass subscriptions) from Stripe
-  const [{ data: products, fetching, error }] = useFindMany(
-    api.stripe.product,
-    {
-      select: {
-        name: true,
-        prices: {
-          edges: {
-            node: {
-              unitAmount: true,
-              lookupKey: true,
-              recurring: true,
-            },
-          },
-        },
-      },
-    }
-  );
+  const { user } = useContext(UserContext);
+  const navigate = useNavigate();
 
   // save a new Stripe customer id to the user record after successful payment
   // customer data and error are unused in this template
-  const [{ data: customer, error: customerUpdateError }, saveStripeCustomer] =
-    useAction(api.user.linkToStripeCustomer);
+  const [, saveStripeCustomer] = useAction(api.user.linkToStripeCustomer);
+
+  const [{ data: stripePortalUrl, error }, createPortalSession] =
+    useGlobalAction(api.createPortalSession);
+
+  const submit = useCallback(async (e) => {
+    e.preventDefault();
+    // call the createPortalSession global action
+    void createPortalSession();
+  }, []);
 
   // frontend code is largely taken from Stripe's billing quickstart: https://stripe.com/docs/billing/quickstart
   useEffect(() => {
@@ -57,7 +30,6 @@ export default function () {
     const query = new URLSearchParams(window.location.search);
 
     if (query.get("success")) {
-      setSuccess(true);
       const stripeSessionId = query.get("session_id");
       setSessionId(stripeSessionId);
       // use the sessionId to get the customer id from Stripe and store on the user model
@@ -66,71 +38,50 @@ export default function () {
       }
     }
 
+    // Gonna need to add a handler for bad payments
     if (query.get("canceled")) {
-      setSuccess(false);
-      setMessage(
-        "Order canceled -- continue to shop around and checkout when you're ready."
-      );
+      console.log("Payment canceled");
     }
   }, [sessionId]);
 
-  // right now, any user that has a customerId will be redirected to the management page
-  // this means that the products will not be presented to "active" users for plan upgrades!
-  if (!user.stripeCustomerId && !success && message === "" && products) {
-    if (products.length === 0 && !fetchingGadgetMeta) {
-      // Change this to point to the docs
-      return (
-        <div>
-          No products found - see{" "}
+  useEffect(() => {
+    console.log("user", user);
+
+    if (!user.stripeCustomerId) navigate("/billing");
+  }, []);
+
+  if (stripePortalUrl) {
+    // redirect to open the portal session
+    window.location.href = stripePortalUrl;
+  }
+
+  return (
+    <section
+      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
+    >
+      <div className="div-stripe-product">
+        <div className="div-product-header">
+          <Logo />
+          <h3 className="h-stripe-payment">Customer detected!</h3>
+        </div>
+        <form onSubmit={submit}>
+          <button className="btn-stripe-subscribe" type="submit">
+            Manage your billing information
+          </button>
+        </form>
+      </div>
+      {error && (
+        <code>
+          <p>Error detected!</p>
+          <p>Did you save your customer portal settings in test mode?</p>
           <a
-            href={`${metaData.gadgetMeta.editURL}/files/README_DEV.md`}
+            href="https://dashboard.stripe.com/test/settings/billing/portal"
             target="_blank"
           >
-            README_DEV.md
-          </a>{" "}
-          for more info.
-        </div>
-      );
-    }
-    // if this is a new user without a stripeCustomerId
-    return (
-      <div>
-        <div id="billing-header">
-          <h2>Plans</h2>
-          <div id="toggle-div">
-            <span>{toggled ? "Yearly" : "Monthly"}</span>
-            <div class="toggle-container">
-              <input
-                type="checkbox"
-                id="toggle"
-                class="toggle-input"
-                onClick={() => setToggled(!toggled)}
-              />
-              <label for="toggle" class="toggle-label">
-                <span class="toggle-switch"></span>
-              </label>
-            </div>
-          </div>
-        </div>
-
-        <section className="section-stripe-products">
-          {products.map((product, i) => (
-            <ProductDisplay
-              key={`product_${i}`}
-              {...{ product, interval: toggled ? "year" : "month" }}
-            />
-          ))}
-        </section>
-      </div>
-    );
-  } else if (user.stripeCustomerId || (success && sessionId !== "")) {
-    // if this user does have a stripeCustomerId, go to a success page where they can manage their subscription
-    return <SuccessDisplay />;
-  } else if (fetching) {
-    // use "fetching" boolean from the useFindMany hook to display a loading message
-    return <div>Loading ...</div>;
-  } else {
-    // just display a message for cancelled transactions
-    return <Message message={message} />;
-  }
+            https://dashboard.stripe.com/test/settings/billing/portal
+          </a>
+        </code>
+      )}
+    </section>
+  );
 }

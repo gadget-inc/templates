@@ -8,8 +8,15 @@ export default function () {
         <span>{process.env.GADGET_PUBLIC_APP_SLUG} requires some setup</span>
       </div>
       <div>
-        <p className="description">Follow the Readme to setup your Stripe API keys</p>
-        <a href="/edit/files/README.md" target="_blank" rel="noreferrer" style={{ fontWeight: 500 }}>
+        <p className="description">
+          Follow the Readme to setup your Stripe API keys
+        </p>
+        <a
+          href="/edit/files/README.md"
+          target="_blank"
+          rel="noreferrer"
+          style={{ fontWeight: 500 }}
+        >
           README.md
         </a>
       </div>

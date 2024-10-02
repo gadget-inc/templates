@@ -12,7 +12,6 @@ import {
   Text,
   TextField,
 } from "@shopify/polaris";
-import { useEffect } from "react";
 
 export default function () {
   const {
@@ -23,12 +22,6 @@ export default function () {
     formState: { errors, isSubmitSuccessful, isSubmitting },
   } = useActionForm(api.user.signUp);
   const { search } = useLocation();
-
-  console.log(watch("user.email"));
-
-  useEffect(() => {
-    console.log(getValues());
-  }, [watch("email")]);
 
   return (
     <Card padding={400}>

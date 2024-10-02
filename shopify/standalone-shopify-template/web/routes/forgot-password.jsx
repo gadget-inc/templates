@@ -3,11 +3,13 @@ import { api } from "../api";
 import {
   BlockStack,
   Button,
+  Card,
   Form,
   FormLayout,
   Text,
   TextField,
 } from "@shopify/polaris";
+import { useEffect } from "react";
 
 export default function () {
   const {
@@ -27,13 +29,13 @@ export default function () {
           <BlockStack gap={300}>
             <Text as="h1">Reset password</Text>
             <Controller
-              name=""
+              name="email"
               control={control}
-              render={({ field: { ref, fieldProps } }) => (
+              render={({ field: { ref, ...fieldProps } }) => (
                 <TextField placeholder="Email" {...fieldProps} />
               )}
             />
-            <Button disabled={isSubmitting} type="submit">
+            <Button disabled={isSubmitting} type="submit" onClick={submit}>
               Send reset link
             </Button>
           </BlockStack>

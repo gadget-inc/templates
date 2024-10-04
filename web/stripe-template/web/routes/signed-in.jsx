@@ -1,19 +1,18 @@
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { api } from "../api";
-import { useAction, useGlobalAction } from "@gadgetinc/react";
+import { useGlobalAction } from "@gadgetinc/react";
 import Logo from "../components/Logo";
 import { useContext } from "react";
 import { UserContext } from "../providers";
 import { useNavigate } from "react-router-dom";
 
 export default function () {
-  const [sessionId, setSessionId] = useState("");
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
   // save a new Stripe customer id to the user record after successful payment
   // customer data and error are unused in this template
-  const [, saveStripeCustomer] = useAction(api.user.linkToStripeCustomer);
+  // const [, saveStripeCustomer] = useAction(api.user.linkToStripeCustomer);
 
   const [{ data: stripePortalUrl, error }, createPortalSession] =
     useGlobalAction(api.createPortalSession);
@@ -24,30 +23,28 @@ export default function () {
     void createPortalSession();
   }, []);
 
-  // frontend code is largely taken from Stripe's billing quickstart: https://stripe.com/docs/billing/quickstart
-  useEffect(() => {
-    // Check to see if this is a redirect back from Checkout
-    const query = new URLSearchParams(window.location.search);
+  // // frontend code is largely taken from Stripe's billing quickstart: https://stripe.com/docs/billing/quickstart
+  // useEffect(() => {
+  //   // Check to see if this is a redirect back from Checkout
+  //   const query = new URLSearchParams(window.location.search);
 
-    if (query.get("success")) {
-      const stripeSessionId = query.get("session_id");
-      setSessionId(stripeSessionId);
-      // use the sessionId to get the customer id from Stripe and store on the user model
-      if (!user.stripeCustomerId) {
-        void saveStripeCustomer({ id: user.id, stripeSessionId });
-      }
-    }
+  //   if (query.get("success")) {
+  //     setSuccess(true);
+  //     // use the sessionId to get the customer id from Stripe and store on the user model
+  //   }
 
-    // Gonna need to add a handler for bad payments
-    if (query.get("canceled")) {
-      console.log("Payment canceled");
-    }
-  }, [sessionId]);
+  //   // Gonna need to add a handler for bad payments
+  //   if (query.get("canceled")) {
+  //     setSuccess(false);
+  //   }
+  // }, []);
 
   useEffect(() => {
     console.log("user", user);
 
-    if (!user.stripeCustomerId) navigate("/billing");
+    const query = new URLSearchParams(window.location.search);
+
+    if (!user.stripeCustomerId && query.get("canceled")) navigate("/billing");
   }, []);
 
   if (stripePortalUrl) {

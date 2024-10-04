@@ -29,7 +29,8 @@ export async function run({ params, api, currentAppUrl }) {
     ],
     mode: "subscription",
     // TODO: Change this to a callback URL
-    success_url: `${currentAppUrl}signed-in?success=true&session_id={CHECKOUT_SESSION_ID}`,
+    success_url: `${currentAppUrl}subscription-callback?success=true&session_id={CHECKOUT_SESSION_ID}&price_id=${price.stripeId}`,
+    // possibly change??
     cancel_url: `${currentAppUrl}signed-in?canceled=true`,
   });
 

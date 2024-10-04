@@ -1,4 +1,4 @@
-import { useUser } from "@gadgetinc/react";
+import { useFindFirst } from "@gadgetinc/react";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
@@ -13,11 +13,23 @@ export const UserContext = createContext({});
  */
 export default ({ children }) => {
   const navigate = useNavigate();
-  const user = useUser(api, { live: true });
+  // const user = useUser(api, { live: true });
+
+  const [{ data: user, fetching, error }] = useFindFirst(api.user, {
+    live: true,
+    select: {
+      stripeCustomerId: true,
+      id: true,
+    },
+  });
 
   useEffect(() => {
-    if (!user?.stripeCustomerId) navigate("/billing");
-  }, [user]);
+    if (!user?.stripeCustomerId && !fetching) navigate("/billing");
+  }, [user, fetching]);
+
+  if (fetching) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <UserContext.Provider

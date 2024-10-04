@@ -22,12 +22,15 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   // get the customerId from the stripe session
   const checkoutSession =
     await stripe.checkout.sessions.retrieve(stripeSessionId);
+
+  logger.info({ checkoutSession }, "checkoutSession");
+
   const customerId = checkoutSession.customer;
 
   const updatedUser = { stripeCustomerId: customerId };
 
   // get the subscription id and add the relation from the user model to subscription, if it exists already (subscription webhook has created the subscription)
-  const subscription = await api.stripeSubscription.maybeFindFirst({
+  const subscription = await api.stripe.subscription.maybeFindFirst({
     filter: { customer: { equals: customerId } },
     select: { id: true },
   });
@@ -40,7 +43,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     };
   }
 
-  await api.internal.user.update(record.id, updatedUser);
+  await api.user.update(record.id, updatedUser);
 }
 
 export const params = {

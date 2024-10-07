@@ -2,6 +2,7 @@ import {
   deleteRecord,
   ActionOptions,
   DeleteWishlistActionContext,
+  preventCrossShopDataAccess,
 } from "gadget-server";
 import { updateWishlistMetafield } from "../../../utilities";
 
@@ -9,6 +10,7 @@ import { updateWishlistMetafield } from "../../../utilities";
  * @param { DeleteWishlistActionContext } context
  */
 export async function run({ params, record, logger, api, connections }) {
+  await preventCrossShopDataAccess(params, record);
   await deleteRecord(record);
 }
 

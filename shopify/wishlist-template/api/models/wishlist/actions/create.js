@@ -3,6 +3,7 @@ import {
   save,
   ActionOptions,
   CreateWishlistActionContext,
+  preventCrossShopDataAccess,
 } from "gadget-server";
 import { updateWishlistMetafield } from "../../../utilities";
 
@@ -11,6 +12,7 @@ import { updateWishlistMetafield } from "../../../utilities";
  */
 export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
+  await preventCrossShopDataAccess(params, record);
   await save(record);
 }
 

@@ -1,10 +1,6 @@
 import { RouteContext } from "gadget-server";
 import { getStripeWebhookEvent } from "../../stripe";
-import {
-  subscriptionDestructure,
-  objKeyConvert,
-  destructure,
-} from "../../utils/caseConvert";
+import { objKeyConvert, destructure } from "../../utils";
 
 /**
  * Route handler for POST webhook/subscription
@@ -32,12 +28,12 @@ export default async function route({
   }
 
   /**
-   * Notes: objKeyConvert is used to convert snake_case data coming from Stripe to camelCase. Date/time fields are converted, and stripe "id" fields are changed to "stripeId"
-   *        subscriptionDestructure strips out subscription fields that are not defined in this app - if you need additional fields, add them to your model and the subscriptionDestructure list!
+   * Notes:
+   * objKeyConvert is used to convert snake_case data coming from Stripe to camelCase. Date/time fields are converted, and stripe "id" fields are changed to "stripeId"
+   * destructure is used to remove additional fields from events
    */
 
   let subscription;
-  let status;
   // Handle the event
   switch (event.type) {
     case "customer.subscription.created":
@@ -46,11 +42,14 @@ export default async function route({
         obj: objKeyConvert(event.data.object),
       });
 
+      logger.info({ subscription }, "Subscription created.");
+
       // if there is an active user for this customer, then add the relationship to this subscription
       const user = await api.user.maybeFindFirst({
         filter: { stripeCustomerId: { equals: subscription.customer } },
         select: { id: true },
       });
+
       if (user) {
         subscription.user = {
           _link: user.id,
@@ -58,10 +57,17 @@ export default async function route({
       }
 
       // call the stripeSubscription.create action to create a new subscription record
-      await api.internal.stripe.subscription.create(subscription);
+      try {
+        await api.stripe.subscription.create(subscription);
 
-      status = subscription.status;
-      logger.info({ subscription }, `Subscription status is ${status}.`);
+        logger.info(
+          { subscription },
+          `Subscription status is ${subscription.status}.`
+        );
+      } catch (e) {
+        logger.warn("Subscription already exists");
+      }
+
       break;
 
     case "customer.subscription.updated":
@@ -69,36 +75,30 @@ export default async function route({
         topic: "subscription",
         obj: objKeyConvert(event.data.object),
       });
-      // get the Gadget id of the subscription
-      const subscriptionToUpdate = await api.stripe.subscription.maybeFindFirst(
-        {
-          filter: { stripeId: { equals: subscription.stripeId } },
-          select: { id: true },
-        }
-      );
 
-      if (subscriptionToUpdate) {
-        // call the stripeSubscription.update action to update the subscription record
-        await api.internal.stripe.subscription.update(
-          subscriptionToUpdate.id,
-          subscription
-        );
+      await api.stripe.subscription.upsert({
+        on: ["stripeId"],
+        ...subscription,
+      });
 
-        status = subscription.status;
-        logger.info({ subscription }, `Subscription status is ${status}.`);
-      } else {
-        logger.info(
-          { subscription },
-          "Stripe subscription not found, no record updated"
-        );
-      }
       break;
     case "customer.subscription.deleted":
       subscription = destructure({
         topic: "subscription",
         obj: objKeyConvert(event.data.object),
       });
-      // Handle deleting a subscription
+
+      const subscriptionToDelete = await api.stripe.subscription.maybeFindFirst(
+        {
+          filter: { stripeId: { equals: subscription.stripeId } },
+          select: { id: true },
+        }
+      );
+
+      if (subscriptionToDelete) {
+        await api.internal.stripe.subscription.delete(subscriptionToDelete.id);
+      }
+
       break;
     case "customer.subscription.paused":
       subscription = destructure({

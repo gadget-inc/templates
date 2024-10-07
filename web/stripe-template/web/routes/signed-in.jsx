@@ -10,10 +10,6 @@ export default function () {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
 
-  // save a new Stripe customer id to the user record after successful payment
-  // customer data and error are unused in this template
-  // const [, saveStripeCustomer] = useAction(api.user.linkToStripeCustomer);
-
   const [{ data: stripePortalUrl, error }, createPortalSession] =
     useGlobalAction(api.createPortalSession);
 
@@ -23,28 +19,12 @@ export default function () {
     void createPortalSession();
   }, []);
 
-  // // frontend code is largely taken from Stripe's billing quickstart: https://stripe.com/docs/billing/quickstart
-  // useEffect(() => {
-  //   // Check to see if this is a redirect back from Checkout
-  //   const query = new URLSearchParams(window.location.search);
-
-  //   if (query.get("success")) {
-  //     setSuccess(true);
-  //     // use the sessionId to get the customer id from Stripe and store on the user model
-  //   }
-
-  //   // Gonna need to add a handler for bad payments
-  //   if (query.get("canceled")) {
-  //     setSuccess(false);
-  //   }
-  // }, []);
-
   useEffect(() => {
     console.log("user", user);
 
     const query = new URLSearchParams(window.location.search);
 
-    if (!user.stripeCustomerId && query.get("canceled")) navigate("/billing");
+    if (!user?.stripeCustomerId && query.get("canceled")) navigate("/billing");
   }, []);
 
   if (stripePortalUrl) {

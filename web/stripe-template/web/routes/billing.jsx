@@ -27,6 +27,7 @@ export default () => {
             unitAmount: true,
             lookupKey: true,
             recurring: true,
+            stripeId: true,
           },
         },
       },

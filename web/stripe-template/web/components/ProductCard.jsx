@@ -1,8 +1,11 @@
 import { useGlobalAction } from "@gadgetinc/react";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { api } from "../api";
+import { UserContext } from "../providers";
 
 const ProductCard = ({ product: { prices, name }, interval }) => {
+  const { user } = useContext(UserContext);
+
   const [{ data: stripeCheckoutUrl, error }, stripeSubscribe] = useGlobalAction(
     api.createCheckoutSession
   );
@@ -41,14 +44,19 @@ const ProductCard = ({ product: { prices, name }, interval }) => {
                 </div>
                 <div className="card-footer">
                   <form onSubmit={submit}>
-                    {/* Add a hidden field with the lookup_key of your Price */}
                     <input
                       type="hidden"
                       name="lookup_key"
                       value={price.node.lookupKey}
                     />
-                    <button className="btn-stripe-subscribe" type="submit">
-                      Select
+                    <button
+                      className="btn-stripe-subscribe"
+                      type="submit"
+                      disabled={user?.priceId == price.node.stripeId}
+                    >
+                      {user?.priceId == price.node.stripeId
+                        ? "Current"
+                        : "Select"}
                     </button>
                   </form>
                 </div>

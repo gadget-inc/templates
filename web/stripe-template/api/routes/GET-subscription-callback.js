@@ -1,4 +1,5 @@
 import { RouteContext } from "gadget-server";
+import { stripe } from "../stripe";
 
 /**
  * Route handler for GET subscription-callback
@@ -15,21 +16,31 @@ export default async function route({
 }) {
   const { query } = request;
 
-  logger.info({ query }, "subscription-callback");
-
   const checkoutSession = await stripe.checkout.sessions.retrieve(
     query.session_id
   );
 
-  // logger.info({ checkoutSession }, "checkoutSession");
+  logger.info({ checkoutSession }, "checkoutSession");
 
   const customerId = checkoutSession.customer;
 
-  const updatedUser = { stripeCustomerId: customerId };
+  const updatedUser = { stripeCustomerId: customerId, priceId: query.price_id };
 
-  // This needs to be changed to account for other active subscriptions. Will need to deactivate other subscriptions
+  // This might be breaking things
+  const subscriptions = await api.stripe.subscription.findMany({
+    filter: { user: { equals: query.user_id }, status: { equals: "active" } },
+    select: { stripeId: true },
+  });
+
+  if (subscriptions.length) {
+    for (const subscription of subscriptions) {
+      // Call stripe to unsub the customer from the other active subscriptions
+      await stripe.subscriptions.cancel(subscription.stripeId);
+    }
+  }
+
   const subscription = await api.stripe.subscription.maybeFindFirst({
-    filter: { customer: { equals: customerId } },
+    filter: { customer: { equals: customerId }, status: { equals: "active" } },
     select: { id: true },
   });
 
@@ -41,11 +52,7 @@ export default async function route({
     };
   }
 
-  await api.user.update(record.id, updatedUser);
-
-  // update the subscription using the internal api
-
-  // link to a product so that we can disable the current plan selection button
+  await api.user.update(query.user_id, updatedUser);
 
   await reply.redirect(`${currentAppUrl}signed-in`);
 }

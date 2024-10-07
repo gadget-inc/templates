@@ -1,6 +1,6 @@
 import { RouteContext } from "gadget-server";
 import { stripe, getStripeWebhookEvent } from "../../stripe";
-import { destructure, objKeyConvert } from "../../utils/caseConvert";
+import { destructure, objKeyConvert } from "../../utils";
 
 // Change all to use background actions
 

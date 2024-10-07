@@ -13,13 +13,13 @@ export const UserContext = createContext({});
  */
 export default ({ children }) => {
   const navigate = useNavigate();
-  // const user = useUser(api, { live: true });
 
   const [{ data: user, fetching, error }] = useFindFirst(api.user, {
     live: true,
     select: {
       stripeCustomerId: true,
       id: true,
+      priceId: true,
     },
   });
 

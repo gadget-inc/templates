@@ -12,13 +12,13 @@ import { stripe } from "../stripe";
  * Failed payment with insufficient funds: 4000 0000 0000 9995
  * More available at https://docs.stripe.com/testing?testing-method=card-numbers
  */
-export async function run({ params, api, currentAppUrl }) {
+export async function run({ params, api, currentAppUrl, session, logger }) {
   const price = await api.stripe.price.findFirst({
     filter: { lookupKey: { equals: params.lookupKey } },
     select: { stripeId: true },
   });
 
-  const session = await stripe.checkout.sessions.create({
+  const stripeSession = await stripe.checkout.sessions.create({
     billing_address_collection: "auto",
     line_items: [
       {
@@ -28,14 +28,13 @@ export async function run({ params, api, currentAppUrl }) {
       },
     ],
     mode: "subscription",
-    // TODO: Change this to a callback URL
-    success_url: `${currentAppUrl}subscription-callback?success=true&session_id={CHECKOUT_SESSION_ID}&price_id=${price.stripeId}`,
+    success_url: `${currentAppUrl}subscription-callback?success=true&session_id={CHECKOUT_SESSION_ID}&price_id=${price.stripeId}&user_id=${session.get("user")}`,
     // possibly change??
     cancel_url: `${currentAppUrl}signed-in?canceled=true`,
   });
 
   // return the session url back to the frontend
-  return session.url;
+  return stripeSession.url;
 }
 
 export const params = {

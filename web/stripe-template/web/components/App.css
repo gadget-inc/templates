@@ -344,7 +344,7 @@ button {
 }
 
 .toggle-input:checked + .toggle-label {
-  background-color: #e184df; /* Change background color when checked */
+  background-color: #e184df;
 }
 
 .toggle-label-text {

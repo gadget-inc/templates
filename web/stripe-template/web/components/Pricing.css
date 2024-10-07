@@ -104,6 +104,15 @@ h5.h-stripe-payment {
   opacity: 0.8;
 }
 
+.btn-stripe-subscribe:disabled {
+  pointer-events: none;
+  background-color: #cfd2e1; /* Lightened background to indicate disabled */
+  color: #a8abc0; /* Muted text color */
+  cursor: not-allowed; /* Indicates it can't be clicked */
+  box-shadow: none; /* Remove shadow */
+  opacity: 0.7;
+}
+
 .pricing-card-container {
   display: flex;
   gap: 20px;

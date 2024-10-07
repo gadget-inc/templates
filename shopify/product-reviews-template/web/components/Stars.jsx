@@ -28,7 +28,7 @@ export default ({ rating }) => {
   ) : (
     <Controller
       control={formContext?.control}
-      name="rating"
+      name="review.rating"
       render={({ field: { ref, ...fieldProps } }) => (
         <InlineStack>
           {Array.from({ length: 5 }, (_, index) => (

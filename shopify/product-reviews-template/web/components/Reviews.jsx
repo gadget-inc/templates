@@ -1,42 +1,29 @@
-import { useParams, useSearchParams } from "react-router-dom";
-import { useFindMany } from "@gadgetinc/react";
-
+import { useParams } from "react-router-dom";
+import { useGlobalAction } from "@gadgetinc/react";
 import { api } from "../api";
 import { BlockStack, Page } from "@shopify/polaris";
 import ReviewCard from "./ReviewCard";
 import StyledSpinner from "./StyledSpinner";
+import { useEffect } from "react";
 
 export default () => {
-  const { orderId } = useParams();
-  const [searchParams] = useSearchParams();
+  const { code } = useParams();
 
-  const [
-    {
-      data: products,
-      fetching: fetchingProducts,
-      error: errorFetchingProducts,
-    },
-  ] = useFindMany(api.shopifyProduct, {
-    filter: {
-      id: {
-        in: searchParams.get("products").split(","),
-      },
-    },
-    select: {
-      id: true,
-      title: true,
-      images: {
-        edges: {
-          node: {
-            source: true,
-            alt: true,
-          },
-        },
-      },
-    },
-  });
+  const [{ data, fetching, error }, fetchOrderData] = useGlobalAction(
+    api.fetchOrderData
+  );
 
-  if (fetchingProducts) {
+  useEffect(() => {
+    if (code) {
+      void fetchOrderData({ code });
+    }
+  }, []);
+
+  useEffect(() => {
+    console.log({ code, data, fetching, error });
+  }, [code, data, fetching, error]);
+
+  if (fetching) {
     return (
       <Page>
         <StyledSpinner />
@@ -45,18 +32,10 @@ export default () => {
   }
 
   return (
-    <Page title={`Products on order #${searchParams.get("orderNumber")}`}>
+    <Page title={`Products on order #${data?.orderNumber}`}>
       <BlockStack gap="300">
-        {products?.map(({ id, title, images }) => (
-          <ReviewCard
-            key={id}
-            {...{
-              id,
-              title,
-              orderId,
-              images,
-            }}
-          />
+        {data?.products?.map((product) => (
+          <ReviewCard key={product.id} {...product} orderId={data?.orderId} />
         ))}
       </BlockStack>
     </Page>

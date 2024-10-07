@@ -43,7 +43,8 @@ export default function () {
         <Route index element={<Index />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<Error404 />} />
-        <Route path="/:orderId" element={<Reviews />} />
+        <Route path="/review/:code" element={<Reviews />} />
+        {/* Add a completion page and a redirect if there isn't a valid code or it's been used */}
       </Route>
     )
   );

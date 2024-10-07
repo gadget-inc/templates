@@ -14,18 +14,16 @@ export async function run({
   emails,
   currentAppUrl,
 }) {
-  const { id, products, email, orderNumber } = params;
+  const { singleUseCode, email } = params;
 
   await emails.sendMail({
     to: email,
-    subject: `Review your purchase${products.length > 1 ? "s" : ""}`,
+    subject: "Review your purchase",
     html: await render(
       <Container>
         {/* Add more text in here */}
         <Button
-          href={`${currentAppUrl}/${id}?products=${products.join(
-            ","
-          )}&orderNumber=${orderNumber}`}
+          href={`${currentAppUrl}/review/${singleUseCode}`}
           style={{ color: "#61dafb", padding: "10px 20px" }}
         >
           Review
@@ -36,19 +34,10 @@ export async function run({
 }
 
 export const params = {
-  id: {
-    type: "string",
-  },
-  products: {
-    type: "array",
-    items: {
-      type: "string",
-    },
-  },
   email: {
     type: "string",
   },
-  orderNumber: {
-    type: "number",
+  singleUseCode: {
+    type: "string",
   },
 };

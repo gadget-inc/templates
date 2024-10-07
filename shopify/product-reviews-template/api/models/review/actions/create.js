@@ -11,6 +11,8 @@ import {
 export async function run({ params, record, logger, api, connections }) {
   applyParams(params, record);
 
+  logger.info({ params }, "PARAMS")
+
   const order = await api.shopifyOrder.findOne(record.orderId, {
     select: {
       shopId: true,

@@ -22,14 +22,16 @@ import { api } from "../api";
 import { useState } from "react";
 import Stars from "./Stars";
 
-export default ({ id, title, orderId, images }) => {
+export default ({ id: productId, title, orderId, image }) => {
   const [open, setOpen] = useState(false);
+
+  console.log({ productId, title, orderId, image });
 
   return (
     <Card>
       <BlockStack gap="300">
         <InlineStack blockAlign="center" gap="400">
-          <Thumbnail source={images[0]?.originalSrc || ImageIcon} />
+          <Thumbnail source={image || ImageIcon} />
           <Text as="h2" variant="headingMd">
             {title}
           </Text>
@@ -39,8 +41,10 @@ export default ({ id, title, orderId, images }) => {
             action={api.review.create}
             title=""
             defaultValues={{
-              orderId,
-              productId: id,
+              review: {
+                orderId,
+                productId,
+              },
             }}
             exclude={["anonymous", "approved", "customer", "order", "product"]}
             onSuccess={() => setOpen(false)}

@@ -16,15 +16,7 @@ export async function run({ params, logger, api, connections }) {
       },
     },
     select: {
-      id: true,
-      orderNumber: true,
-      lineItems: {
-        edges: {
-          node: {
-            productId: true,
-          },
-        },
-      },
+      singleUseCode: true,
       customer: {
         email: true,
       },

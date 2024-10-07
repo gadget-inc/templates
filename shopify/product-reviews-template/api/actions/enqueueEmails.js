@@ -8,26 +8,11 @@ export async function run({ params, logger, api, connections }) {
 
   const orders = allOrders.splice(0, 80);
 
-  for (const order of orders) {
-    const {
-      id,
-      lineItems,
-      customer: { email },
-    } = order;
-
-    const products = [];
-    const seen = {};
-
-    for (const { node } of lineItems.edges) {
-      const { productId } = node;
-
-      if (seen[productId]) continue;
-
-      seen[productId] = true;
-      products.push(productId);
-    }
-
-    await api.enqueue(api.sendEmail, { id, products, email }, options);
+  for (const {
+    singleUseCode,
+    customer: { email },
+  } of orders) {
+    await api.enqueue(api.sendEmail, { singleUseCode, email }, options);
   }
 
   if (allOrders.length)
@@ -40,32 +25,8 @@ export const params = {
     items: {
       type: "object",
       properties: {
-        id: {
+        singleUseCode: {
           type: "string",
-        },
-        orderNumber: {
-          type: "number",
-        },
-        lineItems: {
-          type: "object",
-          properties: {
-            edges: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  node: {
-                    type: "object",
-                    properties: {
-                      productId: {
-                        type: "string",
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
         },
         customer: {
           type: "object",

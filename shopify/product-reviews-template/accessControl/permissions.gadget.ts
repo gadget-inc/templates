@@ -102,12 +102,9 @@ export const permissions: GadgetPermissions = {
             create: true,
           },
         },
-        shopifyProduct: {
-          read: true,
-        },
-        shopifyProductImage: {
-          read: true,
-        },
+      },
+      actions: {
+        fetchOrderData: true,
       },
     },
   },

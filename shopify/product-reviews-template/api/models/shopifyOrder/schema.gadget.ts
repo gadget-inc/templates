@@ -17,6 +17,11 @@ export const schema: GadgetModel = {
       children: { model: "review", belongsToField: "order" },
       storageKey: "HdNAduYTU3-G",
     },
+    singleUseCode: {
+      type: "string",
+      validations: { unique: { caseSensitive: true } },
+      storageKey: "9zE6vxF2ERNo",
+    },
   },
   shopify: {
     fields: [

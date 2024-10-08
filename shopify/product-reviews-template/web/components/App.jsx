@@ -61,7 +61,6 @@ export default function () {
         <Route path="*" element={<Error404 />} />
         <Route path="/review/:code" element={<Reviews />} />
         <Route path="/expired" element={<Invalid />} />
-        {/* Add a completion page and a redirect if there isn't a valid code or it's been used */}
       </Route>
     )
   );

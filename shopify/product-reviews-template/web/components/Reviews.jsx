@@ -42,7 +42,7 @@ export default () => {
     <Page title={`Products on order #${data?.orderNumber}`}>
       <BlockStack gap="300">
         {data?.products?.map((product) => (
-          <ReviewCard key={product.id} {...product} orderId={data?.orderId} />
+          <ReviewCard key={product.id} {...product} orderId={data.orderId} />
         ))}
       </BlockStack>
     </Page>

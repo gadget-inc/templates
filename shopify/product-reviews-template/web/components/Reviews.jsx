@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useGlobalAction } from "@gadgetinc/react";
 import { api } from "../api";
 import { BlockStack, Page } from "@shopify/polaris";
@@ -8,6 +8,7 @@ import { useEffect } from "react";
 
 export default () => {
   const { code } = useParams();
+  const navigate = useNavigate();
 
   const [{ data, fetching, error }, fetchOrderData] = useGlobalAction(
     api.fetchOrderData
@@ -20,8 +21,14 @@ export default () => {
   }, []);
 
   useEffect(() => {
-    console.log({ code, data, fetching, error });
-  }, [code, data, fetching, error]);
+    if (
+      !fetching &&
+      error &&
+      error.message.includes("Single use code not found")
+    ) {
+      navigate("/expired");
+    }
+  }, [fetching, error]);
 
   if (fetching) {
     return (

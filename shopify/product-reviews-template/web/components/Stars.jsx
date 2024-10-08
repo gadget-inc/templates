@@ -16,7 +16,6 @@ export default ({ rating }) => {
     setHoveredStar(0);
   };
 
-  // Add the non-null version here
   return rating ? (
     <InlineStack>
       {Array.from({ length: 5 }, (_, index) => (

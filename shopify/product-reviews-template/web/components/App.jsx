@@ -20,6 +20,8 @@ import { AboutPage, Index } from "../routes";
 import "./App.css";
 import Reviews from "./Reviews";
 import StyledSpinner from "./StyledSpinner";
+import Invalid from "./Invalid";
+import { AuthenticatedOrRedirect } from "../providers";
 
 function Error404() {
   const navigate = useNavigate();
@@ -40,10 +42,25 @@ export default function () {
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
-        <Route index element={<Index />} />
-        <Route path="/about" element={<AboutPage />} />
+        <Route
+          index
+          element={
+            <AuthenticatedOrRedirect>
+              <Index />
+            </AuthenticatedOrRedirect>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <AuthenticatedOrRedirect>
+              <AboutPage />
+            </AuthenticatedOrRedirect>
+          }
+        />
         <Route path="*" element={<Error404 />} />
         <Route path="/review/:code" element={<Reviews />} />
+        <Route path="/expired" element={<Invalid />} />
         {/* Add a completion page and a redirect if there isn't a valid code or it's been used */}
       </Route>
     )
@@ -71,17 +88,22 @@ function Layout() {
 function AuthenticatedApp() {
   // we use `isAuthenticated` to render pages once the OAuth flow is complete!
   const { isAuthenticated, loading } = useGadget();
+
   if (loading) {
     return <StyledSpinner />;
   }
 
-  return isAuthenticated ? <EmbeddedApp /> : <UnauthenticatedApp />;
+  return isAuthenticated ? (
+    <EmbeddedApp {...{ isAuthenticated }} />
+  ) : (
+    <UnauthenticatedApp {...{ isAuthenticated }} />
+  );
 }
 
-function EmbeddedApp() {
+function EmbeddedApp({ isAuthenticated }) {
   return (
     <>
-      <Outlet />
+      <Outlet context={{ isAuthenticated }} />
       <NavMenu>
         <Link to="/" rel="home">
           Shop Information
@@ -92,6 +114,6 @@ function EmbeddedApp() {
   );
 }
 
-function UnauthenticatedApp() {
-  return <Reviews />;
+function UnauthenticatedApp({ isAuthenticated }) {
+  return <Outlet context={{ isAuthenticated }} />;
 }

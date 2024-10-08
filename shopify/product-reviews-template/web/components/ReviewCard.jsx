@@ -25,8 +25,6 @@ import Stars from "./Stars";
 export default ({ id: productId, title, orderId, image }) => {
   const [open, setOpen] = useState(false);
 
-  console.log({ productId, title, orderId, image });
-
   return (
     <Card>
       <BlockStack gap="300">

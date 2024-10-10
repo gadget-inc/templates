@@ -21,17 +21,17 @@ export async function run({ params, record, logger, api }) {
   await preventCrossShopDataAccess(params, record);
 
   record.hasSlackAccessToken = false;
-  record.slackAccessToken = null;
   record.slackScopes = null;
 
   if (record.slackChannelId) {
     await slackClient.conversations.leave({
       token: record.slackAccessToken,
-      channel: previous,
+      channel: record.slackChannelId,
     });
 
     record.slackChannelId = null;
   }
+  record.slackAccessToken = null;
 
   await save(record);
 }

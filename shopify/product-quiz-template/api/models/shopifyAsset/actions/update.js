@@ -5,6 +5,7 @@ import {
   ActionOptions,
   UpdateShopifyAssetActionContext,
 } from "gadget-server";
+import { processShopifyThemeVersion } from "../utils";
 
 /**
  * @param { UpdateShopifyAssetActionContext } context

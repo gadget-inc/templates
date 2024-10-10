@@ -1,7 +1,7 @@
-import { AutoButton, AutoTable } from "@gadgetinc/react/auto/polaris";
+import { AutoTable } from "@gadgetinc/react/auto/polaris";
 import { BlockStack, Layout, Page, Text, Tooltip } from "@shopify/polaris";
 import { api } from "../api";
-import { Stars } from "../components";
+import { ApprovalButton, Stars } from "../components";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { useState } from "react";
 
@@ -16,6 +16,7 @@ export default function () {
           <AutoTable
             model={api.review}
             select={{
+              id: true,
               rating: true,
               anonymous: true,
               approved: true,
@@ -55,29 +56,7 @@ export default function () {
                 field: "approved",
                 header: "",
                 render: ({ record }) => (
-                  <AutoButton
-                    action={api.review.update}
-                    variables={{ id: record.id, approved: !record.approved }}
-                    tone={record.approved ? "critical" : "primary"}
-                    onSuccess={({ data: { approved } }) =>
-                      toast.show(
-                        approved
-                          ? "Review added to store"
-                          : "Review removed from store",
-                        {
-                          duration: 5000,
-                        }
-                      )
-                    }
-                    onError={() =>
-                      toast.show("Error submitting change", {
-                        duration: 5000,
-                        isError: true,
-                      })
-                    }
-                  >
-                    {record.approved ? "Remove" : "Approve"}
-                  </AutoButton>
+                  <ApprovalButton {...{ record, toast }} />
                 ),
               },
             ]}

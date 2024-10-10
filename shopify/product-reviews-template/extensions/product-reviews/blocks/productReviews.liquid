@@ -1,0 +1,18 @@
+{% assign revews = pro %}
+<span style="color:{{ block.settings.colour }}">
+  {% render 'stars', rating: avg_rating %}
+</span>
+{% if avg_rating >= 4 %}
+  {}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Reviews",
+  "target": "section",
+  "settings": [
+    { "type": "product", "id": "product", "label": "product", "autofill": true }
+  ]
+}
+{% endschema %}
+

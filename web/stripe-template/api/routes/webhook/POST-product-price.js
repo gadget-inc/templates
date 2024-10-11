@@ -2,8 +2,6 @@ import { RouteContext } from "gadget-server";
 import { stripe, getStripeWebhookEvent } from "../../stripe";
 import { destructure, objKeyConvert } from "../../utils";
 
-// Change all to use background actions
-
 /**
  * Route handler for POST webhook/product-price
  *
@@ -16,9 +14,8 @@ export default async function route({ request, reply, api, logger }) {
   try {
     event = getStripeWebhookEvent({
       request,
-      endpointSecret: process.env.STRIPE_PRODUCT_PRODUCT_PRICE_WEBHOOK_SECRET,
+      endpointSecret: process.env.STRIPE_PRODUCT_PRICE_WEBHOOK_SECRET,
     });
-    logger.info({ event }, "my event");
   } catch (err) {
     logger.error({ err }, "Stripe webhook error");
     return await reply.status(400).send();

@@ -1,4 +1,4 @@
-import { useFindFirst } from "@gadgetinc/react";
+import { useFindFirst, useUser } from "@gadgetinc/react";
 import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
@@ -13,6 +13,7 @@ export const UserContext = createContext({});
  */
 export default ({ children }) => {
   const navigate = useNavigate();
+  const userNonce = useUser();
 
   const [{ data: user, fetching, error }] = useFindFirst(api.user, {
     live: true,
@@ -30,7 +31,7 @@ export default ({ children }) => {
     if (!fetching && error) console.error(error);
   }, [fetching, error]);
 
-  if (fetching) {
+  if (userNonce && fetching) {
     return <div>Loading...</div>;
   }
 

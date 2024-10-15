@@ -24,7 +24,6 @@ export default ({ wishlists }) => {
     defaultValues: {
       wishlist: {
         name: "",
-        shopId: shop?.id,
         customerId: shop?.customers?.edges[0]?.node.id,
       },
     },

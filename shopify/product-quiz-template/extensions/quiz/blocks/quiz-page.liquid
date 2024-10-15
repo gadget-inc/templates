@@ -6,7 +6,8 @@
 <!-- Find your direct script tag in the Installing section in your Gadget project's API Reference -->
 <script src="{{YOUR PROJECT SCRIPT}}" defer="defer"></script>
 <script>
-  window.quizSlug = {{ quizSlug }};
+  window.quizSlug = "{{ quizSlug }}";
+  window.shopId = "{{ shop.id }}";
 </script>
 
 <script src="{{ 'product-quiz.js' | asset_url }}" defer="defer"></script>

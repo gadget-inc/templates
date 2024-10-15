@@ -23,16 +23,15 @@ const ProductCard = ({ product: { prices, name }, interval }) => {
 
   return (
     <div className="pricing-card-container">
-      {prices.edges.map((price, i) => {
-        if (price.node.recurring.interval === interval) {
+      {prices.map((price, i) => {
+        if (price.interval === interval) {
           return (
             <div key={i}>
               <div className="pricing-card">
                 <div className="card-header">
                   <h2 className="plan-title">{name}</h2>
                   <p className="plan-price">
-                    ${price.node.unitAmount / 100} /{" "}
-                    {price.node.recurring.interval}
+                    ${price.unitAmount / 100} / {price.interval}
                   </p>
                 </div>
                 <div className="card-body">
@@ -47,16 +46,14 @@ const ProductCard = ({ product: { prices, name }, interval }) => {
                     <input
                       type="hidden"
                       name="lookup_key"
-                      value={price.node.lookupKey}
+                      value={price.lookupKey}
                     />
                     <button
                       className="btn-stripe-subscribe"
                       type="submit"
-                      // disabled={user?.priceId == price.node.stripeId}
+                      disabled={price.current}
                     >
-                      {/* {user?.priceId == price.node.stripeId
-                        ? "Current"
-                        : "Select"} */}
+                      {price.current ? "Current" : "Select"}
                     </button>
                   </form>
                 </div>

@@ -1,9 +1,11 @@
-import { useQuery, useFindMany } from "@gadgetinc/react";
-import { useState } from "react";
+import { useQuery, useGlobalAction } from "@gadgetinc/react";
+import { useContext, useEffect, useState } from "react";
 import { api } from "../api";
 import ProductCard from "../components/ProductCard";
+import { UserContext } from "../providers";
 
 export default () => {
+  const { user } = useContext(UserContext);
   const [toggled, setToggled] = useState(false);
 
   const [{ data: metaData, fetching: fetchingGadgetMeta }] = useQuery({
@@ -17,22 +19,17 @@ export default () => {
     `,
   });
 
-  // fetch available products (Sass subscriptions) from Stripe
-  const [{ data: products, fetching }] = useFindMany(api.stripe.product, {
-    select: {
-      name: true,
-      prices: {
-        edges: {
-          node: {
-            unitAmount: true,
-            lookupKey: true,
-            recurring: true,
-            stripeId: true,
-          },
-        },
-      },
-    },
-  });
+  const [{ data: products, fetching, error }, getProducts] = useGlobalAction(
+    api.getProducts
+  );
+
+  useEffect(() => {
+    void getProducts({ userId: user.id });
+  }, []);
+
+  useEffect(() => {
+    if (!fetching && error) console.error(error);
+  }, [fetching, error]);
 
   if (fetching || fetchingGadgetMeta) {
     return <div>Loading...</div>;
@@ -75,12 +72,14 @@ export default () => {
         </div>
 
         <section className="section-stripe-products">
-          {products?.map((product, i) => (
-            <ProductCard
-              key={`product_${i}`}
-              {...{ product, interval: toggled ? "year" : "month" }}
-            />
-          ))}
+          {products
+            ?.sort((a, b) => a.prices[0].unitAmount - b.prices[0].unitAmount)
+            .map((product, i) => (
+              <ProductCard
+                key={`product_${i}`}
+                {...{ product, interval: toggled ? "year" : "month" }}
+              />
+            ))}
         </section>
       </div>
     </>

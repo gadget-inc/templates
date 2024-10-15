@@ -33,7 +33,6 @@ export const permissions: GadgetPermissions = {
             changePassword: {
               filter: "accessControl/filters/user/tenant.gelly",
             },
-            linkToStripeCustomer: true,
             signOut: {
               filter: "accessControl/filters/user/tenant.gelly",
             },
@@ -44,6 +43,8 @@ export const permissions: GadgetPermissions = {
         addSampleProducts: true,
         createCheckoutSession: true,
         createPortalSession: true,
+        getProducts: true,
+        test: true,
       },
     },
     unauthenticated: {

@@ -7,52 +7,41 @@
       "tags": ["edited"]
     },
     "signed-in.jsx": {
-      "description": "Admin view of blog posts",
+      "description": "Very basic UI that displays a message and button",
       "tags": ["edited"]
     },
-    "index.jsx": {
-      "description": "Unauthenticated view of blog posts",
-      "tags": ["edited"]
+    "billing.jsx": {
+      "description": "Billing page for selecting a subscription",
+      "tags": ["added"]
     }
   },
   "featuredModels": {
-    "post": {
-      "description": "Handles storing the blog post data and who it belongs to",
-      "featuredFields": ["isPublished", "title", "content", "belongsTo:user"]
+    "subscription": {
+      "description": "Stores Stripe subscription data",
+      "featuredFields": ["stripeId", "user", "status"]
     },
     "user": {
       "description": "Tracks user authentication, email verification and other auth methods",
-      "featuredFields": ["email", "posts"]
+      "featuredFields": ["stripeSubscription", "stripeCustomerId"]
     }
   },
   "featuredActions": {
-    "post": {
+    "subscription": {
       "create": {
-        "description": "Creates a blog post associated to the user who created it",
-        "tags": ["added"]
-      },
-      "update": {
-        "description": "Used to update existing posts",
-        "tags": ["added"]
-      },
-      "delete": {
-        "description": "Deletes post from database",
+        "description": "Links a user record with the newly created subscription",
         "tags": ["added"]
       }
     }
   },
-  "featuredAccessControls": {
-    "unauthenticated": {
-      "post": {
-        "description": "Unauthenticated users can see posts with isPublished == true ",
-        "tags": ["read"]
-      }
+  "featuredGlobalActions": {
+    "getProducts": {
+      "description": "Fetches active Stripe products and prices and shapes them to be consumed on the billing page"
     },
-    "signed-in": {
-      "post": {
-        "description": "Signed in users can see all their posts and make changes",
-        "tags": ["read, create, update, delete"]
-      }
+    "createCheckoutSession": {
+      "description": "Creates a new Stripe checkout session for a given product and price using the lookupKey of a product's price"
+    },
+    "createPortalSession": {
+      "description": "Creates a new Stripe customer portal session for a given user"
     }
   },
   "webflow": {

@@ -19,7 +19,6 @@ export default ({ children }) => {
     select: {
       stripeCustomerId: true,
       id: true,
-      priceId: true,
     },
   });
 

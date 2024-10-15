@@ -40,7 +40,6 @@ export const schema: GadgetModel = {
       validations: { strongPassword: true },
       storageKey: "j5BNy63o2f3C",
     },
-    priceId: { type: "string", storageKey: "OyBDpPeAngqX" },
     resetPasswordToken: {
       type: "string",
       storageKey: "q23C8TQNIeiX",

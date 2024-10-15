@@ -24,7 +24,7 @@ export default async function route({
 
   const customerId = checkoutSession.customer;
 
-  const updatedUser = { stripeCustomerId: customerId, priceId: query.price_id };
+  const updatedUser = { stripeCustomerId: customerId };
 
   const subscriptions = await api.stripe.subscription.findMany({
     filter: { user: { equals: query.user_id }, status: { equals: "active" } },

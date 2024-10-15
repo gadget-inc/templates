@@ -52,11 +52,11 @@ const ProductCard = ({ product: { prices, name }, interval }) => {
                     <button
                       className="btn-stripe-subscribe"
                       type="submit"
-                      disabled={user?.priceId == price.node.stripeId}
+                      // disabled={user?.priceId == price.node.stripeId}
                     >
-                      {user?.priceId == price.node.stripeId
+                      {/* {user?.priceId == price.node.stripeId
                         ? "Current"
-                        : "Select"}
+                        : "Select"} */}
                     </button>
                   </form>
                 </div>

@@ -36,20 +36,11 @@ export default async function route({
   });
 
   // Updating the shopifyShop record
-  const shop = await api.internal.shopifyShop.update(
-    token.id,
-    {
-      slackAccessToken: res.access_token,
-      slackScopes: res.scope.split(","),
-      hasSlackAccessToken: true,
-    },
-    {
-      select: {
-        domain: true,
-        installedViaApiKey: true,
-      },
-    }
-  );
+  const shop = await api.internal.shopifyShop.update(token.id, {
+    slackAccessToken: res.access_token,
+    slackScopes: res.scope.split(","),
+    hasSlackAccessToken: true,
+  });
 
   // Redirecting to the storefront
   await reply

@@ -49,7 +49,7 @@ export default () => {
       <Layout sectioned>
         <Layout.Section>
           <BlockStack gap="500">
-            <Card sectioned>
+            <Card>
               <BlockStack gap="500">
                 <Text as="h2" variant="headingMd">
                   Create a plan record

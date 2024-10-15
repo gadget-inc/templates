@@ -18,7 +18,7 @@ export async function onSuccess({ params, record, logger, api }) {
   // clean up recommended product
   const recommendation = await api.recommendedProduct.findFirst({
     filter: {
-      answer: {
+      answerId: {
         equals: record.id,
       },
     },

@@ -57,7 +57,7 @@ export default function () {
                 <ButtonGroup>
                   <Button
                     submit
-                    tone="primary"
+                    variant="primary"
                     onClick={submit}
                     disabled={!isDirty}
                   >

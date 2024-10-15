@@ -149,7 +149,6 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
         <Controller
           name="bundle.title"
           control={control}
-          required
           render={({ field: { ref, ...fieldProps } }) => (
             <TextField
               label="Name"
@@ -190,7 +189,6 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
           <Controller
             name="bundle.status"
             control={control}
-            required
             render={({ field: { ref, ...fieldProps } }) => (
               <Select
                 label="Status"
@@ -207,7 +205,6 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
         <Controller
           name="bundle.description"
           control={control}
-          required
           render={({ field: { ref, ...fieldProps } }) => (
             <TextField
               label="Description"

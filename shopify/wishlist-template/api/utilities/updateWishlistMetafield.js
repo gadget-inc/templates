@@ -7,10 +7,10 @@ export default async ({ shopId, customerId }) => {
     api.wishlist.findMany({
       first: 250,
       filter: {
-        customer: {
+        customerId: {
           equals: customerId,
         },
-        shop: {
+        shopId: {
           equals: shopId,
         },
       },

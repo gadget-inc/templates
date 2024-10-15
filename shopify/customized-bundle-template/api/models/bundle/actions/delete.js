@@ -28,7 +28,7 @@ export async function run({ params, record, logger, api, connections }) {
   // Fetch all the bundle components for this bundle
   let bundleComponents = await api.bundleComponent.findMany({
     first: 250,
-    filter: {
+    filterId: {
       bundle: {
         equals: record.id,
       },

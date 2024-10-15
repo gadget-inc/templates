@@ -21,7 +21,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   // Delete all wishlist items associated with the wishlist
   await api.internal.wishlistItem.deleteMany({
     filter: {
-      wishlist: {
+      wishlistId: {
         equals: record.id,
       },
     },

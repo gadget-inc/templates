@@ -22,7 +22,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     // If the product variant is a bundle, delete the bundle and its components
     const bundle = await api.bundle.maybeFindFirst({
       filter: {
-        bundleVariant: {
+        bundleVariantId: {
           equals: record.id,
         },
       },
@@ -40,7 +40,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   let bundleComponents = await api.bundleComponent.findMany({
     first: 250,
     filter: {
-      productVariant: {
+      productVariantId: {
         equals: record.id,
       },
     },

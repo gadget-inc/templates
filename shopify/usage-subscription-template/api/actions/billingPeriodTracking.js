@@ -22,7 +22,7 @@ export async function run({ params, logger, api, connections }) {
       state: {
         inState: "installed",
       },
-      plan: {
+      planId: {
         isSet: true,
       },
     },

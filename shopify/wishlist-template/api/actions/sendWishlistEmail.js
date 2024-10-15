@@ -24,7 +24,7 @@ export async function run({ params, logger, api, connections, emails }) {
   let wishlistItems = await api.wishlistItem.findMany({
     first: 250,
     filter: {
-      customer: {
+      customerId: {
         equals: id,
       },
     },

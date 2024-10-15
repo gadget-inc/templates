@@ -26,6 +26,10 @@ export default ({ children }) => {
     if (!user?.stripeCustomerId && !fetching) navigate("/billing");
   }, [user, fetching]);
 
+  useEffect(() => {
+    if (!fetching && error) console.error(error);
+  }, [fetching, error]);
+
   if (fetching) {
     return <div>Loading...</div>;
   }

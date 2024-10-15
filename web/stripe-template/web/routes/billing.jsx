@@ -35,7 +35,7 @@ export default () => {
     return <div>Loading...</div>;
   }
 
-  if (!products.length && !fetching) {
+  if (!products?.length && !fetching) {
     return (
       <div>
         No products found - see{" "}

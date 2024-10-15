@@ -58,55 +58,6 @@ export const destructure = ({ topic, obj }) => {
           "status",
         ].map((key) => [key, obj[key]])
       );
-    case "product":
-      return Object.fromEntries(
-        [
-          "stripeId",
-          "defaultPrice",
-          "type",
-          "livemode",
-          "unitLabel",
-          "taxCode",
-          "metadata",
-          "name",
-          "active",
-          "description",
-          "statementDescriptor",
-          "url",
-          "attributes",
-          "features",
-          "stripeUpdatedAt",
-          "packageDimensions",
-          "shippable",
-          "object",
-          "images",
-          "stripeCreatedAt",
-        ].map((key) => [key, obj[key]])
-      );
-    case "price":
-      return Object.fromEntries(
-        [
-          "stripeId",
-          "nickname",
-          "tiersMode",
-          "currency",
-          "metadata",
-          "livemode",
-          "customUnitAmount",
-          "unitAmountDecimal",
-          "taxBehavior",
-          "recurring",
-          "unitAmount",
-          "transformQuantity",
-          "billingScheme",
-          "type",
-          "active",
-          "stripeCreatedAt",
-          "object",
-          "lookupKey",
-          "product",
-        ].map((key) => [key, obj[key]])
-      );
     default:
       return obj;
   }

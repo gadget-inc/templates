@@ -1,8 +1,17 @@
 import { useGlobalAction } from "@gadgetinc/react";
-import { Banner, BlockStack, Layout, Page, Text } from "@shopify/polaris";
+import {
+  Banner,
+  BlockStack,
+  Button,
+  Card,
+  Layout,
+  Page,
+  Text,
+} from "@shopify/polaris";
 import { api } from "../api";
 import { PlanCard, StyledSpinner } from "../components";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
+import { ShopContext } from "../providers";
 
 /**
  * This is the billing page that will be displayed when a user hasn't selected a plan or they want to change plans.
@@ -10,6 +19,7 @@ import { useCallback, useEffect, useState } from "react";
  * @returns { import("react").ReactElement } A React functional component
  */
 export default () => {
+  const { gadgetMetadata } = useContext(ShopContext);
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
 
@@ -70,16 +80,42 @@ export default () => {
                   description={plan.description}
                   pricePerOrder={plan.pricePerOrder}
                   trialDays={plan.trialDays}
+                  cappedAmount={plan.cappedAmount}
                 />
               </Layout.Section>
             ))
           ) : (
-            <Text as="p" variant="bodyLg">
-              There are no plans in the database. Please make sure to add plans
-              using the API Playground. Since the database is split between
-              development and production, make sure to also add plans to your
-              production database once deploying and going live.
-            </Text>
+            <Layout.Section>
+              <Card>
+                <BlockStack gap="300">
+                  <Text as="p" variant="bodyLg">
+                    There are no plans in the database. Please make sure to add
+                    plans using the API Playground. Since the database is split
+                    between development and production, make sure to also add
+                    plans to your production database once deploying and going
+                    live.
+                  </Text>
+                  <Button
+                    variant="primary"
+                    onClick={() =>
+                      open(
+                        `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.plan.create({
+  cappedAmount: 123,
+  currency: "CAD",
+  description: "example value for description",
+  name: "Some plan name",
+  pricePerOrder: 123,
+  trialDays: 7,
+})`)}&environment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,
+                        "_blank"
+                      )
+                    }
+                  >
+                    Create a plan
+                  </Button>
+                </BlockStack>
+              </Card>
+            </Layout.Section>
           )}
         </Layout>
       </BlockStack>

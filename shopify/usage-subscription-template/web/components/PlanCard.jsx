@@ -17,7 +17,14 @@ import { api } from "../api";
  *
  * @returns { import("react").ReactElement } A React functional component
  */
-export default ({ id, name, description, pricePerOrder, trialDays }) => {
+export default ({
+  id,
+  name,
+  description,
+  pricePerOrder,
+  trialDays,
+  cappedAmount,
+}) => {
   const { shop, currentCappedAmount } = useContext(ShopContext);
   const [disabled, setDisabled] = useState(false);
 
@@ -46,7 +53,7 @@ export default ({ id, name, description, pricePerOrder, trialDays }) => {
               },
               {
                 term: "Capped amount",
-                description: `${currentCappedAmount || plan.cappedAmount}`,
+                description: `${currentCappedAmount || cappedAmount}`,
               },
               {
                 term: "Trial days",

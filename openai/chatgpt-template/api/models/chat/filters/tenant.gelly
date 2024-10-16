@@ -1,4 +1,0 @@
-fragment Filter($user: User, $session: Session) on Chat {
-  *
-  [where userId == $user.id]
-}

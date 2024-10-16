@@ -38,9 +38,10 @@ export default function () {
           <Controller
             name="password"
             control={control}
-            render={({ field: { ref, fieldProps } }) => (
+            render={({ field: { ref, ...fieldProps } }) => (
               <TextField
                 placeholder="New password"
+                type="password"
                 {...fieldProps}
                 error={errors?.user?.password?.message}
               />
@@ -49,9 +50,10 @@ export default function () {
           <Controller
             name="confirmPassword"
             control={control}
-            render={({ field: { ref, fieldProps } }) => (
+            render={({ field: { ref, ...fieldProps } }) => (
               <TextField
                 placeholder="Confirm password"
+                type="password"
                 {...fieldProps}
                 error={errors?.user?.confirmPassword?.message}
               />
@@ -61,11 +63,11 @@ export default function () {
                 value === watch("password") || "The passwords do not match",
             }}
           />
+          {errors?.root?.message && <Text as="p">{errors.root.message}</Text>}
+          <Button disabled={isSubmitting} type="submit" onClick={submit}>
+            Reset password
+          </Button>
         </FormLayout>
-        {errors?.root?.message && <Text as="p">{errors.root.message}</Text>}
-        <Button disabled={isSubmitting} type="submit">
-          Reset password
-        </Button>
       </Form>
     </Card>
   );

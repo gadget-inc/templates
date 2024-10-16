@@ -27,7 +27,12 @@ export async function onSuccess({ params, record, logger, api }) {
       shop: {
         _link: record.id,
       },
-      models: ["shopifyProduct", "shopifyTheme", "shopifyAsset"],
+      models: [
+        "shopifyProduct",
+        "shopifyProductImage",
+        "shopifyTheme",
+        "shopifyAsset",
+      ],
     },
   });
 }

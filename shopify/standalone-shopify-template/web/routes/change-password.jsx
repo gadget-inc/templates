@@ -33,16 +33,21 @@ export default function () {
             <Controller
               name="currentPassword"
               control={control}
-              render={({ field: { ref, fieldProps } }) => (
-                <TextField placeholder="Current password" {...fieldProps} />
+              render={({ field: { ref, ...fieldProps } }) => (
+                <TextField
+                  placeholder="Current password"
+                  type="password"
+                  {...fieldProps}
+                />
               )}
             />
             <Controller
               name="newPassword"
               control={control}
-              render={({ field: { ref, fieldProps } }) => (
+              render={({ field: { ref, ...fieldProps } }) => (
                 <TextField
                   placeholder="New password"
+                  type="password"
                   {...fieldProps}
                   error={errors?.user?.newPassword?.message}
                 />
@@ -54,7 +59,7 @@ export default function () {
               </Text>
             )}
             <Link to="/signed-in">Back to profile</Link>
-            <Button disabled={isSubmitting} type="submit">
+            <Button disabled={isSubmitting} type="submit" onClick={submit}>
               Change password
             </Button>
           </BlockStack>

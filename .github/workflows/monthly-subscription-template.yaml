@@ -3,7 +3,7 @@ name: Monthly Subscription Deployment
 on:
   push:
     paths:
-      - "shopify/monthy-subscription-template/**"
+      - "shopify/monthly-subscription-template/**"
     branches:
       - main
   workflow_dispatch:

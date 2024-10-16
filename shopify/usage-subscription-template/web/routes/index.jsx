@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { ShopContext } from "../providers";
 
 export default () => {
-  const { shop } = useContext(ShopContext);
+  const { shop, gadgetMetadata } = useContext(ShopContext);
 
   return (
     <Page title="Next Steps">
@@ -43,7 +43,7 @@ export default () => {
                       `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("${shop?.id}", {
   // Make sure to change this 1440 * number of days on the trial
   usedTrialMinutes: 10080
-})`)}&enviroment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,
+})`)}&environment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,
                       "_blank"
                     )
                   }

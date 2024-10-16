@@ -32,7 +32,7 @@ export default function () {
             <Controller
               name="email"
               control={control}
-              render={({ field: { ref, fieldProps } }) => (
+              render={({ field: { ref, ...fieldProps } }) => (
                 <TextField
                   label="Email"
                   placeholder="Email"
@@ -44,10 +44,11 @@ export default function () {
             <Controller
               name="password"
               control={control}
-              render={({ field: { ref, fieldProps } }) => (
+              render={({ field: { ref, ...fieldProps } }) => (
                 <TextField
                   label="Password"
                   placeholder="Password"
+                  type="password"
                   {...fieldProps}
                   error={errors?.user?.password?.message}
                 />

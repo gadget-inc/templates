@@ -1,4 +1,4 @@
-import { ActionOptions, AddSampleProductsGlobalActionContext } from "gadget-server";
+import { AddSampleProductsGlobalActionContext } from "gadget-server";
 import { stripe } from "../stripe";
 
 /**
@@ -6,12 +6,19 @@ import { stripe } from "../stripe";
  */
 export async function run({ params, logger, api, connections }) {
   // amount fields are in cents, as per Stripe's Product API: https://stripe.com/docs/api/products/create
-  await createProduct({ name: "Basic", monthlyAmount: 1000, annualAmount: 10000 });
-  await createProduct({ name: "Pro", monthlyAmount: 2500, annualAmount: 25000 });
-};
+  await createProduct({
+    name: "Basic",
+    monthlyAmount: 1000,
+    annualAmount: 10000,
+  });
+  await createProduct({
+    name: "Pro",
+    monthlyAmount: 2500,
+    annualAmount: 25000,
+  });
 
-/** @type { ActionOptions } */
-export const options = {};
+  return true;
+}
 
 async function createProduct({ name, monthlyAmount, annualAmount }) {
   const product = await stripe.products.create({
@@ -23,10 +30,10 @@ async function createProduct({ name, monthlyAmount, annualAmount }) {
     product: product.id,
     unit_amount: monthlyAmount,
     recurring: {
-      interval: "month"
+      interval: "month",
     },
-    currency: 'cad',
-    lookup_key: `${name}_monthly`
+    currency: "cad",
+    lookup_key: `${product.id}_monthly`,
   });
 
   await stripe.prices.create({
@@ -34,9 +41,9 @@ async function createProduct({ name, monthlyAmount, annualAmount }) {
     product: product.id,
     unit_amount: annualAmount,
     recurring: {
-      interval: "year"
+      interval: "year",
     },
-    currency: 'cad',
-    lookup_key: `${name}_yearly`
+    currency: "cad",
+    lookup_key: `${product.id}_yearly`,
   });
 }

@@ -1,4 +1,4 @@
-import { useQuery, useGlobalAction } from "@gadgetinc/react";
+import { useGlobalAction } from "@gadgetinc/react";
 import { useContext, useEffect, useState } from "react";
 import { api } from "../api";
 import ProductCard from "../components/ProductCard";
@@ -8,16 +8,14 @@ export default () => {
   const { user } = useContext(UserContext);
   const [toggled, setToggled] = useState(false);
 
-  const [{ data: metaData, fetching: fetchingGadgetMeta }] = useQuery({
-    query: `
-      query {
-        gadgetMeta {
-          slug
-          editURL
-        }
-      }
-    `,
-  });
+  const [
+    {
+      data: sampleProductsAdded,
+      fetching: creatingSampleProducts,
+      error: errorCreatingSampleProducts,
+    },
+    createSampleProducts,
+  ] = useGlobalAction(api.addSampleProducts);
 
   const [{ data: products, fetching, error }, getProducts] = useGlobalAction(
     api.getProducts
@@ -31,21 +29,32 @@ export default () => {
     if (!fetching && error) console.error(error);
   }, [fetching, error]);
 
-  if (fetching || fetchingGadgetMeta) {
+  useEffect(() => {
+    if (!creatingSampleProducts && sampleProductsAdded) {
+      void getProducts({ userId: user.id });
+    }
+  }, [sampleProductsAdded, creatingSampleProducts]);
+
+  useEffect(() => {
+    if (!creatingSampleProducts && errorCreatingSampleProducts)
+      console.error(errorCreatingSampleProducts);
+  }, [creatingSampleProducts, errorCreatingSampleProducts]);
+
+  if (fetching) {
     return <div>Loading...</div>;
   }
 
   if (!products?.length && !fetching) {
     return (
       <div>
-        No products found - see{" "}
-        <a
-          href={`${metaData.gadgetMeta.editURL}/files/README_DEV.md`}
-          target="_blank"
-        >
-          README_DEV.md
-        </a>{" "}
-        for more info.
+        <p>
+          No products found. If you wish to quickly create some products, click
+          the button below. Otherwise, make sure to add products in your Stripe
+          dashboard.
+        </p>
+        <button onClick={() => void createSampleProducts()}>
+          Add sample products
+        </button>
       </div>
     );
   }

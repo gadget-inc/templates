@@ -26,19 +26,14 @@ export default async function route({
 
   const updatedUser = { stripeCustomerId };
 
-  const subscriptions = await api.stripe.subscription.findMany({
+  const subscription = await api.stripe.subscription.maybeFindFirst({
     filter: { userId: { equals: query.user_id }, status: { equals: "active" } },
     select: { stripeId: true },
   });
 
-  if (subscriptions.length) {
-    for (const subscription of subscriptions) {
-      // Call stripe to unsub the customer from the other active subscriptions
-      await stripe.subscriptions.cancel(subscription.stripeId);
-    }
-  }
+  if (subscription) await stripe.subscriptions.cancel(subscription.stripeId);
 
-  const subscription = await api.stripe.subscription.maybeFindFirst({
+  const stripeSubscription = await api.stripe.subscription.maybeFindFirst({
     filter: {
       customer: { equals: stripeCustomerId },
       status: { equals: "active" },
@@ -46,10 +41,10 @@ export default async function route({
     select: { id: true },
   });
 
-  if (subscription) {
+  if (stripeSubscription) {
     updatedUser["stripeSubscription"] = {
       update: {
-        id: subscription.id,
+        id: stripeSubscription.id,
       },
     };
   }

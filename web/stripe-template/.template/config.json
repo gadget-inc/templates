@@ -1,6 +1,7 @@
 {
   "version": "v1",
   "introduction": "docs/Intro.md",
+  "setup": "docs/setup.md",
   "featuredFrontends": {
     "App.jsx": {
       "description": "This page handles routing of the frontend pages.",

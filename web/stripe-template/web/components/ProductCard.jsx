@@ -1,11 +1,8 @@
 import { useGlobalAction } from "@gadgetinc/react";
 import { useCallback, useContext } from "react";
 import { api } from "../api";
-import { UserContext } from "../providers";
 
 const ProductCard = ({ product: { prices, name }, interval }) => {
-  const { user } = useContext(UserContext);
-
   const [{ data: stripeCheckoutUrl, error }, stripeSubscribe] = useGlobalAction(
     api.createCheckoutSession
   );
@@ -13,7 +10,7 @@ const ProductCard = ({ product: { prices, name }, interval }) => {
   const submit = useCallback(async (e) => {
     e.preventDefault();
     // call the createCheckoutSession global action
-    void stripeSubscribe({ lookupKey: e.target[0].value });
+    void stripeSubscribe({ priceId: e.target[0].value });
   }, []);
 
   // redirect to Stripe's checkout page
@@ -43,11 +40,7 @@ const ProductCard = ({ product: { prices, name }, interval }) => {
                 </div>
                 <div className="card-footer">
                   <form onSubmit={submit}>
-                    <input
-                      type="hidden"
-                      name="lookup_key"
-                      value={price.lookupKey}
-                    />
+                    <input type="hidden" name="lookup_key" value={price.id} />
                     <button
                       className="btn-stripe-subscribe"
                       type="submit"

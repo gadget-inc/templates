@@ -20,8 +20,6 @@ export default function () {
   }, []);
 
   useEffect(() => {
-    console.log("user", user);
-
     const query = new URLSearchParams(window.location.search);
 
     if (!user?.stripeCustomerId && query.get("canceled")) navigate("/billing");

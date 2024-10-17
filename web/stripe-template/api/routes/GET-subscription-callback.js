@@ -22,9 +22,9 @@ export default async function route({
 
   logger.info({ checkoutSession }, "checkoutSession");
 
-  const customerId = checkoutSession.customer;
+  const stripeCustomerId = checkoutSession.customer;
 
-  const updatedUser = { stripeCustomerId: customerId };
+  const updatedUser = { stripeCustomerId };
 
   const subscriptions = await api.stripe.subscription.findMany({
     filter: { userId: { equals: query.user_id }, status: { equals: "active" } },
@@ -40,7 +40,7 @@ export default async function route({
 
   const subscription = await api.stripe.subscription.maybeFindFirst({
     filter: {
-      customerId: { equals: customerId },
+      customer: { equals: stripeCustomerId },
       status: { equals: "active" },
     },
     select: { id: true },

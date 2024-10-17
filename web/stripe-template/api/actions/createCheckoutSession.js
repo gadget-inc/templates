@@ -13,22 +13,17 @@ import { stripe } from "../stripe";
  * More available at https://docs.stripe.com/testing?testing-method=card-numbers
  */
 export async function run({ params, api, currentAppUrl, session, logger }) {
-  const price = await api.stripe.price.findFirst({
-    filter: { lookupKey: { equals: params.lookupKey } },
-    select: { stripeId: true },
-  });
-
   const stripeSession = await stripe.checkout.sessions.create({
     billing_address_collection: "auto",
     line_items: [
       {
-        price: price.stripeId,
+        price: params.priceId,
         // For metered billing, do not pass quantity
         quantity: 1,
       },
     ],
     mode: "subscription",
-    success_url: `${currentAppUrl}subscription-callback?success=true&session_id={CHECKOUT_SESSION_ID}&price_id=${price.stripeId}&user_id=${session.get("user")}`,
+    success_url: `${currentAppUrl}subscription-callback?success=true&session_id={CHECKOUT_SESSION_ID}&price_id=${params.priceId}&user_id=${session.get("user")}`,
     // possibly change??
     cancel_url: `${currentAppUrl}signed-in?canceled=true`,
   });
@@ -38,7 +33,7 @@ export async function run({ params, api, currentAppUrl, session, logger }) {
 }
 
 export const params = {
-  lookupKey: { type: "string" },
+  priceId: { type: "string" },
 };
 
 /** @type { ActionOptions } */

@@ -38,7 +38,7 @@
       "description": "Fetches active Stripe products and prices and shapes them to be consumed on the billing page"
     },
     "createCheckoutSession": {
-      "description": "Creates a new Stripe checkout session for a given product and price using the lookupKey of a product's price"
+      "description": "Creates a new Stripe checkout session for a given product and price using the price's id"
     },
     "createPortalSession": {
       "description": "Creates a new Stripe customer portal session for a given user"
@@ -48,7 +48,7 @@
     "title": "Stripe subscriptions",
     "description": "This template is a basic example of how to implement Stripe subscriptions in Gadget.",
     "content": "webflow/content.md",
-    "mainImage": "webflow/crud-blog.webp",
+    "mainImage": "webflow/stripe-template.png",
     "features": {
       "frontend": true,
       "models": true,

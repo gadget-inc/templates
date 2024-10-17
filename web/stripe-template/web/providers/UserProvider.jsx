@@ -24,7 +24,7 @@ export default ({ children }) => {
   });
 
   useEffect(() => {
-    if (!user?.stripeCustomerId && !fetching) navigate("/billing");
+    if (user && !user?.stripeCustomerId && !fetching) navigate("/billing");
   }, [user, fetching]);
 
   useEffect(() => {

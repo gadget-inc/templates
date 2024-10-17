@@ -94,7 +94,7 @@ export async function run({ params, record, logger, api, connections }) {
           name: "Reviews",
           namespace: "productReviews",
           key: "reviewMetaobjects",
-          description: "A list of metaobjects assoicated to this product",
+          description: "A list of metaobjects associated to this product",
           type: "list.metaobject_reference",
           ownerType: "PRODUCT",
           validations: [

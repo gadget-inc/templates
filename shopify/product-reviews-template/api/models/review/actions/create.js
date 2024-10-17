@@ -33,7 +33,24 @@ export async function run({ params, record, logger, api, connections }) {
  * @param { CreateReviewActionContext } context
  */
 export async function onSuccess({ params, record, logger, api, connections }) {
-  // Your logic goes here
+  await api.enqueue(
+    api.createReviewMetaobject,
+    {
+      shopId: record.shopId,
+      review: {
+        id: record.id,
+        rating: record.rating,
+        content: record.content,
+        productId: record.productId,
+      },
+    },
+    {
+      queue: {
+        name: `queue-shop:${record.shopId}`,
+        maxConcurrency: 4,
+      },
+    }
+  );
 }
 
 /** @type { ActionOptions } */

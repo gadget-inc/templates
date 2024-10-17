@@ -1,10 +1,14 @@
-{% assign revews = pro %}
-<span style="color:{{ block.settings.colour }}">
-  {% render 'stars', rating: avg_rating %}
-</span>
-{% if avg_rating >= 4 %}
-  {}
-{% endif %}
+{% assign reviews = product.metafields.productReviews.reviewMetaobjects.value | json %}
+
+<script>console.log({{reviews}})</script>
+
+<div>out</div>
+{% for review in reviews %}
+  <div>
+    Hello
+    {{review | json}}
+  </div>
+{% endfor %}
 
 {% schema %}
 {

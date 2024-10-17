@@ -12,6 +12,18 @@ export const schema: GadgetModel = {
       children: { model: "review", belongsToField: "product" },
       storageKey: "9q0TXpTv2hmS",
     },
+    reviewsMetafield: {
+      type: "json",
+      shopifyMetafield: {
+        privateMetafield: false,
+        namespace: "productReviews",
+        key: "reviewMetaobjects",
+        metafieldType: "json",
+        allowMultipleEntries: false,
+      },
+      default: [],
+      storageKey: "zn2QVWbMprWt",
+    },
   },
   shopify: {
     fields: [

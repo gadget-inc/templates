@@ -23,7 +23,7 @@ export async function run({ params, logger, api, connections }) {
 
     let lineItems = await api.shopifyOrderLineItem.findMany({
       filter: {
-        order: {
+        orderId: {
           equals: order.id,
         },
       },

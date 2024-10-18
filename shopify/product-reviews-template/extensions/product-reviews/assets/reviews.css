@@ -1,0 +1,32 @@
+div#reviews {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+}
+
+div.reviewCard {
+  border-top: lightgrey solid 1px;
+  padding: 2rem 2rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+div.reviewStars {
+  display: flex;
+  align-items: start;
+}
+
+div.reviewStars > svg {
+  height: 15px;
+  width: 15px;
+}
+
+div.vertical-divider {
+  border-left: 1px solid #ccc;
+  height: 100%;
+  margin: 0 10px;
+}

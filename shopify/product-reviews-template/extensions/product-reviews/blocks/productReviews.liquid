@@ -1,22 +1,24 @@
-{% assign reviews = product.metafields.productReviews.reviewMetaobjects.value | json %}
+{% assign reviews = product.metafields.productReviews.reviewMetaobjects.value %}
 
-<script>console.log({{reviews}})</script>
-
-<div>out</div>
-{% for review in reviews %}
-  <div>
-    Hello
-    {{review | json}}
-  </div>
-{% endfor %}
+<h2>Reviews</h2>
+<div id="reviews">
+  {% for review in reviews%}
+      <div class="reviewCard">
+        <p>{{ review.content}}</p>
+        <div class="vertical-divider"></div>
+        <div class="reviewStars">
+          {% render "star-rating", rating: review.rating.value | plus: 0 %}
+        </div>
+      </div>
+  {% endfor %}
+</div>
 
 {% schema %}
-{
-  "name": "Reviews",
-  "target": "section",
-  "settings": [
-    { "type": "product", "id": "product", "label": "product", "autofill": true }
-  ]
-}
+  {
+    "name": "Reviews",
+    "stylesheet": "reviews.css",
+    "target": "section",
+    "settings": []
+  }
 {% endschema %}
 

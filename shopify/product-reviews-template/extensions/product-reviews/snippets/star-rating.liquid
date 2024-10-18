@@ -1,0 +1,52 @@
+<script>console.log(typeof {{rating}}, {{rating}})</script>
+{% for iteration in (1..5) %}
+  {% if iteration <= rating %}
+    <svg
+      height="20px"
+      width="20px"
+      version="1.1"
+      id="Capa_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="-2.15 -2.15 58.17 58.17"
+      xml:space="preserve"
+      fill="#000000"
+      stroke="#000000"
+      stroke-width="0.00053867">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke="#CCCCCC"
+        stroke-width="0.323202"></g>
+      <g id="SVGRepo_iconCarrier">
+        <polygon style="fill:#EFCE4A;" points="26.934,1.318 35.256,18.182 53.867,20.887 40.4,34.013 43.579,52.549 26.934,43.798 10.288,52.549 13.467,34.013 0,20.887 18.611,18.182 "></polygon>
+      </g>
+    </svg>
+  {% else %}
+    <svg
+      height="20px"
+      width="20px"
+      version="1.1"
+      id="Capa_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      viewBox="-2.15 -2.15 58.17 58.17"
+      xml:space="preserve"
+      fill="#000000"
+      stroke="#000000"
+      stroke-width="0.00053867">
+      <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+      <g
+        id="SVGRepo_tracerCarrier"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke="#CCCCCC"
+        stroke-width="0.323202"></g>
+      <g id="SVGRepo_iconCarrier">
+        <polygon style="fill:#808080;" points="26.934,1.318 35.256,18.182 53.867,20.887 40.4,34.013 43.579,52.549 26.934,43.798 10.288,52.549 13.467,34.013 0,20.887 18.611,18.182 "></polygon>
+      </g>
+    </svg>
+  {% endif %}
+{% endfor %}

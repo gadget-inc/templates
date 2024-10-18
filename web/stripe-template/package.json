@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@gadget-client/stripe-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.17.2",
+    "@gadgetinc/react": "^0.18.0",
     "gadget-server": "link:.gadget/server",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

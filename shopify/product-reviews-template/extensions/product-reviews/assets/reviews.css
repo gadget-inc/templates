@@ -13,6 +13,7 @@ div.reviewCard {
   flex-direction: row;
   justify-content: space-around;
   align-items: center;
+  width: 100%;
 }
 
 div.reviewStars {
@@ -25,8 +26,8 @@ div.reviewStars > svg {
   width: 15px;
 }
 
-div.vertical-divider {
-  border-left: 1px solid #ccc;
+span.vertical-divider {
+  border-left: 1px solid lightgrey;
   height: 100%;
   margin: 0 10px;
 }

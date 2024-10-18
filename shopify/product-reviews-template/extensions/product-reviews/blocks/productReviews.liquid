@@ -5,7 +5,6 @@
   {% for review in reviews%}
       <div class="reviewCard">
         <p>{{ review.content}}</p>
-        <div class="vertical-divider"></div>
         <div class="reviewStars">
           {% render "star-rating", rating: review.rating.value | plus: 0 %}
         </div>

@@ -21,7 +21,7 @@ export async function run({ params, logger, api, connections, session }) {
       userId: {
         equals: user,
       },
-      shop: {
+      shopId: {
         equals: shop,
       },
     },

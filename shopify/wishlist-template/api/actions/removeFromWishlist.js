@@ -9,16 +9,16 @@ export async function run({ params, logger, api, connections }) {
   // Find the wishlist item that matches the given parameters
   const wishlistItem = await api.wishlistItem.maybeFindFirst({
     filter: {
-      wishlist: {
+      wishlistId: {
         equals: wishlistId,
       },
-      shop: {
+      shopId: {
         equals: shopId,
       },
-      customer: {
+      customerId: {
         equals: customerId,
       },
-      variant: {
+      variantId: {
         equals: variantId,
       },
     },

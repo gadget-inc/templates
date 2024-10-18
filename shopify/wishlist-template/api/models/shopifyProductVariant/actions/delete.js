@@ -4,7 +4,6 @@ import {
   DeleteShopifyProductVariantActionContext,
 } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
-import { setModifiedTrue } from "../utilities";
 
 /**
  * @param { DeleteShopifyProductVariantActionContext } context

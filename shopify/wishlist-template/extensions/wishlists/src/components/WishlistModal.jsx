@@ -37,7 +37,7 @@ export default ({ id, name }) => {
     },
   ] = useFindMany(api.wishlistItem, {
     filter: {
-      wishlist: {
+      wishlistId: {
         equals: id,
       },
     },

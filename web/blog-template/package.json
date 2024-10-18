@@ -5,7 +5,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "vite:build": "NODE_ENV=production vite build"
+    "build": "NODE_ENV=production vite build"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -13,7 +13,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@gadget-client/blog-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.16.1",
+    "@gadgetinc/react": "^0.17.2",
     "@mdxeditor/editor": "^1.13.5",
     "chakra-ui-markdown-renderer": "^4.1.0",
     "fastify": "^4.24.2",
@@ -30,6 +30,6 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "3.2.0",
     "typescript": "^5.2.2",
-    "vite": "^4.4.9"
+    "vite": "^5.3.5"
   }
 }

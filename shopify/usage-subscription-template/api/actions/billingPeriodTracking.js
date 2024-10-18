@@ -22,7 +22,7 @@ export async function run({ params, logger, api, connections }) {
       state: {
         inState: "installed",
       },
-      plan: {
+      planId: {
         isSet: true,
       },
     },
@@ -60,7 +60,6 @@ export async function run({ params, logger, api, connections }) {
           activeSubscriptionId: shop.activeSubscriptionId,
           usagePlanId: shop.usagePlanId,
           plan: {
-            currency: shop.plan.currency,
             price: shop.plan.pricePerOrder,
           },
         },

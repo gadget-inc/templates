@@ -21,14 +21,14 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   await Promise.all([
     api.internal.wishlist.deleteMany({
       filter: {
-        customer: {
+        customerId: {
           equals: record.id,
         },
       },
     }),
     api.internal.wishlistItem.deleteMany({
       filter: {
-        customer: {
+        customerId: {
           equals: record.id,
         },
       },

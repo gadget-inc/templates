@@ -57,7 +57,7 @@ export async function run({
     const currentSubscription = await api.shopifyAppSubscription.maybeFindFirst(
       {
         filter: {
-          shop: {
+          shopId: {
             equals: record.id,
           },
           status: {
@@ -95,14 +95,14 @@ export async function run({
         trialDays: ${availableTrialDays}
         test: ${process.env.NODE_ENV === "production" ? false : true},
         returnUrl: "${currentAppUrl}confirmation-callback?shop_id=${
-        connections.shopify.currentShopId
-      }&plan_id=${planMatch.id}",
+          connections.shopify.currentShopId
+        }&plan_id=${planMatch.id}",
         lineItems: [{
           plan: {
             appUsagePricingDetails: {
               terms: "You will be charged ${price} ${
-        record.currency
-      } per order for our services."
+                record.currency
+              } per order for our services."
               cappedAmount: { amount: ${
                 currentCappedAmount || planMatch.cappedAmount
               }, currencyCode: ${record.currency} }

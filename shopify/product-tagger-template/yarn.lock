@@ -192,7 +192,7 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/react-shopify-app-bridge@^0.16.1":
+"@gadgetinc/react-shopify-app-bridge@^0.16.4":
   version "0.16.4"
   resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.4.tgz#7c02ae4c9462f9556019f688cca994cd0529cae8"
   integrity sha512-WStOSHi1597HzPkeLwg80PLpGa7p3fRj56uwmfSGC9f40cxLFH05KdzlLi+1n+YpevSW+2elya1c8oSrRsHh3g==
@@ -201,10 +201,10 @@
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.17.2":
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.17.2.tgz#4b4877faf9f181e359fbb31b9c6a9326458a28ce"
-  integrity sha512-y1TGXSlbtVj2ftksF5xSZTPvarXBVMJWJNr3sFeS9iWtuTHpBZvGaKNLIdfQ8bQT2SVhV3HUH+6j9BjmdQN1Lw==
+"@gadgetinc/react@^0.18.0":
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.0.tgz#cf27595ca5052957106a0613d7abb276539d8f05"
+  integrity sha512-AJsxc6OhU5A1UPXDA8UUMNIkGTppqPFvMyZLjp9590sbVn/1JS3xQmVYunDQEtSJjOe6Pt6Gjxq+ZVKqxFTkYA==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@gadgetinc/api-client-core" "^0.15.33"

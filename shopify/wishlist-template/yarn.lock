@@ -518,7 +518,7 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/api-client-core@^0.15.13", "@gadgetinc/api-client-core@^0.15.23", "@gadgetinc/api-client-core@^0.15.24":
+"@gadgetinc/api-client-core@^0.15.23", "@gadgetinc/api-client-core@^0.15.24":
   version "0.15.30"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.30.tgz#73756633eee48b5e250b3a7451e97072a87d24bd"
   integrity sha512-7rdA6exg9OOXRReXt0DL3YIMmZvG7XWOTwB9KIoWAxKKF1fCblr+hHm/bQsd3AZiUDRVj/9ga1fWhuKRR3SfbQ==
@@ -539,12 +539,12 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/react-shopify-app-bridge@^0.16.0":
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.0.tgz#a27052901f4d12261de0989012ede4ded6294c3a"
-  integrity sha512-W7VZ0MBf2FRiZsP2pL3nIr1E3VgvZixYCuxCJj51OxuS51JCNIkb2SULhdHbO+W9jJPJIuZv+KsAav6Crmel4w==
+"@gadgetinc/react-shopify-app-bridge@^0.16.4":
+  version "0.16.4"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.4.tgz#7c02ae4c9462f9556019f688cca994cd0529cae8"
+  integrity sha512-WStOSHi1597HzPkeLwg80PLpGa7p3fRj56uwmfSGC9f40cxLFH05KdzlLi+1n+YpevSW+2elya1c8oSrRsHh3g==
   dependencies:
-    "@gadgetinc/api-client-core" "^0.15.13"
+    "@gadgetinc/api-client-core" "^0.15.33"
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
@@ -560,10 +560,10 @@
     tslib "^2.6.2"
     urql "^4.0.4"
 
-"@gadgetinc/react@^0.17.2":
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.17.2.tgz#4b4877faf9f181e359fbb31b9c6a9326458a28ce"
-  integrity sha512-y1TGXSlbtVj2ftksF5xSZTPvarXBVMJWJNr3sFeS9iWtuTHpBZvGaKNLIdfQ8bQT2SVhV3HUH+6j9BjmdQN1Lw==
+"@gadgetinc/react@^0.18.0":
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.0.tgz#cf27595ca5052957106a0613d7abb276539d8f05"
+  integrity sha512-AJsxc6OhU5A1UPXDA8UUMNIkGTppqPFvMyZLjp9590sbVn/1JS3xQmVYunDQEtSJjOe6Pt6Gjxq+ZVKqxFTkYA==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@gadgetinc/api-client-core" "^0.15.33"
@@ -4501,16 +4501,7 @@ streamsearch@^1.1.0:
   resolved "https://registry.yarnpkg.com/streamsearch/-/streamsearch-1.1.0.tgz#404dd1e2247ca94af554e841a8ef0eaa238da764"
   integrity sha512-Mcc5wHehp9aXz1ax6bZUyY5afg9u2rv5cqQI3mRrYkGC8rW2hM02jWuwjtL++LS5qinSyhj2QfLyNsuc+VsExg==
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-string-width@^4.1.0:
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -4535,14 +4526,7 @@ string_decoder@^1.1.1, string_decoder@^1.3.0:
   dependencies:
     safe-buffer "~5.2.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==

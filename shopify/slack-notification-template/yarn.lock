@@ -192,37 +192,19 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/api-client-core@^0.15.13":
-  version "0.15.18"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.18.tgz#0d5f0de65e255fbcc371e7f8c44bfb51590039fa"
-  integrity sha512-CF42cAb5RKIwp8XakabaaDeJb1ctxC7r8GiYDDFrXuR8XBs9ctLf5b6XsZxBwJ9PMY2CNKc8Qm31mqbb/cEtZA==
+"@gadgetinc/react-shopify-app-bridge@^0.16.4":
+  version "0.16.4"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.4.tgz#7c02ae4c9462f9556019f688cca994cd0529cae8"
+  integrity sha512-WStOSHi1597HzPkeLwg80PLpGa7p3fRj56uwmfSGC9f40cxLFH05KdzlLi+1n+YpevSW+2elya1c8oSrRsHh3g==
   dependencies:
-    "@n1ru4l/graphql-live-query" "^0.10.0"
-    "@n1ru4l/graphql-live-query-patch-jsondiffpatch" "^0.8.0"
-    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
-    "@urql/core" "^4.0.10"
-    cross-fetch "^3.1.5"
-    graphql "^16.8.1"
-    graphql-ws "^5.13.1"
-    isomorphic-ws "^5.0.0"
-    klona "^2.0.6"
-    tiny-graphql-query-compiler "^0.2.2"
-    tslib "^2.6.2"
-    ws "^8.13.0"
-
-"@gadgetinc/react-shopify-app-bridge@^0.16.0":
-  version "0.16.0"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.0.tgz#a27052901f4d12261de0989012ede4ded6294c3a"
-  integrity sha512-W7VZ0MBf2FRiZsP2pL3nIr1E3VgvZixYCuxCJj51OxuS51JCNIkb2SULhdHbO+W9jJPJIuZv+KsAav6Crmel4w==
-  dependencies:
-    "@gadgetinc/api-client-core" "^0.15.13"
+    "@gadgetinc/api-client-core" "^0.15.33"
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.17.2":
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.17.2.tgz#4b4877faf9f181e359fbb31b9c6a9326458a28ce"
-  integrity sha512-y1TGXSlbtVj2ftksF5xSZTPvarXBVMJWJNr3sFeS9iWtuTHpBZvGaKNLIdfQ8bQT2SVhV3HUH+6j9BjmdQN1Lw==
+"@gadgetinc/react@^0.18.0":
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.0.tgz#cf27595ca5052957106a0613d7abb276539d8f05"
+  integrity sha512-AJsxc6OhU5A1UPXDA8UUMNIkGTppqPFvMyZLjp9590sbVn/1JS3xQmVYunDQEtSJjOe6Pt6Gjxq+ZVKqxFTkYA==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@gadgetinc/api-client-core" "^0.15.33"
@@ -239,21 +221,6 @@
   version "3.9.0"
   resolved "https://registry.yarnpkg.com/@hookform/resolvers/-/resolvers-3.9.0.tgz#cf540ac21c6c0cd24a40cf53d8e6d64391fb753d"
   integrity sha512-bU0Gr4EepJ/EQsH/IwEzYLsT/PEj5C0ynLQ4m+GSHS+xKH4TfSelhluTgOaoc4kA5s7eCsQbM4wvZLzELmWzUg==
-
-"@n1ru4l/graphql-live-query-patch-jsondiffpatch@^0.8.0":
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query-patch-jsondiffpatch/-/graphql-live-query-patch-jsondiffpatch-0.8.0.tgz#fd18bde201ca82b491c63d836e0ce13999edb8f9"
-  integrity sha512-m5OPdEhBbqQ+pkFz2dQmPl10JW/RB1Qc2zoVn9QTEXvyeSzQmrl+qNtn3nvv87P9rQDiRD/JWlD86BFX0XloBg==
-  dependencies:
-    "@n1ru4l/graphql-live-query-patch" "^0.7.0"
-    "@n1ru4l/json-patch-plus" "^0.2.0"
-
-"@n1ru4l/graphql-live-query-patch@^0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@n1ru4l/graphql-live-query-patch/-/graphql-live-query-patch-0.7.0.tgz#c5b30341d218627b9ed15cea37e72ea3c15f3632"
-  integrity sha512-1q49iNxqEIbmUp+qFAEVEn4ts344Cw72g5OtAuFeTwKtJT3V91kTPGMcRk5Pxb5FPHbvn52q+PCVKOAyVrtPwQ==
-  dependencies:
-    "@repeaterjs/repeater" "^3.0.4"
 
 "@n1ru4l/graphql-live-query@^0.10.0":
   version "0.10.0"
@@ -274,11 +241,6 @@
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/@remix-run/router/-/router-1.8.0.tgz#e848d2f669f601544df15ce2a313955e4bf0bafc"
   integrity sha512-mrfKqIHnSZRyIzBcanNJmVQELTnX+qagEDlcKO90RgRBVOZGSGvZKeDihTRfWcqoDn5N/NkUcwWTccnpN18Tfg==
-
-"@repeaterjs/repeater@^3.0.4":
-  version "3.0.5"
-  resolved "https://registry.yarnpkg.com/@repeaterjs/repeater/-/repeater-3.0.5.tgz#b77571685410217a548a9c753aa3cdfc215bfc78"
-  integrity sha512-l3YHBLAol6d/IKnB9LhpD0cEZWAoe3eFKUyTYWmFmCO2Q/WOckxLQAUyMZWwZV2M/m3+4vgRoaolFqaII82/TA==
 
 "@rollup/rollup-android-arm-eabi@4.24.0":
   version "4.24.0"
@@ -781,13 +743,6 @@ cookie@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
-
-cross-fetch@^3.1.5:
-  version "3.1.8"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-3.1.8.tgz#0327eba65fd68a7d119f8fb2bf9334a1a7956f82"
-  integrity sha512-cvA+JwZoU0Xq+h6WkMvAUqPEYy92Obet6UdKLfW60qn99ftItKjB5T+BkyWOFWe2pUyfQ+IJHmpOTznqk1M6Kg==
-  dependencies:
-    node-fetch "^2.6.12"
 
 cross-fetch@^4.0.0:
   version "4.0.0"
@@ -1883,11 +1838,6 @@ wrappy@1:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
-
-ws@^8.13.0:
-  version "8.14.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.14.1.tgz#4b9586b4f70f9e6534c7bb1d3dc0baa8b8cf01e0"
-  integrity sha512-4OOseMUq8AzRBI/7SLMUwO+FEDnguetSk7KMb1sHwvF2w2Wv5Hoj0nlifx8vtGsftE/jWHojPy8sMMzYLJ2G/A==
 
 ws@^8.17.0:
   version "8.17.0"

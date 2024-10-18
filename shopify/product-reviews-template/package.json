@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@gadget-client/product-reviews-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.17.2",
+    "@gadgetinc/react": "^0.18.0",
     "@gadgetinc/react-shopify-app-bridge": "^0.16.4",
     "@react-email/components": "0.0.22",
     "@react-email/render": "1.0.0",

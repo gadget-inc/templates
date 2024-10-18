@@ -2,6 +2,8 @@
 
 This template includes essential features like basic subscription webhook handling, a user interface that displays the user's current plan and allows them to select a new one using Stripe's checkout sessions, and authentication options using Google SSO and email/password login.
 
+[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=stripe-template.gadget.app)
+
 In order to use this app, you need to set up a few things first:
 
 - create a [Stripe account](https://dashboard.stripe.com/register)
@@ -40,8 +42,6 @@ To register for subscription webhooks in the Stripe dashboard:
 - [Stripe's API docs](https://stripe.com/docs/api)
 - [Using Stripe's test mode](https://stripe.com/docs/test-mode)
 - [Using Stripe webhooks](https://stripe.com/docs/webhooks)
-
-[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=stripe-subscriptions-template.gadget.app)
 
 ## Key Features
 

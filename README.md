@@ -24,3 +24,4 @@ This repository houses the [Gadget app templates](https://gadget.dev/resources/t
 
 - [Blog with authentication](https://github.com/gadget-inc/templates/tree/main/web/blog-template)
 - [TailwindCSS](https://github.com/gadget-inc/templates/tree/main/web/tailwind-css-template)
+- [Stripe subscriptions](https://github.com/gadget-inc/templates/tree/main/web/stripe-template)

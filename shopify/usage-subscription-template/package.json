@@ -5,12 +5,12 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "vite:build": "NODE_ENV=production vite build"
+    "build": "NODE_ENV=production vite build"
   },
   "dependencies": {
     "@gadget-client/usage-subscription-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.16.1",
-    "@gadgetinc/react-shopify-app-bridge": "^0.16.0",
+    "@gadgetinc/react": "^0.18.0",
+    "@gadgetinc/react-shopify-app-bridge": "^0.16.4",
     "@shopify/app-bridge-react": "^4.1.1",
     "@shopify/polaris": "^13.9.0",
     "@shopify/polaris-icons": "^9.3.0",
@@ -30,6 +30,6 @@
     "@types/react-dom": "^18.0.11",
     "@vitejs/plugin-react-swc": "3.2.0",
     "typescript": "4.5.5",
-    "vite": "^4.4.9"
+    "vite": "^5.3.5"
   }
 }

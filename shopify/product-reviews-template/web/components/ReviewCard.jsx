@@ -1,7 +1,7 @@
 import {
   AutoForm,
   AutoSubmit,
-  AutoTextInput,
+  AutoStringInput,
 } from "@gadgetinc/react/auto/polaris";
 import {
   BlockStack,
@@ -65,7 +65,7 @@ export default ({ id: productId, title, orderId, image, alt }) => {
             }}
           >
             <Stars />
-            <AutoTextInput field="content" multiline={4} maxHeight={90} />
+            <AutoStringInput field="content" multiline={4} maxHeight={90} />
             <InlineStack>
               <ButtonGroup>
                 <AutoSubmit variant="primary" />

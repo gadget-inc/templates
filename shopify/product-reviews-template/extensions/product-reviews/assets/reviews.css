@@ -1,33 +1,36 @@
 div#reviews {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
   width: 100%;
 }
 
-div.reviewCard {
-  border-top: lightgrey solid 1px;
-  padding: 2rem 2rem;
+.review-card {
   display: flex;
-  flex-direction: row;
-  justify-content: space-around;
   align-items: center;
-  width: 100%;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  margin: 0 10px 15px 10px;
 }
 
-div.reviewStars {
+.review-content {
+  flex-grow: 1; /* Allows the review text to take up the remaining space */
+  padding: 0 15px;
+}
+
+.vertical-divider {
+  border-left: 1px solid #ccc;
+  height: 40px;
+  margin: 10px 15px;
+}
+
+.review-stars {
   display: flex;
-  align-items: start;
+  gap: 5px;
+  max-width: 100px;
+  flex-shrink: 0; /* Prevent shrinking */
 }
 
-div.reviewStars > svg {
-  height: 15px;
-  width: 15px;
-}
-
-span.vertical-divider {
-  border-left: 1px solid lightgrey;
-  height: 100%;
-  margin: 0 10px;
+.review-stars svg {
+  width: 18px; /* Star size */
+  height: 18px;
 }

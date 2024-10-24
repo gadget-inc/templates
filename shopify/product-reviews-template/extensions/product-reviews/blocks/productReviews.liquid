@@ -1,14 +1,32 @@
+<script src="{{ 'reviewStars.js' | asset_url }}" defer="defer"></script>
+{{ 'reviews.css' | asset_url | stylesheet_tag }}
+
 {% assign reviews = product.metafields.productReviews.reviewMetaobjects.value %}
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+      window.reviews = {{ reviews | json }};
+    });
+ </script>
 
 <h2>Reviews</h2>
 <div id="reviews">
   {% for review in reviews%}
-      <div class="reviewCard">
-        <p>{{ review.content}}</p>
-        <div class="reviewStars">
-          {% render "star-rating", rating: review.rating.value | plus: 0 %}
-        </div>
+    <div class="review-card">
+      <div class="review-content">
+        {{ review.content }}
       </div>
+      <span class="vertical-divider">&nbsp;</span> 
+      <div class="review-stars" id="review-{{forloop.index0}}">
+        {% comment %} The stars will be rendered here using JS {% endcomment %}
+      </div>
+    </div>
+  {% else %}
+    <div class="review-card">
+      <div class="review-content">
+        No reviews yet
+      </div>
+    </div>
   {% endfor %}
 </div>
 

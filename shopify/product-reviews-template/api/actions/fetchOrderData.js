@@ -4,8 +4,6 @@ import { FetchOrderDataGlobalActionContext } from "gadget-server";
  * @param { FetchOrderDataGlobalActionContext } context
  */
 export async function run({ params, logger, api, connections }) {
-  logger.info({ params }, "params");
-
   const order = await api.shopifyOrder.maybeFindFirst({
     filter: {
       singleUseCode: {
@@ -19,8 +17,6 @@ export async function run({ params, logger, api, connections }) {
   });
 
   if (order) {
-    logger.info({ order }, "order");
-
     let lineItems = await api.shopifyOrderLineItem.findMany({
       filter: {
         orderId: {

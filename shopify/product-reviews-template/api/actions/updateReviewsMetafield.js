@@ -34,8 +34,6 @@ export async function run({ params, logger, api, connections }) {
 
   if (!value) return;
 
-  logger.info({ value }, "VALUE");
-
   const metafieldsSetResponse = await shopify.graphql(
     `mutation ($metafields: [MetafieldsSetInput!]!) {
       metafieldsSet(metafields: $metafields) {

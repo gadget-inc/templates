@@ -20,16 +20,6 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   const { changed, current: approved } = record.changes("approved");
 
   if (changed) {
-    logger.info(
-      {
-        shopId: record.shopId,
-        productId: record.productId,
-        metaobjectId: record.metaobjectId,
-        approved,
-      },
-      "HERE"
-    );
-
     await api.enqueue(api.updateReviewsMetafield, {
       shopId: record.shopId,
       productId: record.productId,

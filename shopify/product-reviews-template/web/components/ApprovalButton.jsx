@@ -1,4 +1,4 @@
-import { Button, Text } from "@shopify/polaris";
+import { Button } from "@shopify/polaris";
 import { api } from "../api";
 import { useAction } from "@gadgetinc/react";
 import { useEffect } from "react";
@@ -8,8 +8,6 @@ export default ({ record: { id, approved }, toast }) => {
 
   useEffect(() => {
     if (!fetching && data) {
-      console.log(data);
-
       toast.show(
         data.approved ? "Review added to store" : "Review removed from store",
         {

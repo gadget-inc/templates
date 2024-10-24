@@ -9,10 +9,11 @@ export const settings: GadgetSettings = {
         apiVersion: "2024-10",
         enabledModels: [
           "shopifyCustomer",
+          "shopifyFile",
           "shopifyOrder",
           "shopifyOrderLineItem",
           "shopifyProduct",
-          "shopifyProductImage",
+          "shopifyProductMedia",
         ],
         type: "partner",
         scopes: [

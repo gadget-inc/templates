@@ -24,7 +24,7 @@ import { api } from "../api";
 import { useState } from "react";
 import Stars from "./Stars";
 
-export default ({ id: productId, title, orderId, image }) => {
+export default ({ id: productId, title, orderId, image, alt }) => {
   const [open, setOpen] = useState(false);
   const [completed, setCompleted] = useState(false);
 
@@ -33,7 +33,10 @@ export default ({ id: productId, title, orderId, image }) => {
       <BlockStack gap="300">
         <InlineStack align="space-between" blockAlign="center">
           <InlineStack blockAlign="center" gap="400">
-            <Thumbnail source={image || ImageIcon} />
+            <Thumbnail
+              source={image || ImageIcon}
+              alt={alt || "Image placeholder"}
+            />
             <Text as="h2" variant="headingMd">
               {title}
             </Text>

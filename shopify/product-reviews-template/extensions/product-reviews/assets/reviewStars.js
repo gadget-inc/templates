@@ -2,8 +2,6 @@ document.addEventListener("DOMContentLoaded", () => {
   for (let i = 0; i < window.reviews.length; i++) {
     const reviewDiv = document.getElementById(`review-${i}`);
 
-    console.log(parseFloat(reviews[i].rating.value));
-
     for (let j = 1; j <= 5; j++) {
       const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
       svg.setAttribute("viewBox", "-2.15 -2.15 58.17 58.17");

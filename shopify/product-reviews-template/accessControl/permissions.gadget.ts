@@ -26,6 +26,16 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopify/shopifyCustomer.gelly",
           },
         },
+        shopifyFile: {
+          read: {
+            filter: "accessControl/filters/shopify/shopifyFile.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
         shopifyGdprRequest: {
           read: {
             filter:
@@ -59,10 +69,10 @@ export const permissions: GadgetPermissions = {
             update: true,
           },
         },
-        shopifyProductImage: {
+        shopifyProductMedia: {
           read: {
             filter:
-              "accessControl/filters/shopify/shopifyProductImage.gelly",
+              "accessControl/filters/shopify/shopifyProductMedia.gelly",
           },
           actions: {
             create: true,

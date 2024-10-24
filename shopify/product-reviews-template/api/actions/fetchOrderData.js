@@ -32,11 +32,10 @@ export async function run({ params, logger, api, connections }) {
         product: {
           id: true,
           title: true,
-          images: {
-            edges: {
-              node: {
-                source: true,
-              },
+          featuredMedia: {
+            file: {
+              url: true,
+              alt: true,
             },
           },
         },
@@ -54,14 +53,21 @@ export async function run({ params, logger, api, connections }) {
     const products = [];
 
     for (const {
-      product: { id, title, images },
+      product: {
+        id,
+        title,
+        featuredMedia: {
+          file: { alt, url },
+        },
+      },
     } of allLineItems) {
       if (!seen[id]) {
         seen[id] = true;
         products.push({
           id: id,
           title: title,
-          image: images.edges[0].node.source,
+          image: url,
+          alt,
         });
       }
     }

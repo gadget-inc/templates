@@ -25,6 +25,7 @@ export const schema: GadgetModel = {
       "lastName",
       "lastOrder",
       "lastOrderName",
+      "locale",
       "marketingOptInLevel",
       "metafield",
       "multipassIdentifier",

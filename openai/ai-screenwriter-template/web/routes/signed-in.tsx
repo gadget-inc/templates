@@ -6,6 +6,8 @@ import {
 } from "@gadgetinc/react";
 import { api } from "../api";
 import { useState } from "react";
+import { ChatRequestBody } from "../../api/routes/POST-chat";
+import { GadgetRecord } from "@gadget-client/ai-screenwriter-template";
 
 export default function () {
   // see if movie data exists in the database!
@@ -86,7 +88,8 @@ const MovieQuoteForm = () => {
           await submit();
           setIsReset(true);
         }}
-        style={{ maxWidth: "100%" }} autocomplete="off"
+        style={{ maxWidth: "100%" }}
+        autoComplete="off"
       >
         <div className="row" style={{ display: "flex" }}>
           <input
@@ -107,7 +110,7 @@ const MovieQuoteForm = () => {
             onClick={() => {
               // reset the form
               reset();
-              setIsReset(false)
+              setIsReset(false);
             }}
           >
             Reset
@@ -129,29 +132,44 @@ const MovieQuoteForm = () => {
             <b>Movies with similar quotes:</b>
           </div>
           <form>
-            <div className="row" style={{ display: "flex", flexWrap: "wrap", textAlign: "left", gap: 16 }}>
-              {actionData.map((movieRecord, i) => (
-                <span key={`movie_option_${i}`} >
-                  <input
-                    type="radio"
-                    checked={movieRecord.title == movie}
-                    value={movieRecord.title}
-                    onChange={(e) => setMovie(e.target.value)}
-                    id={movieRecord.id}
-                  />
-                  <label htmlFor={movieRecord.id}>{movieRecord.title}</label>
-                </span>
-              ))}
+            <div
+              className="row"
+              style={{
+                display: "flex",
+                flexWrap: "wrap",
+                textAlign: "left",
+                gap: 16,
+              }}
+            >
+              {actionData.map(
+                (
+                  movieRecord: GadgetRecord<{ id: string; title: string }>,
+                  i: number
+                ) => (
+                  <span key={`movie_option_${i}`}>
+                    <input
+                      type="radio"
+                      checked={movieRecord.title == movie}
+                      value={movieRecord.title}
+                      onChange={(e) => setMovie(e.target.value)}
+                      id={movieRecord.id}
+                    />
+                    <label htmlFor={movieRecord.id}>{movieRecord.title}</label>
+                  </span>
+                )
+              )}
             </div>
           </form>
         </>
       )}
-      {movie && quote && isReset && <SceneGenerator movie={movie} quote={quote} />}
+      {movie && quote && isReset && (
+        <SceneGenerator movie={movie} quote={quote} />
+      )}
     </>
   );
 };
 
-const SceneGenerator = ({ movie, quote }) => {
+const SceneGenerator = ({ movie, quote }: ChatRequestBody) => {
   // call HTTP route and stream response from OpenAI
   const [{ data, fetching, error }, sendPrompt] = useFetch("/chat", {
     method: "post",

@@ -19,8 +19,9 @@ import ChatNavItem from "./ChatNavItem";
 
 import { useChat } from "../hooks/useChat";
 import { groupByDateBuckets } from "../lib/utils";
+import { User } from "@gadget-client/chatgpt-template";
 
-const LeftNav = (props) => {
+const LeftNav = (props: { user: User }) => {
   const { user } = props;
   const signOut = useSignOut();
   const { chats, clearChat } = useChat();

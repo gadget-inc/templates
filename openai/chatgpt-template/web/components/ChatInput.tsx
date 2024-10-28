@@ -8,12 +8,12 @@ import {
 } from "@chakra-ui/react";
 import { SendIcon } from "./icons/SendIcon";
 import { LoadingIcon } from "./icons/LoadingIcon";
-import { useChat } from "../hooks/useChat";
+import { ChatContextType, useChat } from "../hooks/useChat";
 
 const ChatInput = () => {
   const [input, setInput] = useState("");
   const [sendingMessage, setSendingMessage] = useState(false);
-  const textAreaRef = useRef(null);
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const {
     currentChat,
     startChat,
@@ -21,7 +21,7 @@ const ChatInput = () => {
     addMessage,
     respondToMessage,
     streamingResponse,
-  } = useChat();
+  }: ChatContextType = useChat();
 
   const hasInput = !!input;
   const sendingDisabled = sendingMessage || streamingResponse;
@@ -51,7 +51,7 @@ const ChatInput = () => {
 
   useEffect(() => {
     if (!currentChat) {
-      textAreaRef.current.focus();
+      textAreaRef?.current?.focus();
     }
   }, [currentChat]);
 
@@ -67,7 +67,7 @@ const ChatInput = () => {
             setInput(event.target.value);
 
             const textarea = textAreaRef.current;
-            textarea.style.height = `${textarea.scrollHeight}px`;
+            if (textarea) textarea.style.height = `${textarea?.scrollHeight}px`;
           }}
           resize="none"
           minHeight="40px"

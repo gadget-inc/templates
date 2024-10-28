@@ -1,11 +1,11 @@
-import { Flex, Text, Button, Spinner } from "@chakra-ui/react";
+import { Flex, Text, Button } from "@chakra-ui/react";
 import { ChatIcon } from "./icons/ChatIcon";
 import { TrashIcon } from "./icons/TrashIcon";
-import { useChat } from "../hooks/useChat";
+import { ChatContextType, ChatSubset, useChat } from "../hooks/useChat";
 
-const ChatNavItem = (props) => {
+const ChatNavItem = (props: { chat: ChatSubset }) => {
   const { chat } = props;
-  const { currentChat, selectChat, deleteChat } = useChat();
+  const { currentChat, selectChat, deleteChat }: ChatContextType = useChat();
 
   return (
     <Flex

@@ -9,45 +9,128 @@ import { useFetch } from "@gadgetinc/react";
 import { api } from "../api";
 import { nanoid } from "nanoid";
 import { orderBy } from "lodash";
+import { Chat, Message } from "@gadget-client/chatgpt-template";
 
-const ChatContext = createContext(null);
+type Reducer = {
+  chats: ChatSubset[] | undefined | null;
+  currentChat: ChatSubset | null;
+  messages: MessageSubset[];
+};
 
-const reducer = (state, action) => {
-  if (action.type === "setChats") {
+type AddMessage = {
+  payload: MessageSubset;
+  type: "addMessage";
+};
+
+type DeleteChat = {
+  payload: ChatSubset;
+  type: "deleteChat";
+};
+
+type UpdateChat = {
+  payload: ChatSubset;
+  type: "updateChat";
+};
+
+type AddChat = {
+  payload: ChatSubset;
+  type: "addChat";
+};
+
+type SetCurrentChat = {
+  payload: ChatSubset | null;
+  type: "setCurrentChat";
+};
+
+type SetMessages = {
+  payload: MessageSubset[];
+  type: "setMessages";
+};
+
+type SetChats = {
+  payload: ChatSubset[];
+  type: "setChats";
+};
+
+type Action =
+  | AddMessage
+  | SetChats
+  | SetMessages
+  | SetCurrentChat
+  | AddChat
+  | UpdateChat
+  | DeleteChat;
+
+export type ChatSubset = Pick<
+  Chat,
+  "id" | "name" | "createdAt" | "userId" | "updatedAt" | "__typename"
+>;
+
+type MessageSubset = Pick<Message, "id" | "order" | "role" | "content">;
+
+export type ChatContextType = {
+  chats: ChatSubset[] | undefined | null;
+  currentChat: ChatSubset | null;
+  messages: MessageSubset[];
+  selectChat: (chat: ChatSubset) => Promise<void>;
+  startChat: () => Promise<ChatSubset>;
+  nameChat: (chat: ChatSubset, message: MessageSubset) => void;
+  clearChat: () => void;
+  respondToMessage: (chat: ChatSubset, message: MessageSubset) => Promise<void>;
+  deleteChat: (chat: ChatSubset) => Promise<void>;
+  addMessage: (
+    role: MessageSubset["role"],
+    content: MessageSubset["content"]
+  ) => MessageSubset;
+  response: any;
+  streamingResponse: boolean;
+};
+
+const ChatContext = createContext<ChatContextType | null>(null);
+
+const reducer = (state: Reducer, action: Action) => {
+  if (action?.type === "setChats") {
     return { ...state, chats: action.payload };
-  } else if (action.type === "setMessages") {
+  } else if (action?.type === "setMessages") {
     return { ...state, messages: action.payload };
-  } else if (action.type === "addMessage") {
+  } else if (action?.type === "addMessage") {
     return { ...state, messages: [...state.messages, action.payload] };
-  } else if (action.type === "setCurrentChat") {
+  } else if (action?.type === "setCurrentChat") {
     return { ...state, currentChat: action.payload };
-  } else if (action.type === "addChat") {
+  } else if (action?.type === "addChat") {
     const chats = orderBy(
-      [...state.chats, action.payload],
+      [...(state.chats ?? []), action.payload],
       "createdAt",
       "desc"
     );
     return { ...state, chats };
-  } else if (action.type === "updateChat") {
-    const otherChats = state.chats.filter(
+  } else if (action?.type === "updateChat") {
+    const otherChats = state.chats?.filter(
       (chat) => chat.id !== action.payload.id
     );
-    const chats = orderBy([...otherChats, action.payload], "createdAt", "desc");
+    const chats = orderBy(
+      [...(otherChats ?? []), action.payload],
+      "createdAt",
+      "desc"
+    );
     return { ...state, chats };
-  } else if (action.type === "deleteChat") {
-    const chats = state.chats.filter((chat) => chat.id !== action.payload.id);
+  } else if (action?.type === "deleteChat") {
+    const chats = state.chats?.filter((chat) => chat.id !== action.payload.id);
     return { ...state, chats };
   }
 
   return state;
 };
 
-export const ChatProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, {
-    chats: {},
-    currentChat: null,
-    messages: [],
-  });
+export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
+  const [state, dispatch] = useReducer<React.Reducer<Reducer, Action>>(
+    reducer,
+    {
+      chats: [],
+      currentChat: null,
+      messages: [],
+    }
+  );
   const [{ data: response, streaming: streamingResponse }, getResponse] =
     useFetch("/chat", {
       method: "POST",
@@ -73,7 +156,7 @@ export const ChatProvider = ({ children }) => {
           createdAt: "Descending",
         },
       })
-      .then((chats) => {
+      .then((chats: any) => {
         dispatch({ type: "setChats", payload: chats });
       })
       .catch((error) => {
@@ -81,7 +164,7 @@ export const ChatProvider = ({ children }) => {
       });
   }, []);
 
-  const selectChat = useCallback(
+  const selectChat: ChatContextType["selectChat"] = useCallback(
     async (chat) => {
       dispatch({ type: "setCurrentChat", payload: chat });
 
@@ -120,8 +203,8 @@ export const ChatProvider = ({ children }) => {
     return newChat;
   }, [dispatch]);
 
-  const nameChat = useCallback(
-    (chat, message) => {
+  const nameChat: ChatContextType["nameChat"] = useCallback(
+    (chat, message: MessageSubset) => {
       api.chat
         .name(chat.id, {
           firstMessage: message.content,
@@ -133,7 +216,7 @@ export const ChatProvider = ({ children }) => {
     [dispatch]
   );
 
-  const addMessage = useCallback(
+  const addMessage: ChatContextType["addMessage"] = useCallback(
     (role, content) => {
       const message = {
         id: nanoid(),
@@ -149,7 +232,7 @@ export const ChatProvider = ({ children }) => {
     [state, dispatch]
   );
 
-  const respondToMessage = useCallback(
+  const respondToMessage: ChatContextType["respondToMessage"] = useCallback(
     async (chat, message) => {
       const isMessageInState = state.messages.some((m) => m.id === message.id);
 
@@ -183,7 +266,7 @@ export const ChatProvider = ({ children }) => {
     dispatch({ type: "setMessages", payload: [] });
   }, [dispatch]);
 
-  const deleteChat = useCallback(
+  const deleteChat: ChatContextType["deleteChat"] = useCallback(
     async (chat) => {
       dispatch({ type: "deleteChat", payload: chat });
       dispatch({ type: "setMessages", payload: [] });

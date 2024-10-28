@@ -1,13 +1,19 @@
 import { RouteContext } from "gadget-server";
 import { openAIResponseStream } from "gadget-server/ai";
+import { ChatCompletionCreateParamsBase } from "openai/resources/chat/completions";
 
-/**
- * Route handler for POST chat
- *
- * @param { RouteContext } route context - see: https://docs.gadget.dev/guides/http-routes/route-configuration#route-context
- *
- */
-export default async function route({ request, reply, api, logger, connections }) {
+type ChatRequestBody = {
+  chatId: string;
+  messages: ChatCompletionCreateParamsBase["messages"];
+};
+
+export default async function route({
+  request,
+  reply,
+  api,
+  logger,
+  connections,
+}: RouteContext<{ Body: ChatRequestBody }>) {
   const { chatId, messages } = request.body;
 
   logger.info({ chatId, messages }, "creating new chat completion");
@@ -18,16 +24,16 @@ export default async function route({ request, reply, api, logger, connections }
     stream: true,
   });
 
-  const onComplete = (content) => {
+  const onComplete = (content: string | null | undefined) => {
     void api.message.create({
       order: messages.length + 1,
       role: "assistant",
       content,
       chat: {
-        _link: chatId
-      }
+        _link: chatId,
+      },
     });
-  }
+  };
 
   await reply.send(openAIResponseStream(openAIResponse, { onComplete }));
 }

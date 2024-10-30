@@ -16,7 +16,7 @@ export default async function route({
 }) {
   // See if the request is coming from the Shopify admin
   const shopId = connections.shopify.currentShopId;
-  
+
   // Save the shop id on the session
   if (shopId) {
     session.set("shop", { _link: shopId });

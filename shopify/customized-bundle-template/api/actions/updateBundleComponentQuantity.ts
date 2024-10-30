@@ -27,7 +27,9 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   for (const bundleComponent of bundleComponents) {
     if (id && bundleComponent.id === id) continue;
 
-    quantityObj[bundleComponent.productVariantId] = bundleComponent.quantity;
+    if (bundleComponent.productVariantId !== null)
+      quantityObj[bundleComponent.productVariantId] =
+        bundleComponent.quantity ?? 0;
   }
 
   const res = await shopify.graphql(

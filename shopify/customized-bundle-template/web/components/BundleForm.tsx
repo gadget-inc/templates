@@ -15,13 +15,14 @@ import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import ProductCard from "./ProductCard";
+import { ShopContextType } from "../providers/ShopProvider";
 
-export default ({ control, errors, updateForm, watch, getValues }) => {
+export default ({ control, errors, updateForm = false, watch, getValues }) => {
   const [selectedProducts, setSelectedProducts] = useState([]),
     [loading, setLoading] = useState(true),
     [bundleComponentQuantityError, setBundleComponentQuantityError] =
       useState(false);
-  const { shop } = useContext(ShopContext);
+  const { shop }: { shop?: ShopContextType } = useContext(ShopContext);
   const shopify = useAppBridge();
 
   const {
@@ -144,7 +145,7 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
   }, [JSON.stringify(watch("bundle.bundleComponents"))]);
 
   return (
-    <Form>
+    <Form onSubmit={() => {}}>
       <FormLayout>
         <Controller
           name="bundle.title"
@@ -269,6 +270,7 @@ export default ({ control, errors, updateForm, watch, getValues }) => {
               ))}
               {bundleComponentQuantityError && (
                 <InlineError
+                  fieldID="bundle.bundleComponents"
                   message={"There must be at least 2 items in a bundle."}
                 />
               )}

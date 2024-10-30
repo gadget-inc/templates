@@ -5,9 +5,10 @@ import { Card, Text, Layout, BlockStack } from "@shopify/polaris";
 import { BundleForm, PageTemplate } from "../components";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../providers";
+import { ShopContextType } from "../providers/ShopProvider";
 
 export default () => {
-  const { shop } = useContext(ShopContext);
+  const { shop }: { shop?: ShopContextType } = useContext(ShopContext);
   const navigate = useNavigate();
 
   const {
@@ -24,7 +25,7 @@ export default () => {
         title: "",
         description: "",
         status: "active",
-        shopId: shop.id,
+        shopId: shop?.id,
         price: 0,
         bundleComponents: [],
       },

@@ -9,6 +9,21 @@ import {
 import { useContext } from "react";
 import { ShopContext } from "../providers";
 import { useNavigate } from "react-router-dom";
+import { ShopContextType } from "../providers/ShopProvider";
+
+type PageTemplateProps = {
+  children: React.ReactNode;
+  hasNextPage?: boolean;
+  hasPreviousPage?: boolean;
+  inForm?: boolean;
+  saveDisabled?: boolean;
+  submit?: () => void;
+  title?: string;
+  handleSearchInputChange?: (value: string) => void;
+  searchValue?: string;
+  getNextPage?: () => void;
+  getPreviousPage?: () => void;
+};
 
 // This is a wrapper for all pages which allows for easy navigation and form submissions
 export default ({
@@ -23,9 +38,9 @@ export default ({
   searchValue,
   getNextPage,
   getPreviousPage,
-}) => {
+}: PageTemplateProps) => {
   const navigate = useNavigate();
-  const { shop } = useContext(ShopContext);
+  const { shop }: { shop?: ShopContextType } = useContext(ShopContext);
 
   return (
     <Page
@@ -33,6 +48,7 @@ export default ({
       titleMetadata={
         !inForm && (
           <TextField
+            label
             value={searchValue}
             placeholder="Search"
             clearButton

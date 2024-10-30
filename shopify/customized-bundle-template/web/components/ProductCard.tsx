@@ -35,9 +35,12 @@ export default ({
       <BlockStack gap="300">
         <InlineStack align="space-between">
           <InlineStack blockAlign="center" gap="400">
-            <Thumbnail source={images[0]?.originalSrc || ImageIcon} />
+            <Thumbnail
+              source={images[0]?.originalSrc || ImageIcon}
+              alt="product image"
+            />
             <BlockStack>
-              <Text as="h3">
+              <Text as="h5">
                 {variants.length === 1 && variants[0].displayName
                   ? variants[0].displayName
                   : title}
@@ -53,7 +56,7 @@ export default ({
           </InlineStack>
           {variants.length == 1 && (
             <BlockStack inlineAlign="end" align="center" gap="200">
-              <Text as="span">Quantity</Text>
+              <Text as="h4">Quantity</Text>
               <Controller
                 control={control}
                 name={`${name}.${productVariantIds.indexOf(variants[0].id.replace(/gid:\/\/shopify\/ProductVariant\//g, ""))}.quantity`}
@@ -61,6 +64,7 @@ export default ({
                   <TextField
                     {...fieldProps}
                     type="number"
+                    label
                     autoComplete="off"
                     onChange={(value) => fieldProps.onChange(parseInt(value))}
                     value={fieldProps.value?.toString() || ""}
@@ -113,6 +117,7 @@ export default ({
                           <TextField
                             {...fieldProps}
                             type="number"
+                            label
                             autoComplete="off"
                             onChange={(value) => {
                               fieldProps.onChange(parseInt(value));

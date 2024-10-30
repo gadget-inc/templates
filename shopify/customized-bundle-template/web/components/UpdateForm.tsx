@@ -154,7 +154,7 @@ export default () => {
         isLoading ||
         isValidating ||
         // Disables the save button if there are no bundle components
-        !getValues("bundle.bundleComponents").length
+        !getValues("bundle.bundleComponents")?.length
       }
     >
       <Layout sectioned>
@@ -172,7 +172,7 @@ export default () => {
                     <Button
                       variant="plain"
                       tone="critical"
-                      onClick={() => deleteBundle({ id: bundleId })}
+                      onClick={() => deleteBundle({ id: bundleId ?? "" })}
                     >
                       Delete
                     </Button>

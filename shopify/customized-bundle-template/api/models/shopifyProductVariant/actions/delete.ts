@@ -60,7 +60,7 @@ export const onSuccess: ActionOnSuccess = async ({
 
     while (bundleComponents.hasNextPage) {
       bundleComponents = await bundleComponents.nextPage();
-      allBundleComponents = allBundleComponents.concat(bundleComponents);
+      allBundleComponents.push(...bundleComponents);
     }
 
     // Create an array of bundle component IDs

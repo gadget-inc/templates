@@ -5,7 +5,7 @@ import {
 } from "@gadgetinc/react-shopify-app-bridge";
 import { NavMenu } from "@shopify/app-bridge-react";
 import { Page, Text } from "@shopify/polaris";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { Bundles } from "../pages";
 import { Spinner, UpdateForm } from ".";
@@ -30,27 +30,11 @@ const Error404 = () => {
 };
 
 export default () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const history = useMemo(
-    () => ({ replace: (path) => navigate(path, { replace: true }) }),
-    [navigate]
-  );
-
-  const appBridgeRouter = useMemo(
-    () => ({
-      location,
-      history,
-    }),
-    [location, history]
-  );
-
   return (
     <GadgetProvider
       type={AppType.Embedded}
       shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
       api={api}
-      router={appBridgeRouter}
     >
       <AuthenticatedApp />
     </GadgetProvider>

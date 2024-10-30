@@ -1,6 +1,6 @@
 ## Getting started
 
-A list of steps that you should follow:
+A pre-requisite for this application is to install the [Shopify CLI](https://shopify.dev/docs/api/shopify-cli#installation) locally. A list of steps that you should follow:
 
 1. [Connect to Shopify](https://docs.gadget.dev/guides/tutorials/connecting-to-shopify#connecting-to-shopify) using our built-in Shopify plugin. Make sure that you fill out the Protected Customer Data Access form in the Shopify Partner dashboard.
 
@@ -10,13 +10,9 @@ A list of steps that you should follow:
 
 4. Modify the CDN URL on `line 2` of `extensions/wishlists-storefront/blocks/addToWishlist.liquid` to point to the correct application and environment. Modify the application and environment on `line 2` and `5` of `extensions/wishlists/src/api.js`.
 
-5. Run `yarn dev` to run the Shopify CLI and connect to the Shopify app created in step 1.
+5. Run `yarn dev` to run the Shopify CLI (locally) and connect to the Shopify app created in step 1.
 
 6. Install the application on a development store and create a customer account on the online store. Once this is done, you can step through the application and test the functionality.
-
-## Testing
-
-A bit of information on how to test the application.
 
 ### Customer account UI extension
 

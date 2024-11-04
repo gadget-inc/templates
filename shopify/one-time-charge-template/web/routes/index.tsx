@@ -3,6 +3,7 @@ import { useQuery } from "@gadgetinc/react";
 import { StyledSpinner } from "../components";
 import { useEffect, useContext } from "react";
 import { ShopContext } from "../providers";
+import { ShopContextType } from "../providers/ShopProvider";
 
 /**
  * This is where your main app logic should go
@@ -11,7 +12,7 @@ import { ShopContext } from "../providers";
  * To view the billing page, make use of your app's API Playgound. Use the following GraphQL mutation:
  */
 export default () => {
-  const { shop } = useContext(ShopContext);
+  const { shop }: ShopContextType = useContext(ShopContext);
 
   const [
     {
@@ -67,7 +68,7 @@ export default () => {
                 </Text>
               </BlockStack>
             </Card>
-            <Card sectioned>
+            <Card>
               <BlockStack gap="500">
                 <Text as="h2" variant="headingMd">
                   Manually end the trial

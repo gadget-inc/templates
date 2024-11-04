@@ -11,10 +11,11 @@ import { api } from "../api";
 import { useContext, useState } from "react";
 import { ShopContext } from "../providers";
 import { AutoButton } from "@gadgetinc/react/auto/polaris";
+import { ShopContextType } from "../providers/ShopProvider";
 
 export default () => {
   const [disabled, setDisabled] = useState(false);
-  const { shop } = useContext(ShopContext);
+  const { shop }: ShopContextType = useContext(ShopContext);
 
   return (
     <Page>
@@ -63,7 +64,7 @@ export default () => {
                   setDisabled(true);
                   open(res.data.confirmationUrl, "_top");
                 }}
-                variables={{ id: shop?.id }}
+                variables={{ id: shop?.id ?? "" }}
                 children={"Buy now"}
               />
             </BlockStack>

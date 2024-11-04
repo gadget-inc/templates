@@ -66,12 +66,13 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     },
   });
 
-  const quantityObj = {};
+  const quantityObj: { [key: string]: number | null } = {};
 
   // Creates an object with product variant ids as keys and their quantities as values
   for (const bundleComponent of bundleComponents) {
     if (bundleComponent.productVariantId)
-      quantityObj[bundleComponent.productVariantId] = bundleComponent.quantity;
+      quantityObj[bundleComponent.productVariantId] =
+        bundleComponent.quantity ?? 0;
   }
 
   /**

@@ -46,7 +46,8 @@ export default ({
     <Page
       title={title || ""}
       titleMetadata={
-        !inForm && (
+        !inForm &&
+        handleSearchInputChange && (
           <TextField
             label
             value={searchValue}
@@ -59,7 +60,9 @@ export default ({
         )
       }
       backAction={
-        inForm && shop?.bundleCount && { onAction: () => navigate("/") }
+        inForm && shop?.bundleCount
+          ? { onAction: () => navigate("/") }
+          : undefined
       }
       primaryAction={
         inForm
@@ -74,12 +77,14 @@ export default ({
             }
       }
       pagination={
-        !inForm && {
-          hasPrevious: hasPreviousPage,
-          hasNext: hasNextPage,
-          onNext: getNextPage,
-          onPrevious: getPreviousPage,
-        }
+        !inForm
+          ? {
+              hasPrevious: hasPreviousPage,
+              hasNext: hasNextPage,
+              onNext: getNextPage,
+              onPrevious: getPreviousPage,
+            }
+          : undefined
       }
     >
       <BlockStack gap="500">

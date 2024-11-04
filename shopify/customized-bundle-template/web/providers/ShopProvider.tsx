@@ -3,9 +3,11 @@ import { createContext, useEffect } from "react";
 import { api } from "../api";
 import { Spinner } from "../components";
 
-export type ShopContextType =
-  | { id?: string; bundleCount?: number | null; currency?: string | null }
-  | undefined;
+export type ShopContextType = {
+  id?: string;
+  bundleCount?: number | null;
+  currency?: string;
+};
 
 export const ShopContext = createContext({});
 

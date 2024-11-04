@@ -1,6 +1,6 @@
 import { useCallback, useContext } from "react";
 import { api } from "../api";
-import { useActionForm } from "@gadgetinc/react";
+import { FormProvider, useActionForm } from "@gadgetinc/react";
 import { Card, Text, Layout, BlockStack } from "@shopify/polaris";
 import { BundleForm, PageTemplate } from "../components";
 import { useNavigate } from "react-router-dom";
@@ -11,14 +11,7 @@ export default () => {
   const { shop }: { shop?: ShopContextType } = useContext(ShopContext);
   const navigate = useNavigate();
 
-  const {
-    control,
-    submit,
-    formState: { errors, isDirty, isValid, isSubmitting },
-    watch,
-    getValues,
-    setError,
-  } = useActionForm(api.bundle.create, {
+  const formContext = useActionForm(api.bundle.create, {
     mode: "onBlur",
     defaultValues: {
       bundle: {
@@ -34,29 +27,29 @@ export default () => {
 
   // A special handler for form submission that displays an error if the title already exists or redirects to the homepage
   const createBundle = useCallback(async () => {
-    const { data, error } = await submit();
+    const { data, error } = await formContext.submit();
 
     if (data) {
       navigate("/");
     } else {
       if (error?.message && /\btitle\b/.test(error.message))
-        setError("bundle.title", {
+        formContext.setError("bundle.title", {
           message: "A bundle with this title already exists",
           type: "submissionError",
         });
     }
-  }, [submit]);
+  }, [formContext.submit]);
 
   return (
     <PageTemplate
       inForm
       submit={createBundle}
       saveDisabled={
-        isSubmitting ||
-        !isDirty ||
-        !isValid ||
+        formContext.formState.isSubmitting ||
+        !formContext.formState.isDirty ||
+        !formContext.formState.isValid ||
         // Disables the save button if there are no bundle components
-        !getValues("bundle.bundleComponents").length
+        !formContext.getValues("bundle.bundleComponents").length
       }
     >
       <Layout sectioned>
@@ -66,14 +59,9 @@ export default () => {
               <Text as="h2" variant="headingLg">
                 Create a bundle
               </Text>
-              <BundleForm
-                {...{
-                  control,
-                  errors,
-                  watch,
-                  getValues,
-                }}
-              />
+              <FormProvider {...formContext.originalFormMethods}>
+                <BundleForm />
+              </FormProvider>
             </BlockStack>
           </Card>
         </Layout.Section>

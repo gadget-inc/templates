@@ -6,14 +6,24 @@ import { BundleCard, PageTemplate, Spinner } from "../components";
 import { useNavigate } from "react-router-dom";
 import { useDebounce } from "use-debounce";
 import { ShopContext } from "../providers";
+import { ShopContextType } from "../providers/ShopProvider";
+import {
+  Bundle,
+  BundleComponent,
+} from "@gadget-client/customized-bundle-template";
 
 const NUM_ON_PAGE = 5;
 
 export default () => {
   const navigate = useNavigate();
-  const { shop } = useContext(ShopContext);
+  const { shop }: { shop?: ShopContextType } = useContext(ShopContext);
 
-  const [cursor, setCursor] = useState({ first: NUM_ON_PAGE });
+  const [cursor, setCursor] = useState<{
+    first?: number;
+    last?: number;
+    before?: string;
+    after?: string;
+  }>({ first: NUM_ON_PAGE });
   const [searchValue, setSearchValue] = useState("");
   // Debounce for the input of the bundle search bar
   const [filter] = useDebounce(
@@ -78,7 +88,7 @@ export default () => {
   }, [bundles]);
 
   // Handler for the search bar input change
-  const handleSearchInputChange = useCallback((value) => {
+  const handleSearchInputChange = useCallback((value: string) => {
     setSearchValue(value);
   }, []);
 
@@ -91,10 +101,10 @@ export default () => {
 
   // Redirects to the create bundle page if the shop has no bundles
   useEffect(() => {
-    if (!shop.bundleCount) {
+    if (!shop?.bundleCount) {
       navigate("/create-bundle");
     }
-  }, [shop.bundleCount]);
+  }, [shop?.bundleCount]);
 
   return (
     <PageTemplate
@@ -110,7 +120,18 @@ export default () => {
     >
       <BlockStack gap="500">
         {!fetchingBundles ? (
-          bundles?.map((bundle, key) => <BundleCard key={key} {...bundle} />)
+          bundles?.map((bundle, key) => (
+            <BundleCard
+              key={key}
+              id={bundle.id}
+              title={bundle.title}
+              description={bundle.description}
+              status={bundle.status}
+              price={bundle.price}
+              bundleComponentCount={bundle.bundleComponentCount as number}
+              bundleComponents={bundle.bundleComponents}
+            />
+          ))
         ) : (
           <Spinner />
         )}

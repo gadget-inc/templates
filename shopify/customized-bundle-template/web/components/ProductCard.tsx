@@ -1,4 +1,4 @@
-import { Controller } from "@gadgetinc/react";
+import { Controller, useFormContext } from "@gadgetinc/react";
 import {
   BlockStack,
   Card,
@@ -10,17 +10,28 @@ import {
 } from "@shopify/polaris";
 import { ImageIcon } from "@shopify/polaris-icons";
 import { useMemo } from "react";
+import { BundleComponent, Variant } from "./BundleForm";
 
 export default ({
   title,
   images,
   variants,
-  control,
   name,
   bundleComponents,
-  errors,
   currency,
+}: {
+  title: string;
+  images: { id: string; originalSrc: string }[];
+  variants: Variant[];
+  name: string;
+  bundleComponents: BundleComponent[];
+  currency: string | undefined;
 }) => {
+  const {
+    control,
+    formState: { errors },
+  } = useFormContext();
+
   // Creates an array of product variant ids
   const productVariantIds = useMemo(
     () =>
@@ -47,9 +58,11 @@ export default ({
               </Text>
               {variants.length === 1 && (
                 <Text as="span" tone="subdued" variant="bodySm">
-                  {parseFloat(variants[0].price)
-                    ? `${variants[0].price} ${currency}`
-                    : "Free"}
+                  {variants[0].price
+                    ? parseFloat(variants[0].price)
+                      ? `${variants[0].price} ${currency}`
+                      : "Free"
+                    : ""}
                 </Text>
               )}
             </BlockStack>
@@ -69,8 +82,17 @@ export default ({
                     onChange={(value) => fieldProps.onChange(parseInt(value))}
                     value={fieldProps.value?.toString() || ""}
                     error={
-                      errors?.bundle?.bundleComponents &&
-                      errors?.bundle?.bundleComponents[
+                      (errors?.bundle as { bundleComponents?: [] })
+                        ?.bundleComponents &&
+                      (
+                        errors?.bundle as unknown as {
+                          bundleComponents: {
+                            [key: string]: {
+                              quantity?: { message?: string };
+                            };
+                          };
+                        }
+                      )?.bundleComponents[
                         productVariantIds.indexOf(
                           variants[0].id.replace(
                             /gid:\/\/shopify\/ProductVariant\//g,
@@ -107,7 +129,11 @@ export default ({
                       <BlockStack>
                         <Text as="h5">{variantTitle}</Text>
                         <Text as="span" tone="subdued" variant="bodySm">
-                          {parseFloat(price) ? `${price} ${currency}` : "Free"}
+                          {price
+                            ? parseFloat(price)
+                              ? `${price} ${currency}`
+                              : "Free"
+                            : ""}
                         </Text>
                       </BlockStack>
                       <Controller
@@ -123,9 +149,17 @@ export default ({
                               fieldProps.onChange(parseInt(value));
                             }}
                             error={
-                              errors?.bundle?.bundleComponents &&
-                              errors?.bundle?.bundleComponents[bcIndex]
-                                ?.quantity?.message
+                              (errors?.bundle as { bundleComponents?: [] })
+                                ?.bundleComponents &&
+                              (
+                                errors?.bundle as unknown as {
+                                  bundleComponents: {
+                                    [key: string]: {
+                                      quantity?: { message?: string };
+                                    };
+                                  };
+                                }
+                              )?.bundleComponents[bcIndex]?.quantity?.message
                             }
                             value={fieldProps.value?.toString() || ""}
                           />

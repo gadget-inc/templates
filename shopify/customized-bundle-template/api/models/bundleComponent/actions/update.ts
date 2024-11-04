@@ -1,25 +1,25 @@
-import {
-  applyParams,
-  save,
-  ActionOptions,
-  UpdateBundleComponentActionContext,
-} from "gadget-server";
-import { isEqual } from "lodash";
+import { applyParams, save, ActionOptions } from "gadget-server";
 
-/**
- * @param { UpdateBundleComponentActionContext } context
- */
-export async function run({ params, record, logger, api, connections }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   applyParams(params, record);
   await save(record);
-}
+};
 
-/**
- * @param { UpdateBundleComponentActionContext } context
- */
-export async function onSuccess({ params, record, logger, api, connections }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   // Check if the quantity has changed
-  if (record.changed("quantity")) {
+  if (record.changed("quantity") && record.bundleId) {
     // Fetch the parent bundle
     const bundle = await api.bundle.findOne(record.bundleId, {
       select: {
@@ -36,7 +36,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
         id: record.id,
         quantity: record.quantity,
         productVariantId: record.productVariantId,
-        bundleVariantId: bundle.bundleVariant.id,
+        bundleVariantId: bundle.bundleVariant?.id,
         bundleId: record.bundleId,
         shopId: record.shopId,
       },
@@ -49,9 +49,8 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       }
     );
   }
-}
+};
 
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "update",
 };

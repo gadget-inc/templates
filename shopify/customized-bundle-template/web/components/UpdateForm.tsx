@@ -1,4 +1,4 @@
-import { useAction, useActionForm } from "@gadgetinc/react";
+import { FormProvider, useAction, useActionForm } from "@gadgetinc/react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCallback, useEffect } from "react";
 import { api } from "../api";
@@ -66,22 +66,7 @@ export default () => {
   const navigate = useNavigate();
   const { bundleId } = useParams();
 
-  const {
-    control,
-    submit,
-    formState: {
-      errors,
-      isDirty,
-      isValid,
-      isSubmitting,
-      isValidating,
-      isLoading,
-      defaultValues,
-    },
-    watch,
-    getValues,
-    setError,
-  } = useActionForm(api.bundle.update, {
+  const formContext = useActionForm(api.bundle.update, {
     findBy: bundleId,
     mode: "onBlur",
     select: {
@@ -123,18 +108,18 @@ export default () => {
 
   // A special handler for form submission that displays an error if the title already exists or redirects to the homepage
   const updateBundle = useCallback(async () => {
-    const { data, error } = await submit();
+    const { data, error } = await formContext.submit();
 
     if (data) {
       navigate("/");
     } else {
       if (error?.message && /\btitle\b/.test(error.message))
-        setError("bundle.title", {
+        formContext.setError("bundle.title", {
           message: "A bundle with this title already exists",
           type: "submissionError",
         });
     }
-  }, [submit]);
+  }, [formContext.submit]);
 
   // Redirects to the homepage if the bundle was successfully deleted
   useEffect(() => {
@@ -148,25 +133,25 @@ export default () => {
       inForm
       submit={updateBundle}
       saveDisabled={
-        isSubmitting ||
-        !isDirty ||
-        !isValid ||
-        isLoading ||
-        isValidating ||
+        formContext.formState.isSubmitting ||
+        !formContext.formState.isDirty ||
+        !formContext.formState.isValid ||
+        formContext.formState.isLoading ||
+        formContext.formState.isValidating ||
         // Disables the save button if there are no bundle components
-        !getValues("bundle.bundleComponents")?.length
+        !formContext.getValues("bundle.bundleComponents")?.length
       }
     >
       <Layout sectioned>
         <Layout.Section>
-          {isLoading ? (
+          {formContext.formState.isLoading ? (
             <SkeletonForm />
           ) : (
             <Card>
               <BlockStack gap="500">
                 <InlineStack wrap={false} align="space-between">
                   <Text as="h2" variant="headingLg">
-                    {defaultValues?.title || ""}
+                    {formContext.getValues("bundle.title") ?? ""}
                   </Text>
                   <ButtonGroup>
                     <Button
@@ -178,15 +163,9 @@ export default () => {
                     </Button>
                   </ButtonGroup>
                 </InlineStack>
-                <BundleForm
-                  {...{
-                    control,
-                    errors,
-                    watch,
-                    getValues,
-                  }}
-                  updateForm
-                />
+                <FormProvider {...formContext.originalFormMethods}>
+                  <BundleForm updateForm />
+                </FormProvider>
               </BlockStack>
             </Card>
           )}

@@ -14,7 +14,6 @@
     "@shopify/app-bridge-react": "^4.1.1",
     "@shopify/polaris": "^13.9.0",
     "@shopify/polaris-icons": "^9.3.0",
-    "currency-converter-lt": "^2.0.1",
     "date-fns": "^2.30.0",
     "fastify": "^4.24.2",
     "gadget-server": "link:.gadget/server",

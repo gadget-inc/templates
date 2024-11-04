@@ -1,6 +1,7 @@
 import { BlockStack, Layout, Page, Text, Card, Button } from "@shopify/polaris";
 import { useContext } from "react";
 import { ShopContext } from "../providers";
+import { ShopContextType } from "../providers/ShopProvider";
 
 /**
  * This is where your main app logic should go
@@ -9,7 +10,7 @@ import { ShopContext } from "../providers";
  *
  */
 export default () => {
-  const { shop, gadgetMetadata } = useContext(ShopContext);
+  const { shop, gadgetMetadata }: ShopContextType = useContext(ShopContext);
 
   return (
     <Page title="Next steps">
@@ -47,7 +48,7 @@ export default () => {
                   variant="primary"
                   onClick={() =>
                     open(
-                      `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("${shop?.id}", {
+                      `${gadgetMetadata?.gadgetMeta?.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.internal.shopifyShop.update("${shop?.id}", {
   // Make sure to change this 1440 * number of days on the trial
   usedTrialMinutes: 10080
 })`)}&environment=${gadgetMetadata?.gadgetMeta?.environmentName?.toLowerCase()}`,

@@ -1,4 +1,4 @@
-import { useGlobalAction } from "@gadgetinc/react";
+import { useFindMany, useGlobalAction } from "@gadgetinc/react";
 import {
   Banner,
   BlockStack,
@@ -12,37 +12,27 @@ import { api } from "../api";
 import { PlanCard, StyledSpinner } from "../components";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
+import { ShopContextType } from "../providers/ShopProvider";
 
-/**
- * This is the billing page that will be displayed when a user hasn't selected a plan or they want to change plans.
- *
- * @returns { import("react").ReactElement } A React functional component
- */
+// This is the billing page that will be displayed when a user hasn't selected a plan or they want to change plans.
 export default () => {
-  const { gadgetMetadata } = useContext(ShopContext);
+  const { gadgetMetadata }: ShopContextType = useContext(ShopContext);
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
 
-  const [
-    { data: plans, fetching: fetchingPlans, error: errorFetchingPlans },
-    getPlansAtShopCurrency,
-  ] = useGlobalAction(api.getPlansAtShopCurrency);
+  const [{ data: plans, fetching: fetchingPlans, error: errorFetchingPlans }] =
+    useFindMany(api.plan, {
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        monthlyPrice: true,
+        trialDays: true,
+      },
+    });
 
-  /**
-   * @type { () => void }
-   *
-   * Dismisses the error banner
-   */
   const handleDismiss = useCallback(() => {
     setShow(false);
-  }, []);
-
-  useEffect(() => {
-    const run = async () => {
-      await getPlansAtShopCurrency();
-    };
-
-    run();
   }, []);
 
   // useEffect for showing an error banner when there's an issue fetching plans
@@ -71,17 +61,25 @@ export default () => {
         )}
         <Layout>
           {plans?.length ? (
-            plans?.map((plan) => (
-              <Layout.Section variant="oneThird" key={plan.id}>
-                <PlanCard
-                  id={plan.id}
-                  name={plan.name}
-                  description={plan.description}
-                  monthlyPrice={plan.monthlyPrice}
-                  trialDays={plan.trialDays}
-                />
-              </Layout.Section>
-            ))
+            plans?.map(
+              (plan: {
+                id: string;
+                name: string;
+                description: string;
+                monthlyPrice: number;
+                trialDays: number;
+              }) => (
+                <Layout.Section variant="oneThird" key={plan.id}>
+                  <PlanCard
+                    id={plan.id}
+                    name={plan.name}
+                    description={plan.description}
+                    monthlyPrice={plan.monthlyPrice}
+                    trialDays={plan.trialDays}
+                  />
+                </Layout.Section>
+              )
+            )
           ) : (
             <Layout.Section>
               <Card>
@@ -101,7 +99,7 @@ export default () => {
                     variant="primary"
                     onClick={() =>
                       open(
-                        `${gadgetMetadata.gadgetMeta.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.plan.create({
+                        `${gadgetMetadata?.gadgetMeta?.productionRenderURL}api/playground/javascript?code=${encodeURIComponent(`await api.plan.create({
   currency: "CAD",
   description: "example value for description",
   name: "Some plan name",

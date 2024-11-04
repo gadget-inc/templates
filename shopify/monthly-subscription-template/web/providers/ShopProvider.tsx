@@ -4,21 +4,38 @@ import { api } from "../api";
 import { trialCalculations } from "../utilities";
 import { Banner, Page, Text } from "@shopify/polaris";
 import { StyledSpinner } from "../components";
-import { BillingPage } from "../routes";
+import BillingPage from "../routes/billing";
+
+export type ShopContextType = {
+  shop?: {
+    id?: string;
+    currency?: string;
+    usedTrialMinutes?: number;
+    usedTrialMinutesUpdatedAt?: Date;
+    plan?: {
+      id?: string;
+      name?: string;
+      trialDays?: number;
+    };
+  };
+  gadgetMetadata?: {
+    gadgetMeta?: {
+      productionRenderURL: string;
+      environmentName: string;
+    };
+  };
+};
 
 export const ShopContext = createContext({});
 
 /**
- * @param { children: import("react").ReactNode } props The props passed to the React functional component
- *
  * React component that fetches shop and subscription data
+ *
  * Key features:
  *  - Sets the number of trial days left for this shop
  *  - Allows children to access the context from this provider
- *
- * @returns { import("react").ReactElement } A React functional component
  */
-export default ({ children }) => {
+export default ({ children }: { children: React.ReactNode }) => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
   const [availableTrialDays, setAvailableTrialDays] = useState(0);
@@ -56,11 +73,6 @@ export default ({ children }) => {
       `,
   });
 
-  /**
-   * @type { () => void }
-   *
-   * Dismisses the error banner
-   */
   const handleDismiss = useCallback(() => {
     setShow(false);
   }, []);
@@ -73,7 +85,7 @@ export default ({ children }) => {
           shop?.usedTrialMinutes,
           shop?.usedTrialMinutesUpdatedAt,
           new Date(),
-          shop?.plan?.trialDays
+          shop?.plan?.trialDays ?? 0
         ).availableTrialDays
       );
       setLoading(false);

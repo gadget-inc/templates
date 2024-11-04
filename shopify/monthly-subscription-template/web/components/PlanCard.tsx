@@ -11,14 +11,22 @@ import { api } from "../api";
 import { useContext, useState } from "react";
 import { ShopContext } from "../providers";
 import { trialCalculations } from "../utilities";
+import { ShopContextType } from "../providers/ShopProvider";
 
-/**
- * @param { { id: string, name: string, description: string, monthlyPrice: number } } props The props passed to the React functional component
- *
- * @returns { import("react").ReactElement } A React functional component
- */
-export default ({ id, name, description, monthlyPrice, trialDays }) => {
-  const { shop } = useContext(ShopContext);
+export default ({
+  id,
+  name,
+  description,
+  monthlyPrice,
+  trialDays,
+}: {
+  id: string;
+  name: string;
+  description: string;
+  monthlyPrice: number;
+  trialDays: number;
+}) => {
+  const { shop }: ShopContextType = useContext(ShopContext);
   const [disabled, setDisabled] = useState(false);
 
   return (
@@ -56,11 +64,11 @@ export default ({ id, name, description, monthlyPrice, trialDays }) => {
           <AutoButton
             action={api.shopifyShop.subscribe}
             disabled={shop?.plan?.id === id || disabled}
-            onSuccess={(res) => {
+            onSuccess={({ data }: { data?: { confirmationUrl: string } }) => {
               setDisabled(true);
-              open(res.data.confirmationUrl, "_top");
+              open(data?.confirmationUrl, "_top");
             }}
-            variables={{ id: shop.id, planId: id }}
+            variables={{ id: shop?.id ?? "", planId: id }}
             children={"Select"}
           />
         </BlockStack>

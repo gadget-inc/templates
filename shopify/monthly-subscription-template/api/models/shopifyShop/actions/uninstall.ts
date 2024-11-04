@@ -5,14 +5,16 @@ import {
   save,
   ActionOptions,
   ShopifyShopState,
-  UninstallShopifyShopActionContext,
 } from "gadget-server";
 import { trialCalculations } from "../helpers";
 
-/**
- * @param { UninstallShopifyShopActionContext } context
- */
-export async function run({ params, record, logger, api, connections }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   transitionState(record, {
     from: ShopifyShopState.Installed,
     to: ShopifyShopState.Uninstalled,
@@ -23,8 +25,8 @@ export async function run({ params, record, logger, api, connections }) {
   const planMatch = await api.plan.maybeFindFirst({
     filter: {
       id: {
-        equals: record.planId
-      }
+        equals: record.planId,
+      },
     },
     select: {
       trialDays: true,
@@ -45,12 +47,15 @@ export async function run({ params, record, logger, api, connections }) {
   }
 
   await save(record);
-}
+};
 
-/**
- * @param { UninstallShopifyShopActionContext } context
- */
-export async function onSuccess({ params, record, logger, api, connections }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   if (record.activeRecurringSubscriptionId) {
     await api.internal.shopifyAppSubscription.update(
       record.activeRecurringSubscriptionId,
@@ -64,10 +69,9 @@ export async function onSuccess({ params, record, logger, api, connections }) {
     activeRecurringSubscriptionId: null,
     plan: null,
   });
-}
+};
 
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "update",
   triggers: { api: false },
 };

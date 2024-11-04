@@ -16,7 +16,8 @@ import {
   useNavigate,
   Link,
 } from "react-router-dom";
-import { BillingPage, Index } from "../routes";
+import BillingPage from "../routes/billing";
+import Index from "../routes/index";
 import { api } from "../api";
 import { ShopProvider } from "../providers";
 
@@ -26,8 +27,9 @@ function Error404() {
 
   useEffect(() => {
     if (
+      process.env.GADGET_PUBLIC_SHOPIFY_APP_URL &&
       location.pathname ===
-      new URL(process.env.GADGET_PUBLIC_SHOPIFY_APP_URL).pathname
+        new URL(process.env.GADGET_PUBLIC_SHOPIFY_APP_URL).pathname
     )
       return navigate("/", { replace: true });
   }, [location.pathname]);

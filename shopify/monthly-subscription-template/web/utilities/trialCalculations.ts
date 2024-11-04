@@ -7,9 +7,9 @@ import { differenceInMinutes } from "date-fns";
  */
 export default (
   usedTrialMinutes = 0,
-  usedTrialMinutesUpdatedAt,
-  today,
-  defaultTrialDays
+  usedTrialMinutesUpdatedAt: Date | undefined | null,
+  today: Date,
+  defaultTrialDays: number
 ) => {
   const usedMinutes =
     differenceInMinutes(

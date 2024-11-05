@@ -15,10 +15,5 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "baseUrl": "/",
-    "paths": {
-      "gadget-server": [".gadget/server"],
-      "gadget-server/*": [".gadget/server/*"],
-      "@gadget-client/doodad-ring-mnu2": [".gadget/client"]
-    }
   }
 }

@@ -16,6 +16,8 @@ import {
   Button,
   FormLayout,
   SkeletonDisplayText,
+  SelectOption,
+  SelectGroup,
 } from "@shopify/polaris";
 import { api } from "../api";
 import { useEffect, useState } from "react";
@@ -24,8 +26,8 @@ const PrePurchaseForm = ({
   products,
   shop,
 }: {
-  shop: { id: string };
-  products: [{ id: string; label: string }];
+  shop: { id?: string };
+  products: (SelectOption | SelectGroup)[];
 }) => {
   // useActionForm used to handle form state and submission
   const { submit, control, formState, error, setValue, watch } = useActionForm(
@@ -65,7 +67,6 @@ const PrePurchaseForm = ({
           <Controller
             name="shopifyShop.prePurchaseProduct"
             control={control}
-            required
             render={({ field: { ref, ...fieldProps } }) => (
               <Select
                 label="Product for pre-purchase offer"
@@ -73,6 +74,7 @@ const PrePurchaseForm = ({
                 options={products}
                 disabled={formState.isSubmitting}
                 {...fieldProps}
+                value={fieldProps.value ?? ""}
               />
             )}
           />
@@ -88,7 +90,9 @@ const PrePurchaseForm = ({
 
 export default () => {
   // use React state to handle selected product and options
-  const [productOptions, setProductOptions] = useState([]);
+  const [productOptions, setProductOptions] = useState<
+    (SelectOption | SelectGroup)[]
+  >([]);
 
   // use the Gadget React hooks to fetch products as options for Select component
   const [
@@ -107,7 +111,7 @@ export default () => {
     if (products) {
       const options = products.map((product) => ({
         value: `gid://shopify/Product/${product.id}`,
-        label: product.title,
+        label: product.title ?? "",
       }));
       setProductOptions(options);
     }
@@ -127,7 +131,7 @@ export default () => {
             </Layout.Section>
           )}
           <Layout.Section>
-            <PrePurchaseForm shop={shopData} products={productOptions} />
+            <PrePurchaseForm shop={shopData ?? {}} products={productOptions} />
           </Layout.Section>
           <Layout.Section>
             <FooterHelp>

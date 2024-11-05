@@ -1,6 +1,22 @@
-import { logger } from "gadget-server";
+import {
+  CreateShopifyProductActionContext,
+  logger,
+  UpdateShopifyProductActionContext,
+} from "gadget-server";
 
-export async function applyTags({ record, api, connections }) {
+type ApplyTagsParams = {
+  record:
+    | CreateShopifyProductActionContext["record"]
+    | UpdateShopifyProductActionContext["record"];
+  api:
+    | CreateShopifyProductActionContext["api"]
+    | UpdateShopifyProductActionContext["api"];
+  connections:
+    | CreateShopifyProductActionContext["connections"]
+    | UpdateShopifyProductActionContext["connections"];
+};
+
+export async function applyTags({ record, api, connections }: ApplyTagsParams) {
   if (record.id && record.body && record.changed("body")) {
     // get a unique list of words used in the record's description
     let newTags = [...new Set(record.body.match(/\w+(?:'\w+)*/g))];
@@ -11,7 +27,7 @@ export async function applyTags({ record, api, connections }) {
       await api.allowedTag.findMany({
         filter: {
           shopId: {
-            equals: connections.shopify.currentShopId,
+            equals: String(connections.shopify.currentShopId),
           },
         },
       })
@@ -20,7 +36,9 @@ export async function applyTags({ record, api, connections }) {
     // merge with any existing tags and use Set to remove duplicates
     const finalTags = [
       ...new Set(
-        newTags.filter((tag) => allowedTags.includes(tag)).concat(record.tags)
+        newTags
+          .filter((tag) => allowedTags.includes(tag))
+          .concat(record.tags as string[])
       ),
     ];
     logger.info(
@@ -29,7 +47,8 @@ export async function applyTags({ record, api, connections }) {
     );
 
     // write tags back to Shopify
-    const shopify = await connections.shopify.current;
+    const shopify = connections.shopify.current;
+
     if (shopify) {
       logger.info({ message: `writing back to Shopify product ${record.id}` });
       await shopify.product.update(parseInt(record.id), {

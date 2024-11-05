@@ -1,18 +1,29 @@
-import { applyParams, preventCrossShopDataAccess, save, ActionOptions, CreateShopifyGdprRequestActionContext } from "gadget-server";
+import {
+  applyParams,
+  preventCrossShopDataAccess,
+  save,
+  ActionOptions,
+} from "gadget-server";
 
-/**
- * @param { CreateShopifyGdprRequestActionContext } context
- */
-export async function run({ params, record, logger, api, connections }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
   await save(record);
 };
 
-/**
- * @param { CreateShopifyGdprRequestActionContext } context
- */
-export async function onSuccess({ params, record, logger, api, connections }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   switch (record.topic) {
     case "customers/data_request":
       // This process is a manual one. You must provide the customer's data to the store owners directly.
@@ -30,8 +41,7 @@ export async function onSuccess({ params, record, logger, api, connections }) {
   }
 };
 
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "create",
   triggers: { api: false },
 };

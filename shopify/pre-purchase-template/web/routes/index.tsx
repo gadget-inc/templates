@@ -20,7 +20,13 @@ import {
 import { api } from "../api";
 import { useEffect, useState } from "react";
 
-const PrePurchaseForm = ({ products, shop }) => {
+const PrePurchaseForm = ({
+  products,
+  shop,
+}: {
+  shop: { id: string };
+  products: [{ id: string; label: string }];
+}) => {
   // useActionForm used to handle form state and submission
   const { submit, control, formState, error, setValue, watch } = useActionForm(
     api.shopifyShop.savePrePurchaseProduct,

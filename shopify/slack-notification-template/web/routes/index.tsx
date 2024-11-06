@@ -31,6 +31,15 @@ const SlackChannelSelectionForm = ({
   setShow,
   setBannerContext,
   toggleActive,
+}: {
+  shop: {
+    id: string;
+    hasSlackAccessToken: boolean;
+    slackChannelId: string;
+  };
+  setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  setBannerContext: React.Dispatch<React.SetStateAction<string>>;
+  toggleActive: () => void;
 }) => {
   const {
     submit,
@@ -54,7 +63,7 @@ const SlackChannelSelectionForm = ({
     getChannels,
   ] = useGlobalAction(api.getChannels);
 
-  const deselectedOptions = useMemo(
+  const deselectedOptions: { value: string; label: string }[] = useMemo(
     () => channels || [{ label: "None selected", value: "" }],
     [channels]
   );
@@ -64,7 +73,7 @@ const SlackChannelSelectionForm = ({
 
   // Handler for updating the options available in the combobox dropdown
   const updateText = useCallback(
-    (value) => {
+    (value: string) => {
       setInputValue(value);
 
       if (value === "") {
@@ -142,7 +151,12 @@ const SlackChannelSelectionForm = ({
                       label="Select a channel"
                       value={inputValue}
                       placeholder={
-                        channels?.filter(
+                        (
+                          channels as {
+                            label: string | undefined;
+                            value: string | undefined;
+                          }[]
+                        )?.filter(
                           (channel) => channel.value === fieldProps.value
                         )[0]?.label || "Select a channel"
                       }
@@ -151,17 +165,20 @@ const SlackChannelSelectionForm = ({
                     />
                   }
                 >
-                  {options.length > 0 && (
+                  {options.length > 0 ? (
                     <Listbox
                       onSelect={(value) => {
                         setInputValue(
-                          channels?.filter(
-                            (channel) => channel.value === value
-                          )[0].label
+                          (
+                            channels as {
+                              label: string | undefined;
+                              value: string | undefined;
+                            }[]
+                          )?.filter((channel) => channel.value === value)[0]
+                            .label as string
                         );
                         fieldProps.onChange(value);
                       }}
-                      name={fieldProps.name}
                     >
                       {options.map((option) => (
                         <Listbox.Option
@@ -174,7 +191,7 @@ const SlackChannelSelectionForm = ({
                         </Listbox.Option>
                       ))}
                     </Listbox>
-                  )}
+                  ) : null}
                 </Combobox>
               );
             }}
@@ -206,11 +223,7 @@ const ShopPage = () => {
       },
     });
 
-  /**
-   * @type { () => void }
-   *
-   * Handler for dismissing the error banner
-   */
+  //  Handler for dismissing the error banner
   const handleDismiss = useCallback(() => {
     setShow(false);
   }, []);
@@ -257,7 +270,7 @@ const ShopPage = () => {
       </Page>
       <Page title="Dashboard">
         <Layout sectioned>
-          {shop.hasSlackAccessToken ? (
+          {shop?.hasSlackAccessToken ? (
             <>
               <Layout.Section>
                 <Card>
@@ -270,7 +283,13 @@ const ShopPage = () => {
                       displayed by the bot.
                     </Text>
                     <SlackChannelSelectionForm
-                      shop={shop}
+                      shop={
+                        shop as {
+                          id: string;
+                          hasSlackAccessToken: boolean;
+                          slackChannelId: string;
+                        }
+                      }
                       setShow={setShow}
                       setBannerContext={setBannerContext}
                       toggleActive={toggleActive}
@@ -288,11 +307,7 @@ const ShopPage = () => {
                       You may wish to rerun the authentication flow at any time.
                       To do so click on the button below.
                     </Text>
-                    <SlackAuthButton
-                      reauth
-                      setShow={setShow}
-                      setBannerContext={setBannerContext}
-                    />
+                    <SlackAuthButton reauth />
                   </BlockStack>
                 </Card>
               </Layout.Section>
@@ -308,10 +323,7 @@ const ShopPage = () => {
                     To install the Slack bot on your Slack workspace, click the
                     button below.
                   </Text>
-                  <SlackAuthButton
-                    setShow={setShow}
-                    setBannerContext={setBannerContext}
-                  />
+                  <SlackAuthButton />
                 </BlockStack>
               </Card>
             </Layout.Section>

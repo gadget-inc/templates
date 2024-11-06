@@ -3,20 +3,9 @@ import {
   logger,
   UpdateShopifyProductActionContext,
 } from "gadget-server";
+import type { ActionContext } from "./actions/create";
 
-type ApplyTagsParams = {
-  record:
-    | CreateShopifyProductActionContext["record"]
-    | UpdateShopifyProductActionContext["record"];
-  api:
-    | CreateShopifyProductActionContext["api"]
-    | UpdateShopifyProductActionContext["api"];
-  connections:
-    | CreateShopifyProductActionContext["connections"]
-    | UpdateShopifyProductActionContext["connections"];
-};
-
-export async function applyTags({ record, api, connections }: ApplyTagsParams) {
+export const applyTags: ActionContext = async ({ record, api, connections }: ApplyTagsParams) => {
   if (record.id && record.body && record.changed("body")) {
     // get a unique list of words used in the record's description
     let newTags = [...new Set(record.body.match(/\w+(?:'\w+)*/g))];
@@ -56,4 +45,4 @@ export async function applyTags({ record, api, connections }: ApplyTagsParams) {
       });
     }
   }
-}
+};

@@ -1,10 +1,16 @@
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
-  const { allCustomers, options } = params;
+  const options = {
+    queue: {
+      name: params.options?.queue?.name ?? "",
+      maxConcurrency: params.options?.queue?.maxConcurrency,
+    },
+    retries: params.options?.retries,
+  };
 
-  if (!allCustomers?.length) return;
+  if (!params.allCustomers?.length) return;
 
   // Limit the number of actions to enqueue to 50
-  const customers = allCustomers.splice(0, 50);
+  const customers = params.allCustomers.splice(0, 50);
 
   // Enqueue the sendWishlistEmail action for each customer
   for (const customer of customers) {
@@ -14,10 +20,10 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   }
 
   // Enqueue another of the same action if there are more customers to process
-  if (allCustomers.length) {
+  if (params.allCustomers.length) {
     await api.enqueue(
       api.enqueueSendWishlistEmail,
-      { allCustomers, options },
+      { allCustomers: params.allCustomers, options: params.options },
       options
     );
   }

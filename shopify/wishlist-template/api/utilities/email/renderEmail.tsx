@@ -4,8 +4,8 @@ import WishlistEmail from "./WishlistEmail";
 import InStockEmail from "./InStockEmail";
 import type { OnSaleVariant, Payload, RemovedVariant } from "../types";
 
-export default (type: "wishlist" | "inStock", payload: Payload) => {
-  switch (type) {
+export default (payload: Payload) => {
+  switch (payload.type) {
     case "wishlist":
       const { changes, count, firstName, lastName } = payload;
 
@@ -24,7 +24,6 @@ export default (type: "wishlist" | "inStock", payload: Payload) => {
           count={count}
         />
       );
-
     case "inStock":
       const { product, shop, id, title } = payload;
 
@@ -38,7 +37,6 @@ export default (type: "wishlist" | "inStock", payload: Payload) => {
           }}
         />
       );
-
     default:
       return "";
   }

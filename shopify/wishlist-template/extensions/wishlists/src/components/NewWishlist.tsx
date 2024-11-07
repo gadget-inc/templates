@@ -75,7 +75,7 @@ export default ({ wishlists }) => {
                   return "Name must be unique";
                 }
 
-                return setError("wishlist.name", null);
+                return true;
               },
             }}
           />

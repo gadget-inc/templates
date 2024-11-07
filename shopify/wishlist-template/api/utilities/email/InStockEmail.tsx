@@ -40,7 +40,17 @@ const footerText: CSSProperties = {
   marginTop: "30px",
 };
 
-export default ({ productTitle, title, variantURL, name }) => {
+export default ({
+  productTitle,
+  title,
+  variantURL,
+  name,
+}: {
+  productTitle: string;
+  title: string;
+  variantURL: string;
+  name: string;
+}) => {
   return (
     <Html>
       <Container style={container}>

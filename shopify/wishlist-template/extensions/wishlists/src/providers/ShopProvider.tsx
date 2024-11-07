@@ -2,20 +2,31 @@ import { useFindFirst } from "@gadgetinc/react";
 import { createContext, useEffect } from "react";
 import { api } from "../api";
 import { StyledSpinner } from "../components";
+import { GadgetRecord } from "@gadget-client/wishlist-template";
 
-export const ShopContext = createContext({});
+export type ShopContextType = {
+  shop?: GadgetRecord<{
+    id: string;
+    domain: string | null;
+    customers: {
+      edges: {
+        node: {
+          id: string;
+        };
+      }[];
+    };
+  }>;
+};
+
+export const ShopContext = createContext<ShopContextType>({});
 
 /**
- * @param { children: import("react").ReactNode } props The props passed to the React functional component
- *
  * React component that fetches shop and subscription data
  * Key features:
  * - Allows children to access the context from this provider
  * - Gives context to which shop and customer the extension is running for
- *
- * @returns { import("react").ReactElement } A React functional component
  */
-export default ({ children }) => {
+export default ({ children }: { children: React.ReactNode }) => {
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop, {
       select: {

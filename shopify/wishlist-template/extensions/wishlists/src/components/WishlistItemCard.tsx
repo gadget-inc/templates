@@ -13,7 +13,6 @@ import {
 } from "@shopify/ui-extensions-react/customer-account";
 import { api } from "../api";
 import { useAction } from "@gadgetinc/react";
-import { SkeletonThumbnail } from "@shopify/polaris";
 import { useCallback, useContext } from "react";
 import { ShopContext } from "../providers";
 
@@ -45,11 +44,11 @@ export default ({
 
   return (
     <Card padding>
-      <BlockStack padding>
+      <BlockStack>
         <InlineLayout blockAlignment="start" columns={["fill", "20%"]}>
           <InlineStack>
             <ProductThumbnail
-              source={images?.edges[0]?.node?.source || SkeletonThumbnail}
+              source={images?.edges[0]?.node?.source || ""}
               alt={images?.edges[0]?.node?.alt || "thumbnail stand-in"}
             />
             <BlockStack spacing="extraTight">
@@ -61,11 +60,14 @@ export default ({
               </HeadingGroup>
               {!deleted && status === "active" ? (
                 <InlineStack blockAlignment="center">
-                  <Text size="medium" appearance={compareAtPrice && "subdued"}>
+                  <Text
+                    size="medium"
+                    appearance={compareAtPrice ? "subdued" : undefined}
+                  >
                     {compareAtPrice
                       ? price
                           .split("")
-                          .map((char) => char + "\u0336")
+                          .map((char: string) => char + "\u0336")
                           .join("")
                       : price}
                   </Text>

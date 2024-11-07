@@ -16,9 +16,14 @@ import StyledSpinner from "./StyledSpinner.js";
 
 const NUM_ON_PAGE = 5;
 
-export default ({ id, name }) => {
+export default ({ id, name }: { id: string; name: string }) => {
   // A cursor for the pagination of the wishlist items
-  const [cursor, setCursor] = useState({ first: NUM_ON_PAGE });
+  const [cursor, setCursor] = useState<{
+    first?: number;
+    after?: string;
+    last?: number;
+    before?: string;
+  }>({ first: NUM_ON_PAGE });
   const { ui } = useApi();
 
   // Formatting for the customer's currency
@@ -77,12 +82,12 @@ export default ({ id, name }) => {
 
   // Callback for getting the previous page of wishlist items
   const getPreviousPage = useCallback(() => {
-    setCursor({ last: NUM_ON_PAGE, before: wishlistItems.startCursor });
+    setCursor({ last: NUM_ON_PAGE, before: wishlistItems?.startCursor });
   }, [wishlistItems]);
 
   // Callback for getting the next page of wishlist items
   const getNextPage = useCallback(() => {
-    setCursor({ first: NUM_ON_PAGE, after: wishlistItems.endCursor });
+    setCursor({ first: NUM_ON_PAGE, after: wishlistItems?.endCursor });
   }, [wishlistItems]);
 
   // useEffect for showing an error if there's an error fetching wishlist items
@@ -105,40 +110,27 @@ export default ({ id, name }) => {
     <Modal title={name} id={`${id}-wishlist-modal`} padding>
       <BlockStack>
         <BlockStack>
-          {!wishlistItems.length && <>No items</>}
-          {wishlistItems?.map(
-            ({
-              id,
-              variant: {
-                id: variantId,
-                title,
-                price,
-                compareAtPrice,
-                deleted,
-                inventoryQuantity,
-                product: { title: productTitle, status, images, handle },
-              },
-            }) => (
-              <WishlistItemCard
-                key={id}
-                {...{
-                  id,
-                  variantId,
-                  title,
-                  price: formatCurrency(parseFloat(price)),
-                  compareAtPrice:
-                    compareAtPrice &&
-                    formatCurrency(parseFloat(compareAtPrice)),
-                  deleted,
-                  productTitle,
-                  status,
-                  images,
-                  inventoryQuantity,
-                  handle,
-                }}
-              />
-            )
-          )}
+          {!wishlistItems?.length && <>No items</>}
+          {wishlistItems?.map(({ id, variant }) => (
+            <WishlistItemCard
+              key={id}
+              {...{
+                id,
+                variantId: variant?.id,
+                title: variant?.title,
+                price: formatCurrency(parseFloat(variant?.price ?? "0")),
+                compareAtPrice:
+                  variant?.compareAtPrice &&
+                  formatCurrency(parseFloat(variant.compareAtPrice)),
+                deleted: variant?.deleted,
+                productTitle: variant?.product?.title,
+                status: variant?.product?.status,
+                images: variant?.product?.images,
+                inventoryQuantity: variant?.inventoryQuantity,
+                handle: variant?.product?.handle,
+              }}
+            />
+          ))}
         </BlockStack>
         <InlineStack blockAlignment="center" inlineAlignment="end">
           <Button
@@ -152,22 +144,22 @@ export default ({ id, name }) => {
         </InlineStack>
         <InlineStack blockAlignment="center" inlineAlignment="center">
           <Button
-            disabled={!wishlistItems.hasPreviousPage}
+            disabled={!wishlistItems?.hasPreviousPage}
             onPress={getPreviousPage}
             appearance="monochrome"
             kind="plain"
             overlay={
-              wishlistItems.hasPreviousPage && <Tooltip>Previous page</Tooltip>
+              wishlistItems?.hasPreviousPage && <Tooltip>Previous page</Tooltip>
             }
           >
             <Icon source="chevronLeft" appearance="monochrome" />
           </Button>
           <Button
-            disabled={!wishlistItems.hasNextPage}
+            disabled={!wishlistItems?.hasNextPage}
             onPress={getNextPage}
             appearance="monochrome"
             kind="plain"
-            overlay={wishlistItems.hasNextPage && <Tooltip>Next page</Tooltip>}
+            overlay={wishlistItems?.hasNextPage && <Tooltip>Next page</Tooltip>}
           >
             <Icon source="chevronRight" appearance="monochrome" />
           </Button>

@@ -35,7 +35,8 @@ export const run: ActionRun = async ({
       await emails.sendMail({
         to: customer,
         subject: `Your wishlist item is now in stock!`,
-        html: renderEmail("inStock", {
+        html: renderEmail({
+          type: "inStock",
           product: {
             handle: product.handle ?? "",
             title: product.title ?? "",

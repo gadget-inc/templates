@@ -41,9 +41,6 @@ export const run: ActionRun = async ({
   await save(record);
 };
 
-/**
- * @param { CreateShopifyCustomerActionContext } context
- */
 export const onSuccess: ActionOnSuccess = async ({
   params,
   record,

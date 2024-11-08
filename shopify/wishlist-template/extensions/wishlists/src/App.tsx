@@ -62,21 +62,23 @@ function FullPageExtension() {
       <Page
         title="Wishlists"
         primaryAction={
-          <Button overlay={<NewWishlist {...{ wishlists }} />}>New</Button>
+          <Button overlay={<NewWishlist wishlists={wishlists} />}>New</Button>
         }
       >
         <BlockStack>
-          {wishlists?.map(({ id, name, itemCount, image }) => (
-            <WishlistCard
-              key={id}
-              {...{
-                id,
-                name,
-                image,
-                itemCount,
-              }}
-            />
-          ))}
+          {wishlists?.map(({ id, name, itemCount, image }) =>
+            image ? (
+              <WishlistCard
+                key={id}
+                {...{
+                  id,
+                  name,
+                  image,
+                  itemCount: itemCount as number,
+                }}
+              />
+            ) : null
+          )}
         </BlockStack>
       </Page>
     </ShopProvider>

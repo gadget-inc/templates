@@ -10,15 +10,29 @@ import {
 import { api } from "../api";
 import { useCallback, useContext } from "react";
 import { ShopContext } from "../providers";
+import { GadgetRecordList } from "@gadget-client/wishlist-template";
 
-export default ({ wishlists }) => {
+export default ({
+  wishlists,
+}: {
+  wishlists:
+    | GadgetRecordList<{
+        id: string;
+        name: string;
+        image: {
+          url: string;
+        } | null;
+        itemCount: any;
+      }>
+    | undefined;
+}) => {
   const { shop } = useContext(ShopContext);
   const { ui } = useApi();
 
   const {
     control,
     submit,
-    formState: { isDirty, isValid, isSubmitting, isSubmitted, errors },
+    formState: { isDirty, isValid, isSubmitting, errors },
     setError,
   } = useActionForm(api.wishlist.create, {
     defaultValues: {
@@ -50,8 +64,8 @@ export default ({ wishlists }) => {
             render={({ field: { ref, ...fieldProps } }) => (
               <TextField
                 label="Name"
-                onChange={(text) => fieldProps.onChange(text)}
-                {...{ fieldProps }}
+                {...fieldProps}
+                onChange={(text: string) => fieldProps.onChange(text)}
                 maxLength={50}
                 error={errors?.wishlist?.name?.message}
               />

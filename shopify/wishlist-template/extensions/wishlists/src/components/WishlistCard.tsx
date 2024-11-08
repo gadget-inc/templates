@@ -9,9 +9,18 @@ import {
   InlineLayout,
 } from "@shopify/ui-extensions-react/customer-account";
 import WishlistModal from "./WishlistModal.js";
-import { SkeletonThumbnail } from "@shopify/polaris";
 
-export default ({ id, name, image, itemCount }) => {
+export default ({
+  id,
+  name,
+  image,
+  itemCount,
+}: {
+  id: string;
+  name: string;
+  image: { url: string };
+  itemCount: number;
+}) => {
   return (
     <>
       <Pressable overlay={<WishlistModal {...{ id, name }} />}>
@@ -19,7 +28,7 @@ export default ({ id, name, image, itemCount }) => {
           <BlockStack spacing="loose">
             <InlineLayout blockAlignment="center" columns={["fill", "20%"]}>
               <InlineStack blockAlignment="center">
-                <ProductThumbnail source={image?.url || SkeletonThumbnail} />
+                <ProductThumbnail source={image?.url || ""} />
                 <Heading>{name}</Heading>
               </InlineStack>
               <InlineStack inlineAlignment="end">

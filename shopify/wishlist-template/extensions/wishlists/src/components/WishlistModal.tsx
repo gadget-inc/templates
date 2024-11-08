@@ -121,11 +121,11 @@ export default ({ id, name }: { id: string; name: string }) => {
                 price: formatCurrency(parseFloat(variant?.price ?? "0")),
                 compareAtPrice:
                   variant?.compareAtPrice &&
-                  formatCurrency(parseFloat(variant.compareAtPrice)),
+                  formatCurrency(parseFloat(variant.compareAtPrice ?? "0")),
                 deleted: variant?.deleted,
                 productTitle: variant?.product?.title,
                 status: variant?.product?.status,
-                images: variant?.product?.images,
+                image: variant?.product?.images?.edges?.[0]?.node,
                 inventoryQuantity: variant?.inventoryQuantity,
                 handle: variant?.product?.handle,
               }}

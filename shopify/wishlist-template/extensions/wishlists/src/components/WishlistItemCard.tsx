@@ -15,6 +15,7 @@ import { api } from "../api";
 import { useAction } from "@gadgetinc/react";
 import { useCallback, useContext } from "react";
 import { ShopContext } from "../providers";
+import { ShopifyProductStatusEnum } from "@gadget-client/wishlist-template";
 
 export default ({
   id,
@@ -22,12 +23,29 @@ export default ({
   price,
   compareAtPrice,
   productTitle,
-  images,
+  image,
   deleted,
   status,
   inventoryQuantity,
   handle,
   variantId,
+}: {
+  id: string;
+  variantId: string | undefined;
+  title: string | null | undefined;
+  price: string;
+  compareAtPrice: string | null | undefined;
+  deleted: boolean | undefined;
+  productTitle: string | null | undefined;
+  status: ShopifyProductStatusEnum | undefined;
+  image:
+    | {
+        source: string | null;
+        alt: string | null;
+      }
+    | undefined;
+  inventoryQuantity: number | null | undefined;
+  handle: string | null | undefined;
 }) => {
   const { shop } = useContext(ShopContext);
   const { navigate } = useNavigation();
@@ -48,8 +66,8 @@ export default ({
         <InlineLayout blockAlignment="start" columns={["fill", "20%"]}>
           <InlineStack>
             <ProductThumbnail
-              source={images?.edges[0]?.node?.source || ""}
-              alt={images?.edges[0]?.node?.alt || "thumbnail stand-in"}
+              source={image?.source ?? ""}
+              alt={image?.alt ?? "thumbnail stand-in"}
             />
             <BlockStack spacing="extraTight">
               <HeadingGroup>

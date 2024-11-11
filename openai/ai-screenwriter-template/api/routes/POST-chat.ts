@@ -1,7 +1,7 @@
 import { RouteContext } from "gadget-server";
 import { openAIResponseStream } from "gadget-server/ai";
 
-export type ChatRequestBody = {
+type ChatRequestBody = {
   quote: string;
   movie: string;
 };

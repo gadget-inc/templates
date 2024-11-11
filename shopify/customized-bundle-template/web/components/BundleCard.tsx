@@ -71,7 +71,7 @@ export default ({
 
   // Memoize the products array based on the bundle components array
   const products = useMemo(() => {
-    const tempObj: {
+    const obj = (bundleComponents?.edges || []).reduce<{
       [key: string]: {
         id: string;
         title: string | null | undefined;
@@ -83,20 +83,18 @@ export default ({
           price: string | null | undefined;
         }>;
       };
-    } = {};
+    }>((acc, { node }) => {
+      const { quantity, productVariant } = node;
+      const {
+        id: variantId,
+        title: variantTitle,
+        price: variantPrice,
+      } = productVariant || {};
+      const { id, title, images } = productVariant?.product || {};
 
-    if (bundleComponents) {
-      for (const { node } of bundleComponents.edges) {
-        const { quantity, productVariant } = node;
-        const {
-          id: variantId,
-          title: variantTitle,
-          price: variantPrice,
-        } = productVariant || {};
-        const { id, title, images } = productVariant?.product || {};
-
-        if (id && !tempObj[id]) {
-          tempObj[id] = {
+      if (id) {
+        if (!acc[id]) {
+          acc[id] = {
             id,
             title,
             image: images?.edges[0]?.node?.source ?? "",
@@ -109,8 +107,8 @@ export default ({
               },
             ],
           };
-        } else if (id) {
-          tempObj[id].variants.push({
+        } else {
+          acc[id].variants.push({
             id: variantId,
             title: variantTitle,
             quantity,
@@ -118,9 +116,11 @@ export default ({
           });
         }
       }
-    }
 
-    return Object.values(tempObj);
+      return acc;
+    }, {});
+
+    return Object.values(obj);
   }, [bundleComponents]);
 
   return (

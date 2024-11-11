@@ -1,4 +1,5 @@
 import { GadgetRecord, Movie } from "@gadget-client/ai-screenwriter-template";
+import { ActionOptions } from "gadget-server";
 
 type HuggingFaceMovie = {
   row: {
@@ -59,4 +60,4 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     await api.internal.movie.bulkCreate(movies);
   }
 };
-export const options = { triggers: { api: true } };
+export const options: ActionOptions = { triggers: { api: true } };

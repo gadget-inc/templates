@@ -9,7 +9,7 @@ import { useFetch } from "@gadgetinc/react";
 import { api } from "../api";
 import { nanoid } from "nanoid";
 import { orderBy } from "lodash";
-import { Chat, Message } from "@gadget-client/chatgpt-template";
+import { Chat, GadgetRecord, Message } from "@gadget-client/chatgpt-template";
 
 type Reducer = {
   chats: ChatSubset[] | undefined | null;
@@ -156,8 +156,8 @@ export const ChatProvider = ({ children }: { children: React.ReactNode }) => {
           createdAt: "Descending",
         },
       })
-      .then((chats: any) => {
-        dispatch({ type: "setChats", payload: chats });
+      .then((chats) => {
+        dispatch({ type: "setChats", payload: chats as any as ChatSubset[] });
       })
       .catch((error) => {
         console.log("unable to load chats: ", error);

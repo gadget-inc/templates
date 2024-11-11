@@ -8,7 +8,6 @@ import {
   Button,
   ButtonGroup,
   Card,
-  Form,
   FormLayout,
   InlineStack,
   Layout,
@@ -26,7 +25,7 @@ const SkeletonForm = () => {
   return (
     <Card>
       <SkeletonPage primaryAction>
-        <Form onSubmit={() => {}}>
+        <Card>
           <FormLayout>
             <SkeletonDisplayText size="small" />
             <SkeletonBodyText lines={1} />
@@ -56,7 +55,7 @@ const SkeletonForm = () => {
               </Card>
             </BlockStack>
           </FormLayout>
-        </Form>
+        </Card>
       </SkeletonPage>
     </Card>
   );

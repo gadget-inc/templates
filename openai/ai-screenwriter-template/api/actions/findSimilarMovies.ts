@@ -1,3 +1,5 @@
+import { ActionOptions } from "gadget-server";
+
 export const run: ActionRun = async ({
   params,
   logger,
@@ -43,4 +45,4 @@ export const run: ActionRun = async ({
 export const params = {
   quote: { type: "string" },
 };
-export const options = { triggers: { api: true } };
+export const options: ActionOptions = { triggers: { api: true } };

@@ -6,8 +6,12 @@ import {
 } from "@gadgetinc/react";
 import { api } from "../api";
 import { useState } from "react";
-import { ChatRequestBody } from "../../api/routes/POST-chat";
 import { GadgetRecord } from "@gadget-client/ai-screenwriter-template";
+
+type ChatRequestBody = {
+  quote: string;
+  movie: string;
+};
 
 export default function () {
   // see if movie data exists in the database!

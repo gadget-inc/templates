@@ -65,7 +65,13 @@ export default () => {
   const navigate = useNavigate();
   const { bundleId } = useParams();
 
-  const formContext = useActionForm(api.bundle.update, {
+  const {
+    submit,
+    formState: { isSubmitting, isValid, isLoading, isValidating, isDirty },
+    setError,
+    getValues,
+    originalFormMethods,
+  } = useActionForm(api.bundle.update, {
     findBy: bundleId,
     mode: "onBlur",
     select: {
@@ -107,18 +113,18 @@ export default () => {
 
   // A special handler for form submission that displays an error if the title already exists or redirects to the homepage
   const updateBundle = useCallback(async () => {
-    const { data, error } = await formContext.submit();
+    const { data, error } = await submit();
 
     if (data) {
       navigate("/");
     } else {
       if (error?.message && /\btitle\b/.test(error.message))
-        formContext.setError("bundle.title", {
+        setError("bundle.title", {
           message: "A bundle with this title already exists",
           type: "submissionError",
         });
     }
-  }, [formContext.submit]);
+  }, [submit]);
 
   // Redirects to the homepage if the bundle was successfully deleted
   useEffect(() => {
@@ -132,25 +138,25 @@ export default () => {
       inForm
       submit={updateBundle}
       saveDisabled={
-        formContext.formState.isSubmitting ||
-        !formContext.formState.isDirty ||
-        !formContext.formState.isValid ||
-        formContext.formState.isLoading ||
-        formContext.formState.isValidating ||
+        isSubmitting ||
+        !isDirty ||
+        !isValid ||
+        isLoading ||
+        isValidating ||
         // Disables the save button if there are no bundle components
-        !formContext.getValues("bundle.bundleComponents")?.length
+        !getValues("bundle.bundleComponents")?.length
       }
     >
       <Layout sectioned>
         <Layout.Section>
-          {formContext.formState.isLoading ? (
+          {isLoading ? (
             <SkeletonForm />
           ) : (
             <Card>
               <BlockStack gap="500">
                 <InlineStack wrap={false} align="space-between">
                   <Text as="h2" variant="headingLg">
-                    {formContext.getValues("bundle.title") ?? ""}
+                    {getValues("bundle.title") ?? ""}
                   </Text>
                   <ButtonGroup>
                     <Button
@@ -162,7 +168,7 @@ export default () => {
                     </Button>
                   </ButtonGroup>
                 </InlineStack>
-                <FormProvider {...formContext.originalFormMethods}>
+                <FormProvider {...originalFormMethods}>
                   <BundleForm updateForm />
                 </FormProvider>
               </BlockStack>

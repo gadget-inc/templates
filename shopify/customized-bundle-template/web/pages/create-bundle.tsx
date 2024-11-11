@@ -11,7 +11,13 @@ export default () => {
   const { shop }: { shop?: ShopContextType } = useContext(ShopContext);
   const navigate = useNavigate();
 
-  const formContext = useActionForm(api.bundle.create, {
+  const {
+    submit,
+    setError,
+    formState: { isSubmitting, isDirty, isValid },
+    originalFormMethods,
+    getValues,
+  } = useActionForm(api.bundle.create, {
     mode: "onBlur",
     defaultValues: {
       bundle: {
@@ -27,29 +33,29 @@ export default () => {
 
   // A special handler for form submission that displays an error if the title already exists or redirects to the homepage
   const createBundle = useCallback(async () => {
-    const { data, error } = await formContext.submit();
+    const { data, error } = await submit();
 
     if (data) {
       navigate("/");
     } else {
       if (error?.message && /\btitle\b/.test(error.message))
-        formContext.setError("bundle.title", {
+        setError("bundle.title", {
           message: "A bundle with this title already exists",
           type: "submissionError",
         });
     }
-  }, [formContext.submit]);
+  }, [submit]);
 
   return (
     <PageTemplate
       inForm
       submit={createBundle}
       saveDisabled={
-        formContext.formState.isSubmitting ||
-        !formContext.formState.isDirty ||
-        !formContext.formState.isValid ||
+        isSubmitting ||
+        !isDirty ||
+        !isValid ||
         // Disables the save button if there are no bundle components
-        !formContext.getValues("bundle.bundleComponents").length
+        !getValues("bundle.bundleComponents").length
       }
     >
       <Layout sectioned>
@@ -59,7 +65,7 @@ export default () => {
               <Text as="h2" variant="headingLg">
                 Create a bundle
               </Text>
-              <FormProvider {...formContext.originalFormMethods}>
+              <FormProvider {...originalFormMethods}>
                 <BundleForm />
               </FormProvider>
             </BlockStack>

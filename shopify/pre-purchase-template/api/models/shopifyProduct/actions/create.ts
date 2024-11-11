@@ -16,7 +16,7 @@ export const onSuccess: ActionOnSuccess = async ({
   record,
   logger,
   api,
-}) => {};
+}) => { };
 
 export const options: ActionOptions = {
   actionType: "create",

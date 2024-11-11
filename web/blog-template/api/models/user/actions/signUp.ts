@@ -1,20 +1,18 @@
-import {
-  applyParams,
-  save,
-  ActionOptions,
-  SignUpUserActionContext,
-} from "gadget-server";
+import { applyParams, save, ActionOptions } from "gadget-server";
 import { checkForSingleUser } from "../utils/userCheck";
 
-/**
- * @param { SignUpUserActionContext } context
- */
-export async function run({ params, record, logger, api, session }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  session,
+}) => {
   applyParams(params, record);
   record.lastSignedIn = new Date();
 
   // This assures that there will only be one user able to log in to create posts
-  const doesUserExist = await checkForSingleUser({ api });
+  const doesUserExist = await checkForSingleUser();
   if (!doesUserExist) {
     await save(record);
     // associate the current user record with the active session
@@ -25,22 +23,23 @@ export async function run({ params, record, logger, api, session }) {
       result: "ok",
     };
   } else {
-    throw new Error("User not authorized - check with app owner")
+    throw new Error("User not authorized - check with app owner");
   }
-}
+};
 
-/**
- * @param { SignUpUserActionContext } context
- */
-export async function onSuccess({ params, record, logger, api }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+}) => {
   // sends the user a verification email if they have not yet verified
   if (!record.emailVerified) {
     await api.user.sendVerifyEmail({ email: record.email });
   }
-}
+};
 
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "create",
   returnType: true,
   triggers: {

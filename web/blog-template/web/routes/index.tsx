@@ -17,7 +17,15 @@ import ChakraUIRenderer from "chakra-ui-markdown-renderer";
 import ReactMarkdown from "react-markdown";
 
 export default () => {
-  const [displayPosts, setDisplayPosts] = useState([]);
+  const [displayPosts, setDisplayPosts] = useState<
+    {
+      id: string;
+      show: boolean;
+      title: string;
+      updatedAt: Date;
+      content: { markdown: string };
+    }[]
+  >([]);
 
   // the useFindMany hook is used to read blog posts from the backend API
   const [{ data: posts, fetching, error }] = useFindMany(api.post, {
@@ -30,12 +38,18 @@ export default () => {
   // a "show" property is added to each post to track whether the post should be expanded or collapsed
   useEffect(() => {
     if (posts) {
-      setDisplayPosts(posts.map((post) => ({ ...post, show: false })));
+      setDisplayPosts(
+        posts.map((post) => ({
+          ...post,
+          show: false,
+          content: post.content ?? { markdown: "" },
+        }))
+      );
     }
   }, [posts]);
 
   // toggle post visibility
-  const toggleShow = (id) => {
+  const toggleShow = (id: string) => {
     setDisplayPosts(
       displayPosts.map((post) =>
         post.id === id ? { ...post, show: !post.show } : post
@@ -44,7 +58,7 @@ export default () => {
   };
 
   return (
-    <Container maxW="90vw" py="15" center>
+    <Container maxW="90vw" py="15">
       <Box mt="5" textAlign="left">
         {error && (
           <Alert status="error">

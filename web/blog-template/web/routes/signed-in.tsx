@@ -15,14 +15,29 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { api } from "../api";
 import { useAction, useFindMany } from "@gadgetinc/react";
 import { PostForm } from "../components";
+import { GadgetRecord } from "@gadget-client/blog-template";
+
+export type PostToEdit = GadgetRecord<{
+  __typename: "Post";
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  content: {
+    markdown: string;
+    truncatedHTML: string;
+  } | null;
+  userId: string | null;
+  title: string;
+  isPublished: boolean | null;
+}> | null;
 
 export default () => {
   // state for the post that is being published
   const [dirtyPost, setDirtyPost] = useState("");
   // state for the post being edited
-  const [postToEdit, setPostToEdit] = useState(null);
+  const [postToEdit, setPostToEdit] = useState<PostToEdit>(null);
   // state for error messages
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   // the useFindMany hook reads all posts
   const [
@@ -41,12 +56,13 @@ export default () => {
     setErrorMessage(
       publishError?.message ||
         deleteError?.message ||
-        errorFetchingPosts?.message
+        errorFetchingPosts?.message ||
+        ""
     );
   }, [errorFetchingPosts, publishError, deleteError]);
 
   // toggle the isPublished field of a post by updating the record
-  const changePublished = async (id, currentState) => {
+  const changePublished = async (id: string, currentState: boolean | null) => {
     setDirtyPost(id);
 
     await changePublishState({
@@ -94,7 +110,7 @@ export default () => {
                   borderRadius="4px"
                 >
                   <Switch
-                    isChecked={post.isPublished}
+                    isChecked={post?.isPublished ?? undefined}
                     onChange={() => changePublished(post.id, post.isPublished)}
                     disabled={
                       (isPublishing || isDeleting) && dirtyPost === post.id
@@ -105,19 +121,21 @@ export default () => {
                   </Text>
                   <IconButton
                     variant="link"
+                    aria-label="Edit post"
                     icon={<EditIcon />}
                     onClick={() => setPostToEdit(post)}
                     isDisabled={isDeleting && dirtyPost === post.id}
                   />
                   <IconButton
                     variant="link"
+                    aria-label="Delete post"
                     icon={<DeleteIcon />}
                     colorScheme="red"
                     onClick={async () => {
                       setDirtyPost(post.id);
                       await deletePost({ id: post.id });
 
-                      if (postToEdit.id === post.id) {
+                      if (postToEdit?.id === post.id) {
                         setPostToEdit(null);
                       }
                     }}

@@ -1365,10 +1365,10 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/react@^0.17.2":
-  version "0.17.2"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.17.2.tgz#4b4877faf9f181e359fbb31b9c6a9326458a28ce"
-  integrity sha512-y1TGXSlbtVj2ftksF5xSZTPvarXBVMJWJNr3sFeS9iWtuTHpBZvGaKNLIdfQ8bQT2SVhV3HUH+6j9BjmdQN1Lw==
+"@gadgetinc/react@^0.18.1":
+  version "0.18.1"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.1.tgz#8e060f6241b8baca20ed584c5d8b4da1b1bd1883"
+  integrity sha512-kzbFt4CGV4zhy6gqEiN3xHqFKVVkLXxXU3nioC+owLyEuQ2ajCSTPClvTkg0Ju8nOclTqEx5JVdkieKQqk6+0Q==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@gadgetinc/api-client-core" "^0.15.33"

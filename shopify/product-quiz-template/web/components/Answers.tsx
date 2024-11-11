@@ -10,7 +10,7 @@ import {
   FormLayout,
 } from "@shopify/polaris";
 import { Fragment } from "react";
-import { useFieldArray, Controller } from "@gadgetinc/react";
+import { useFieldArray, Controller, useFormContext } from "@gadgetinc/react";
 import { PlusCircleIcon, XCircleIcon, ImageIcon } from "@shopify/polaris-icons";
 
 const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
@@ -33,7 +33,13 @@ const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
   ) : undefined;
 };
 
-export default ({ name, questionIndex, products, control, errors, watch }) => {
+export default ({ name, questionIndex, products }) => {
+  const {
+    control,
+    formState: { errors },
+    watch,
+  } = useFormContext();
+
   const {
     fields: answers,
     append: addAnswer,

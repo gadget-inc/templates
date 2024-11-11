@@ -150,7 +150,6 @@ export default ({
                 name={`quiz.questions.${i}.answers`}
                 questionIndex={i}
                 products={productsResponse.data}
-                {...{ control, errors, getValues, watch }}
               />
             </BlockStack>
           </Card>

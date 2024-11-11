@@ -31,7 +31,7 @@ export const run: ActionRun = async ({
       const today = new Date();
 
       // Check for trial availability
-      const { usedTrialMinutes, availableTrialDays } = trialCalculations(
+      const { usedTrialMinutes } = trialCalculations(
         record.usedTrialMinutes,
         record.usedTrialMinutesUpdatedAt,
         today,
@@ -41,11 +41,6 @@ export const run: ActionRun = async ({
       if (!planMatch.monthlyPrice) {
         throw new Error("ZERO COST PLAN - The price of a plan cannot be zero");
       }
-
-      logger.info(
-        { env: process.env.NODE_ENV === "production" ? "false" : "true" },
-        "HERE"
-      );
 
       /**
        * Create subscription record in Shopify

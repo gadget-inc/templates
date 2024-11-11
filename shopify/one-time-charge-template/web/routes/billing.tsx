@@ -60,9 +60,9 @@ export default () => {
               <AutoButton
                 action={api.shopifyShop.subscribe}
                 disabled={disabled}
-                onSuccess={(res) => {
+                onSuccess={({ data }) => {
                   setDisabled(true);
-                  open(res.data.confirmationUrl, "_top");
+                  open(data.confirmationUrl, "_top");
                 }}
                 variables={{ id: shop?.id ?? "" }}
                 children={"Buy now"}

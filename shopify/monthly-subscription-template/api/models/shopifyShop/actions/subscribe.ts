@@ -47,8 +47,8 @@ export const run: ActionRun = async ({
        * Shopify requires that the price of a subscription be non-zero. This template does not currently support free plans
        */
       const result = await connections.shopify.current?.graphql(
-        `mutation ($name: String!, $lineItems: [AppSubscriptionLineItemInput!]!, $returnUrl: URL!) {
-          appSubscriptionCreate(name: $name, returnUrl: $returnUrl, lineItems: $lineItems) {
+        `mutation ($name: String!, $lineItems: [AppSubscriptionLineItemInput!]!, $returnUrl: URL!, $test: Boolean!) {
+          appSubscriptionCreate(name: $name, returnUrl: $returnUrl, lineItems: $lineItems, test: $test) {
             userErrors {
               message
             }

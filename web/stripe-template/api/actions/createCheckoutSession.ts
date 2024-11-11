@@ -1,18 +1,22 @@
-import {
-  ActionOptions,
-  CreateCheckoutSessionGlobalActionContext,
-} from "gadget-server";
+import { ActionOptions } from "gadget-server";
 import { stripe } from "../stripe";
 
 /**
- * @param { CreateCheckoutSessionGlobalActionContext } context
  * Card numbers for testing
  * Successful payment (no auth): 4242 4242 4242 4242
  * Successful payment: 4000 0025 0000 3155
  * Failed payment with insufficient funds: 4000 0000 0000 9995
  * More available at https://docs.stripe.com/testing?testing-method=card-numbers
  */
-export async function run({ params, api, currentAppUrl, session, logger }) {
+export const run: ActionRun = async ({
+  params,
+  api,
+  currentAppUrl,
+  session,
+  logger,
+}) => {
+  if (!session) throw new Error("No session found");
+
   const stripeSession = await stripe.checkout.sessions.create({
     billing_address_collection: "auto",
     line_items: [
@@ -30,11 +34,10 @@ export async function run({ params, api, currentAppUrl, session, logger }) {
 
   // return the session url back to the frontend
   return stripeSession.url;
-}
+};
 
 export const params = {
   priceId: { type: "string" },
 };
 
-/** @type { ActionOptions } */
-export const options = {};
+export const options: ActionOptions = {};

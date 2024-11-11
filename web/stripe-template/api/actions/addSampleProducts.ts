@@ -1,10 +1,6 @@
-import { AddSampleProductsGlobalActionContext } from "gadget-server";
 import { stripe } from "../stripe";
 
-/**
- * @param { AddSampleProductsGlobalActionContext } context
- */
-export async function run({ params, logger, api, connections }) {
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
   // amount fields are in cents, as per Stripe's Product API: https://stripe.com/docs/api/products/create
   await createProduct({
     name: "Basic",
@@ -18,9 +14,17 @@ export async function run({ params, logger, api, connections }) {
   });
 
   return true;
-}
+};
 
-async function createProduct({ name, monthlyAmount, annualAmount }) {
+async function createProduct({
+  name,
+  monthlyAmount,
+  annualAmount,
+}: {
+  name: string;
+  monthlyAmount: number;
+  annualAmount: number;
+}) {
   const product = await stripe.products.create({
     name,
   });

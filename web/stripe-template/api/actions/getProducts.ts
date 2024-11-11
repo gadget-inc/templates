@@ -1,10 +1,8 @@
-import { GetProductsGlobalActionContext } from "gadget-server";
 import { stripe } from "../stripe";
 
-/**
- * @param { GetProductsGlobalActionContext } context
- */
-export async function run({ params, logger, api, connections }) {
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
+  if (!params.userId) throw new Error("No userId provided");
+
   const user = await api.user.maybeFindOne(params.userId, {
     select: {
       stripeCustomerId: true,
@@ -29,19 +27,33 @@ export async function run({ params, logger, api, connections }) {
     active: true,
   });
 
-  const products = {};
+  logger.info({ prices }, "PRICES");
+
+  const products: {
+    [key: string]: {
+      name: string;
+      id: string;
+      prices: {
+        id: string;
+        unitAmount: number;
+        interval: string;
+        lookupKey: string;
+        current: boolean;
+      }[];
+    };
+  } = {};
 
   for (const price of prices.data) {
     if (!products[price.product.id]) {
       products[price.product.id] = {
-        name: price.product.name,
+        name: price.product.name ?? "",
         id: price.product.id,
         prices: [
           {
             id: price.id,
-            unitAmount: price.unit_amount,
-            interval: price.recurring.interval,
-            lookupKey: price.lookup_key,
+            unitAmount: price.unit_amount ?? 0,
+            interval: price.recurring?.interval ?? "",
+            lookupKey: price.lookup_key ?? "",
             current: currentSubscriptionPriceId === price.id,
           },
         ],
@@ -49,16 +61,16 @@ export async function run({ params, logger, api, connections }) {
     } else {
       products[price.product.id].prices.push({
         id: price.id,
-        unitAmount: price.unit_amount,
-        interval: price.recurring.interval,
-        lookupKey: price.lookup_key,
+        unitAmount: price.unit_amount ?? 0,
+        interval: price.recurring?.interval ?? "",
+        lookupKey: price.lookup_key ?? "",
         current: currentSubscriptionPriceId === price.id,
       });
     }
   }
 
   return Object.values(products);
-}
+};
 
 export const params = {
   userId: {

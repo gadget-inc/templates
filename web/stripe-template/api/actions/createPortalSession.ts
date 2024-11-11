@@ -1,16 +1,17 @@
-import { ActionOptions, CreatePortalSessionGlobalActionContext } from "gadget-server";
+import { ActionOptions } from "gadget-server";
 import { stripe } from "../stripe";
 
-/**
- * @param { CreatePortalSessionGlobalActionContext } context
- */
-export async function run({ api, currentAppUrl, session }) {
+export const run: ActionRun = async ({ api, currentAppUrl, session }) => {
+  if (!session) throw new Error("No session found");
+
   // get the Gadget userId
   const userId = session.get("user");
 
   const user = await api.user.findOne(userId);
   // get the Stripe customer id stored on user
   const customerId = user.stripeCustomerId;
+
+  if (!customerId) throw new Error("No Stripe customer found");
 
   const portalSession = await stripe.billingPortal.sessions.create({
     customer: customerId,
@@ -20,5 +21,4 @@ export async function run({ api, currentAppUrl, session }) {
   return portalSession.url;
 };
 
-/** @type { ActionOptions } */
-export const options = {};
+export const options: ActionOptions = {};

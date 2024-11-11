@@ -3,7 +3,7 @@ import { differenceInMinutes } from "date-fns";
 // A function used to return trial information for the current shop
 export default (
   usedTrialMinutes = 0,
-  trialStartedAt: Date,
+  trialStartedAt: Date | null,
   today: Date,
   defaultTrialDays: number
 ) => {

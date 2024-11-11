@@ -62,7 +62,7 @@ export default ({
                 description: `${
                   trialCalculations(
                     shop?.usedTrialMinutes,
-                    shop?.trialStartedAt as Date,
+                    shop?.trialStartedAt,
                     new Date(),
                     trialDays
                   ).availableTrialDays

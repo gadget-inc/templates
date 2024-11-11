@@ -4,6 +4,18 @@ import { api } from "../api";
 import ProductCard from "../components/ProductCard";
 import { UserContext } from "../providers";
 
+export type Product = {
+  name: string;
+  id: string;
+  prices: {
+    id: string;
+    unitAmount: number;
+    interval: string;
+    lookupKey: string;
+    current: boolean;
+  }[];
+};
+
 export default () => {
   const { user } = useContext(UserContext);
   const [toggled, setToggled] = useState(false);
@@ -22,7 +34,7 @@ export default () => {
   );
 
   useEffect(() => {
-    void getProducts({ userId: user.id });
+    void getProducts({ userId: user?.id });
   }, []);
 
   useEffect(() => {
@@ -31,7 +43,7 @@ export default () => {
 
   useEffect(() => {
     if (!creatingSampleProducts && sampleProductsAdded) {
-      void getProducts({ userId: user.id });
+      void getProducts({ userId: user?.id });
     }
   }, [sampleProductsAdded, creatingSampleProducts]);
 
@@ -81,7 +93,7 @@ export default () => {
         </div>
 
         <section className="section-stripe-products">
-          {products
+          {(products as Product[])
             ?.sort((a, b) => a.prices[0].unitAmount - b.prices[0].unitAmount)
             .map((product, i) => (
               <ProductCard

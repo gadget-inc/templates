@@ -2,26 +2,26 @@ import { RouteContext } from "gadget-server";
 import { getStripeWebhookEvent } from "../../stripe";
 import { objKeyConvert, destructure } from "../../utils";
 
-/**
- * Route handler for POST webhook/subscription
- *
- * @param { RouteContext } route context - see: https://docs.gadget.dev/guides/http-routes/route-configuration#route-context
- *
- */
+export type StripeWebhookEvent = {
+  type: string;
+  data: {
+    object: any;
+  };
+};
+
 export default async function route({
   request,
   reply,
   api,
   logger,
   connections,
-}) {
-  let event = request.body;
+}: RouteContext) {
+  let event = request.body as StripeWebhookEvent;
 
   try {
     event = getStripeWebhookEvent({
-      logger,
       request: request,
-      endpointSecret: process.env.STRIPE_SUBSCRIPTION_WEBHOOK_SECRET,
+      endpointSecret: String(process.env.STRIPE_SUBSCRIPTION_WEBHOOK_SECRET),
     });
   } catch (err) {
     return await reply.status(400).send();

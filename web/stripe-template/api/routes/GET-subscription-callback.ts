@@ -1,11 +1,6 @@
 import { RouteContext } from "gadget-server";
 import { stripe } from "../stripe";
 
-/**
- * Route handler for GET subscription-callback
- *
- * @param { RouteContext } route context - see: https://docs.gadget.dev/guides/http-routes/route-configuration#route-context
- */
 export default async function route({
   request,
   reply,
@@ -13,21 +8,27 @@ export default async function route({
   logger,
   connections,
   currentAppUrl,
-}) {
-  const { query } = request;
+}: RouteContext) {
+  const { session_id, user_id } = request.query as {
+    session_id: string;
+    user_id: string;
+  };
 
-  const checkoutSession = await stripe.checkout.sessions.retrieve(
-    query.session_id
-  );
+  const checkoutSession = await stripe.checkout.sessions.retrieve(session_id);
 
-  logger.info({ checkoutSession }, "checkoutSession");
+  const stripeCustomerId = checkoutSession.customer as string;
 
-  const stripeCustomerId = checkoutSession.customer;
-
-  const updatedUser = { stripeCustomerId };
+  const updatedUser: {
+    stripeCustomerId?: string;
+    stripeSubscription?: {
+      update: {
+        id: string;
+      };
+    };
+  } = { stripeCustomerId };
 
   const subscription = await api.stripe.subscription.maybeFindFirst({
-    filter: { userId: { equals: query.user_id }, status: { equals: "active" } },
+    filter: { userId: { equals: user_id }, status: { equals: "active" } },
     select: { stripeId: true },
   });
 
@@ -49,7 +50,7 @@ export default async function route({
     };
   }
 
-  await api.user.update(query.user_id, updatedUser);
+  await api.user.update(user_id, updatedUser);
 
   await reply.redirect(`${currentAppUrl}signed-in`);
 }

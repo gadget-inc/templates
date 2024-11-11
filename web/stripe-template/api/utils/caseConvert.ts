@@ -1,11 +1,11 @@
-const snakeToCamel = (str) =>
+const snakeToCamel = (str: string) =>
   str
     .toLowerCase()
     .replace(/([-_][a-z])/g, (group) =>
       group.toUpperCase().replace("-", "").replace("_", "")
     );
 
-const handleStripeKeys = (key, value) => {
+const handleStripeKeys = (key: string, value: any) => {
   let stripeKey = key,
     stripeValue = value;
 
@@ -27,8 +27,8 @@ const handleStripeKeys = (key, value) => {
 /**
  * Used to convert snake_case data coming from Stripe to camelCase. Date/time fields are converted, and stripe "id" fields are changed to "stripeId"
  */
-export const objKeyConvert = (obj) =>
-  Object.entries(obj).reduce((final, [key, value]) => {
+export const objKeyConvert = (obj: any) =>
+  Object.entries(obj).reduce((final: { [key: string]: any }, [key, value]) => {
     let camelKey = snakeToCamel(key);
     let [k, v] = handleStripeKeys(camelKey, value);
 
@@ -38,7 +38,8 @@ export const objKeyConvert = (obj) =>
   }, {});
 
 // Removes additional fields from events
-export const destructure = ({ topic, obj }) => {
+export const destructure = ({ topic, obj }: { topic: string; obj: any }) => {
+  // Change from any to
   switch (topic) {
     case "subscription":
       return Object.fromEntries(

@@ -4,14 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { useEffect } from "react";
 
-export const UserContext = createContext({});
+type UserContextType = {
+  user?: {
+    id: string;
+    stripeCustomerId: string | null;
+  };
+};
 
-/**
- * @param { children: import("react").ReactNode } props The props passed to the React functional component
- *
- * @returns { import("react").ReactElement } A React functional component
- */
-export default ({ children }) => {
+export const UserContext = createContext<UserContextType>({});
+
+export default ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const userNonce = useUser();
 

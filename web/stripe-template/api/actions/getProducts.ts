@@ -1,5 +1,29 @@
 import { stripe } from "../stripe";
 
+type StripeProduct = {
+  active: true;
+  attributes: [];
+  created: number;
+  default_price: number | null;
+  description: string | null;
+  features: [];
+  id: string;
+  images: [];
+  livemode: boolean;
+  marketing_features: [];
+  metadata: {};
+  name: string;
+  object: "product";
+  package_dimensions: string | null;
+  shippable: boolean | null;
+  statement_descriptor: null;
+  tax_code: null;
+  type: string | null;
+  unit_label: string | null;
+  updated: number;
+  url: string | null;
+};
+
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
   if (!params.userId) throw new Error("No userId provided");
 
@@ -44,10 +68,10 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   } = {};
 
   for (const price of prices.data) {
-    if (!products[price.product.id]) {
-      products[price.product.id] = {
-        name: price.product.name ?? "",
-        id: price.product.id,
+    if (!products[(price.product as StripeProduct).id]) {
+      products[(price.product as StripeProduct).id] = {
+        name: (price.product as StripeProduct).name ?? "",
+        id: (price.product as StripeProduct).id,
         prices: [
           {
             id: price.id,
@@ -59,7 +83,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
         ],
       };
     } else {
-      products[price.product.id].prices.push({
+      products[(price.product as StripeProduct).id].prices.push({
         id: price.id,
         unitAmount: price.unit_amount ?? 0,
         interval: price.recurring?.interval ?? "",

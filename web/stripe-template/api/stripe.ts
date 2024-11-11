@@ -1,19 +1,31 @@
 import Stripe from "stripe";
-import { logger } from "gadget-server";
+import { logger, RouteContext } from "gadget-server";
+import { StripeWebhookEvent } from "./routes/webhook/POST-subscription";
 
-export const stripe = new Stripe(process.env.STRIPE_API_KEY);
+export const stripe = new Stripe(String(process.env.STRIPE_API_KEY));
 
-export function getStripeWebhookEvent({ request, endpointSecret }) {
-  let event = request.body;
+export function getStripeWebhookEvent({
+  request,
+  endpointSecret,
+}: {
+  request: RouteContext["request"];
+  endpointSecret: string;
+}) {
+  let event = request.body as StripeWebhookEvent;
 
   if (endpointSecret) {
     // Get the signature sent by Stripe
     const signature = request.headers["stripe-signature"];
 
+    logger.info(
+      { signature, signatureType: typeof signature },
+      "Stripe signature"
+    );
+
     try {
       event = stripe.webhooks.constructEvent(
-        request.body,
-        signature,
+        String(request.body),
+        String(signature),
         endpointSecret
       );
     } catch (err) {

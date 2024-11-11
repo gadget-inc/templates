@@ -1,20 +1,25 @@
-import { deleteRecord, ActionOptions, DeleteUserActionContext } from "gadget-server";
+import { deleteRecord, ActionOptions } from "gadget-server";
 
-/**
- * @param { DeleteUserActionContext } context
- */
-export async function run({ params, record, logger, api, connections }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   await deleteRecord(record);
 };
 
-/**
- * @param { DeleteUserActionContext } context
- */
-export async function onSuccess({ params, record, logger, api, connections }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   // Your logic goes here
 };
 
-/** @type { ActionOptions } */
-export const options = {
-  actionType: "delete"
+export const options: ActionOptions = {
+  actionType: "delete",
 };

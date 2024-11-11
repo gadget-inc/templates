@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, SyntheticEvent } from "react";
 import { api } from "../api";
 import { useGlobalAction } from "@gadgetinc/react";
 import Logo from "../components/Logo";
@@ -13,7 +13,7 @@ export default function () {
   const [{ data: stripePortalUrl, error }, createPortalSession] =
     useGlobalAction(api.createPortalSession);
 
-  const submit = useCallback(async (e) => {
+  const submit = useCallback(async (e: SyntheticEvent) => {
     e.preventDefault();
     // call the createPortalSession global action
     void createPortalSession();

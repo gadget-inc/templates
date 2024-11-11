@@ -1,17 +1,28 @@
 import { useGlobalAction } from "@gadgetinc/react";
-import { useCallback, useContext } from "react";
+import { SyntheticEvent, useCallback, useContext } from "react";
 import { api } from "../api";
+import { Product } from "../routes/billing";
 
-const ProductCard = ({ product: { prices, name }, interval }) => {
+const ProductCard = ({
+  product: { prices, name },
+  interval,
+}: {
+  product: Product;
+  interval: string;
+}) => {
   const [{ data: stripeCheckoutUrl, error }, stripeSubscribe] = useGlobalAction(
     api.createCheckoutSession
   );
 
-  const submit = useCallback(async (e) => {
-    e.preventDefault();
-    // call the createCheckoutSession global action
-    void stripeSubscribe({ priceId: e.target[0].value });
-  }, []);
+  const submit = useCallback(
+    async (e: SyntheticEvent<HTMLFormElement, SubmitEvent>) => {
+      e.preventDefault();
+      // call the createCheckoutSession global action
+      const form = e.target as HTMLFormElement;
+      void stripeSubscribe({ priceId: (form[0] as HTMLInputElement).value });
+    },
+    []
+  );
 
   // redirect to Stripe's checkout page
   if (stripeCheckoutUrl) {

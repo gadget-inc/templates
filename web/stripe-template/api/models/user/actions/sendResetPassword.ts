@@ -1,20 +1,32 @@
-import { applyParams, save, ActionOptions, SendResetPasswordUserActionContext, DefaultEmailTemplates, Config } from "gadget-server";
+import {
+  applyParams,
+  save,
+  ActionOptions,
+  DefaultEmailTemplates,
+  Config,
+} from "gadget-server";
 
-/**
- * @param { SendResetPasswordUserActionContext } context
- */
-export async function run({ params, record, logger, api, session }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  session,
+}) => {
   applyParams(params, record);
   await save(record);
   return {
-    result: "ok"
-  }
+    result: "ok",
+  };
 };
 
-/**
- * @param { SendResetPasswordUserActionContext } context
- */
-export async function onSuccess({ params, record, logger, api, emails }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+  emails,
+}) => {
   if (record.resetPasswordToken && params.user?.resetPasswordCode) {
     const url = new URL("/reset-password", Config.appUrl);
     url.searchParams.append("code", params.user?.resetPasswordCode);
@@ -22,16 +34,17 @@ export async function onSuccess({ params, record, logger, api, emails }) {
     await emails.sendMail({
       to: record.email,
       subject: `Reset password request from ${Config.appName}`,
-      html: DefaultEmailTemplates.renderResetPasswordTemplate({ url: url.toString() })
-    })
+      html: DefaultEmailTemplates.renderResetPasswordTemplate({
+        url: url.toString(),
+      }),
+    });
   }
 };
 
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "custom",
   returnType: true,
   triggers: {
-    sendResetPassword: true
-  }
+    sendResetPassword: true,
+  },
 };

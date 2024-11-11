@@ -19,7 +19,7 @@ export default function () {
     watch,
     formState: { errors, isSubmitSuccessful, isSubmitting },
   } = useActionForm(api.user.resetPassword, {
-    defaultValues: { code: params.get("code") },
+    defaultValues: { code: params.get("code"), confirmPassword: "" },
   });
   const { configuration } = useAuth();
 
@@ -30,7 +30,7 @@ export default function () {
     </Text>
   ) : (
     <Card>
-      <Form className="custom-form" onSubmit={submit}>
+      <Form onSubmit={submit}>
         <FormLayout>
           <Text as="h1" variant="headingLg">
             Reset password
@@ -40,9 +40,12 @@ export default function () {
             control={control}
             render={({ field: { ref, ...fieldProps } }) => (
               <TextField
+                label="New password"
+                autoComplete="new-password"
                 placeholder="New password"
                 type="password"
                 {...fieldProps}
+                value={fieldProps.value ?? ""}
                 error={errors?.user?.password?.message}
               />
             )}
@@ -52,10 +55,15 @@ export default function () {
             control={control}
             render={({ field: { ref, ...fieldProps } }) => (
               <TextField
+                label="Confirm password"
+                autoComplete="new-password"
                 placeholder="Confirm password"
                 type="password"
                 {...fieldProps}
-                error={errors?.user?.confirmPassword?.message}
+                error={
+                  (errors?.user as { confirmPassword?: { message: string } })
+                    ?.confirmPassword?.message
+                }
               />
             )}
             rules={{
@@ -64,7 +72,7 @@ export default function () {
             }}
           />
           {errors?.root?.message && <Text as="p">{errors.root.message}</Text>}
-          <Button disabled={isSubmitting} type="submit" onClick={submit}>
+          <Button disabled={isSubmitting} submit onClick={submit}>
             Reset password
           </Button>
         </FormLayout>

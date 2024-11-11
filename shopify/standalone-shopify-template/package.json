@@ -8,7 +8,6 @@
     "build": "NODE_ENV=production vite build"
   },
   "dependencies": {
-    "@gadget-client/external-shopify-template": "link:.gadget/client",
     "@gadget-client/standalone-shopify-template": "link:.gadget/client",
     "@gadgetinc/react": "^0.18.0",
     "@gadgetinc/react-shopify-app-bridge": "^0.16.4",

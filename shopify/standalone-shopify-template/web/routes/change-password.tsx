@@ -20,24 +20,27 @@ export default function () {
   } = useActionForm(api.user.changePassword, { defaultValues: user });
 
   return isSubmitSuccessful ? (
-    <Text as="p" className="format-message success">
+    <Text as="p">
       Password changed successfully.{" "}
       <Link to="/signed-in">Back to profile</Link>
     </Text>
   ) : (
     <Card>
-      <Form className="custom-form" onSubmit={submit}>
+      <Form onSubmit={submit}>
         <FormLayout>
-          <BlockStack gap={300}>
+          <BlockStack gap="300">
             <Text as="h1">Change password</Text>
             <Controller
               name="currentPassword"
               control={control}
               render={({ field: { ref, ...fieldProps } }) => (
                 <TextField
+                  label="Current Password"
+                  autoComplete="current-password"
                   placeholder="Current password"
                   type="password"
                   {...fieldProps}
+                  value={fieldProps.value ?? ""}
                 />
               )}
             />
@@ -46,20 +49,19 @@ export default function () {
               control={control}
               render={({ field: { ref, ...fieldProps } }) => (
                 <TextField
+                  label="New Password"
+                  autoComplete="new-password"
                   placeholder="New password"
                   type="password"
                   {...fieldProps}
+                  value={fieldProps.value ?? ""}
                   error={errors?.user?.newPassword?.message}
                 />
               )}
             />
-            {errors?.root?.message && (
-              <Text as="p" className="format-message error">
-                {errors.root.message}
-              </Text>
-            )}
+            {errors?.root?.message && <Text as="p">{errors.root.message}</Text>}
             <Link to="/signed-in">Back to profile</Link>
-            <Button disabled={isSubmitting} type="submit" onClick={submit}>
+            <Button disabled={isSubmitting} submit onClick={submit}>
               Change password
             </Button>
           </BlockStack>

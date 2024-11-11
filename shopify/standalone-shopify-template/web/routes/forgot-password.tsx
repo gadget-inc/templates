@@ -19,23 +19,27 @@ export default function () {
   } = useActionForm(api.user.sendResetPassword);
 
   return isSubmitSuccessful ? (
-    <Text as="p" className="format-message success">
-      Email has been sent. Please check your inbox.
-    </Text>
+    <Text as="p">Email has been sent. Please check your inbox.</Text>
   ) : (
     <Card>
-      <Form className="custom-form" onSubmit={submit}>
+      <Form onSubmit={submit}>
         <FormLayout>
-          <BlockStack gap={300}>
+          <BlockStack gap="300">
             <Text as="h1">Reset password</Text>
             <Controller
               name="email"
               control={control}
               render={({ field: { ref, ...fieldProps } }) => (
-                <TextField placeholder="Email" {...fieldProps} />
+                <TextField
+                  label="Email"
+                  autoComplete="email"
+                  placeholder="Email"
+                  {...fieldProps}
+                  value={fieldProps.value ?? ""}
+                />
               )}
             />
-            <Button disabled={isSubmitting} type="submit" onClick={submit}>
+            <Button disabled={isSubmitting} submit onClick={submit}>
               Send reset link
             </Button>
           </BlockStack>

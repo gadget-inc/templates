@@ -2,8 +2,8 @@ import { BlockStack, Text } from "@shopify/polaris";
 
 export default function () {
   return (
-    <BlockStack gap={300}>
-      <BlockStack className="app-link">
+    <BlockStack gap="300">
+      <BlockStack>
         <img
           src="https://assets.gadget.dev/assets/default-app-assets/react-logo.svg"
           className="app-logo"
@@ -14,9 +14,7 @@ export default function () {
         </Text>
       </BlockStack>
       <BlockStack>
-        <Text className="description">
-          Start building your app&apos;s signed out area
-        </Text>
+        <Text as="p">Start building your app&apos;s signed out area</Text>
         <a
           href="/edit/files/web/routes/index.jsx"
           target="_blank"

@@ -164,10 +164,6 @@
   dependencies:
     fastify-plugin "^4.0.0"
 
-"@gadget-client/external-shopify-template@link:.gadget/client":
-  version "0.0.0"
-  uid ""
-
 "@gadget-client/standalone-shopify-template@link:.gadget/client":
   version "0.0.0"
   uid ""

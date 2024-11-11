@@ -78,7 +78,7 @@ export default () => {
         </Button>
       </BlockStack>
 
-      {quizResponse.data?.length ?? 0 > 0 ? (
+      {(quizResponse.data?.length ?? 0) > 0 ? (
         quizResponse.data?.map((quiz, i) => {
           const isDeleting = markedForDelete === quiz.id;
           return (

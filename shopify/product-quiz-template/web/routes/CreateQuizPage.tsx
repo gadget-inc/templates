@@ -11,7 +11,11 @@ import { useNavigate } from "react-router-dom";
 export default () => {
   const navigate = useNavigate();
 
-  const formContext = useActionForm(api.quiz.create, {
+  const {
+    submit,
+    formState: { isValid, isSubmitting },
+    originalFormMethods,
+  } = useActionForm(api.quiz.create, {
     mode: "onBlur",
     defaultValues: {
       quiz: {
@@ -26,7 +30,7 @@ export default () => {
   });
 
   const saveQuiz = useCallback(async () => {
-    const result = await formContext.submit();
+    const result = await submit();
 
     if (!result) {
       return;
@@ -41,7 +45,7 @@ export default () => {
     }
   }, []);
 
-  if (formContext.formState.isValid && formContext.formState.isSubmitting) {
+  if (isValid && isSubmitting) {
     return (
       <PageTemplate>
         <Layout sectioned>
@@ -63,7 +67,7 @@ export default () => {
             <Text as="h2" variant="headingLg">
               Create a new quiz
             </Text>
-            <FormProvider {...formContext.originalFormMethods}>
+            <FormProvider {...originalFormMethods}>
               <QuizForm onSubmit={saveQuiz} />
             </FormProvider>
           </Card>

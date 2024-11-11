@@ -10,7 +10,11 @@ export default () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const formContext = useActionForm(api.quiz.update, {
+  const {
+    submit,
+    originalFormMethods,
+    formState: { isSubmitting, isValid },
+  } = useActionForm(api.quiz.update, {
     mode: "onBlur",
     findBy: id,
     select: {
@@ -43,7 +47,7 @@ export default () => {
   });
 
   const saveQuiz = useCallback(async () => {
-    const result = await formContext.submit();
+    const result = await submit();
 
     if (!result) {
       return;
@@ -58,7 +62,7 @@ export default () => {
     }
   }, []);
 
-  if (formContext.formState.isValid && formContext.formState.isSubmitting) {
+  if (isValid && isSubmitting) {
     return (
       <PageTemplate>
         <Layout sectioned>
@@ -80,7 +84,7 @@ export default () => {
             <Text as="h2" variant="headingLg">
               Update Quiz
             </Text>
-            <FormProvider {...formContext.originalFormMethods}>
+            <FormProvider {...originalFormMethods}>
               <QuizForm isUpdating onSubmit={saveQuiz} />
             </FormProvider>
           </Card>

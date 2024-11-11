@@ -7,9 +7,11 @@ export const run: ActionRun = async ({
   connections,
   session,
 }) => {
+  if (!session) throw new Error("No session found");
+
   // Get the user and shop from the session
-  const user = session?.get("user");
-  const shop = session?.get("shop");
+  const user = session.get("user");
+  const shop = session.get("shop");
 
   // Clear shop from session
   session?.set("shop", null);

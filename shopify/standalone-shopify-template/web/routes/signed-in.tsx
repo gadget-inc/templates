@@ -2,7 +2,7 @@ import { useSignOut } from "@gadgetinc/react";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ShopContext, AuthContext } from "../providers";
-import { BlockStack, Card, Text, Button } from "@shopify/polaris";
+import { BlockStack, Card, Text, Button, Box } from "@shopify/polaris";
 import { ShopContextType } from "../providers/ShopProvider";
 import { AuthContextType } from "../providers/AuthProvider";
 
@@ -13,7 +13,7 @@ export default function () {
 
   return user ? (
     <>
-      <div className="app-link">
+      <Box>
         <img
           src={`https://${process.env.GADGET_PUBLIC_APP_SLUG}${process.env.GADGET_PUBLIC_APP_ENV !== "production" ? `--${process.env.GADGET_PUBLIC_APP_ENV}` : ""}.gadget.app/shopify_glyph_black.svg`}
           alt="Shopify logo"
@@ -21,8 +21,8 @@ export default function () {
         />
 
         <Text as="span">You are now signed into {process.env.GADGET_APP}</Text>
-      </div>
-      <div>
+      </Box>
+      <Box>
         <Text as="p">Start building your app&apos;s signed in area</Text>
         <a
           href="/edit/files/web/routes/signed-in.jsx"
@@ -32,13 +32,13 @@ export default function () {
         >
           web/routes/signed-in.jsx
         </a>
-      </div>
+      </Box>
       <BlockStack gap="200">
         <Card>
           <Text as="h2" variant="headingLg">
             User
           </Text>
-          <div className="card-content">
+          <Box>
             <img
               className="icon"
               src={
@@ -56,23 +56,23 @@ export default function () {
               </Text>
               <Text as="p">created: {user?.createdAt?.toString()}</Text>
             </BlockStack>
-          </div>
+          </Box>
         </Card>
         {shops?.map(({ id, domain, shopOwner }) => (
           <Card key={id}>
             <Text as="h2" variant="headingLg">
               Shop information
             </Text>
-            <div className="card-content">
+            <Box>
               <BlockStack>
                 <Text as="p">id: {id}</Text>
                 <Text as="p">domain: {domain}</Text>
                 <Text as="p">shopOwner: {shopOwner}</Text>
               </BlockStack>
-            </div>
+            </Box>
           </Card>
         ))}
-        <div>
+        <Box>
           <Text as="h2" variant="headingLg">
             Actions:
           </Text>
@@ -82,7 +82,7 @@ export default function () {
               Sign Out
             </Button>
           </BlockStack>
-        </div>
+        </Box>
       </BlockStack>
     </>
   ) : null;

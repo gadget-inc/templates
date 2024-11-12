@@ -1,9 +1,4 @@
-import { FetchOrderDataGlobalActionContext } from "gadget-server";
-
-/**
- * @param { FetchOrderDataGlobalActionContext } context
- */
-export async function run({ params, logger, api, connections }) {
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
   const order = await api.shopifyOrder.maybeFindFirst({
     filter: {
       singleUseCode: {
@@ -42,28 +37,27 @@ export async function run({ params, logger, api, connections }) {
 
     while (lineItems.hasNextPage) {
       lineItems = await lineItems.nextPage();
-      allLineItems = allLineItems.concat(lineItems);
+      allLineItems.push(...lineItems);
     }
 
-    const seen = {};
-    const products = [];
+    const seen: { [key: string]: boolean } = {};
+    const products: {
+      id: string;
+      title: string;
+      image: string;
+      alt: string;
+    }[] = [];
 
-    for (const {
-      product: {
-        id,
-        title,
-        featuredMedia: {
-          file: { alt, url },
-        },
-      },
-    } of allLineItems) {
-      if (!seen[id]) {
-        seen[id] = true;
+    for (const { product } of allLineItems) {
+      if (!product?.id) continue;
+
+      if (!seen[product?.id]) {
+        seen[product?.id] = true;
         products.push({
-          id: id,
-          title: title,
-          image: url,
-          alt,
+          id: product?.id,
+          title: product.title ?? "",
+          image: product.featuredMedia?.file?.url ?? "",
+          alt: product.featuredMedia?.file?.alt ?? "",
         });
       }
     }
@@ -76,7 +70,7 @@ export async function run({ params, logger, api, connections }) {
   } else {
     throw new Error(`Single use code not found: ${params.code}`);
   }
-}
+};
 
 export const params = {
   code: {

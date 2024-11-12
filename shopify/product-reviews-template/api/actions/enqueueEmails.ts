@@ -1,23 +1,32 @@
-import { EnqueueEmailsGlobalActionContext } from "gadget-server";
-
-/**
- * @param { EnqueueEmailsGlobalActionContext } context
- */
-export async function run({ params, logger, api, connections }) {
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
   const { allOrders } = params;
+
+  const options = {
+    queue: {
+      name: params.options?.queue?.name ?? "",
+      maxConcurrency: params.options?.queue?.maxConcurrency,
+    },
+    retries: params.options?.retries,
+  };
+
+  if (!allOrders?.length) {
+    logger.info("No orders to process");
+    return;
+  }
 
   const orders = allOrders.splice(0, 80);
 
-  for (const {
-    singleUseCode,
-    customer: { email },
-  } of orders) {
-    await api.enqueue(api.sendEmail, { singleUseCode, email }, options);
+  for (const { singleUseCode, customer } of orders) {
+    await api.enqueue(
+      api.sendEmail,
+      { singleUseCode, email: customer?.email },
+      options
+    );
   }
 
   if (allOrders.length)
     await api.enqueue(api.enqueueEmails, { allOrders, options }, options);
-}
+};
 
 export const params = {
   allOrders: {

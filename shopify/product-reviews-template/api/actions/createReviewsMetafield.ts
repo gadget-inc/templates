@@ -1,10 +1,7 @@
-import { CreateReviewsMetafieldGlobalActionContext } from "gadget-server";
-
-/**
- * @param { CreateReviewsMetafieldGlobalActionContext } context
- */
-export async function run({ params, logger, api, connections }) {
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
   const { shopId, productId } = params;
+
+  if (!shopId) throw new Error("shopId is required");
 
   const shopify = await connections.shopify.forShopId(shopId);
 
@@ -34,7 +31,7 @@ export async function run({ params, logger, api, connections }) {
 
   if (metafieldsSetResponse?.metafieldsSet?.userErrors?.length)
     throw new Error(metafieldsSetResponse.metafieldsSet.userErrors[0].message);
-}
+};
 
 export const params = {
   shopId: {

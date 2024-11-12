@@ -16,7 +16,8 @@ import {
   useNavigate,
 } from "react-router-dom";
 import { api } from "../api";
-import { AboutPage, Index } from "../routes";
+import AboutPage from "../routes/about";
+import Index from "../routes/index";
 import "./App.css";
 import Reviews from "./Reviews";
 import StyledSpinner from "./StyledSpinner";
@@ -99,7 +100,7 @@ function AuthenticatedApp() {
   );
 }
 
-function EmbeddedApp({ isAuthenticated }) {
+function EmbeddedApp({ isAuthenticated }: { isAuthenticated: boolean }) {
   return (
     <>
       <Outlet context={{ isAuthenticated }} />
@@ -113,6 +114,6 @@ function EmbeddedApp({ isAuthenticated }) {
   );
 }
 
-function UnauthenticatedApp({ isAuthenticated }) {
+function UnauthenticatedApp({ isAuthenticated }: { isAuthenticated: boolean }) {
   return <Outlet context={{ isAuthenticated }} />;
 }

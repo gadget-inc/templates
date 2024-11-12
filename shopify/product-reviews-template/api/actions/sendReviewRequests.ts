@@ -1,10 +1,6 @@
-import { SendReviewRequestsGlobalActionContext } from "gadget-server";
 import { v4 as uuidv4 } from "uuid";
 
-/**
- * @param { SendReviewRequestsGlobalActionContext } context
- */
-export async function run({ params, logger, api, connections }) {
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
   let orders = await api.shopifyOrder.findMany({
     first: 250,
     filter: {
@@ -27,7 +23,7 @@ export async function run({ params, logger, api, connections }) {
 
   while (orders.hasNextPage) {
     orders = await orders.nextPage();
-    allOrders = allOrders.concat(orders);
+    allOrders.push(...orders);
   }
 
   const options = {
@@ -44,4 +40,4 @@ export async function run({ params, logger, api, connections }) {
       { allOrders: allOrders.map(({ __typeName, ...rest }) => rest), options },
       options
     );
-}
+};

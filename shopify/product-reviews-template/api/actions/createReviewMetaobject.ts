@@ -1,15 +1,10 @@
-import { CreateReviewMetaobjectGlobalActionContext } from "gadget-server";
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
+  const { shopId, review } = params;
 
-/**
- * @param { CreateReviewMetaobjectGlobalActionContext } context
- */
-export async function run({ params, logger, api, connections }) {
-  const {
-    shopId,
-    review: { id, rating, content, productId },
-  } = params;
+  if (!shopId) throw new Error("shopId is required");
+  if (!review || !review?.id) throw new Error("review is required");
 
-  const shopify = connections.shopify.forShop(shopId);
+  const shopify = await connections.shopify.forShopId(shopId);
 
   // Create the metaobject
   const metaobjectCreateResponse = await shopify.graphql(
@@ -35,18 +30,18 @@ export async function run({ params, logger, api, connections }) {
           {
             key: "rating",
             value: JSON.stringify({
-              value: rating,
+              value: review.rating,
               scale_max: "5",
               scale_min: "0",
             }),
           },
           {
             key: "content",
-            value: content,
+            value: review.content,
           },
           {
             key: "product",
-            value: `gid://shopify/Product/${productId}`,
+            value: `gid://shopify/Product/${review.productId}`,
           },
         ],
       },
@@ -59,10 +54,10 @@ export async function run({ params, logger, api, connections }) {
       metaobjectCreateResponse.metaobjectCreate.userErrors[0].message
     );
 
-  await api.internal.review.update(id, {
+  await api.internal.review.update(review.id, {
     metaobjectId: metaobjectCreateResponse.metaobjectCreate.metaobject.id,
   });
-}
+};
 
 export const params = {
   shopId: { type: "string" },

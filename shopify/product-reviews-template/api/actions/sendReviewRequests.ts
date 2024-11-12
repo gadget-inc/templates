@@ -2,7 +2,7 @@ import {
   GadgetRecordList,
   ShopifyOrder,
 } from "@gadget-client/product-reviews-template";
-import { v4 as uuidv4 } from "uuid";
+import { default as queueOptions } from "../utilities/emailQueueOptions";
 
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
   let orders = await api.shopifyOrder.findMany({
@@ -31,14 +31,6 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     allOrders.push(...orders);
   }
 
-  const options = {
-    queue: {
-      name: `send-wishlist-emails-${uuidv4()}`,
-      maxConcurrency: 50,
-    },
-    retries: 1,
-  };
-
   if (allOrders.length)
     await api.enqueue(
       api.enqueueEmails,
@@ -46,9 +38,8 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
         allOrders: (allOrders as GadgetRecordList<ShopifyOrder>).map(
           ({ __typename, ...rest }) => rest
         ),
-        options,
       },
-      options
+      queueOptions
     );
 };
 

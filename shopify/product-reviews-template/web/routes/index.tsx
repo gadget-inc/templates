@@ -18,7 +18,7 @@ export default function () {
   const [modalContent, setModelContent] = useState("");
 
   return (
-    <Page>
+    <Page title="Reviews">
       <Layout>
         <Layout.Section>
           <Card padding="0">

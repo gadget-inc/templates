@@ -39,7 +39,7 @@ export default ({
       onClick={() => run({ id, approved: !approved })}
       loading={fetching}
       disabled={fetching}
-      variant="primary"
+      variant="secondary"
       tone={approved ? "critical" : undefined}
     >
       {approved ? "Remove" : "Approve"}

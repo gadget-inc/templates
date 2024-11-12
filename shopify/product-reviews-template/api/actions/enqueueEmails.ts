@@ -1,13 +1,7 @@
+import { default as queueOptions } from "../utilities/emailQueueOptions";
+
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
   const { allOrders } = params;
-
-  const options = {
-    queue: {
-      name: params.options?.queue?.name ?? "",
-      maxConcurrency: params.options?.queue?.maxConcurrency,
-    },
-    retries: params.options?.retries,
-  };
 
   if (!allOrders?.length) {
     logger.info("No orders to process");
@@ -20,12 +14,12 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     await api.enqueue(
       api.sendEmail,
       { singleUseCode, email: customer?.email, orderId: id },
-      options
+      queueOptions
     );
   }
 
   if (allOrders.length)
-    await api.enqueue(api.enqueueEmails, { allOrders, options }, options);
+    await api.enqueue(api.enqueueEmails, { allOrders }, queueOptions);
 };
 
 export const params = {
@@ -48,25 +42,6 @@ export const params = {
         id: {
           type: "string",
         },
-      },
-    },
-  },
-  options: {
-    type: "object",
-    properties: {
-      queue: {
-        type: "object",
-        properties: {
-          name: {
-            type: "string",
-          },
-          maxConcurrency: {
-            type: "number",
-          },
-        },
-      },
-      retries: {
-        type: "number",
       },
     },
   },

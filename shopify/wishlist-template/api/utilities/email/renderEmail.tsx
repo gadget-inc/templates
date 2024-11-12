@@ -4,12 +4,12 @@ import WishlistEmail from "./WishlistEmail";
 import InStockEmail from "./InStockEmail";
 import type { OnSaleVariant, Payload, RemovedVariant } from "../types";
 
-export default (payload: Payload) => {
+export default async (payload: Payload) => {
   switch (payload.type) {
     case "wishlist":
       const { changes, count, firstName, lastName } = payload;
 
-      return render(
+      return await render(
         <WishlistEmail
           name={
             `${firstName || ""} ${lastName || ""}`.trim() ||
@@ -27,7 +27,7 @@ export default (payload: Payload) => {
     case "inStock":
       const { product, shop, id, title } = payload;
 
-      return render(
+      return await render(
         <InStockEmail
           {...{
             productTitle: product?.title,

@@ -121,7 +121,7 @@ export const run: ActionRun = async ({
   await emails.sendMail({
     to: email,
     subject: `${shopName} wishlist update`,
-    html: renderEmail({
+    html: await renderEmail({
       type: "wishlist",
       changes,
       count,

@@ -1,25 +1,27 @@
-import {
-  applyParams,
-  save,
-  ActionOptions,
-  UpdateReviewActionContext,
-} from "gadget-server";
+import { applyParams, save, ActionOptions } from "gadget-server";
 
-/**
- * @param { UpdateReviewActionContext } context
- */
-export async function run({ params, record, logger, api, connections }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   applyParams(params, record);
   await save(record);
-}
+};
 
-/**
- * @param { UpdateReviewActionContext } context
- */
-export async function onSuccess({ params, record, logger, api, connections }) {
-  const { changed, current: approved } = record.changes("approved");
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
+  const changes = record.changes("approved");
 
-  if (changed) {
+  if (changes.changed) {
+    const approved = changes.current as boolean;
     await api.enqueue(api.updateReviewsMetafield, {
       shopId: record.shopId,
       productId: record.productId,
@@ -27,9 +29,8 @@ export async function onSuccess({ params, record, logger, api, connections }) {
       approved,
     });
   }
-}
+};
 
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "update",
 };

@@ -21,7 +21,7 @@ export default function () {
     <Page>
       <Layout>
         <Layout.Section>
-          <Card padding={0}>
+          <Card padding="0">
             <AutoTable
               model={api.review}
               select={{
@@ -91,7 +91,9 @@ export default function () {
           <BlockStack gap="300">
             <ui-title-bar title="Review" />
             <Box padding="300">
-              <Text variant="bodyMd">{modalContent}</Text>
+              <Text as="p" variant="bodyMd">
+                {modalContent}
+              </Text>
             </Box>
           </BlockStack>
         </ui-modal>

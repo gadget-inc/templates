@@ -1,10 +1,8 @@
-import { UpdateReviewsMetafieldGlobalActionContext } from "gadget-server";
-
-/**
- * @param { UpdateReviewsMetafieldGlobalActionContext } context
- */
-export async function run({ params, logger, api, connections }) {
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
   const { shopId, productId, metaobjectId, approved } = params;
+
+  if (!shopId || !productId || !metaobjectId)
+    throw new Error("Missing required parameters");
 
   let value;
 
@@ -20,15 +18,17 @@ export async function run({ params, logger, api, connections }) {
 
   if (!product) throw new Error("Product not found");
 
+  const reviewsArray = product.reviewsMetafield as string[];
+
   if (approved) {
-    product.reviewsMetafield.push(metaobjectId);
+    reviewsArray.push(metaobjectId);
 
     value = JSON.stringify(product.reviewsMetafield);
   } else {
-    const index = product.reviewsMetafield.indexOf(metaobjectId);
+    const index = reviewsArray.indexOf(metaobjectId);
 
     if (index === -1) {
-      value = JSON.stringify(product.reviewsMetafield.splice(index, 1));
+      value = JSON.stringify(reviewsArray.splice(index, 1));
     }
   }
 
@@ -60,7 +60,7 @@ export async function run({ params, logger, api, connections }) {
 
   if (metafieldsSetResponse?.metafieldsSet?.userErrors?.length)
     throw new Error(metafieldsSetResponse.metafieldsSet.userErrors[0].message);
-}
+};
 
 export const params = {
   shopId: {

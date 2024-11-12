@@ -1,16 +1,14 @@
-import {
-  applyParams,
-  save,
-  ActionOptions,
-  UpdateShopifyOrderActionContext,
-} from "gadget-server";
+import { applyParams, save, ActionOptions } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
 import { DateTime } from "luxon";
 
-/**
- * @param { UpdateShopifyOrderActionContext } context
- */
-export async function run({ params, record, logger, api, connections }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
@@ -18,11 +16,16 @@ export async function run({ params, record, logger, api, connections }) {
     record.changed("fulfillmentStatus") &&
     record.fulfillmentStatus === "fulfilled"
   ) {
+    if (!record.shopId) throw new Error("shopId is required");
+
     const shop = await api.shopifyShop.findOne(record.shopId, {
       select: {
         daysUntilReviewRequest: true,
       },
     });
+
+    if (!record.shopifyCreatedAt)
+      throw new Error("shopifyCreatedAt is required");
 
     record.requestReviewAfter = DateTime.fromJSDate(
       new Date(record.shopifyCreatedAt)
@@ -32,14 +35,16 @@ export async function run({ params, record, logger, api, connections }) {
   }
 
   await save(record);
-}
+};
 
-/**
- * @param { UpdateShopifyOrderActionContext } context
- */
-export async function onSuccess({ params, record, logger, api, connections }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   // Your logic goes here
-}
+};
 
-/** @type { ActionOptions } */
-export const options = { actionType: "update" };
+export const options: ActionOptions = { actionType: "update" };

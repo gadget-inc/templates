@@ -24,7 +24,19 @@ import { api } from "../api";
 import { useState } from "react";
 import Stars from "./Stars";
 
-export default ({ id: productId, title, orderId, image, alt }) => {
+export default ({
+  id: productId,
+  title,
+  orderId,
+  image,
+  alt,
+}: {
+  id: string;
+  title: string;
+  orderId: string;
+  image: string;
+  alt: string;
+}) => {
   const [open, setOpen] = useState(false);
   const [completed, setCompleted] = useState(false);
 
@@ -44,11 +56,13 @@ export default ({ id: productId, title, orderId, image, alt }) => {
           {completed && (
             <InlineStack align="center" blockAlign="center" gap="200">
               <Icon source={CheckCircleIcon} />
-              <Text variant="headingSm">Review completed!</Text>
+              <Text as="h3" variant="headingSm">
+                Review completed!
+              </Text>
             </InlineStack>
           )}
         </InlineStack>
-        <Collapsible open={open}>
+        <Collapsible open={open} id={`collapsible-${productId}`}>
           <AutoForm
             action={api.review.create}
             title=""

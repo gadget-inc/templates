@@ -35,9 +35,5 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   };
 
   if (allOrders.length)
-    await api.enqueue(
-      api.enqueueEmails,
-      { allOrders: allOrders.map(({ __typeName, ...rest }) => rest), options },
-      options
-    );
+    await api.enqueue(api.enqueueEmails, { allOrders, options }, options);
 };

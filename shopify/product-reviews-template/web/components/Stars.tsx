@@ -3,12 +3,12 @@ import { Box, Icon, InlineStack } from "@shopify/polaris";
 import { StarFilledIcon, StarIcon } from "@shopify/polaris-icons";
 import { Controller, useFormContext } from "@gadgetinc/react";
 
-export default ({ rating }) => {
+export default ({ rating }: { rating?: number }) => {
   const [hoveredStar, setHoveredStar] = useState(0);
 
   const formContext = useFormContext();
 
-  const handleMouseEnter = (index) => {
+  const handleMouseEnter = (index: number) => {
     setHoveredStar(index + 1);
   };
 

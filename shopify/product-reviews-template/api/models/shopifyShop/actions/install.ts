@@ -1,17 +1,17 @@
-import {
-  applyParams,
-  save,
-  ActionOptions,
-  InstallShopifyShopActionContext,
-} from "gadget-server";
+import { applyParams, save, ActionOptions } from "gadget-server";
 
-/**
- * @param { InstallShopifyShopActionContext } context
- */
-export async function run({ params, record, logger, api, connections }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   applyParams(params, record);
 
   const shopify = connections.shopify.current;
+
+  if (!shopify) throw new Error("Shopify connection not found");
 
   const reviewMetaobjectDefinitionCreateResponse = await shopify.graphql(
     `mutation ($definition: MetaobjectDefinitionCreateInput!) {
@@ -119,19 +119,21 @@ export async function run({ params, record, logger, api, connections }) {
     metaobjectReferenceMetafieldDefinitionCreationResponse.metafieldDefinitionCreate.createdDefinition.id;
 
   await save(record);
-}
+};
 
-/**
- * @param { InstallShopifyShopActionContext } context
- */
-export async function onSuccess({ params, record, logger, api, connections }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   await api.shopifySync.run({
     shop: {
       _link: record.id,
     },
     domain: record.domain,
   });
-}
+};
 
-/** @type { ActionOptions } */
-export const options = { actionType: "create" };
+export const options: ActionOptions = { actionType: "create" };

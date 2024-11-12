@@ -3,7 +3,16 @@ import { api } from "../api";
 import { useAction } from "@gadgetinc/react";
 import { useEffect } from "react";
 
-export default ({ record: { id, approved }, toast }) => {
+export default ({
+  record: { id, approved },
+  toast,
+}: {
+  record: { id: string; approved: boolean };
+  toast: {
+    show(message: string, opts?: any): string;
+    hide(id: string): void;
+  };
+}) => {
   const [{ data, fetching, error }, run] = useAction(api.review.update);
 
   useEffect(() => {
@@ -30,7 +39,8 @@ export default ({ record: { id, approved }, toast }) => {
       onClick={() => run({ id, approved: !approved })}
       loading={fetching}
       disabled={fetching}
-      tone={approved ? "critical" : "primary"}
+      variant="primary"
+      tone={approved ? "critical" : undefined}
     >
       {approved ? "Remove" : "Approve"}
     </Button>

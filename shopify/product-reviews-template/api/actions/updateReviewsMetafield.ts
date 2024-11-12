@@ -6,10 +6,10 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
   let value;
 
+  // eslint-disable-next-line
   const shopify = await connections.shopify.forShopId(shopId);
 
   // Build the metafield value
-
   const product = await api.shopifyProduct.maybeFindOne(productId, {
     select: {
       reviewsMetafield: true,

@@ -35,5 +35,15 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   };
 
   if (allOrders.length)
-    await api.enqueue(api.enqueueEmails, { allOrders, options }, options);
+    await api.enqueue(
+      api.enqueueEmails,
+      { allOrders: allOrders.map(({ __typename, ...rest }) => rest), options },
+      options
+    );
+};
+
+export const options = {
+  triggers: {
+    scheduler: [{ every: "hour", at: "0 mins" }],
+  },
 };

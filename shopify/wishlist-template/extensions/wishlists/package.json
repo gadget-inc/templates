@@ -5,7 +5,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@gadget-client/wishlist-template": "link:../../.gadget/client",
-    "@gadgetinc/react": "^0.18.0",
+    "@gadgetinc/react": "^0.18.1",
     "@gadgetinc/shopify-extensions": "^0.3.3",
     "@shopify/polaris": "^13.9.0",
     "@shopify/ui-extensions": "unstable",

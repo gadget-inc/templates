@@ -1,3 +1,7 @@
+import {
+  GadgetRecordList,
+  ShopifyOrder,
+} from "@gadget-client/product-reviews-template";
 import { v4 as uuidv4 } from "uuid";
 
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
@@ -12,6 +16,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       },
     },
     select: {
+      id: true,
       singleUseCode: true,
       customer: {
         email: true,
@@ -37,7 +42,12 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   if (allOrders.length)
     await api.enqueue(
       api.enqueueEmails,
-      { allOrders: allOrders.map(({ __typename, ...rest }) => rest), options },
+      {
+        allOrders: (allOrders as GadgetRecordList<ShopifyOrder>).map(
+          ({ __typename, ...rest }) => rest
+        ),
+        options,
+      },
       options
     );
 };

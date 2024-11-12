@@ -72,7 +72,7 @@ export default ({
                 productId,
               },
             }}
-            exclude={["anonymous", "approved", "customer", "order", "product"]}
+            // exclude={["anonymous", "approved", "customer", "order", "product"]}
             onSuccess={() => {
               setOpen(false);
               setCompleted(true);

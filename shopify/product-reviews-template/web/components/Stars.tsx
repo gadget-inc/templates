@@ -31,13 +31,13 @@ export default ({ rating }: { rating?: number }) => {
       render={({ field: { ref, ...fieldProps } }) => (
         <InlineStack>
           {Array.from({ length: 5 }, (_, index) => (
-            <Box
+            <div
               key={index}
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={handleMouseLeave}
               onClick={() => fieldProps.onChange(index + 1)}
               style={{ cursor: "pointer" }}
-              fieldprops={fieldProps}
+              {...fieldProps}
             >
               <Icon
                 source={
@@ -46,7 +46,7 @@ export default ({ rating }: { rating?: number }) => {
                     : StarIcon
                 }
               />
-            </Box>
+            </div>
           ))}
         </InlineStack>
       )}

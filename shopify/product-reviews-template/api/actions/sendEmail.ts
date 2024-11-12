@@ -8,14 +8,20 @@ export const run: ActionRun = async ({
   emails,
   currentAppUrl,
 }) => {
-  const { singleUseCode, email } = params;
+  const { singleUseCode, email, orderId } = params;
 
-  if (!email || !singleUseCode) throw new Error("Missing required params");
+  if (!email || !singleUseCode || !orderId)
+    throw new Error("Missing required params");
 
   await emails.sendMail({
     to: email,
     subject: "Review your purchase",
     html: await renderEmail({ currentAppUrl, singleUseCode }),
+  });
+
+  // Clear the field so we don't send the email again
+  await api.internal.shopifyOrder.update(orderId, {
+    requestReviewAfter: null,
   });
 };
 
@@ -24,6 +30,9 @@ export const params = {
     type: "string",
   },
   singleUseCode: {
+    type: "string",
+  },
+  orderId: {
     type: "string",
   },
 };

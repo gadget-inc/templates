@@ -16,10 +16,10 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
   const orders = allOrders.splice(0, 80);
 
-  for (const { singleUseCode, customer } of orders) {
+  for (const { singleUseCode, customer, id } of orders) {
     await api.enqueue(
       api.sendEmail,
-      { singleUseCode, email: customer?.email },
+      { singleUseCode, email: customer?.email, orderId: id },
       options
     );
   }
@@ -44,6 +44,9 @@ export const params = {
               type: "string",
             },
           },
+        },
+        id: {
+          type: "string",
         },
       },
     },

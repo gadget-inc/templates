@@ -16,7 +16,7 @@ export default async ({
     <Container>
       {/* Add more text in here */}
       <Button
-        href={`${currentAppUrl}/review/${singleUseCode}`}
+        href={`${currentAppUrl}review/${singleUseCode}`}
         style={{ color: "#61dafb", padding: "10px 20px" }}
       >
         Review

@@ -23,15 +23,12 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       if (!result?.channels) throw new Error("No channels found");
 
       // Formatting the data and adding it to the channels array
-      channels = result.channels.reduce(
-        (acc, channel) => {
-          if (!channel.is_archived && channel.name && channel.id) {
-            acc.push({ label: channel.name, value: channel.id });
-          }
-          return acc;
-        },
-        [] as { label: string; value: string }[]
-      );
+      channels = result.channels.reduce((acc, channel) => {
+        if (!channel.is_archived && channel.name && channel.id) {
+          acc.push({ label: channel.name, value: channel.id });
+        }
+        return acc;
+      }, channels);
     } catch (error) {
       throw new Error(error as string);
     }

@@ -30,7 +30,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
         return acc;
       }, channels);
     } catch (error) {
-      throw new Error(error as string);
+      throw error;
     }
   }
 

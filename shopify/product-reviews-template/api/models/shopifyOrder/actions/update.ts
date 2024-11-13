@@ -1,6 +1,7 @@
 import { applyParams, save, ActionOptions } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
 import { DateTime } from "luxon";
+import { default as setReviewCreationLimit } from "../utilities/setReviewCreationLimit";
 
 export const run: ActionRun = async ({
   params,
@@ -8,6 +9,7 @@ export const run: ActionRun = async ({
   logger,
   api,
   connections,
+  trigger,
 }) => {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
@@ -32,6 +34,10 @@ export const run: ActionRun = async ({
     )
       .plus({ days: shop.daysUntilReviewRequest })
       .toJSDate();
+  }
+
+  if (record.reviewCreationLimit == null) {
+    setReviewCreationLimit({ record, trigger });
   }
 
   await save(record);

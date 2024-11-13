@@ -12,6 +12,16 @@ export const schema: GadgetModel = {
       includeTime: true,
       storageKey: "ztIqc2_TMPaB",
     },
+    reviewCreationLimit: {
+      type: "number",
+      storageKey: "jke-EixGFnyY",
+    },
+    reviewCreationLimitReached: {
+      type: "computed",
+      sourceFile:
+        "api/models/shopifyOrder/reviewCreationLimitReached.gelly",
+      storageKey: "dHNhVfD1t0Hn",
+    },
     reviews: {
       type: "hasMany",
       children: { model: "review", belongsToField: "order" },

@@ -26,6 +26,12 @@ export const run: ActionRun = async ({
     _link: order.customerId,
   };
 
+  if (!record.lineItemId) throw new Error("Line item not provided");
+
+  await api.internal.shopifyOrderLineItem.update(record.lineItemId, {
+    reviewCreated: true,
+  });
+
   await save(record);
 };
 
@@ -39,7 +45,8 @@ export const onSuccess: ActionOnSuccess = async ({
   await api.enqueue(
     api.createReviewMetaobject,
     {
-      shopId: record.shopId,
+      // @ts-ignore
+      shopId: record.shop,
       review: {
         id: record.id,
         rating: record.rating,
@@ -54,6 +61,20 @@ export const onSuccess: ActionOnSuccess = async ({
       },
     }
   );
+
+  const order = await api.shopifyOrder.findOne(record.orderId, {
+    select: {
+      reviewCreationLimitReached: true,
+    },
+  });
+
+  logger.info({ order }, "ORDER");
+
+  if (order?.reviewCreationLimitReached) {
+    await api.internal.shopifyOrder.update(record.orderId, {
+      singleUseCode: null,
+    });
+  }
 };
 
 export const options: ActionOptions = {

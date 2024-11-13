@@ -6,7 +6,14 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-OrderLineItem",
-  fields: {},
+  fields: {
+    reviewCreated: { type: "boolean", storageKey: "-rQgABflj-nA" },
+    reviews: {
+      type: "hasMany",
+      children: { model: "review", belongsToField: "lineItem" },
+      storageKey: "eGcGDieaLQxN",
+    },
+  },
   shopify: {
     fields: [
       "attributedStaffs",

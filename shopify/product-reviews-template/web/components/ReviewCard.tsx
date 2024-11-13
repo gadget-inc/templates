@@ -28,12 +28,16 @@ export default ({
   id: productId,
   title,
   orderId,
+  lineItemId,
   image,
   alt,
+  reviewCreated,
 }: {
   id: string;
   title: string;
   orderId: string;
+  lineItemId: string;
+  reviewCreated: boolean;
   image: string;
   alt: string;
 }) => {
@@ -53,7 +57,7 @@ export default ({
               {title}
             </Text>
           </InlineStack>
-          {completed && (
+          {(completed || reviewCreated) && (
             <InlineStack align="center" blockAlign="center" gap="200">
               <Icon source={CheckCircleIcon} />
               <Text as="h3" variant="headingSm">
@@ -70,9 +74,9 @@ export default ({
               review: {
                 orderId,
                 productId,
+                lineItemId,
               },
             }}
-            // exclude={["anonymous", "approved", "customer", "order", "product"]}
             onSuccess={() => {
               setOpen(false);
               setCompleted(true);
@@ -87,7 +91,7 @@ export default ({
             </InlineStack>
           </AutoForm>
         </Collapsible>
-        {!completed && (
+        {!completed && !reviewCreated && (
           <InlineStack align="center" blockAlign="center" gap="200">
             <ButtonGroup>
               <Button

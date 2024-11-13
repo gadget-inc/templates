@@ -38,6 +38,8 @@ export default () => {
     );
   }
 
+  console.log("Data", data);
+
   return (
     <Page title={`Products on order #${data?.orderNumber}`}>
       <BlockStack gap="300">
@@ -46,6 +48,8 @@ export default () => {
             orderId: string;
             orderNumber: string;
             products: {
+              lineItemId: string;
+              reviewCreated: boolean;
               id: string;
               title: string;
               image: string;

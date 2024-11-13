@@ -28,6 +28,11 @@ export const schema: GadgetModel = {
       parent: { model: "shopifyCustomer" },
       storageKey: "bT0Adl6mg5Lc",
     },
+    lineItem: {
+      type: "belongsTo",
+      parent: { model: "shopifyOrderLineItem" },
+      storageKey: "eGLOUcOXKbyh",
+    },
     metaobjectId: { type: "string", storageKey: "MDTelmNZFvN8" },
     order: {
       type: "belongsTo",

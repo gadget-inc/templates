@@ -8,6 +8,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     select: {
       id: true,
       orderNumber: true,
+      reviewCreationLimit: true,
     },
   });
 
@@ -20,6 +21,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       },
       select: {
         id: true,
+        reviewCreated: true,
         product: {
           id: true,
           title: true,
@@ -46,9 +48,11 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       title: string;
       image: string;
       alt: string;
+      reviewCreated: boolean;
+      lineItemId: string;
     }[] = [];
 
-    for (const { product } of allLineItems) {
+    for (const { id, reviewCreated, product } of allLineItems) {
       if (!product?.id) continue;
 
       if (!seen[product?.id]) {
@@ -58,13 +62,11 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
           title: product.title ?? "",
           image: product.featuredMedia?.file?.url ?? "",
           alt: product.featuredMedia?.file?.alt ?? "",
+          reviewCreated: reviewCreated ?? false,
+          lineItemId: id,
         });
       }
     }
-
-    await api.internal.shopifyOrder.update(order.id, {
-      singleUseCode: null,
-    });
 
     return { orderId: order.id, orderNumber: order.orderNumber, products };
   } else {

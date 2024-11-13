@@ -15,6 +15,7 @@ export default async ({
   return await render(
     <Container>
       {/* Add more text in here */}
+      {/* Email written with React-Email: https://react.email/components */}
       <Button
         href={`${currentAppUrl}review/${singleUseCode}`}
         style={{ color: "#61dafb", padding: "10px 20px" }}

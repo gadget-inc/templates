@@ -43,7 +43,7 @@ export default () => {
     } else {
       console.error("error submitting form", error);
     }
-  }, []);
+  }, [submit]);
 
   if (isValid && isSubmitting) {
     return (

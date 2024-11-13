@@ -13,7 +13,7 @@ export default function () {
 
   return user ? (
     <>
-      <Box>
+      <BlockStack>
         <img
           src={`https://${process.env.GADGET_PUBLIC_APP_SLUG}${process.env.GADGET_PUBLIC_APP_ENV !== "production" ? `--${process.env.GADGET_PUBLIC_APP_ENV}` : ""}.gadget.app/shopify_glyph_black.svg`}
           alt="Shopify logo"
@@ -21,7 +21,7 @@ export default function () {
         />
 
         <Text as="span">You are now signed into {process.env.GADGET_APP}</Text>
-      </Box>
+      </BlockStack>
       <Box>
         <Text as="p">Start building your app&apos;s signed in area</Text>
         <a
@@ -33,12 +33,12 @@ export default function () {
           web/routes/signed-in.jsx
         </a>
       </Box>
-      <BlockStack gap="200">
+      <BlockStack gap="300">
         <Card>
-          <Text as="h2" variant="headingLg">
-            User
-          </Text>
-          <Box>
+          <BlockStack inlineAlign="center" gap="200">
+            <Text as="h2" variant="headingLg">
+              User
+            </Text>
             <img
               className="icon"
               src={
@@ -46,7 +46,7 @@ export default function () {
                 "https://assets.gadget.dev/assets/default-app-assets/default-user-icon.svg"
               }
             />
-            <BlockStack>
+            <BlockStack gap="100">
               <Text as="p">id: {user?.id}</Text>
               <Text as="p">
                 name: {user?.firstName} {user?.lastName}
@@ -56,7 +56,7 @@ export default function () {
               </Text>
               <Text as="p">created: {user?.createdAt?.toString()}</Text>
             </BlockStack>
-          </Box>
+          </BlockStack>
         </Card>
         {shops?.map(({ id, domain, shopOwner }) => (
           <Card key={id}>

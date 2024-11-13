@@ -61,7 +61,7 @@ export default function () {
             />
             {errors?.root?.message && <Text as="p">{errors.root.message}</Text>}
             <Link to="/signed-in">Back to profile</Link>
-            <Button disabled={isSubmitting} submit onClick={submit}>
+            <Button disabled={isSubmitting} submit>
               Change password
             </Button>
           </BlockStack>

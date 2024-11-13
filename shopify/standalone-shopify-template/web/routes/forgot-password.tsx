@@ -39,7 +39,7 @@ export default function () {
                 />
               )}
             />
-            <Button disabled={isSubmitting} submit onClick={submit}>
+            <Button disabled={isSubmitting} submit>
               Send reset link
             </Button>
           </BlockStack>

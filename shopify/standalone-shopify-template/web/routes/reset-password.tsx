@@ -72,7 +72,7 @@ export default function () {
             }}
           />
           {errors?.root?.message && <Text as="p">{errors.root.message}</Text>}
-          <Button disabled={isSubmitting} submit onClick={submit}>
+          <Button disabled={isSubmitting} submit>
             Reset password
           </Button>
         </FormLayout>

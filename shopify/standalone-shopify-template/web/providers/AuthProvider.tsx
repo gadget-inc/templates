@@ -12,8 +12,6 @@ export const AuthContext = createContext<AuthContextType>({});
 export default ({ children }: { children: React.ReactNode }) => {
   const user = useUser();
 
-  console.log(user);
-
   const [_, verifyConnections] = useGlobalAction(api.verifyConnections);
 
   // Check if there should be a new connection between the user and a shop

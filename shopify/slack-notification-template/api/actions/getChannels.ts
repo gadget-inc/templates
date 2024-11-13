@@ -2,7 +2,7 @@ import { slackClient } from "../../utilities";
 
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
   // Setting the default channels array that is to be returned if there aren't any channels
-  const channels = [];
+  let channels: { label: string; value: string }[] = [];
   const shop = await api.shopifyShop.maybeFindOne(
     String(connections.shopify.currentShopId),
     {
@@ -23,9 +23,15 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       if (!result?.channels) throw new Error("No channels found");
 
       // Formatting the data and adding it to the channels array
-      for (const channel of result.channels) {
-        channels.push({ label: channel.name, value: channel.id });
-      }
+      channels = result.channels.reduce(
+        (acc, channel) => {
+          if (!channel.is_archived && channel.name && channel.id) {
+            acc.push({ label: channel.name, value: channel.id });
+          }
+          return acc;
+        },
+        [] as { label: string; value: string }[]
+      );
     } catch (error) {
       throw new Error(error as string);
     }

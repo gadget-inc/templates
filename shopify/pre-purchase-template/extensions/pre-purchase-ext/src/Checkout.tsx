@@ -86,7 +86,7 @@ function App() {
   }
 
   // fetch product variant and image from storefront API
-  async function fetchProduct(prePurchaseProduct: AppMetafieldEntry) {
+  async function fetchProduct(product: AppMetafieldEntry) {
     setLoading(true);
     try {
       const {
@@ -119,7 +119,7 @@ function App() {
           }
         }`,
         {
-          variables: { id: prePurchaseProduct.metafield.value },
+          variables: { id: product.metafield.value },
         }
       );
       setProduct(data?.product);

@@ -40,7 +40,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
    * "None selected" is used as the option to remove the Slack bot from the last channel it was on (and not join another)
    */
   channels
-    .sort((a, b) => (a.label ?? "").localeCompare(b.label ?? ""))
+    .sort((a, b) => a.label.localeCompare(b.label))
     .unshift({ label: "None selected", value: "" });
 
   return channels;

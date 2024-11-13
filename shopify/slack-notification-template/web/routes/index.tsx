@@ -25,6 +25,12 @@ import { SearchIcon } from "@shopify/polaris-icons";
 import { api } from "../api";
 import { SlackAuthButton } from "../components";
 import { useState, useCallback, useEffect, useMemo } from "react";
+import { GadgetRecord } from "@gadget-client/slack-notification-template";
+
+type Channel = {
+  label: string;
+  value: string;
+};
 
 const SlackChannelSelectionForm = ({
   shop,
@@ -32,11 +38,11 @@ const SlackChannelSelectionForm = ({
   setBannerContext,
   toggleActive,
 }: {
-  shop: {
+  shop: GadgetRecord<{
     id: string;
+    slackChannelId: string | null;
     hasSlackAccessToken: boolean;
-    slackChannelId: string;
-  };
+  }>;
   setShow: React.Dispatch<React.SetStateAction<boolean>>;
   setBannerContext: React.Dispatch<React.SetStateAction<string>>;
   toggleActive: () => void;
@@ -63,7 +69,7 @@ const SlackChannelSelectionForm = ({
     getChannels,
   ] = useGlobalAction(api.getChannels);
 
-  const deselectedOptions: { value: string; label: string }[] = useMemo(
+  const deselectedOptions: Channel[] = useMemo(
     () => channels || [{ label: "None selected", value: "" }],
     [channels]
   );
@@ -151,12 +157,7 @@ const SlackChannelSelectionForm = ({
                       label="Select a channel"
                       value={inputValue}
                       placeholder={
-                        (
-                          channels as {
-                            label: string | undefined;
-                            value: string | undefined;
-                          }[]
-                        )?.filter(
+                        (channels as Channel[])?.filter(
                           (channel) => channel.value === fieldProps.value
                         )[0]?.label || "Select a channel"
                       }
@@ -165,17 +166,13 @@ const SlackChannelSelectionForm = ({
                     />
                   }
                 >
-                  {options.length > 0 ? (
+                  {options?.length > 0 ? (
                     <Listbox
                       onSelect={(value) => {
                         setInputValue(
-                          (
-                            channels as {
-                              label: string | undefined;
-                              value: string | undefined;
-                            }[]
-                          )?.filter((channel) => channel.value === value)[0]
-                            .label as string
+                          (channels as Channel[])?.filter(
+                            (channel) => channel.value === value
+                          )[0].label as string
                         );
                         fieldProps.onChange(value);
                       }}
@@ -283,13 +280,7 @@ const ShopPage = () => {
                       displayed by the bot.
                     </Text>
                     <SlackChannelSelectionForm
-                      shop={
-                        shop as {
-                          id: string;
-                          hasSlackAccessToken: boolean;
-                          slackChannelId: string;
-                        }
-                      }
+                      shop={shop}
                       setShow={setShow}
                       setBannerContext={setBannerContext}
                       toggleActive={toggleActive}

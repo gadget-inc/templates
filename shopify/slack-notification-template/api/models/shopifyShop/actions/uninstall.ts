@@ -19,9 +19,9 @@ export const run: ActionRun = async ({ params, record, logger, api }) => {
   record.hasSlackAccessToken = false;
   record.slackScopes = null;
 
-  if (record.slackChannelId) {
+  if (record.slackChannelId && record.slackAccessToken) {
     await slackClient.conversations.leave({
-      token: record.slackAccessToken as string,
+      token: record.slackAccessToken,
       channel: record.slackChannelId,
     });
 

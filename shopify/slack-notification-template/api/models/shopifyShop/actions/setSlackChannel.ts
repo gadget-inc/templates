@@ -30,7 +30,7 @@ export const run: ActionRun = async ({ params, record, logger, api }) => {
       }
       await save(record);
     } catch (error) {
-      throw new Error(error as string);
+      throw error;
     }
   }
 };

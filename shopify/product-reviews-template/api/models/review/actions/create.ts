@@ -68,8 +68,6 @@ export const onSuccess: ActionOnSuccess = async ({
     },
   });
 
-  logger.info({ order }, "ORDER");
-
   if (order?.reviewCreationLimitReached) {
     await api.internal.shopifyOrder.update(record.orderId, {
       singleUseCode: null,

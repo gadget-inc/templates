@@ -2,6 +2,7 @@
   "version": "v1",
   "setup": "docs/setup.md",
   "introduction": "docs/intro.md",
+  "howToExtend": ["docs/howToExtend.md"],
   "featuredGlobalActions": {
     "sendEmail": {
       "description": "Sends an email to the customer that placed the order, with a link to a review page."

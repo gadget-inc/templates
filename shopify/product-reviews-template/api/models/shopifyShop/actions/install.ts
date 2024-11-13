@@ -26,7 +26,7 @@ export const run: ActionRun = async ({
     }`,
     {
       definition: {
-        type: "review",
+        type: "$app:review",
         access: {
           storefront: "PUBLIC_READ",
         },
@@ -92,7 +92,7 @@ export const run: ActionRun = async ({
       {
         definition: {
           name: "Reviews",
-          namespace: "productReviews",
+          namespace: "$app:productReviews",
           key: "reviewMetaobjects",
           description: "A list of metaobjects associated to this product",
           type: "list.metaobject_reference",

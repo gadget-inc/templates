@@ -20,7 +20,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       metafields: [
         {
           key: "reviewMetaobjects",
-          namespace: "productReviews",
+          namespace: "$app:productReviews",
           ownerId: `gid://shopify/Product/${productId}`,
           type: "list.metaobject_reference",
           value: "[]",

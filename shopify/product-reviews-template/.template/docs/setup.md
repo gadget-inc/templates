@@ -10,9 +10,7 @@ A list of steps that you should follow:
 
 4. Install the application on a development store, and add the extension block to the product page. When testing, make sure that you're always running `yarn dev`.
 
-## Testing
-
-### Reviews
+## Testing reviews
 
 - Create an order
   - Go to Shopify Admin and create a new order.

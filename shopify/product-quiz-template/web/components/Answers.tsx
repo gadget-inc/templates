@@ -1,4 +1,3 @@
-// @ts-nocheck
 import {
   TextField,
   BlockStack,
@@ -12,19 +11,55 @@ import {
 import { Fragment } from "react";
 import { useFieldArray, Controller, useFormContext } from "@gadgetinc/react";
 import { PlusCircleIcon, XCircleIcon, ImageIcon } from "@shopify/polaris-icons";
+import { GadgetRecordList } from "@gadget-client/product-quiz-template";
 
-const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
+type QuizError = {
+  questions?: {
+    [key: string]: {
+      answers?: {
+        [key: string]: {
+          text?: {
+            message: string;
+          };
+          recommendedProduct?: {
+            productSuggestion?: {
+              id?: {
+                message: string;
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+};
+
+type ProductImages = {
+  [key: string]: string;
+};
+
+const AnswerImage = ({
+  name,
+  answerIndex,
+  productImages,
+}: {
+  name: string;
+  answerIndex: number;
+  productImages: ProductImages | undefined;
+}) => {
+  const { watch } = useFormContext();
+
   const productSuggestionWatch = watch(
     `${name}.${answerIndex}.recommendedProduct.productSuggestion.id`
   );
 
   return productSuggestionWatch ? (
     <BlockStack inlineAlign="center">
-      {productImages[productSuggestionWatch] ? (
+      {productImages?.[productSuggestionWatch] ? (
         <Thumbnail
           size="large"
           alt={name}
-          source={productImages[productSuggestionWatch]}
+          source={productImages?.[productSuggestionWatch]}
         />
       ) : (
         <Thumbnail size="large" alt={name} source={ImageIcon} />
@@ -33,11 +68,31 @@ const AnswerImage = ({ name, answerIndex, productImages, watch }) => {
   ) : undefined;
 };
 
-export default ({ name, questionIndex, products }) => {
+export default ({
+  name,
+  questionIndex,
+  products,
+}: {
+  name: string;
+  questionIndex: number;
+  products:
+    | GadgetRecordList<{
+        id: string;
+        title: string | null;
+        images: {
+          edges: {
+            node: {
+              id: string;
+              source: string | null;
+            };
+          }[];
+        };
+      }>
+    | undefined;
+}) => {
   const {
     control,
     formState: { errors },
-    watch,
   } = useFormContext();
 
   const {
@@ -49,17 +104,20 @@ export default ({ name, questionIndex, products }) => {
     name,
   });
 
-  const productsOptions = products.map((p, i) => ({
-    label: p.title,
+  const productsOptions = products?.map((p, i) => ({
+    label: p.title ?? "",
     value: p.id,
-    key: i,
+    key: String(i),
   }));
 
-  const productsImageMap = products.reduce((acc, p) => {
-    acc[p.id] = p.images.edges[0]?.node?.source;
+  const productsImageMap: ProductImages | undefined = products?.reduce(
+    (acc: ProductImages, p) => {
+      acc[p.id] = p.images.edges[0]?.node?.source ?? "";
 
-    return acc;
-  }, {});
+      return acc;
+    },
+    {}
+  );
 
   return (
     <BlockStack>
@@ -78,8 +136,8 @@ export default ({ name, questionIndex, products }) => {
                     autoComplete="off"
                     {...fieldProps}
                     error={
-                      errors.quiz?.questions?.[questionIndex]?.answers?.[i]
-                        ?.text?.message
+                      (errors.quiz as QuizError)?.questions?.[questionIndex]
+                        ?.answers?.[i]?.text?.message
                     }
                   />
                 )}
@@ -96,8 +154,9 @@ export default ({ name, questionIndex, products }) => {
                     options={productsOptions}
                     requiredIndicator
                     error={
-                      errors.quiz?.questions?.[questionIndex]?.answers?.[i]
-                        ?.recommendedProduct?.productSuggestion?.id?.message
+                      (errors.quiz as QuizError)?.questions?.[questionIndex]
+                        ?.answers?.[i]?.recommendedProduct?.productSuggestion
+                        ?.id?.message
                     }
                     {...fieldProps}
                   />
@@ -108,7 +167,7 @@ export default ({ name, questionIndex, products }) => {
             <AnswerImage
               answerIndex={i}
               productImages={productsImageMap}
-              {...{ name, watch }}
+              {...{ name }}
             />
 
             <Button
@@ -128,7 +187,7 @@ export default ({ name, questionIndex, products }) => {
           icon={<Icon source={PlusCircleIcon} />}
           onClick={() => addAnswer({ text: "" })}
         >
-          <p>Add answer</p>
+          Add answer
         </Button>
       </BlockStack>
     </BlockStack>

@@ -6,7 +6,7 @@ A list of steps that you should follow:
 
 2. Sync the code locally using `ggt` ([Gadget CLI](https://docs.gadget.dev/reference/ggt#ggt-reference)) and run `yarn dev` to test the application. Note that you're require to have a `shopify.app.toml` to run `yarn dev`. Make sure to install the [Shopify CLI](https://shopify.dev/docs/api/shopify-cli#installation) using these instructions.
 
-3. When running, press the `g` key to open the Shopify GraphiQL UI and run the following command to get your development Cart Transform function id. Add this function id to the environment variables of your development environment.
+3. When running, press the `g` key to open the Shopify GraphiQL UI and run the following command to get your development Cart Transform function id. Add this function id to the `BUNDLER_FUNCTION_ID` environment variable of your development environment.
 
 ```graphql
 query {

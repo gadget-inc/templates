@@ -49,7 +49,11 @@ export const onSuccess: ActionOnSuccess = async ({
     variant: {
       id: string | null;
       price?: number;
-      metafields?: { id: string | null; value: string }[];
+      metafields?: {
+        namespace: "bundle";
+        key: "componentReference";
+        value: string;
+      }[];
     } = {
       id: record.bundleVariantId,
     },
@@ -89,7 +93,8 @@ export const onSuccess: ActionOnSuccess = async ({
   if (variantGIDs !== JSON.stringify(bundleVariant.componentReference)) {
     variant.metafields = [
       {
-        id: record.componentReferenceMetafieldId,
+        namespace: "bundle",
+        key: "componentReference",
         value: variantGIDs,
       },
     ];

@@ -82,55 +82,44 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
    * - productVariantQuantities: An object with the product variant ids as keys and their quantities as values
    */
   const productVariantUpdateResponse = await shopify.graphql(
-    `mutation ($input: ProductVariantInput!) {
-      productVariantUpdate(input: $input) {
-        productVariant {
-          id
-          metafields(first: 2) {
-            edges {
-              node {
-                id
-                namespace
-                key
-                value
-              }
-            }
+    `mutation productVariantsBulkUpdate($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
+        productVariantsBulkUpdate(productId: $productId, variants: $variants) {
+          userErrors {
+            message
           }
         }
-        userErrors {
-          message
-          field
-        }
-      }
-    }`,
+      }`,
     {
-      input: {
-        id: productCreateResponse?.productCreate?.product?.variants?.edges[0]
-          ?.node?.id,
-        price: bundle?.variant?.price?.toFixed(2),
-        inventoryPolicy: "CONTINUE", // Make sure to make this configurable. Set to "CONTINUE" for testing
-        metafields: [
-          {
-            namespace: "bundle",
-            key: "componentReference",
-            type: "list.variant_reference",
-            value: JSON.stringify(await fetchVariantGIDs(bundle.id, shopId)),
-          },
-          {
-            namespace: "bundle",
-            key: "isBundle",
-            type: "boolean",
-            value: "true",
-          },
-          {
-            namespace: "bundle",
-            key: "productVariantQuantities",
-            type: "json",
-            value: JSON.stringify(quantityObj),
-          },
-        ],
-        requiresComponents: true,
-      },
+      productId: productCreateResponse.productCreate.product.id,
+      variants: [
+        {
+          id: productCreateResponse?.productCreate?.product?.variants?.edges[0]
+            ?.node?.id,
+          price: bundle?.variant?.price?.toFixed(2),
+          inventoryPolicy: "CONTINUE", // Make sure to make this configurable. Set to "CONTINUE" for testing
+          metafields: [
+            {
+              namespace: "bundle",
+              key: "componentReference",
+              type: "list.variant_reference",
+              value: JSON.stringify(await fetchVariantGIDs(bundle.id, shopId)),
+            },
+            {
+              namespace: "bundle",
+              key: "isBundle",
+              type: "boolean",
+              value: "true",
+            },
+            {
+              namespace: "bundle",
+              key: "productVariantQuantities",
+              type: "json",
+              value: JSON.stringify(quantityObj),
+            },
+          ],
+          requiresComponents: true,
+        },
+      ],
     }
   );
 
@@ -178,17 +167,6 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       publicationResponse.publishablePublish.userErrors[0].message
     );
 
-  let componentReferenceMetafieldId = "";
-
-  // Retrieve the id of the componentReference metafield
-  for (const metafield of productVariantUpdateResponse.productVariantUpdate
-    .productVariant.metafields.edges) {
-    if (metafield.node.key === "componentReference") {
-      componentReferenceMetafieldId = metafield.node.id;
-      break;
-    }
-  }
-
   // Update the bundle using the internal API, linking the bundle to it's parent product variant
   await api.internal.bundle.update(bundle.id, {
     bundleVariant: {
@@ -197,7 +175,6 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
           "/"
         )[4],
     },
-    componentReferenceMetafieldId,
   });
 };
 

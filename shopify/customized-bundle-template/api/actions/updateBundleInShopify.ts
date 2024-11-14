@@ -40,6 +40,8 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       );
   }
 
+  // UPDATE THIS
+
   if (variantChanges?.length) {
     if (!bundle?.variant?.id) throw new Error("Bundle variant ID not found");
 
@@ -47,22 +49,21 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
     // Update the product variant with the new data
     const productVariantUpdateResponse = await shopify.graphql(
-      `mutation ($input: ProductVariantInput!) {
-          productVariantUpdate(input: $input) {
-            productVariant {
-              id
-            }
-            userErrors {
-              message
-              field
-            }
+      `mutation productVariantsBulkUpdate($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
+        productVariantsBulkUpdate(productId: $productId, variants: $variants) {
+          userErrors {
+            message
           }
-        }`,
+        }
+      }`,
       {
-        input: {
-          id: `gid://shopify/ProductVariant/${variantId}`,
-          ...variantData,
-        },
+        productId: `gid://shopify/Product/${bundle?.product?.id}`,
+        variants: [
+          {
+            id: `gid://shopify/ProductVariant/${variantId}`,
+            ...variantData,
+          },
+        ],
       }
     );
 
@@ -135,7 +136,10 @@ export const params = {
             items: {
               type: "object",
               properties: {
-                id: {
+                namespace: {
+                  type: "string",
+                },
+                key: {
                   type: "string",
                 },
                 value: {

@@ -34,7 +34,6 @@ const Error404 = () => {
 
 export default () => {
   const navigate = useNavigate();
-  const location = useLocation();
   interface History {
     replace: (path: string) => void;
   }
@@ -42,14 +41,6 @@ export default () => {
   const history: History = useMemo(
     () => ({ replace: (path: string) => navigate(path, { replace: true }) }),
     [navigate]
-  );
-
-  const appBridgeRouter = useMemo(
-    () => ({
-      location,
-      history,
-    }),
-    [location, history]
   );
 
   return (

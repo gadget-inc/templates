@@ -23,9 +23,7 @@ export default ({
   onSubmit: () => Promise<void>;
 }) => {
   const {
-    watch,
     control,
-    getValues,
     formState: { errors, isDirty },
   } = useFormContext();
 

@@ -226,7 +226,7 @@ const ShopPage = () => {
   }, []);
 
   // Handler for toggling the channel set success toast
-  const toggleActive = useCallback(() => setActive((active) => !active), []);
+  const toggleActive = useCallback(() => setActive((prev) => !prev), []);
 
   // useEffect for showing an error banner when there's an issue fetching the current Shopify shop
   useEffect(() => {

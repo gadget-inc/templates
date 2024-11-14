@@ -13,9 +13,6 @@ export const run: ActionRun = async ({
   await save(record);
 };
 
-/**
- * @param { ReinstallShopifyShopActionContext } context
- */
 export const onSuccess: ActionOnSuccess = async ({
   params,
   record,

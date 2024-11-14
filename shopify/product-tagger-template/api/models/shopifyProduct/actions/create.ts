@@ -6,8 +6,6 @@ import {
 } from "gadget-server";
 import { applyTags } from "../utils";
 
-export type ActionContext = ActionRun;
-
 export const run: ActionRun = async ({ params, record, logger, api }) => {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);

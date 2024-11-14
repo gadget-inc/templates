@@ -1,11 +1,27 @@
 import {
-  CreateShopifyProductActionContext,
   logger,
+  CreateShopifyProductActionContext,
   UpdateShopifyProductActionContext,
 } from "gadget-server";
-import type { ActionContext } from "./actions/create";
 
-export const applyTags: ActionContext = async ({ record, api, connections }: ApplyTagsParams) => {
+type ApplyTagsParams = {
+  record:
+    | CreateShopifyProductActionContext["record"]
+    | UpdateShopifyProductActionContext["record"];
+
+  api:
+    | CreateShopifyProductActionContext["api"]
+    | UpdateShopifyProductActionContext["api"];
+  connections:
+    | CreateShopifyProductActionContext["connections"]
+    | UpdateShopifyProductActionContext["connections"];
+};
+
+export const applyTags = async ({
+  record,
+  api,
+  connections,
+}: ApplyTagsParams) => {
   if (record.id && record.body && record.changed("body")) {
     // get a unique list of words used in the record's description
     let newTags = [...new Set(record.body.match(/\w+(?:'\w+)*/g))];

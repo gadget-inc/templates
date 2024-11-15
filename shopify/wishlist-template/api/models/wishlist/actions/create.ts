@@ -16,6 +16,8 @@ export const run: ActionRun = async ({
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
   await save(record);
+
+  logger.info({ record }, "Wishlist created");
 };
 
 export const onSuccess: ActionOnSuccess = async ({

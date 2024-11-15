@@ -1,4 +1,4 @@
-import { api, connections } from "gadget-server";
+import { api, connections, logger } from "gadget-server";
 
 export default async ({
   shopId,
@@ -51,6 +51,8 @@ export default async ({
       variants: {},
     };
   }
+
+  logger.info({ customerId, shopId }, "HERE");
 
   // Fetch the first page of wishlist items
   let wishlistItems = await api.wishlistItem.findMany({

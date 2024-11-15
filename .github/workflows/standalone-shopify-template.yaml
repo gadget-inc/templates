@@ -1,0 +1,21 @@
+name: Standalone Shopify Template Deployment
+
+on:
+  push:
+    paths:
+      - "shopify/standalone-shopify-template/**"
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  push-to-development-environment:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v4
+      - name: Push to development environment
+        run: npx ggt push --app=standalone-shopify-template --env=development --force --allow-unknown-directory
+        working-directory: shopify/standalone-shopify-template/
+        env:
+          GGT_TOKEN: ${{ secrets.STANDALONE_SHOPIFY_DEPLOY_TOKEN }}

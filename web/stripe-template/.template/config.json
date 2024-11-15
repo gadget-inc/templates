@@ -1,0 +1,59 @@
+{
+  "version": "v1",
+  "introduction": "docs/Intro.md",
+  "setup": "docs/setup.md",
+  "featuredFrontends": {
+    "App.jsx": {
+      "description": "This page handles routing of the frontend pages.",
+      "tags": ["edited"]
+    },
+    "signed-in.jsx": {
+      "description": "Very basic UI that displays a message and button",
+      "tags": ["edited"]
+    },
+    "billing.jsx": {
+      "description": "Billing page for selecting a subscription",
+      "tags": ["added"]
+    }
+  },
+  "featuredModels": {
+    "subscription": {
+      "description": "Stores Stripe subscription data",
+      "featuredFields": ["stripeId", "user", "status"]
+    },
+    "user": {
+      "description": "Tracks user authentication, email verification and other auth methods",
+      "featuredFields": ["stripeSubscription", "stripeCustomerId"]
+    }
+  },
+  "featuredActions": {
+    "subscription": {
+      "create": {
+        "description": "Links a user record with the newly created subscription",
+        "tags": ["added"]
+      }
+    }
+  },
+  "featuredGlobalActions": {
+    "getProducts": {
+      "description": "Fetches active Stripe products and prices and shapes them to be consumed on the billing page"
+    },
+    "createCheckoutSession": {
+      "description": "Creates a new Stripe checkout session for a given product and price using the price's id"
+    },
+    "createPortalSession": {
+      "description": "Creates a new Stripe customer portal session for a given user"
+    }
+  },
+  "webflow": {
+    "title": "Stripe subscriptions",
+    "description": "This template is a basic example of how to implement Stripe subscriptions in Gadget.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/stripe-template.png",
+    "features": {
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

@@ -1,0 +1,5 @@
+# This is the basic tenancy filter for bundleComponent belongsTo shopifyShop
+fragment Filter($session: Session) on BundleComponent {
+  *
+  [where shopId == $session.shopId]
+}

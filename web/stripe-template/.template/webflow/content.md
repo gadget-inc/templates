@@ -1,0 +1,4 @@
+- Stripe subscription management
+- User tenancy with Google SSO and email/password login
+- _Ready-to-use:_ No need to start from scratch – setup with authentication, data models, backend logic, and a frontend all hosted on Gadget.
+- _Ready-to-extend:_ If you can build it in JS you can extend this template.

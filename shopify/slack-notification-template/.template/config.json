@@ -1,0 +1,71 @@
+{
+  "version": "v1",
+  "setup": "docs/setup.md",
+  "introduction": "docs/introduction.md",
+  "featuredGlobalActions": {
+    "getChannels": {
+      "description": "Fetch the available public channels for the installed Slack organization."
+    },
+    "getSlackAuthRedirect": {
+      "description": "Create a redirect URL which starts the Slack OAuth flow."
+    }
+  },
+  "featuredFrontends": {
+    "ShopPage.jsx": {
+      "description": "The main page of the app. Auth start and channel selection page.",
+      "tags": ["edited"]
+    }
+  },
+  "featuredModels": {
+    "shopifyShop": {
+      "description": "The default Shopify shop model with additional Slack related fields.",
+      "featuredFields": [
+        "hasSlackAccessToken",
+        "slackChannelId",
+        "slackScopes",
+        "slackAccessToken"
+      ]
+    }
+  },
+  "featuredActions": {
+    "shopifyShop": {
+      "setSlackChannel": {
+        "description": "Sets a new channelId on the shop record. Leaves the existing channel if channelId is already set.",
+        "tags": ["added"]
+      },
+      "uninstall": {
+        "description": "Removes the Slack channelId from the shop record if on is set.",
+        "tags": ["edited"]
+      }
+    },
+    "shopifyOrderTransaction": {
+      "create": {
+        "description": "Sends a notification to a merchant's chosen channel if: the action trigger is a webhook; the merchant has gone through the Slack OAuth flow; and the merchant has set a Slack channel.",
+        "tags": ["edited"]
+      }
+    }
+  },
+  "featuredRoutes": {
+    "slack/GET-callback.js": {
+      "description": "The URL that continues the subscription flow when a merchant accepts a plan's terms."
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "shopifyShop": {
+        "description": "The read and setSlackChannel permissions allow the merchant to read information about the current subscription and set the current channel where notifications are sent."
+      }
+    }
+  },
+  "webflow": {
+    "title": "Shopify order notifications with Slack",
+    "description": "Allow merchants to receive notifications when a transaction has been completed.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/slack.webp",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "actions": true
+    }
+  }
+}

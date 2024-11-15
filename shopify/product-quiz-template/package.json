@@ -1,0 +1,42 @@
+{
+  "name": "product-quiz-template",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Internal package for Gadget app Product Quiz Tutorial V4 (Development environment)",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@fastify/request-context": "^3.0.0",
+    "@gadget-client/product-quiz-template": "link:.gadget/client",
+    "@gadgetinc/react": "^0.18.0",
+    "@gadgetinc/react-shopify-app-bridge": "^0.16.4",
+    "@shopify/app-bridge-react": "^4.1.1",
+    "@shopify/polaris": "^13.9.0",
+    "@shopify/polaris-icons": "^9.3.0",
+    "ejs": "^3.1.9",
+    "fastify": "^4.24.2",
+    "gadget-server": "link:.gadget/server",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-hook-form": "^7.48.2",
+    "react-router-dom": "^6.6.1",
+    "shopify-api-node": "3.11.3"
+  },
+  "scripts": {
+    "shopify": "shopify",
+    "build": "NODE_ENV=production vite build",
+    "dev": "shopify app dev --no-update",
+    "info": "shopify app info",
+    "scaffold": "shopify app scaffold",
+    "deploy": "shopify app deploy",
+    "generate": "shopify app generate"
+  },
+  "devDependencies": {
+    "@shopify/app": "^3.58.2",
+    "@types/node": "^20.12.8",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react-swc": "3.2.0",
+    "typescript": "^4.5.3",
+    "vite": "^5.3.5"
+  }
+}

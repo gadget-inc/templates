@@ -1,0 +1,28 @@
+{
+  "version": "v1",
+  "introduction": "docs/Intro.md",
+  "setup": "docs/setup.md",
+  "featuredModels": {
+    "shopPermission": {
+      "description": "A model that links the user and shop records (hasManyThrough relationship). This link is used in tenancy to determine which shops a user has access to.",
+      "tags": ["added"]
+    }
+  },
+  "featuredGlobalActions": {
+    "verifyConnections": {
+      "description": "Checks the current session to see if a new shopPermission record needs to be created."
+    }
+  },
+  "webflow": {
+    "title": "Standalone Shopify app with Gadget auth",
+    "description": "Write a non-embedded app with Gadget managed Shopify auth.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/standalone-shopify-template.png",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

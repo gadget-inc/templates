@@ -1,0 +1,135 @@
+{
+  "version": "v1",
+  "setup": "docs/setup.md",
+  "introduction": "docs/introduction.md",
+  "featuredFrontends": {
+    "App.jsx": {
+      "description": "This page handles routing of the frontend pages.",
+      "tags": ["edited"]
+    },
+    "routes/HomePage.jsx": {
+      "description": "Main page for the shopify admin app.",
+      "tags": ["added"]
+    },
+    "routes/CreateQuizPage.jsx": {
+      "description": "The page containing the form used for creating new quizzes.",
+      "tags": ["added"]
+    },
+    "routes/EditQuizPage.jsx": {
+      "description": "The page containing the form used for editing existing quizzes.",
+      "tags": ["added"]
+    },
+    "components/QuizForm.jsx": {
+      "description": "The entrypoint for the form used to create and edit quizzes.",
+      "tags": ["added"]
+    },
+    "components/InstallTab.jsx": {
+      "description": "The installation instructions for adding the quiz to the storefront.",
+      "tags": ["added"]
+    },
+    "components/Store1Instructions.jsx": {
+      "description": "Instructions for manually adding code files for themes built on Online Store 1.",
+      "tags": ["added"]
+    }
+  },
+  "featuredModels": {
+    "quiz": {
+      "description": "Serves as the framework for creating and storing quizzes.",
+      "featuredFields": ["slug", "title", "results", "questions"]
+    },
+    "question": {
+      "description": "Questions that are included in a quiz.",
+      "featuredFields": ["text", "quiz", "answers"]
+    },
+    "answer": {
+      "description": "Possible answers for a quiz question.",
+      "featuredFields": ["text", "question", "recommendedProduct"]
+    },
+    "recommendedProduct": {
+      "description": "A shopifyProduct that is recommended to shoppers when they select an answer to a question.",
+      "featuredFields": ["productSuggestion", "answer"]
+    },
+    "quizResult": {
+      "description": "A shopper's email, along with a link to the products that were recommended to them based on their answers.",
+      "featuredFields": ["email", "shopperSuggestion", "quiz"]
+    },
+    "shopperSuggestion": {
+      "description": "A join table to handle the has-many-through relationship between quizResult and shopifyProduct.",
+      "featuredFields": ["product", "quizResult"]
+    },
+    "shopifyProduct": {
+      "description": "Synchronizes and stores product data from connected Shopify stores.",
+      "featuredFields": ["title", "images", "recommendedProduct"]
+    },
+    "shopifyTheme": {
+      "description": "Stores a boolean marking a theme as Online Store 2.0 or not.",
+      "featuredFields": ["usingOnlineStore2", "assets"]
+    },
+    "shopifyAssets": {
+      "description": "Used to mark related Shopify themes as using Online Store 2.0 or 1.0.",
+      "featuredFields": ["key", "theme"]
+    }
+  },
+  "featuredActions": {
+    "quiz": {
+      "create": {
+        "description": "When a quiz is created, we also generate a \"ID\"/slug (ie. My Cool Quiz -> my-cool-quiz).",
+        "tags": ["edited"]
+      },
+      "delete": {
+        "description": "A cascading delete that also deletes a quiz's questions, answers, and recommended products.",
+        "tags": ["edited"]
+      }
+    },
+    "shopifyAsset": {
+      "create": {
+        "description": "We hook into this to find out which storefront version a shop uses, Shopify 1.0 or 2.0.",
+        "tags": ["edited"]
+      },
+      "update": {
+        "description": "We hook into this to find out which storefront version a shop uses.",
+        "tags": ["edited"]
+      }
+    }
+  },
+  "featuredAccessControls": {
+    "unauthenticated": {
+      "quiz": {
+        "description": "Quizzes can be seen by anyone who visits the shop, regardless of whether they are logged in."
+      },
+      "quizResult": {
+        "description": "Shoppers can enter their email and submit to get product recommendations. Recommendations and emails are saved."
+      }
+    },
+    "shopify-app-users": {
+      "shopifyTheme": {
+        "description": "",
+        "featuredFilters": {
+          "tenancy/shopifyTheme.gelly": {
+            "description": "Has been added so that merchants are only able to read themes from their store."
+          }
+        }
+      }
+    }
+  },
+  "featuredFiles": {
+    "package.json": {
+      "description": "Holds a list of all the dependencies for the project.",
+      "tags": ["edited"]
+    },
+    "index.html": {
+      "description": "The home, entrypoint and main file that's served."
+    }
+  },
+  "webflow": {
+    "title": "Product Quiz",
+    "description": "Recommend products to Shopify customers based on their answers to a quiz using Gadget.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/Product-Quiz.webp",
+    "wistiaId": "45mm8shd0h",
+    "features": {
+      "shopify": true,
+      "frontend": true
+    }
+  }
+}

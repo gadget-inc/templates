@@ -127,7 +127,7 @@ export const permissions: GadgetPermissions = {
           },
           actions: {
             create: true,
-            update: true,
+            delete: true,
           },
         },
         wishlistItem: {

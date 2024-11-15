@@ -33,7 +33,6 @@ export default ({
     control,
     submit,
     formState: { isDirty, isValid, isSubmitting, errors },
-    setError,
   } = useActionForm(api.wishlist.create, {
     defaultValues: {
       wishlist: {
@@ -41,6 +40,7 @@ export default ({
         customerId: shop?.customers?.edges[0]?.node.id,
       },
     },
+    mode: "onChange",
     onError: (error) => console.error(error),
   });
 
@@ -81,13 +81,7 @@ export default ({
                   (wishlist) => wishlist.name === value
                 );
 
-                if (!passed) {
-                  setError("wishlist.name", {
-                    type: "uniqueness",
-                    message: "Name must be unique",
-                  });
-                  return "Name must be unique";
-                }
+                if (!passed) return "Name must be unique";
 
                 return true;
               },

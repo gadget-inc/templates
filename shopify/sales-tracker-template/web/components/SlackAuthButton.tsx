@@ -1,18 +1,12 @@
-import { Text, Button, InlineStack } from "@shopify/polaris";
 import { api } from "../api";
-import { useGlobalAction } from "@gadgetinc/react";
-import { useCallback } from "react";
+import { AutoButton } from "@gadgetinc/react/auto/polaris";
 
-export default ({ reauthenticate = false }) => {
-  const [_, getSlackAuthRedirect] = useGlobalAction(api.getSlackAuthRedirect);
-
-  const handleButtonClick = useCallback(async () => {
-    open((await getSlackAuthRedirect()).data, "_top");
-  }, []);
-
+export default ({ reauth = false }) => {
   return (
-    <Button size="large" onClick={handleButtonClick}>
-      <InlineStack columns={2}>
+    <AutoButton
+      action={api.getSlackAuthRedirect}
+      onSuccess={({ data }) => open(data, "_top")}
+      icon={
         <svg
           xmlns="http://www.w3.org/2000/svg"
           style={{ height: "24px", width: "24px", marginRight: "12px" }}
@@ -35,10 +29,9 @@ export default ({ reauthenticate = false }) => {
             fill="#ecb22e"
           ></path>
         </svg>
-        <Text as="span" variant="bodyLg">
-          {reauthenticate ? "Reauthenticate" : "Add to Slack"}
-        </Text>
-      </InlineStack>
-    </Button>
+      }
+    >
+      {reauth ? "Reauthorize Slack" : "Add to Slack"}
+    </AutoButton>
   );
 };

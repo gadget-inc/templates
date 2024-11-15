@@ -3,56 +3,66 @@ import {
   Provider as GadgetProvider,
   useGadget,
 } from "@gadgetinc/react-shopify-app-bridge";
-import { NavigationMenu } from "@shopify/app-bridge-react";
+import { NavMenu } from "@shopify/app-bridge-react";
 import { Page, Spinner, Text } from "@shopify/polaris";
-import { useEffect, useMemo } from "react";
-import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { Overview, Notifications } from "../pages"
+import { useEffect } from "react";
+import {
+  Outlet,
+  Route,
+  RouterProvider,
+  createBrowserRouter,
+  createRoutesFromElements,
+  useLocation,
+  useNavigate,
+  Link,
+} from "react-router-dom";
+import Index from "../routes/index";
 import { api } from "../api";
-import { useFindFirst } from "@gadgetinc/react";
-import { ShopifyShopSelect } from "../selections";
 
-const Error404 = () => {
+function Error404() {
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
     if (
+      process.env.GADGET_PUBLIC_SHOPIFY_APP_URL &&
       location.pathname ===
-      new URL(process.env.GADGET_PUBLIC_SHOPIFY_APP_URL).pathname
+        new URL(process.env.GADGET_PUBLIC_SHOPIFY_APP_URL).pathname
     )
       return navigate("/", { replace: true });
   }, [location.pathname]);
+
   return <div>404 not found</div>;
+}
+
+export default () => {
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Index />} />
+        <Route path="*" element={<Error404 />} />
+      </Route>
+    )
+  );
+
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 };
 
-const App = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const history = useMemo(
-    () => ({ replace: (path) => navigate(path, { replace: true }) }),
-    [navigate]
-  );
-
-  const appBridgeRouter = useMemo(
-    () => ({
-      location,
-      history,
-    }),
-    [location, history]
-  );
-
+function Layout() {
   return (
     <GadgetProvider
       type={AppType.Embedded}
       shopifyApiKey={window.gadgetConfig.apiKeys.shopify}
       api={api}
-      router={appBridgeRouter}
     >
       <AuthenticatedApp />
     </GadgetProvider>
   );
-};
+}
 
 function AuthenticatedApp() {
   // we use `isAuthenticated` to render pages once the OAuth flow is complete!
@@ -76,62 +86,24 @@ function AuthenticatedApp() {
 }
 
 function EmbeddedApp() {
-  // Fetching the current shopifyShop to get configuration values
-  const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
-    useFindFirst(api.shopifyShop, {
-      select: ShopifyShopSelect,
-      live: true,
-    });
   return (
     <>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Overview
-              currency={!fetchingShop && shop?.currency}
-              timezone={!fetchingShop && shop?.ianaTimezone}
-            />
-          }
-        />
-        <Route
-          path="/slack-notifications"
-          element={
-            <Notifications
-              shopId={!fetchingShop && shop?.id}
-              slackAccessToken={!fetchingShop && shop?.slackAccessToken}
-              slackChannelId={!fetchingShop && shop?.slackChannelId}
-            />
-          }
-        />
-        <Route path="*" element={<Error404 />} />
-      </Routes>
-      <NavigationMenu
-        navigationLinks={[
-          {
-            label: "Overview",
-            destination: "/",
-          },
-          {
-            label: "Slack Notifications",
-            destination: "/slack-notifications",
-          },
-        ]}
-      />
+      <Outlet />
+      <NavMenu>
+        <Link to="/" rel="home">
+          Dashboard
+        </Link>
+      </NavMenu>
     </>
   );
 }
 
 function UnauthenticatedApp() {
   return (
-    <Page title="Sales Tracker Template">
+    <Page title="App">
       <Text variant="bodyMd" as="p">
-        App can only be viewed in the Shopify Admin. You may want to use this
-        unauthenticated app path as a company lander / marketing and support
-        space.
+        App can only be viewed in the Shopify Admin.
       </Text>
     </Page>
   );
 }
-
-export default App;

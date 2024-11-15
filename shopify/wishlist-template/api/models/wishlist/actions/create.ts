@@ -16,8 +16,6 @@ export const run: ActionRun = async ({
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
   await save(record);
-
-  logger.info({ record }, "Wishlist created");
 };
 
 export const onSuccess: ActionOnSuccess = async ({
@@ -28,6 +26,7 @@ export const onSuccess: ActionOnSuccess = async ({
   connections,
 }) => {
   // Add a random image to the wishlist on creation. Might be good to give the user the option to upload their own image.
+
   await api.wishlist.update(record.id, {
     image: {
       copyURL: "https://picsum.photos/200",
@@ -36,7 +35,8 @@ export const onSuccess: ActionOnSuccess = async ({
 
   // Update the wishlist metafield to include the new wishlist
   await updateWishlistMetafield({
-    shopId: record.shopId,
+    // @ts-ignore
+    shopId: record.shop,
     customerId: record.customerId,
   });
 };

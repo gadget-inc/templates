@@ -7,7 +7,7 @@ export default async ({
   shopId: string;
   customerId: string;
 }) => {
-  // INstantiate the Shopify API and fetch the first page of wishlists
+  // Instantiate the Shopify API and fetch the first page of wishlists
   let [shopify, wishlists] = await Promise.all([
     connections.shopify.forShopId(shopId),
     api.wishlist.findMany({
@@ -51,8 +51,6 @@ export default async ({
       variants: {},
     };
   }
-
-  logger.info({ customerId, shopId }, "HERE");
 
   // Fetch the first page of wishlist items
   let wishlistItems = await api.wishlistItem.findMany({

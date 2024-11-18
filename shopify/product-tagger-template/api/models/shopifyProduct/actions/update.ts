@@ -19,7 +19,13 @@ export const onSuccess: ActionOnSuccess = async ({
   api,
   connections,
 }) => {
-  await applyTags({ record, api, connections });
+  if (record.changed("body")) {
+    await applyTags({
+      id: record.id,
+      body: record.body,
+      tags: record.tags as string[],
+    });
+  }
 };
 
 export const options: ActionOptions = {

@@ -1,30 +1,17 @@
-import {
-  logger,
-  CreateShopifyProductActionContext,
-  UpdateShopifyProductActionContext,
-} from "gadget-server";
-
-type ApplyTagsParams = {
-  record:
-    | CreateShopifyProductActionContext["record"]
-    | UpdateShopifyProductActionContext["record"];
-
-  api:
-    | CreateShopifyProductActionContext["api"]
-    | UpdateShopifyProductActionContext["api"];
-  connections:
-    | CreateShopifyProductActionContext["connections"]
-    | UpdateShopifyProductActionContext["connections"];
-};
+import { logger, api, connections } from "gadget-server";
 
 export const applyTags = async ({
-  record,
-  api,
-  connections,
-}: ApplyTagsParams) => {
-  if (record.id && record.body && record.changed("body")) {
+  tags,
+  body,
+  id,
+}: {
+  tags: string[];
+  body: string | null;
+  id: string;
+}) => {
+  if (id && body) {
     // get a unique list of words used in the record's description
-    let newTags = [...new Set(record.body.match(/\w+(?:'\w+)*/g))];
+    let newTags = [...new Set(body.match(/\w+(?:'\w+)*/g))];
 
     // filter down to only those words which are allowed
     // a filter condition is used on the api.allowedTag.findMany() request that checks the shop id
@@ -41,22 +28,20 @@ export const applyTags = async ({
     // merge with any existing tags and use Set to remove duplicates
     const finalTags = [
       ...new Set(
-        newTags
-          .filter((tag) => allowedTags.includes(tag))
-          .concat(record.tags as string[])
+        newTags.filter((tag) => allowedTags.includes(tag)).concat(tags)
       ),
     ];
     logger.info(
       { newTags, allowedTags, finalTags },
-      `applying final tags to product ${record.id}`
+      `applying final tags to product ${id}`
     );
 
     // write tags back to Shopify
     const shopify = connections.shopify.current;
 
     if (shopify) {
-      logger.info({ message: `writing back to Shopify product ${record.id}` });
-      await shopify.product.update(parseInt(record.id), {
+      logger.info({ message: `writing back to Shopify product ${id}` });
+      await shopify.product.update(parseInt(id), {
         tags: finalTags.join(","),
       });
     }

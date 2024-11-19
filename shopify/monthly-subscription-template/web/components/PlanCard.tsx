@@ -11,7 +11,7 @@ import { api } from "../api";
 import { useContext, useState } from "react";
 import { ShopContext } from "../providers";
 import { trialCalculations } from "../utilities";
-import { ShopContextType } from "../providers/ShopProvider";
+import type { ShopContextType } from "../providers/ShopProvider";
 
 export default ({
   id,

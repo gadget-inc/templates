@@ -1,7 +1,7 @@
 import { BlockStack, Layout, Page, Text, Card, Button } from "@shopify/polaris";
 import { useContext } from "react";
 import { ShopContext } from "../providers";
-import { ShopContextType } from "../providers/ShopProvider";
+import type { ShopContextType } from "../providers/ShopProvider";
 
 /**
  * This is where your main app logic should go

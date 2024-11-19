@@ -12,7 +12,7 @@ import { api } from "../api";
 import { PlanCard, StyledSpinner } from "../components";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
-import { ShopContextType } from "../providers/ShopProvider";
+import type { ShopContextType } from "../providers/ShopProvider";
 
 // This is the billing page that will be displayed when a user hasn't selected a plan or they want to change plans.
 export default () => {

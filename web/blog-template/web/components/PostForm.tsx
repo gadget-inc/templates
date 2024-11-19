@@ -21,7 +21,7 @@ import {
 } from "@chakra-ui/react";
 import { api } from "../api";
 import { useUser, useActionForm, Controller } from "@gadgetinc/react";
-import { PostToEdit } from "../routes/signed-in";
+import type { PostToEdit } from "../routes/signed-in";
 
 export default ({ postToEdit }: { postToEdit: PostToEdit }) => {
   // form state, used to submit to the backend API

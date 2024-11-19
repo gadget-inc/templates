@@ -1,5 +1,5 @@
 import { groupBy } from "lodash";
-import { ChatSubset } from "../hooks/useChat";
+import type { ChatSubset } from "../hooks/useChat";
 
 const monthNames = [
   "January",

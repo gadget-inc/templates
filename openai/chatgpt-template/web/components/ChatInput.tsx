@@ -8,7 +8,7 @@ import {
 } from "@chakra-ui/react";
 import { SendIcon } from "./icons/SendIcon";
 import { LoadingIcon } from "./icons/LoadingIcon";
-import { ChatContextType, useChat } from "../hooks/useChat";
+import { type ChatContextType, useChat } from "../hooks/useChat";
 
 const ChatInput = () => {
   const [input, setInput] = useState("");

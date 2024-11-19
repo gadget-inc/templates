@@ -9,7 +9,7 @@ import {
 import { useContext } from "react";
 import { ShopContext } from "../providers";
 import { useNavigate } from "react-router-dom";
-import { ShopContextType } from "../providers/ShopProvider";
+import type { ShopContextType } from "../providers/ShopProvider";
 
 type PageTemplateProps = {
   children: React.ReactNode;

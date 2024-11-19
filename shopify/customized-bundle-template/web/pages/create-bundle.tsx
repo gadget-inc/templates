@@ -5,7 +5,7 @@ import { Card, Text, Layout, BlockStack } from "@shopify/polaris";
 import { BundleForm, PageTemplate } from "../components";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../providers";
-import { ShopContextType } from "../providers/ShopProvider";
+import type { ShopContextType } from "../providers/ShopProvider";
 
 export default () => {
   const { shop }: { shop?: ShopContextType } = useContext(ShopContext);

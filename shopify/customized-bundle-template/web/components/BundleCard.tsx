@@ -22,7 +22,7 @@ import { ShopContext } from "../providers";
 import { ShopContextType } from "../providers/ShopProvider";
 import { Tone } from "@shopify/polaris/build/ts/src/components/Badge";
 
-export type Status = "active" | "archived" | "draft";
+type Status = "active" | "archived" | "draft";
 
 // A map for enums to the ton of a badge (Polaris)
 const tones = {

@@ -6,11 +6,7 @@ import { BundleCard, PageTemplate, Spinner } from "../components";
 import { useNavigate } from "react-router-dom";
 import { useDebounce } from "use-debounce";
 import { ShopContext } from "../providers";
-import { ShopContextType } from "../providers/ShopProvider";
-import {
-  Bundle,
-  BundleComponent,
-} from "@gadget-client/customized-bundle-template";
+import type { ShopContextType } from "../providers/ShopProvider";
 
 const NUM_ON_PAGE = 5;
 

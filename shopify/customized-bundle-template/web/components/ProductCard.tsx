@@ -10,7 +10,7 @@ import {
 } from "@shopify/polaris";
 import { ImageIcon } from "@shopify/polaris-icons";
 import { useMemo } from "react";
-import { BundleComponent, Variant } from "./BundleForm";
+import type { BundleComponent, Variant } from "./BundleForm";
 
 export default ({
   title,

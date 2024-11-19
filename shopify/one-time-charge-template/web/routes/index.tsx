@@ -3,7 +3,7 @@ import { useQuery } from "@gadgetinc/react";
 import { StyledSpinner } from "../components";
 import { useEffect, useContext } from "react";
 import { ShopContext } from "../providers";
-import { ShopContextType } from "../providers/ShopProvider";
+import type { ShopContextType } from "../providers/ShopProvider";
 
 /**
  * This is where your main app logic should go

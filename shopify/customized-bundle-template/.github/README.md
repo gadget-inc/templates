@@ -2,7 +2,7 @@
 
 The application is designed to manage and create product bundles within a Shopify store, utilizing the Shopify Admin GraphQL API to handle product creation, updates, and metafield management. It allows users to efficiently create, update, and manage bundles of products, providing visibility into each bundle's components and their quantities.
 
-[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=customized-bundles-template.gadget.app)
+[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=customized-bundle-template.gadget.app)
 
 ## Key features
 

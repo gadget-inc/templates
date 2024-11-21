@@ -80,6 +80,7 @@ export default () => {
     },
     watch,
     getValues,
+    setError,
   } = useActionForm(api.bundle.update, {
     findBy: bundleId,
     mode: "onBlur",

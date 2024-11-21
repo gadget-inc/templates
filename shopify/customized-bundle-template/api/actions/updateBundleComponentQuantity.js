@@ -14,7 +14,7 @@ export async function run({ params, logger, api, connections }) {
   // Fetch all bundle components for this particular bundle
   const bundleComponents = await api.bundleComponent.findMany({
     filter: {
-      bundle: {
+      bundleId: {
         equals: bundleId,
       },
     },

@@ -236,9 +236,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Shopify
-shopify.app.toml
-
 # Miscellaneous
 .gadget/
 **/doc

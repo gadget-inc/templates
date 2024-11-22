@@ -36,7 +36,9 @@ export const run: ActionRun = async ({
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
-  const planMatch = await api.plan.maybeFindOne(params.planId as string, {
+  if (!params.planId) throw new Error("SUBSCRIPTION FLOW - planId is required");
+
+  const planMatch = await api.plan.maybeFindOne(params.planId, {
     select: {
       id: true,
       name: true,

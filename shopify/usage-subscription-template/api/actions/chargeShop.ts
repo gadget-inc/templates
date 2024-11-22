@@ -1,6 +1,6 @@
 import { ActionOptions } from "gadget-server";
 import { getCappedAmount } from "../../utilities";
-import { SubscriptionLineItems } from "../models/shopifyShop/actions/subscribe";
+import type { SubscriptionLineItems } from "../models/shopifyShop/actions/subscribe";
 
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
   const {

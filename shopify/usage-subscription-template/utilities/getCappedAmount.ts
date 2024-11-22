@@ -1,4 +1,4 @@
-import { SubscriptionLineItems } from "../api/models/shopifyShop/actions/subscribe";
+import type { SubscriptionLineItems } from "../api/models/shopifyShop/actions/subscribe";
 
 export default (lineItems: SubscriptionLineItems) => {
   let cappedAmount = 0;

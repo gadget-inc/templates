@@ -5,10 +5,9 @@ import { trialCalculations } from "../utilities";
 import { Banner, Page, Text } from "@shopify/polaris";
 import BillingPage from "../routes/billing";
 import { StyledSpinner } from "../components";
-import { SubscriptionLineItems } from "../../api/models/shopifyShop/actions/subscribe";
 import { GadgetRecord } from "@gadget-client/usage-subscription-template";
 
-export type ShopContextType = {
+type ShopContextType = {
   shop?: GadgetRecord<{
     id: string;
     currency: string | null;
@@ -28,6 +27,25 @@ export type ShopContextType = {
     };
   };
 };
+
+type SubscriptionLineItems = {
+  id: string;
+  plan: {
+    pricingDetails: {
+      __typename: "AppUsagePricing";
+      cappedAmount: {
+        amount: string;
+        currencyCode: string;
+      };
+      balanceUsed: {
+        amount: string;
+        currencyCode: string;
+      };
+      interval: string;
+      terms: string;
+    };
+  };
+}[];
 
 export const ShopContext = createContext<ShopContextType>({});
 

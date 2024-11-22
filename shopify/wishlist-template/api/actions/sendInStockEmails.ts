@@ -1,4 +1,5 @@
 import { renderEmail } from "../utilities";
+import pMap, { pMapSkip } from "p-map";
 
 export const run: ActionRun = async ({
   params,
@@ -31,25 +32,34 @@ export const run: ActionRun = async ({
   ]);
 
   if (customers) {
-    for (const customer of customers) {
-      await emails.sendMail({
-        to: customer,
-        subject: `Your wishlist item is now in stock!`,
-        html: await renderEmail({
-          type: "inStock",
-          product: {
-            handle: product.handle ?? "",
-            title: product.title ?? "",
-          },
-          title: title ?? "",
-          id: id ?? "",
-          shop: {
-            name: shop.name ?? "",
-            domain: shop.domain ?? "",
-          },
-        }),
-      });
-    }
+    await pMap(
+      customers,
+      async (customer) => {
+        try {
+          await emails.sendMail({
+            to: customer,
+            subject: `Your wishlist item is now in stock!`,
+            html: await renderEmail({
+              type: "inStock",
+              product: {
+                handle: product.handle ?? "",
+                title: product.title ?? "",
+              },
+              title: title ?? "",
+              id: id ?? "",
+              shop: {
+                name: shop.name ?? "",
+                domain: shop.domain ?? "",
+              },
+            }),
+          });
+        } catch (error) {
+          logger.error(error);
+          return pMapSkip;
+        }
+      },
+      { concurrency: 5 } // Adjust concurrency level as needed
+    );
   }
 };
 

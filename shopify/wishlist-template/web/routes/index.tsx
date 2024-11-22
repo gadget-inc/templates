@@ -24,6 +24,7 @@ export default function () {
   } = useActionForm(api.shopifyShop.update, {
     findBy: shop?.id,
     select: {
+      id: true,
       defaultUpdateFrequency: true,
     },
   });
@@ -36,7 +37,7 @@ export default function () {
             The following is an example of updating the default update
             frequency. This is a field on the `shopifyShop` model.
           </Text>
-          <Form onSubmit={() => {}}>
+          <Form onSubmit={submit}>
             <FormLayout>
               <Controller
                 name="shopifyShop.defaultUpdateFrequency"
@@ -56,12 +57,7 @@ export default function () {
               />
               <InlineStack align="end">
                 <ButtonGroup>
-                  <Button
-                    submit
-                    variant="primary"
-                    onClick={submit}
-                    disabled={!isDirty}
-                  >
+                  <Button submit variant="primary" disabled={!isDirty}>
                     Save
                   </Button>
                 </ButtonGroup>

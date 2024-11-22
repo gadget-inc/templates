@@ -65,7 +65,6 @@ export default ({
               <TextField
                 label="Name"
                 {...fieldProps}
-                onChange={(text: string) => fieldProps.onChange(text)}
                 maxLength={50}
                 error={errors?.wishlist?.name?.message}
               />

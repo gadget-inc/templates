@@ -1,5 +1,19 @@
 import { uuid } from "uuidv4";
 
+export type Customer = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  wishlistCount: number;
+  sendUpdateAt: string | null;
+  updateFrequencyOverride: string;
+  shop: {
+    name: string;
+    defaultUpdateFrequency: string;
+  };
+};
+
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
   // Get all customers that have opted in to email marketing and have not unsubscribed in the app (unsub code not written)
   let customers = await api.shopifyCustomer.findMany({
@@ -61,19 +75,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     {
       allCustomers: allCustomers.filter(
         (customer) => customer.wishlistCount
-      ) as {
-        id: string;
-        email: string;
-        firstName: string;
-        lastName: string;
-        wishlistCount: number;
-        sendUpdateAt: string | null;
-        updateFrequencyOverride: string;
-        shop: {
-          name: string;
-          defaultUpdateFrequency: string;
-        };
-      }[],
+      ) as Customer[],
       options,
     },
     options

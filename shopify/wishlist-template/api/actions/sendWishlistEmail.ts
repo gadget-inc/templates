@@ -1,6 +1,7 @@
 import { DateTime } from "luxon";
 import type { Changes } from "../utilities/types";
 import { renderEmail } from "../utilities";
+import type { Customer } from "./startCustomerUpdates";
 
 export const run: ActionRun = async ({
   params,
@@ -20,19 +21,7 @@ export const run: ActionRun = async ({
       shop: { name: shopName, defaultUpdateFrequency },
     },
   } = params as {
-    customer: {
-      id: string;
-      email: string;
-      firstName: string;
-      lastName: string;
-      updateFrequencyOverride: string;
-      sendUpdateAt: string;
-      wishlistCount: number;
-      shop: {
-        name: string;
-        defaultUpdateFrequency: string;
-      };
-    };
+    customer: Customer;
   };
 
   // Find all wishlist items for the customer
@@ -133,6 +122,8 @@ export const run: ActionRun = async ({
   // Update the customer's sendUpdateAt date
   const frequency = updateFrequencyOverride || defaultUpdateFrequency;
   let nextDate;
+
+  if (!sendUpdateAt) throw new Error("sendUpdateAt is required");
 
   switch (frequency) {
     case "weekly":

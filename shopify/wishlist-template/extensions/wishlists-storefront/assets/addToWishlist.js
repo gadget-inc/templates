@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.gadgetAPI = new Gadget();
 
   window.wishlistObj = {};
+
   if (window.initialWishlistArr) {
     for (const wishlist of window.initialWishlistArr) {
       window.wishlistObj[wishlist.id] = wishlist;

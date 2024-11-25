@@ -4,6 +4,7 @@ import { ShopContext } from "../providers";
 
 export default () => {
   const { shop, gadgetMetadata } = useContext(ShopContext);
+  console.log(shop, gadgetMetadata);
 
   return (
     <Page title="Next Steps">
@@ -19,8 +20,8 @@ export default () => {
                   Creating orders will run the appUsageRecord creation flow.
                   Note that with test charges, the capped amount verification
                   flow will not run. This is a Shopify limitation. We highly
-                  recommend that test the usage charge flow in production before
-                  releasing your app to the public.
+                  recommend that you test the usage charge flow in production
+                  before releasing your app to the public.
                 </Text>
               </BlockStack>
             </Card>
@@ -30,11 +31,13 @@ export default () => {
                   Manually end the trial
                 </Text>
                 <Text as="p" variant="bodyMd">
-                  You may wish to see what the shopPage would look like once the
-                  trial is completed. To do this run the following mutation.
-                  This mutation will set the <strong>usedTrialMinutes</strong>{" "}
-                  field equal to 7 days (in minutes). Make sure to adjust the
-                  number if you have more or less trial days.
+                  You may wish to see what the index page would look like once
+                  the trial is completed. To do this, run an internal API update
+                  action on the shopifyShop record using the following API
+                  Playground link. This mutation will set the{" "}
+                  <strong>usedTrialMinutes</strong> field equal to 7 days (in
+                  minutes). Make sure to adjust the number if you have more or
+                  less trial days.
                 </Text>
                 <Button
                   variant="primary"

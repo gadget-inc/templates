@@ -9,12 +9,12 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   }: {
     shop?: {
       id?: string;
-      currency?: string;
       overage?: number;
       activeSubscriptionId?: string;
       usagePlanId?: string;
       plan?: {
         price?: number;
+        currency?: string;
       };
     };
     order?: {
@@ -65,6 +65,8 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     subscription.lineItems as SubscriptionLineItems
   );
 
+  logger.info({ cappedAmount }, "CAPPED AMOUNT");
+
   if (!cappedAmount)
     return logger.warn({
       message: "BILLING - No capped amount found for the shop",
@@ -73,6 +75,8 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
   // Initially setting the price to the plan price and adding the overage amount if they exist
   let price = shop?.plan?.price ?? 0 + (shop?.overage ?? 0);
+
+  logger.info({ price }, "PRICE BEFORE");
 
   // Returning early if the amount used in the period is greater than or equal to the capped amount
   if (amountUsedInPeriod ?? 0 >= cappedAmount) {
@@ -85,11 +89,15 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   // Calculating the available amount
   const availableAmount = cappedAmount - (amountUsedInPeriod ?? 0);
 
+  logger.info({ availableAmount }, "AVAILABLE AMOUNT");
+
   // Setting a remainder if the price is greater than the available amount
   if (price >= availableAmount) {
     remainder = price - availableAmount;
     price = availableAmount;
   }
+
+  logger.info({ price, remainder }, "PRICE AFTER");
 
   // Creating the usage charge with the Shopify Billing API
   const result = await shopify.graphql(
@@ -106,13 +114,13 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     }`,
     {
       description: shop?.overage
-        ? `Charge of ${price} ${shop?.currency} ${
+        ? `Charge of ${price} ${shop?.plan?.currency} ${
             order?.email ? `for order placed by ${order?.email}` : ""
           }, with overages from the previous billing period`
-        : `Charge of ${price} ${shop?.currency} for order placed by ${order?.email}`,
+        : `Charge of ${price} ${shop?.plan?.currency} for order placed by ${order?.email}`,
       price: {
         amount: price,
-        currencyCode: shop?.currency,
+        currencyCode: shop?.plan?.currency,
       },
       subscriptionLineItemId: shop?.usagePlanId,
     }
@@ -126,7 +134,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   await api.internal.usageRecord.create({
     id: result.appUsageRecordCreate.appUsageRecord.id.split("/")[4],
     price,
-    currency: shop?.currency,
+    currency: shop?.plan?.currency,
     shop: {
       _link: shop?.id,
     },
@@ -154,9 +162,6 @@ export const params = {
       usagePlanId: {
         type: "string",
       },
-      currency: {
-        type: "string",
-      },
       overage: {
         type: "number",
       },
@@ -165,6 +170,9 @@ export const params = {
         properties: {
           price: {
             type: "number",
+          },
+          currency: {
+            type: "string",
           },
         },
       },

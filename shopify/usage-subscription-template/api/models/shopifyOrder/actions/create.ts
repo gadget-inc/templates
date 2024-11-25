@@ -24,30 +24,34 @@ export const onSuccess: ActionOnSuccess = async ({
   api,
   connections,
 }) => {
-  const shop = await api.shopifyShop.findOne(record.shopId as string, {
+  if (!record.shopId) throw new Error("shopId is required");
+
+  const shop = await api.shopifyShop.findOne(record.shopId, {
     select: {
       name: true,
-      currency: true,
       activeSubscriptionId: true,
       usagePlanId: true,
       overage: true,
       plan: {
         pricePerOrder: true,
+        currency: true,
       },
     },
   });
+
+  if (!shop.name) throw new Error("shop name is required");
 
   await api.enqueue(
     api.chargeShop,
     {
       shop: {
         id: record.shopId,
-        currency: shop.currency,
         activeSubscriptionId: shop.activeSubscriptionId,
         usagePlanId: shop.usagePlanId,
         overage: shop.overage,
         plan: {
           price: shop.plan?.pricePerOrder ?? 0,
+          currency: shop.plan?.currency ?? "CAD",
         },
       },
       order: {
@@ -56,7 +60,7 @@ export const onSuccess: ActionOnSuccess = async ({
     },
     {
       queue: {
-        name: shop.name as string,
+        name: shop.name,
         maxConcurrency: 4,
       },
       retries: 1,

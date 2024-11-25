@@ -26,7 +26,6 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       name: true,
       billingPeriodEnd: true,
       usagePlanId: true,
-      currency: true,
       overage: true,
       activeSubscriptionId: true,
       plan: {
@@ -45,23 +44,25 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   }
 
   for (const shop of allShops) {
+    if (!shop.name) continue;
+
     await api.enqueue(
       api.chargeShop,
       {
         shop: {
           id: shop.id,
-          currency: shop.currency,
           overage: shop.overage,
           activeSubscriptionId: shop.activeSubscriptionId,
           usagePlanId: shop.usagePlanId,
           plan: {
-            price: shop.plan ? shop.plan.pricePerOrder : 0,
+            price: shop?.plan?.pricePerOrder ?? 0,
+            currency: shop?.plan?.currency ?? "CAD",
           },
         },
       },
       {
         queue: {
-          name: shop.name as string,
+          name: shop.name,
           maxConcurrency: 4,
         },
         retries: 1,

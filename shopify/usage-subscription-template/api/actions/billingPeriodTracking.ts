@@ -15,7 +15,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
         lessThanOrEqual: new Date(),
       },
       state: {
-        inState: "installed",
+        inState: "created.installed",
       },
       planId: {
         isSet: true,

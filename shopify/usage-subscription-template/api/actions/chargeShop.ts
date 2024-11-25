@@ -65,7 +65,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     subscription.lineItems as SubscriptionLineItems
   );
 
-  logger.info({ cappedAmount }, "CAPPED AMOUNT");
+  logger.info({ cappedAmount, amountUsedInPeriod }, "CAPPED AMOUNT");
 
   if (!cappedAmount)
     return logger.warn({

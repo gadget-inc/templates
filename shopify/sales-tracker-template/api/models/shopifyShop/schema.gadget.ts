@@ -72,6 +72,7 @@ export const schema: GadgetModel = {
       "primaryLocale",
       "province",
       "provinceCode",
+      "refunds",
       "requiresExtraPaymentsAgreement",
       "setupRequired",
       "shopOwner",

@@ -1,0 +1,3 @@
+filter ($session: Session) on ShopifyRefund [
+  where shopId == $session.shopId
+]

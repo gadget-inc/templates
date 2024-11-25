@@ -1,7 +1,6 @@
-
-.gadget/
-node_modules/
-**/.DS_Store
+# Miscellaneous
+**/.DS_*
+**/doc
 
 # Shopify
 extensions/**/dist

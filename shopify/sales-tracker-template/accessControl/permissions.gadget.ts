@@ -34,6 +34,12 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopifyOrderTransaction/shopifyOrderTransaction.gelly",
           },
         },
+        shopifyRefund: {
+          read: {
+            filter:
+              "accessControl/filters/shopify/shopifyRefund.gelly",
+          },
+        },
         shopifyShop: {
           read: {
             filter:
@@ -62,7 +68,6 @@ export const permissions: GadgetPermissions = {
       actions: {
         getChannels: true,
         getSlackAuthRedirect: true,
-        populateSalesMonth: true,
       },
     },
     unauthenticated: {

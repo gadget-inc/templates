@@ -65,8 +65,6 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     subscription.lineItems as SubscriptionLineItems
   );
 
-  logger.info({ cappedAmount, amountUsedInPeriod }, "CAPPED AMOUNT");
-
   if (!cappedAmount)
     return logger.warn({
       message: "BILLING - No capped amount found for the shop",
@@ -76,10 +74,8 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   // Initially setting the price to the plan price and adding the overage amount if they exist
   let price = shop?.plan?.price ?? 0 + (shop?.overage ?? 0);
 
-  logger.info({ price }, "PRICE BEFORE");
-
   // Returning early if the amount used in the period is greater than or equal to the capped amount
-  if (amountUsedInPeriod ?? 0 >= cappedAmount) {
+  if (amountUsedInPeriod && (amountUsedInPeriod as number) >= cappedAmount) {
     // Modifying the overage amount of the current shop
     return await api.internal.shopifyShop.update(shop?.id, {
       overage: price,
@@ -87,17 +83,13 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   }
 
   // Calculating the available amount
-  const availableAmount = cappedAmount - (amountUsedInPeriod ?? 0);
-
-  logger.info({ availableAmount }, "AVAILABLE AMOUNT");
+  const availableAmount = cappedAmount - ((amountUsedInPeriod as number) ?? 0);
 
   // Setting a remainder if the price is greater than the available amount
   if (price >= availableAmount) {
     remainder = price - availableAmount;
     price = availableAmount;
   }
-
-  logger.info({ price, remainder }, "PRICE AFTER");
 
   // Creating the usage charge with the Shopify Billing API
   const result = await shopify.graphql(
@@ -107,7 +99,6 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
           id
         }
         userErrors {
-          field
           message
         }
       }

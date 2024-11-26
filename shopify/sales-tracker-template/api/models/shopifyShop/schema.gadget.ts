@@ -7,6 +7,11 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Shop",
   fields: {
+    hasSlackAccessToken: {
+      type: "computed",
+      sourceFile: "api/models/shopifyShop/hasSlackAccessToken.gelly",
+      storageKey: "O6l9Pt9AA8LP",
+    },
     slackAccessToken: {
       type: "string",
       storageKey:

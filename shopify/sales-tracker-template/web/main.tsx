@@ -6,7 +6,7 @@ import enTranslations from "@shopify/polaris/locales/en.json";
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
-import App from "./App";
+import App from "./components/App";
 
 const root = document.getElementById("root");
 if (!root) throw new Error("#root element not found for booting react app");
@@ -21,7 +21,7 @@ ReactDOM.createRoot(root).render(
             chartContainer: {
               borderRadius: "8px",
               padding: "20px",
-              minHeight: "240px",
+              minHeight: 240,
             },
             grid: {
               showHorizontalLines: true,
@@ -31,7 +31,7 @@ ReactDOM.createRoot(root).render(
               hide: true,
             },
             seriesColors: {
-              upToEight: ["#7CB342", "#478CDC"],
+              limited: ["#7CB342", "#478CDC"],
             },
           },
         }}

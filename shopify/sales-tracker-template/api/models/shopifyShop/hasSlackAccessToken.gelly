@@ -1,0 +1,3 @@
+field on shopifyShop {
+  !isNull(slackAccessToken) && slackAccessToken != ""
+}

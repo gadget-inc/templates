@@ -18,6 +18,7 @@ import {
 } from "react-router-dom";
 import Index from "../routes/index";
 import { api } from "../api";
+import ShopProvider from "../providers/ShopProvider";
 
 function Error404() {
   const navigate = useNavigate();
@@ -87,14 +88,14 @@ function AuthenticatedApp() {
 
 function EmbeddedApp() {
   return (
-    <>
+    <ShopProvider>
       <Outlet />
       <NavMenu>
         <Link to="/" rel="home">
           Dashboard
         </Link>
       </NavMenu>
-    </>
+    </ShopProvider>
   );
 }
 

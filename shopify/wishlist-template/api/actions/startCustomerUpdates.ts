@@ -71,14 +71,10 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   await api.enqueue(
     api.enqueueSendWishlistEmail,
     {
-      allCustomers: allCustomers.filter((customer) => {
-        if (customer.wishlistCount) {
-          // Ignoring this line because the __typename is hidden on the type but exists
-          // @ts-ignore
-          const { __typename, ...rest } = customer;
-          return rest;
-        }
-      }) as Customer[],
+      allCustomers: allCustomers
+        .filter((customer) => customer.wishlistCount)
+        // @ts-ignore - remove __typename from the object
+        .map(({ __typename, ...rest }) => rest) as Customer[],
       options,
     },
     options

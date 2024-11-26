@@ -41,7 +41,13 @@ export default ({ postToEdit }: { postToEdit: PostToEdit }) => {
   } = useActionForm(postToEdit ? api.post.update : api.post.create, {
     defaultValues: {
       title: "",
-      content: "Start writing your blog post here!",
+      content: "Start writing your blog post here!" as
+        | string
+        | {
+            markdown:
+              | string
+              | (string & { markdown: string | null | undefined });
+          },
       userId: user?.id,
     },
   });
@@ -89,7 +95,7 @@ export default ({ postToEdit }: { postToEdit: PostToEdit }) => {
       // reformat the content field to be a markdown field
       setValue("content", {
         markdown: content,
-      } as any);
+      });
     }
 
     // submit the form, save the post!

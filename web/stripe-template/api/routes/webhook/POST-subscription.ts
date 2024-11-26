@@ -15,8 +15,10 @@ export default async function route({
   api,
   logger,
   connections,
-}: RouteContext) {
-  let event = request.body as StripeWebhookEvent;
+}: RouteContext<{
+  Body: StripeWebhookEvent;
+}>) {
+  let event = request.body;
 
   try {
     event = getStripeWebhookEvent({

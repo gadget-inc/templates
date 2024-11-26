@@ -8,24 +8,29 @@ export default async function route({
   logger,
   connections,
   currentAppUrl,
-}: RouteContext) {
-  const { session_id, user_id } = request.query as {
+}: RouteContext<{
+  Querystring: {
     session_id: string;
     user_id: string;
   };
+}>) {
+  const { session_id, user_id } = request.query;
 
   const checkoutSession = await stripe.checkout.sessions.retrieve(session_id);
 
-  const stripeCustomerId = checkoutSession.customer as string;
+  const stripeCustomerId = checkoutSession.customer;
 
   const updatedUser: {
-    stripeCustomerId?: string;
+    stripeCustomerId: string | null | undefined;
     stripeSubscription?: {
       update: {
         id: string;
       };
     };
-  } = { stripeCustomerId };
+  } = {
+    stripeCustomerId:
+      typeof stripeCustomerId === "string" ? stripeCustomerId : null,
+  };
 
   const subscription = await api.stripe.subscription.maybeFindFirst({
     filter: { userId: { equals: user_id }, status: { equals: "active" } },
@@ -36,7 +41,7 @@ export default async function route({
 
   const stripeSubscription = await api.stripe.subscription.maybeFindFirst({
     filter: {
-      customer: { equals: stripeCustomerId },
+      customer: { equals: stripeCustomerId as string | undefined },
       status: { equals: "active" },
     },
     select: { id: true },

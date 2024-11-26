@@ -24,6 +24,10 @@ import { useUser, useActionForm, Controller } from "@gadgetinc/react";
 import type { PostToEdit } from "../routes/signed-in";
 
 export default ({ postToEdit }: { postToEdit: PostToEdit }) => {
+  // the useUser hook grabs the user record from the Gadget API
+  // this is used to display the user's avatar in the UI
+  const user = useUser(api);
+
   // form state, used to submit to the backend API
   const {
     submit,
@@ -38,6 +42,7 @@ export default ({ postToEdit }: { postToEdit: PostToEdit }) => {
     defaultValues: {
       title: "",
       content: "Start writing your blog post here!",
+      userId: user?.id,
     },
   });
 
@@ -47,16 +52,10 @@ export default ({ postToEdit }: { postToEdit: PostToEdit }) => {
   // reference to the MDXEditor component, required for dynamic updates
   let editorRef = useRef<MDXEditorMethods | null>(null);
 
-  // the useUser hook grabs the user record from the Gadget API
-  // this is used to display the user's avatar in the UI
-  const user = useUser(api);
-
   // function to reset the editor to a fresh state
   function resetEditor() {
     editorRef.current?.setMarkdown("Start writing your blog post here!");
-    setValue("user", {
-      _link: user.id,
-    });
+    setValue("userId", user.id);
     reset();
   }
 
@@ -71,9 +70,7 @@ export default ({ postToEdit }: { postToEdit: PostToEdit }) => {
       setValue("content", postToEdit?.content?.markdown || "");
       setValue("title", postToEdit.title);
       setValue("id", postToEdit.id);
-      setValue("user", {
-        _link: user.id,
-      });
+      setValue("userId", user.id);
     } else {
       // otherwise, reset to a fresh state
       resetEditor();

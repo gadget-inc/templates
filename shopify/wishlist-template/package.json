@@ -33,7 +33,7 @@
     "react-email": "2.1.6",
     "react-router-dom": "6.15.0",
     "shopify-api-node": "^3.12.6",
-    "uuidv4": "^6.2.13"
+    "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@types/luxon": "^3.4.2",

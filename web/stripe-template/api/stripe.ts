@@ -1,6 +1,6 @@
 import Stripe from "stripe";
 import { logger, RouteContext } from "gadget-server";
-import { StripeWebhookEvent } from "./routes/webhook/POST-subscription";
+import type { StripeWebhookEvent } from "./routes/webhook/POST-subscription";
 
 export const stripe = new Stripe(String(process.env.STRIPE_API_KEY));
 

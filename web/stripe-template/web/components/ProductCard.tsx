@@ -1,7 +1,7 @@
 import { useGlobalAction } from "@gadgetinc/react";
 import { SyntheticEvent, useCallback, useContext } from "react";
 import { api } from "../api";
-import { Product } from "../routes/billing";
+import type { Product } from "../routes/billing";
 
 const ProductCard = ({
   product: { prices, name },

@@ -68,10 +68,11 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   } = {};
 
   for (const price of prices.data) {
-    if (!products[(price.product as StripeProduct).id]) {
-      products[(price.product as StripeProduct).id] = {
-        name: (price.product as StripeProduct).name ?? "",
-        id: (price.product as StripeProduct).id,
+    const product = price.product as StripeProduct;
+    if (!products[product.id]) {
+      products[product.id] = {
+        name: product.name ?? "",
+        id: product.id,
         prices: [
           {
             id: price.id,

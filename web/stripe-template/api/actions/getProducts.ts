@@ -84,7 +84,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
         ],
       };
     } else {
-      products[(price.product as StripeProduct).id].prices.push({
+      products[product.id].prices.push({
         id: price.id,
         unitAmount: price.unit_amount ?? 0,
         interval: price.recurring?.interval ?? "",

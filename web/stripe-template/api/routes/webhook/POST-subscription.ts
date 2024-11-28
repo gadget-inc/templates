@@ -9,7 +9,7 @@ export type StripeWebhookEvent = {
   };
 };
 
-export default async function route({
+const route = async ({
   request,
   reply,
   api,
@@ -17,7 +17,7 @@ export default async function route({
   connections,
 }: RouteContext<{
   Body: StripeWebhookEvent;
-}>) {
+}>) => {
   let event = request.body;
 
   try {
@@ -143,4 +143,6 @@ export default async function route({
   }
   // Return a 200 response to acknowledge receipt of the event
   await reply.send();
-}
+};
+
+export default route;

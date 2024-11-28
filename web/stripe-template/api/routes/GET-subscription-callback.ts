@@ -1,7 +1,7 @@
 import { RouteContext } from "gadget-server";
 import { stripe } from "../stripe";
 
-export default async function route({
+const route = async ({
   request,
   reply,
   api,
@@ -13,7 +13,7 @@ export default async function route({
     session_id: string;
     user_id: string;
   };
-}>) {
+}>) => {
   const { session_id, user_id } = request.query;
 
   const checkoutSession = await stripe.checkout.sessions.retrieve(session_id);
@@ -58,4 +58,6 @@ export default async function route({
   await api.user.update(user_id, updatedUser);
 
   await reply.redirect(`${currentAppUrl}signed-in`);
-}
+};
+
+export default route;

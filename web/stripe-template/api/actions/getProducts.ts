@@ -51,8 +51,6 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     active: true,
   });
 
-  logger.info({ prices }, "PRICES");
-
   const products: {
     [key: string]: {
       name: string;

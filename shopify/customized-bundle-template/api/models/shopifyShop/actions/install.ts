@@ -25,6 +25,13 @@ export const onSuccess: ActionOnSuccess = async ({
   api,
   connections,
 }) => {
+  const updateObj: {
+    onlineStorePublicationId?: string;
+    componentReferenceDefinitionId?: string;
+    isBundleDefinitionId?: string;
+    bundleComponentQuantitiesDefinitionId?: string;
+  } = {};
+
   const shopify = connections.shopify.current;
 
   if (!shopify) throw new Error("Shopify connection not established");
@@ -53,10 +60,14 @@ export const onSuccess: ActionOnSuccess = async ({
   );
 
   // Throw an error if the definition creation failed
-  if (isBundleDefinition?.metafieldDefinitionCreate?.userErrors?.length)
+  if (isBundleDefinition?.metafieldDefinitionCreate?.userErrors?.length) {
     logger.error(
       isBundleDefinition.metafieldDefinitionCreate.userErrors[0].message
     );
+  } else {
+    updateObj["isBundleDefinitionId"] =
+      isBundleDefinition.metafieldDefinitionCreate.createdDefinition.id;
+  }
 
   // Create metafield definition for product variants that are part of the bundle
   const componentReference = await shopify.graphql(
@@ -82,10 +93,14 @@ export const onSuccess: ActionOnSuccess = async ({
   );
 
   // Throw an error if the definition creation failed
-  if (componentReference?.metafieldDefinitionCreate?.userErrors?.length)
+  if (componentReference?.metafieldDefinitionCreate?.userErrors?.length) {
     logger.error(
       componentReference.metafieldDefinitionCreate.userErrors[0].message
     );
+  } else {
+    updateObj["componentReferenceDefinitionId"] =
+      componentReference.metafieldDefinitionCreate.createdDefinition.id;
+  }
 
   // Create metafield definition for defining the quantities of each product variant in a bundle
   const bundleComponentQuantitiesDefinition = await shopify.graphql(
@@ -114,16 +129,20 @@ export const onSuccess: ActionOnSuccess = async ({
   if (
     bundleComponentQuantitiesDefinition?.metafieldDefinitionCreate?.userErrors
       ?.length
-  )
+  ) {
     logger.error(
       bundleComponentQuantitiesDefinition.metafieldDefinitionCreate
         .userErrors[0].message
     );
+  } else {
+    updateObj["bundleComponentQuantitiesDefinitionId"] =
+      bundleComponentQuantitiesDefinition.metafieldDefinitionCreate.createdDefinition.id;
+  }
 
   // Query for the store's publications to retrieve the online store publication id
   const publicationsResponse = await shopify.graphql(
     `query {
-      publications(first: 10) {
+      publications(first: 250) {
         edges {
           node {
             id
@@ -141,8 +160,6 @@ export const onSuccess: ActionOnSuccess = async ({
     }`
   );
 
-  let onlineStorePublicationId;
-
   // Find the online store publication id (add pagination if there are more than 10 publications)
   for (const {
     node: {
@@ -156,7 +173,7 @@ export const onSuccess: ActionOnSuccess = async ({
       title === "Online Store" &&
       developerName === "Shopify"
     ) {
-      onlineStorePublicationId = id;
+      updateObj["onlineStorePublicationId"] = id;
       break;
     }
   }
@@ -177,23 +194,9 @@ export const onSuccess: ActionOnSuccess = async ({
       cartTransformCreateResponse.cartTransformCreate.userErrors[0].message
     );
 
-  // If all worked as it should, update the shop record with the ids returned from each call
-  if (
-    componentReference.metafieldDefinitionCreate?.createdDefinition?.id &&
-    isBundleDefinition.metafieldDefinitionCreate?.createdDefinition?.id &&
-    bundleComponentQuantitiesDefinition.metafieldDefinitionCreate
-      ?.createdDefinition?.id
-  ) {
-    await api.internal.shopifyShop.update(record.id, {
-      componentReferenceDefinitionId:
-        componentReference.metafieldDefinitionCreate.createdDefinition.id,
-      isBundleDefinitionId:
-        isBundleDefinition.metafieldDefinitionCreate.createdDefinition.id,
-      bundleComponentQuantitiesDefinitionId:
-        bundleComponentQuantitiesDefinition.metafieldDefinitionCreate
-          .createdDefinition.id,
-      onlineStorePublicationId,
-    });
+  if (Object.entries(updateObj).length) {
+    logger.info("Updating Shopify shop with metafield definitions");
+    await api.internal.shopifyShop.update(record.id, updateObj);
   }
 
   // Run a sync to fetch all products data

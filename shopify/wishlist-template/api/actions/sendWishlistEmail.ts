@@ -71,7 +71,17 @@ export const run: ActionRun = async ({
 
   // Loop through all the wishlist items to build the current state
   for (const { variant } of allWishlistItems) {
-    if (!variant) continue;
+    if (
+      !variant ||
+      !variant?.title ||
+      !variant?.price ||
+      !variant?.product?.title
+    )
+      continue;
+
+    const image = variant.product?.images?.edges?.[0]?.node;
+
+    if (!image || !image?.alt || !image?.source) continue;
 
     if (variant.deleted) {
       count++;
@@ -79,11 +89,11 @@ export const run: ActionRun = async ({
       if (!changes.removed[variant.id]) {
         changes.removed[variant.id] = {
           id: variant.id,
-          title: variant.title as string,
-          productTitle: variant.product?.title as string,
+          title: variant.title,
+          productTitle: variant.product?.title,
           image: {
-            source: variant.product?.images.edges[0]?.node?.source as string,
-            alt: variant.product?.images.edges[0]?.node?.alt as string,
+            source: image.source,
+            alt: image.alt,
           },
         };
       }
@@ -93,13 +103,13 @@ export const run: ActionRun = async ({
       if (!changes.onSale[variant.id]) {
         changes.onSale[variant.id] = {
           id: variant.id,
-          title: variant.title as string,
-          productTitle: variant.product?.title as string,
-          price: variant.price as string,
-          compareAtPrice: variant.compareAtPrice as string,
+          title: variant.title,
+          productTitle: variant.product?.title,
+          price: variant.price,
+          compareAtPrice: variant.compareAtPrice,
           image: {
-            source: variant.product?.images.edges[0]?.node?.source as string,
-            alt: variant.product?.images.edges[0]?.node?.alt as string,
+            source: image.source,
+            alt: image.alt,
           },
         };
       }

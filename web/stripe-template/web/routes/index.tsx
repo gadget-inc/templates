@@ -27,8 +27,6 @@ export default function () {
 
   if (fetchingMetadata) return <div>Loading...</div>;
 
-  console.log(metaData);
-
   return (
     <>
       <div className="app-link">

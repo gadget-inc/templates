@@ -8,8 +8,8 @@ import type {
 type ProductVariant = {
   __typename: "ProductVariant";
   id: string;
-  componentReference?: { value: string | null };
-  productVariantQuantities?: { value: string | null };
+  componentReference?: { __typename?: "Metafield"; value: string } | null;
+  productVariantQuantities?: { __typename?: "Metafield"; value: string } | null;
 };
 
 const NO_CHANGES: FunctionRunResult = {
@@ -22,7 +22,13 @@ export function run(input: RunInput): FunctionRunResult {
     (acc: CartOperation[], cartLine) => {
       // If the cart line has the metafields that specify the bundle parts, expand it
       const expandOperation: ExpandOperation | null =
-        optionallyBuildExpandOperation(cartLine);
+        optionallyBuildExpandOperation({
+          id: cartLine.id,
+          merchandise:
+            cartLine.merchandise?.__typename === "ProductVariant"
+              ? cartLine.merchandise
+              : undefined,
+        });
 
       // If there's an expand operation, add it to the list of operations
       if (expandOperation) {

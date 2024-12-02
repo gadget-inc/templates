@@ -17,6 +17,16 @@ export const run: ActionRun = async ({
 }) => {
   if (!session) throw new Error("No session found");
 
+  const userId: string = session.get("user");
+
+  if (!userId) throw new Error("No userId found");
+
+  const user = await api.user.findOne(userId, {
+    select: {
+      stripeCustomerId: true,
+    },
+  });
+
   const stripeSession = await stripe.checkout.sessions.create({
     billing_address_collection: "auto",
     line_items: [
@@ -27,9 +37,9 @@ export const run: ActionRun = async ({
       },
     ],
     mode: "subscription",
-    success_url: `${currentAppUrl}subscription-callback?success=true&session_id={CHECKOUT_SESSION_ID}&user_id=${session.get("user")}`,
-    // possibly change??
+    success_url: `${currentAppUrl}subscription-callback?success=true&session_id={CHECKOUT_SESSION_ID}&user_id=${userId}`,
     cancel_url: `${currentAppUrl}signed-in?canceled=true`,
+    customer: user?.stripeCustomerId ?? undefined,
   });
 
   // return the session url back to the frontend

@@ -73,6 +73,8 @@ const route = async ({
       break;
 
     case "customer.subscription.updated":
+      logger.info({ event }, "Subscription updated.");
+
       subscription = destructure({
         topic: "subscription",
         obj: objKeyConvert(event.data.object),

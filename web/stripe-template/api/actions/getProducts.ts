@@ -32,6 +32,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       stripeCustomerId: true,
       stripeSubscription: {
         stripeId: true,
+        status: true,
       },
     },
   });
@@ -67,6 +68,8 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
   for (const price of prices.data) {
     const product = price.product as StripeProduct;
+    const current = currentSubscriptionPriceId === price.id;
+
     if (!products[product.id]) {
       products[product.id] = {
         name: product.name ?? "",
@@ -77,7 +80,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
             unitAmount: price.unit_amount ?? 0,
             interval: price.recurring?.interval ?? "",
             lookupKey: price.lookup_key ?? "",
-            current: currentSubscriptionPriceId === price.id,
+            current,
           },
         ],
       };
@@ -87,7 +90,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
         unitAmount: price.unit_amount ?? 0,
         interval: price.recurring?.interval ?? "",
         lookupKey: price.lookup_key ?? "",
-        current: currentSubscriptionPriceId === price.id,
+        current,
       });
     }
   }

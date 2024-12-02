@@ -3,11 +3,16 @@ import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { useEffect } from "react";
+import { StripeSubscriptionStatusEnum } from "@gadget-client/stripe-template";
 
 type UserContextType = {
   user?: {
     id: string;
     stripeCustomerId: string | null;
+    stripeSubscription?: {
+      status: StripeSubscriptionStatusEnum;
+      stripeId: string;
+    } | null;
   };
 };
 
@@ -20,13 +25,19 @@ export default ({ children }: { children: React.ReactNode }) => {
   const [{ data: user, fetching, error }] = useFindFirst(api.user, {
     live: true,
     select: {
-      stripeCustomerId: true,
+      stripeSubscription: {
+        stripeId: true,
+        status: true,
+      },
       id: true,
+      stripeCustomerId: true,
     },
   });
 
   useEffect(() => {
-    if (user && !user?.stripeCustomerId && !fetching) navigate("/billing");
+    // This can be extended to check for other subscription statuses
+    if (user && user?.stripeSubscription?.status != "active" && !fetching)
+      navigate("/billing");
   }, [user, fetching]);
 
   useEffect(() => {

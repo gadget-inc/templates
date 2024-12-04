@@ -33,18 +33,22 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       stripeSubscription: {
         stripeId: true,
         status: true,
+        cancelAtPeriodEnd: true,
       },
     },
   });
 
-  let currentSubscriptionPriceId;
+  let currentSubscriptionPriceId, cancelAtPeriodEnd;
 
   if (user?.stripeSubscription?.stripeId) {
     const subscriptionResponse = await stripe.subscriptions.retrieve(
       user.stripeSubscription.stripeId
     );
 
+    logger.info({ subscriptionResponse }, "Subscription retrieved");
+
     currentSubscriptionPriceId = subscriptionResponse?.items?.data[0]?.price.id;
+    cancelAtPeriodEnd = subscriptionResponse.cancel_at_period_end;
   }
 
   const prices = await stripe.prices.list({
@@ -68,7 +72,8 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
   for (const price of prices.data) {
     const product = price.product as StripeProduct;
-    const current = currentSubscriptionPriceId === price.id;
+    const current =
+      currentSubscriptionPriceId === price.id && !cancelAtPeriodEnd;
 
     if (!products[product.id]) {
       products[product.id] = {

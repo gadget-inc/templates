@@ -23,6 +23,7 @@ export const onSuccess: ActionOnSuccess = async ({
     filter: { stripeCustomerId: { equals: record.customer } },
     select: { id: true },
   });
+  
   if (user) {
     // @ts-ignore
     record.user = {

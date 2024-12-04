@@ -12,6 +12,7 @@ type UserContextType = {
     stripeSubscription?: {
       status: StripeSubscriptionStatusEnum;
       stripeId: string;
+      cancelAtPeriodEnd: boolean | null;
     } | null;
   };
 };
@@ -28,6 +29,7 @@ export default ({ children }: { children: React.ReactNode }) => {
       stripeSubscription: {
         stripeId: true,
         status: true,
+        cancelAtPeriodEnd: true,
       },
       id: true,
       stripeCustomerId: true,
@@ -36,7 +38,12 @@ export default ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // This can be extended to check for other subscription statuses
-    if (user && user?.stripeSubscription?.status != "active" && !fetching)
+    if (
+      user &&
+      (user?.stripeSubscription?.status != "active" ||
+        !user?.stripeCustomerId) &&
+      !fetching
+    )
       navigate("/billing");
   }, [user, fetching]);
 

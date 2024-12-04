@@ -30,6 +30,7 @@ const ProductCard = ({
       if (
         // Add statement about !marked to be cancelled
         user?.stripeSubscription?.status == "active" &&
+        !user?.stripeSubscription?.cancelAtPeriodEnd &&
         user?.stripeCustomerId
       ) {
         const { data, error: subUpdateError } = await updateSubscription({

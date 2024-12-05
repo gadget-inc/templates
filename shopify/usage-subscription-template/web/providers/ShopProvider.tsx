@@ -5,7 +5,7 @@ import { trialCalculations } from "../utilities";
 import { Banner, Page, Text } from "@shopify/polaris";
 import BillingPage from "../routes/billing";
 import { StyledSpinner } from "../components";
-import { GadgetRecord } from "@gadget-client/usage-subscription-template";
+import type { GadgetRecord } from "@gadget-client/usage-subscription-template";
 
 type ShopContextType = {
   shop?: GadgetRecord<{

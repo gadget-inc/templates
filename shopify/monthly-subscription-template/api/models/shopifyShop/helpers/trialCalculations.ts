@@ -1,10 +1,5 @@
 import { differenceInMinutes } from "date-fns";
 
-/**
- * @type { (usedTrialMinutes: number | undefined, usedTrialMinutesUpdatedAt: Date, today: Date, defaultTrialDays: number) => {usedTrialMinutes: number, availableTrialDays: number} }
- *
- * A function used to return trial information for the current shop
- */
 export default (
   usedTrialMinutes = 0,
   usedTrialMinutesUpdatedAt: Date | null,

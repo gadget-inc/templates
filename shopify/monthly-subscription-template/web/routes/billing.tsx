@@ -1,4 +1,4 @@
-import { useFindMany, useGlobalAction } from "@gadgetinc/react";
+import { useFindMany } from "@gadgetinc/react";
 import {
   Banner,
   BlockStack,
@@ -12,11 +12,10 @@ import { api } from "../api";
 import { PlanCard, StyledSpinner } from "../components";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { ShopContext } from "../providers";
-import type { ShopContextType } from "../providers/ShopProvider";
 
 // This is the billing page that will be displayed when a user hasn't selected a plan or they want to change plans.
 export default () => {
-  const { gadgetMetadata }: ShopContextType = useContext(ShopContext);
+  const { gadgetMetadata } = useContext(ShopContext);
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
 

@@ -1,7 +1,6 @@
 import { BlockStack, Layout, Page, Text, Card, Button } from "@shopify/polaris";
 import { useContext } from "react";
 import { ShopContext } from "../providers";
-import type { ShopContextType } from "../providers/ShopProvider";
 
 /**
  * This is where your main app logic should go
@@ -10,7 +9,7 @@ import type { ShopContextType } from "../providers/ShopProvider";
  *
  */
 export default () => {
-  const { shop, gadgetMetadata }: ShopContextType = useContext(ShopContext);
+  const { shop, gadgetMetadata } = useContext(ShopContext);
 
   return (
     <Page title="Next steps">

@@ -9,14 +9,14 @@ import BillingPage from "../routes/billing";
 export type ShopContextType = {
   shop?: {
     id?: string;
-    currency?: string;
-    usedTrialMinutes?: number;
-    usedTrialMinutesUpdatedAt?: Date;
+    currency?: string | null;
+    usedTrialMinutes?: number | null;
+    usedTrialMinutesUpdatedAt?: Date | null;
     plan?: {
-      id?: string;
-      name?: string;
-      trialDays?: number;
-    };
+      id?: string | null;
+      name?: string | null;
+      trialDays?: number | null;
+    } | null;
   };
   gadgetMetadata?: {
     gadgetMeta?: {
@@ -26,7 +26,7 @@ export type ShopContextType = {
   };
 };
 
-export const ShopContext = createContext({});
+export const ShopContext = createContext<ShopContextType>({});
 
 /**
  * React component that fetches shop and subscription data

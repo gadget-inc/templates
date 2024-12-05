@@ -1,12 +1,12 @@
-import { RouteContext } from "gadget-server";
+import { RouteHandler } from "gadget-server";
 
-export default async function route({
+const route: RouteHandler = async ({
   request,
   reply,
   api,
   logger,
   connections,
-}: RouteContext) {
+}) => {
   const { shop_id, plan_id } = request.query as {
     shop_id: string;
     plan_id: string;
@@ -23,4 +23,4 @@ export default async function route({
   await reply.redirect(
     `https://${shop.domain}/admin/apps/${shop.installedViaApiKey}`
   );
-}
+};

@@ -44,8 +44,6 @@ const route = async ({
         obj: objKeyConvert(event.data.object),
       });
 
-      logger.info({ subscription }, "Subscription created.");
-
       // if there is an active user for this customer, then add the relationship to this subscription
       const user = await api.user.maybeFindFirst({
         filter: { stripeCustomerId: { equals: subscription.customer } },

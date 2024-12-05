@@ -32,11 +32,6 @@ const route = async ({
       typeof stripeCustomerId === "string" ? stripeCustomerId : null,
   };
 
-  const subscription = await api.stripe.subscription.maybeFindFirst({
-    filter: { userId: { equals: user_id }, status: { equals: "active" } },
-    select: { stripeId: true },
-  });
-
   const stripeSubscription = await api.stripe.subscription.maybeFindFirst({
     filter: {
       customer: { equals: stripeCustomerId as string | undefined },

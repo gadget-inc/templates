@@ -1,17 +1,17 @@
-import { RouteContext } from "gadget-server";
+import { RouteHandler } from "gadget-server";
 import { default as jwt } from "jsonwebtoken";
 import { Base64 } from "base64-string";
 import { slackClient } from "../../../utilities";
 
 // Redirects the user the app's Shopify embedded UI (Overview page)
-export default async function route({
+const route: RouteHandler = async ({
   request,
   reply,
   api,
   logger,
   connections,
   currentAppUrl,
-}: RouteContext) {
+}) => {
   const { state, code }: { state: string; code: string } = request.query as {
     state: string;
     code: string;
@@ -47,4 +47,6 @@ export default async function route({
   await reply
     .code(302)
     .redirect(`https://${shop.domain}/admin/apps/${shop.installedViaApiKey}`);
-}
+};
+
+export default route;

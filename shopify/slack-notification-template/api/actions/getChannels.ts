@@ -1,16 +1,10 @@
-import { GetChannelsGlobalActionContext } from "gadget-server";
 import { slackClient } from "../../utilities";
 
-/**
- * @param { GetChannelsGlobalActionContext } context
- *
- * Global action used to fetch and format Slack channels to be consumed in the frontend
- */
-export async function run({ params, logger, api, connections }) {
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
   // Setting the default channels array that is to be returned if there aren't any channels
-  const channels = [];
+  let channels: { label: string; value: string }[] = [];
   const shop = await api.shopifyShop.maybeFindOne(
-    connections.shopify.currentShopId,
+    String(connections.shopify.currentShopId),
     {
       select: {
         slackAccessToken: true,
@@ -22,16 +16,21 @@ export async function run({ params, logger, api, connections }) {
     try {
       // Fetching 1000 Slack channels (no pagination)
       const result = await slackClient.conversations.list({
-        token: shop.slackAccessToken,
+        token: shop.slackAccessToken ?? "",
         limit: 1000,
       });
 
+      if (!result?.channels) throw new Error("No channels found");
+
       // Formatting the data and adding it to the channels array
-      for (const channel of result.channels) {
-        channels.push({ label: channel.name, value: channel.id });
-      }
+      channels = result.channels.reduce((acc, channel) => {
+        if (!channel.is_archived && channel.name && channel.id) {
+          acc.push({ label: channel.name, value: channel.id });
+        }
+        return acc;
+      }, channels);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }
 
@@ -45,6 +44,6 @@ export async function run({ params, logger, api, connections }) {
     .unshift({ label: "None selected", value: "" });
 
   return channels;
-}
+};
 
-export const options = { triggers: { api: true } }
+export const options = { triggers: { api: true } };

@@ -1,14 +1,12 @@
-import { Text, InlineStack } from "@shopify/polaris";
 import { api } from "../api";
 import { AutoButton } from "@gadgetinc/react/auto/polaris";
 
-export default ({ reauth = false, setShow, setBannerContext }) => {
+export default ({ reauth = false }) => {
   return (
     <AutoButton
       action={api.getSlackAuthRedirect}
       onSuccess={({ data }) => open(data, "_top")}
-    >
-      <InlineStack blockAlign="center">
+      icon={
         <svg
           xmlns="http://www.w3.org/2000/svg"
           style={{ height: "24px", width: "24px", marginRight: "12px" }}
@@ -31,10 +29,9 @@ export default ({ reauth = false, setShow, setBannerContext }) => {
             fill="#ecb22e"
           ></path>
         </svg>
-        <Text as="span" variant="bodyLg">
-          {reauth ? "Reauthorize Slack" : "Add to Slack"}
-        </Text>
-      </InlineStack>
+      }
+    >
+      {reauth ? "Reauthorize Slack" : "Add to Slack"}
     </AutoButton>
   );
 };

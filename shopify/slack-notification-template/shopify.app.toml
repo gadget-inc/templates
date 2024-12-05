@@ -1,0 +1,3 @@
+# This toml file is used for production. Only edit this file if you have a need for it
+# When you add a production config, values will be auto-populated here
+# Read more at https://docs.gadget.dev/guides/plugins/shopify/shopify-app-toml

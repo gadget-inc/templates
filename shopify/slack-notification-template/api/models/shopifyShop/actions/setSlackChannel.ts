@@ -3,19 +3,19 @@ import {
   preventCrossShopDataAccess,
   save,
   ActionOptions,
-  SetSlackChannelShopifyShopActionContext,
 } from "gadget-server";
 import { slackClient } from "../../../../utilities";
 
-/**
- * @param { SetSlackChannelShopifyShopActionContext } context
- */
-export async function run({ params, record, logger, api }) {
+export const run: ActionRun = async ({ params, record, logger, api }) => {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
   if (record.changed("slackChannelId")) {
-    const { previous } = record.changes("slackChannelId");
+    if (!record.slackAccessToken) throw new Error("No Slack access token");
+
+    const changes = record.changes("slackChannelId");
+    const previous = changes.changed ? changes.previous : null;
+
     try {
       if (previous) {
         await slackClient.conversations.leave({
@@ -32,20 +32,12 @@ export async function run({ params, record, logger, api }) {
       }
       await save(record);
     } catch (error) {
-      throw new Error(error);
+      throw error;
     }
   }
-}
+};
 
-/**
- * @param { SetSlackChannelShopifyShopActionContext } context
- */
-export async function onSuccess({ params, record, logger, api }) {
-  // Your logic goes here
-}
-
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "update",
   triggers: { api: true },
 };

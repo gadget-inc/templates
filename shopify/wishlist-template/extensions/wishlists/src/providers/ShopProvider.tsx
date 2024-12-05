@@ -4,7 +4,7 @@ import { api } from "../api";
 import { StyledSpinner } from "../components";
 import { GadgetRecord } from "@gadget-client/wishlist-template";
 
-export type ShopContextType = {
+type ShopContextType = {
   shop?: GadgetRecord<{
     id: string;
     domain: string | null;

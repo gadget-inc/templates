@@ -6,7 +6,7 @@ import {
   Row,
   Button,
 } from "@react-email/components";
-import React, { CSSProperties } from "react";
+import React, { type CSSProperties } from "react";
 
 const container: CSSProperties = {
   backgroundColor: "#ffffff",

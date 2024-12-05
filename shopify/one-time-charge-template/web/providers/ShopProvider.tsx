@@ -3,22 +3,29 @@ import { createContext, useState, useEffect, useCallback } from "react";
 import { api } from "../api";
 import { trialCalculations } from "../utilities";
 import { Banner, Text, Page } from "@shopify/polaris";
-import { BillingPage } from "../routes";
+import BillingPage from "../routes/billing";
 import { StyledSpinner } from "../components";
 
-export const ShopContext = createContext({});
+type ShopContextType = {
+  shop?: {
+    id: string;
+    currency: string | null;
+    usedTrialMinutes: number | null;
+    trialStartedAt: Date | null;
+    oneTimeChargeId: string | null;
+    trialDays: number | null;
+  };
+};
+
+export const ShopContext = createContext<ShopContextType>({});
 
 /**
- * @param { children: import("react").ReactNode } props The props passed to the React functional component
- *
  * React component that fetches shop data
  * Key features:
  *  - Fetch shop
  *  - Gate usage of the app if trial is over and merchant hasn't paid
- *
- * @returns { import("react").ReactElement } A React functional component
  */
-export default ({ children }) => {
+export default ({ children }: { children: React.ReactNode }) => {
   const [show, setShow] = useState(false);
   const [bannerContext, setBannerContext] = useState("");
   const [availableTrialDays, setAvailableTrialDays] = useState(0);
@@ -38,11 +45,6 @@ export default ({ children }) => {
       live: true,
     });
 
-  /**
-   * @type { () => void }
-   *
-   * Dismisses the error banner
-   */
   const handleDismiss = useCallback(() => {
     setShow(false);
   }, []);
@@ -80,8 +82,6 @@ export default ({ children }) => {
     <ShopContext.Provider
       value={{
         shop,
-        fetchingShop,
-        errorFetchingShop,
       }}
     >
       {show && (

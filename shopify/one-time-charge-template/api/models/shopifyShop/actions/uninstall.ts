@@ -5,14 +5,16 @@ import {
   save,
   ActionOptions,
   ShopifyShopState,
-  UninstallShopifyShopActionContext,
 } from "gadget-server";
 import { trialCalculations } from "../helpers";
 
-/**
- * @param { UninstallShopifyShopActionContext } context
- */
-export async function run({ params, record, logger, api, connections }) {
+export const run: ActionRun = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   transitionState(record, {
     from: ShopifyShopState.Installed,
     to: ShopifyShopState.Uninstalled,
@@ -34,17 +36,19 @@ export async function run({ params, record, logger, api, connections }) {
   record.trialStartedAt = null;
 
   await save(record);
-}
+};
 
-/**
- * @param { UninstallShopifyShopActionContext } context
- */
-export async function onSuccess({ params, record, logger, api, connections }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+  connections,
+}) => {
   // Your logic goes here
-}
+};
 
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "update",
   triggers: { api: false },
 };

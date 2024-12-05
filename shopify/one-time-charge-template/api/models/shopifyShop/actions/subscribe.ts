@@ -3,21 +3,16 @@ import {
   preventCrossShopDataAccess,
   save,
   ActionOptions,
-  SubscribeShopifyShopActionContext,
 } from "gadget-server";
-import CurrencyConverter from "currency-converter-lt";
 
-/**
- * @param { SubscribeShopifyShopActionContext } context
- */
-export async function run({
+export const run: ActionRun = async ({
   params,
   record,
   logger,
   api,
   connections,
   currentAppUrl,
-}) {
+}) => {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
@@ -35,21 +30,10 @@ export async function run({
   });
 
   if (plan) {
-    let price = plan.price;
-
-    if (price <= 0) {
+    if (plan.price <= 0) {
       throw new Error(
         "INVALID PLAN PRICE - Plan price must be a positive non-zero number"
       );
-    }
-
-    if (plan.currency !== record.currency) {
-      const currencyConverter = new CurrencyConverter();
-      // Get cost of payment for current shop based on your choice of currency
-      price = await currencyConverter
-        .from(plan.currency)
-        .to(record.currency)
-        .convert(plan.price); // Must be non-zero
     }
 
     /**
@@ -58,28 +42,27 @@ export async function run({
      */
     const result = await connections.shopify.current?.graphql(
       `mutation {
-      appPurchaseOneTimeCreate(
-        name: "one-time-charge-template",
-        returnUrl: "${currentAppUrl}confirmation-callback?shop_id=${
-        connections.shopify.currentShopId
-      }",
-        price: { 
-          amount: ${price},
-          currencyCode: ${record.currency}
-        },
-        test: ${process.env.NODE_ENV === "production" ? false : true}
-      ) {
-        userErrors {
-          field
-          message
+        appPurchaseOneTimeCreate(
+          name: "one-time-charge-template",
+          returnUrl: "${currentAppUrl}confirmation-callback?shop_id=${
+            connections.shopify.currentShopId
+          }",
+          price: { 
+            amount: ${plan.price},
+            currencyCode: ${plan.currency}
+          },
+          test: ${process.env.NODE_ENV === "production" ? false : true}
+        ) {
+          userErrors {
+            message
+          }
+          appPurchaseOneTime {
+            createdAt
+            id
+          }
+          confirmationUrl
         }
-        appPurchaseOneTime {
-          createdAt
-          id
-        }
-        confirmationUrl
-      }
-    }`
+      }`
     );
 
     // Check for errors in AppPurchaseOneTime creation
@@ -97,17 +80,9 @@ export async function run({
   } else {
     throw new Error("No plan found - You may need to create one");
   }
-}
+};
 
-/**
- * @param { SubscribeShopifyShopActionContext } context
- */
-export async function onSuccess({ params, record, logger, api }) {
-  // Your logic goes here
-}
-
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "update",
   triggers: { api: true },
 };

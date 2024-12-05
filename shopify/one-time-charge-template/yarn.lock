@@ -171,10 +171,10 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.33", "@gadgetinc/api-client-core@^0.15.33":
-  version "0.15.33"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.33.tgz#8c64768dfc3069d14a6537b80c34d9a758be1f11"
-  integrity sha512-Y1EbiR0QIMWnVjNsfubw4utBjkJe49w/Rb9eTfBQXW9Q71/IrAcSxUQsg06jTTcp8eStFl+chmawBjQyKX2qAQ==
+"@gadgetinc/api-client-core@0.15.35":
+  version "0.15.35"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.35.tgz#40b3cb4fb2d132144c6ca1dbd5b536552cf2ce53"
+  integrity sha512-DlNnY2ghQJP3qt2PsUN5ii3sQC8i1Fl9N5aTpOZd5uiHRbZci5u4SXhYqFnLSfYV2Ym2vhen5YmWd3Cl/QOYCQ==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@n1ru4l/graphql-live-query" "^0.10.0"
@@ -192,22 +192,43 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/react-shopify-app-bridge@^0.16.4":
-  version "0.16.4"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.4.tgz#7c02ae4c9462f9556019f688cca994cd0529cae8"
-  integrity sha512-WStOSHi1597HzPkeLwg80PLpGa7p3fRj56uwmfSGC9f40cxLFH05KdzlLi+1n+YpevSW+2elya1c8oSrRsHh3g==
+"@gadgetinc/api-client-core@^0.15.35", "@gadgetinc/api-client-core@^0.15.36":
+  version "0.15.36"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.36.tgz#aca6f7d1fa65677a7180f9b6a6b1251778e1af84"
+  integrity sha512-PkNSf1kXAi6nIba5eqZ7d8KJCyqQ2NA0/Z5JweJQoCMOXSTbsqnAD77fTmkRh1LsH48wfMNDQF7qTxWI3VCCTw==
   dependencies:
-    "@gadgetinc/api-client-core" "^0.15.33"
+    "@0no-co/graphql.web" "^1.0.4"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^4.0.0"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    type-fest "^3.13.1"
+    wonka "^6.3.2"
+    ws "^8.17.0"
+
+"@gadgetinc/react-shopify-app-bridge@^0.16.6":
+  version "0.16.6"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.6.tgz#27abf7850819b742b897fa58e26a4db6897afa32"
+  integrity sha512-Zg6oxTL5RYLDuPhL1psnVOUYmY8RHQ/Fa5Q50nkcfagG4bmt8oHN2I6jNWZTD/KcIYs6shg7kEvc5bxompfg5g==
+  dependencies:
+    "@gadgetinc/api-client-core" "^0.15.35"
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.18.0":
-  version "0.18.0"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.0.tgz#cf27595ca5052957106a0613d7abb276539d8f05"
-  integrity sha512-AJsxc6OhU5A1UPXDA8UUMNIkGTppqPFvMyZLjp9590sbVn/1JS3xQmVYunDQEtSJjOe6Pt6Gjxq+ZVKqxFTkYA==
+"@gadgetinc/react@^0.18.4":
+  version "0.18.4"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.4.tgz#5177a806bfc2800cd0492691313242776e711aba"
+  integrity sha512-lwf+8zpotLh+Ts+vk7IPNm7l59Zhs7b4XAjr4C4mqmBQW9iERKkJa9an7vffyNw0yX7VRfmnOBXvkqoLkJmbBw==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
-    "@gadgetinc/api-client-core" "^0.15.33"
+    "@gadgetinc/api-client-core" "^0.15.36"
     "@hookform/resolvers" "^3.3.1"
     filesize "^10.1.2"
     pluralize "^8.0.0"
@@ -490,6 +511,13 @@
   integrity sha512-Fz1xDMCF/B00/tYSVMlmK7hVeLh7jE5f3B7X1/hmV0MJBwE27KlS7EvD/Yp+z1lm8mVhwV5w+n8jOZG8AfTlKw==
   dependencies:
     undici-types "~5.26.4"
+
+"@types/node@^20.17.7":
+  version "20.17.9"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.17.9.tgz#5f141d4b7ee125cdee5faefe28de095398865bab"
+  integrity sha512-0JOXkRyLanfGPE2QRCwgxhzlBAvaRdCNMcvbd7jFfpmD4eEXll7LRwy5ymJmyeZqk7Nh7eD2LeUyQ68BbndmXw==
+  dependencies:
+    undici-types "~6.19.2"
 
 "@types/prop-types@*":
   version "15.7.10"
@@ -1497,6 +1525,11 @@ undici-types@~5.26.4:
   version "5.26.5"
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
+
+undici-types@~6.19.2:
+  version "6.19.8"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
+  integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
 
 uri-js@^4.2.2:
   version "4.4.1"

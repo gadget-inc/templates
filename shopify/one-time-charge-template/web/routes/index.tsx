@@ -3,7 +3,6 @@ import { useQuery } from "@gadgetinc/react";
 import { StyledSpinner } from "../components";
 import { useEffect, useContext } from "react";
 import { ShopContext } from "../providers";
-import type { ShopContextType } from "../providers/ShopProvider";
 
 /**
  * This is where your main app logic should go
@@ -12,7 +11,7 @@ import type { ShopContextType } from "../providers/ShopProvider";
  * To view the billing page, make use of your app's API Playgound. Use the following GraphQL mutation:
  */
 export default () => {
-  const { shop }: ShopContextType = useContext(ShopContext);
+  const { shop } = useContext(ShopContext);
 
   const [
     {

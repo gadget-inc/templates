@@ -6,18 +6,18 @@ import { Banner, Text, Page } from "@shopify/polaris";
 import BillingPage from "../routes/billing";
 import { StyledSpinner } from "../components";
 
-export type ShopContextType = {
+type ShopContextType = {
   shop?: {
     id: string;
-    currency: string;
-    usedTrialMinutes: number;
-    trialStartedAt: Date;
-    oneTimeChargeId: string;
-    trialDays: number;
+    currency: string | null;
+    usedTrialMinutes: number | null;
+    trialStartedAt: Date | null;
+    oneTimeChargeId: string | null;
+    trialDays: number | null;
   };
 };
 
-export const ShopContext = createContext({});
+export const ShopContext = createContext<ShopContextType>({});
 
 /**
  * React component that fetches shop data

@@ -11,11 +11,10 @@ import { api } from "../api";
 import { useContext, useState } from "react";
 import { ShopContext } from "../providers";
 import { AutoButton } from "@gadgetinc/react/auto/polaris";
-import type { ShopContextType } from "../providers/ShopProvider";
 
 export default () => {
   const [disabled, setDisabled] = useState(false);
-  const { shop }: ShopContextType = useContext(ShopContext);
+  const { shop } = useContext(ShopContext);
 
   return (
     <Page>

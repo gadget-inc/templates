@@ -1,5 +1,3 @@
-import { VerifyConnectionsGlobalActionContext } from "gadget-server";
-
 export const run: ActionRun = async ({
   params,
   logger,

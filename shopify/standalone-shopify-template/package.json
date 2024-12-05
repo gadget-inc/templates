@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@gadget-client/standalone-shopify-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.18.0",
-    "@gadgetinc/react-shopify-app-bridge": "^0.16.4",
+    "@gadgetinc/react": "^0.18.4",
+    "@gadgetinc/react-shopify-app-bridge": "^0.16.6",
     "@shopify/app-bridge-react": "4.0.0",
     "@shopify/polaris": "^13.9.0",
     "@shopify/polaris-icons": "^9.3.0",

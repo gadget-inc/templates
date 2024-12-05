@@ -1,16 +1,18 @@
 import { createContext, useEffect } from "react";
 import { api } from "../api";
 import { useGlobalAction, useUser } from "@gadgetinc/react";
-import { GadgetRecord } from "@gadget-client/standalone-shopify-template";
+import type { GadgetRecord } from "@gadget-client/standalone-shopify-template";
 
-export type AuthContextType = {
+type AuthContextType = {
   user?: GadgetRecord<Record<string, any>>;
 };
 
 export const AuthContext = createContext<AuthContextType>({});
 
 export default ({ children }: { children: React.ReactNode }) => {
-  const user = useUser();
+  const user = useUser() as unknown as
+    | GadgetRecord<Record<string, any>>
+    | undefined;
 
   const [_, verifyConnections] = useGlobalAction(api.verifyConnections);
 

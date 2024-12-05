@@ -1,13 +1,13 @@
-import { RouteContext } from "gadget-server";
+import { RouteHandler } from "gadget-server";
 
-export default async function route({
+const route: RouteHandler = async ({
   request,
   reply,
   api,
   logger,
   connections,
   session,
-}: RouteContext) {
+}) => {
   // See if the request is coming from the Shopify admin
   const shopId = connections.shopify.currentShopId;
 
@@ -18,4 +18,4 @@ export default async function route({
 
   // Redirect the user to the standalone dashboard
   return await reply.redirect(`/dashboard`);
-}
+};

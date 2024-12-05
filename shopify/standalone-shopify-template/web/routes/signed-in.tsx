@@ -3,13 +3,11 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ShopContext, AuthContext } from "../providers";
 import { BlockStack, Card, Text, Button, Box } from "@shopify/polaris";
-import { ShopContextType } from "../providers/ShopProvider";
-import { AuthContextType } from "../providers/AuthProvider";
 
 export default function () {
   const signOut = useSignOut();
-  const { user }: AuthContextType = useContext(AuthContext);
-  const { shops }: ShopContextType = useContext(ShopContext);
+  const { user } = useContext(AuthContext);
+  const { shops } = useContext(ShopContext);
 
   return user ? (
     <>

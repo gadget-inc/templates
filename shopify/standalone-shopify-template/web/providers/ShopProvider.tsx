@@ -2,14 +2,12 @@ import { createContext, useEffect } from "react";
 import { api } from "../api";
 import { useFindMany } from "@gadgetinc/react";
 
-type Shop = {
-  id: string;
-  domain: string | null;
-  shopOwner: string | null;
-};
-
-export type ShopContextType = {
-  shops?: Shop[];
+type ShopContextType = {
+  shops?: {
+    id: string;
+    domain: string | null;
+    shopOwner: string | null;
+  }[];
 };
 
 export const ShopContext = createContext<ShopContextType>({});

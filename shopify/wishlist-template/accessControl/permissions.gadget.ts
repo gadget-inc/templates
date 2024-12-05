@@ -120,6 +120,25 @@ export const permissions: GadgetPermissions = {
             filter: "accessControl/filters/shopify/shopifyShop.gelly",
           },
         },
+        wishlist: {
+          read: {
+            filter:
+              "accessControl/filters/wishlist/storefront-customers-tenancy.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+          },
+        },
+        wishlistItem: {
+          read: {
+            filter:
+              "accessControl/filters/wishlistItem/storefront-customer-tenancy.gelly",
+          },
+          actions: {
+            delete: true,
+          },
+        },
       },
     },
   },

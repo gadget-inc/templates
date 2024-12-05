@@ -20,7 +20,7 @@ type = "ui_extension"
 # target = "customer-account.order.action.menu-item.render"
 
 [[extensions.targeting]]
-module = "./src/App.jsx"
+module = "./src/App.tsx"
 target = "customer-account.page.render"
 
 [[capabilities]]

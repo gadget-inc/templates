@@ -5,7 +5,7 @@ import {
 } from "@gadgetinc/react-shopify-app-bridge";
 import { NavMenu } from "@shopify/app-bridge-react";
 import { Page, Spinner, Text } from "@shopify/polaris";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import {
   Outlet,
   Route,
@@ -26,8 +26,9 @@ function Error404() {
 
   useEffect(() => {
     if (
+      process.env.GADGET_PUBLIC_SHOPIFY_APP_URL &&
       location.pathname ===
-      new URL(process.env.GADGET_PUBLIC_SHOPIFY_APP_URL).pathname
+        new URL(process.env.GADGET_PUBLIC_SHOPIFY_APP_URL).pathname
     )
       return navigate("/", { replace: true });
   }, [location.pathname]);

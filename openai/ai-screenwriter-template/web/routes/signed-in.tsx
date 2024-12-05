@@ -6,7 +6,7 @@ import {
 } from "@gadgetinc/react";
 import { api } from "../api";
 import { useState } from "react";
-import { GadgetRecord } from "@gadget-client/ai-screenwriter-template";
+import type { GadgetRecord } from "@gadget-client/ai-screenwriter-template";
 
 type ChatRequestBody = {
   quote: string;

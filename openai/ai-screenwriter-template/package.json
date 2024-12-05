@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@gadget-client/ai-screenwriter-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.18.0",
+    "@gadgetinc/react": "^0.18.4",
     "fastify": "^4.24.2",
     "gadget-server": "link:.gadget/server",
     "openai": "^4.16.1",

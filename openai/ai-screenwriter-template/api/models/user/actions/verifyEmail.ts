@@ -1,8 +1,5 @@
 import { applyParams, save, ActionOptions } from "gadget-server";
 
-/**
- * @param { VerifyEmailUserActionContext } context
- */
 export const run: ActionRun = async ({
   params,
   record,

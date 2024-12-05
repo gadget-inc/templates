@@ -1,4 +1,7 @@
-import { GadgetRecord, Movie } from "@gadget-client/ai-screenwriter-template";
+import type {
+  GadgetRecord,
+  Movie,
+} from "@gadget-client/ai-screenwriter-template";
 import { ActionOptions } from "gadget-server";
 
 type HuggingFaceMovie = {

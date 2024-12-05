@@ -1,4 +1,4 @@
-import { RouteContext } from "gadget-server";
+import { RouteHandler } from "gadget-server";
 import { openAIResponseStream } from "gadget-server/ai";
 
 type ChatRequestBody = {
@@ -6,14 +6,16 @@ type ChatRequestBody = {
   movie: string;
 };
 
-export default async function ({
+const route: RouteHandler = async ({
   request,
   reply,
   api,
   logger,
   connections,
-}: RouteContext<{ Body: ChatRequestBody }>) {
-  const prompt = `Here is a fake movie quote: "${request.body.quote}" and a movie selected by a user: "${request.body.movie}". Write a fake scene for that movie that makes use of the quote. Use a maximum of 150 words.`;
+}) => {
+  const { quote, movie } = request.body as ChatRequestBody;
+
+  const prompt = `Here is a fake movie quote: "${quote}" and a movie selected by a user: "${movie}". Write a fake scene for that movie that makes use of the quote. Use a maximum of 150 words.`;
 
   // get streamed response from OpenAI
   const stream = await connections.openai.chat.completions.create({
@@ -29,4 +31,6 @@ export default async function ({
   });
 
   await reply.send(openAIResponseStream(stream));
-}
+};
+
+export default route;

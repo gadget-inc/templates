@@ -1,8 +1,5 @@
 import { applyParams, save, ActionOptions } from "gadget-server";
 
-/**
- * @param { UpdateUserActionContext } context
- */
 export const run: ActionRun = async ({
   params,
   record,

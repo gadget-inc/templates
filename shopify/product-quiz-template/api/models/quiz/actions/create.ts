@@ -21,19 +21,19 @@ export const run: ActionRun = async ({
 };
 
 function generateSlug(input: string) {
-  return (
-    input
-      // Convert to lowercase
-      .toLowerCase()
-      // Replace spaces with hyphens
-      .replace(/\s+/g, "-")
-      // Remove all non-word characters
-      .replace(/[^\w-]+/g, "")
-      // Replace multiple hyphens with a single hyphen
-      .replace(/--+/g, "-")
-      // Trim hyphens from start and end of the string
-      .replace(/^-+|-+$/g, "")
-  );
+  /**
+   * 1. Convert input to lowercase
+   * 2. Replace spaces with hyphens
+   * 3. Remove all non-word characters
+   * 4. Replace multiple hyphens with a single hyphen
+   * 5. Trim hyphens from start and end of the string
+   */
+  return input
+    .toLowerCase()
+    .replace(/\s+/g, "-")
+    .replace(/[^\w-]+/g, "")
+    .replace(/--+/g, "-")
+    .replace(/^-+|-+$/g, "");
 }
 
 export const options: ActionOptions = {

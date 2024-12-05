@@ -11,7 +11,7 @@ import {
 import { Fragment } from "react";
 import { useFieldArray, Controller, useFormContext } from "@gadgetinc/react";
 import { PlusCircleIcon, XCircleIcon, ImageIcon } from "@shopify/polaris-icons";
-import { GadgetRecordList } from "@gadget-client/product-quiz-template";
+import type { GadgetRecordList } from "@gadget-client/product-quiz-template";
 
 type QuizError = {
   questions?: {

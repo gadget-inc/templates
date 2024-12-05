@@ -1,7 +1,7 @@
 import {
-  CreateShopifyAssetActionContext,
+  type CreateShopifyAssetActionContext,
+  type UpdateShopifyAssetActionContext,
   logger,
-  UpdateShopifyAssetActionContext,
 } from "gadget-server";
 
 export async function processShopifyThemeVersion(

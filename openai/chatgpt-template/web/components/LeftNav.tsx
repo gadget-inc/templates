@@ -9,17 +9,14 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useSignOut } from "@gadgetinc/react";
-
 import DefaultUserIcon from "../assets/default-user-icon.svg";
 import { LogoutIcon } from "./icons/LogoutIcon";
 import { PlusIcon } from "./icons/PlusIcon";
 import { KebabIcon } from "./icons/KebabIcon";
-
 import ChatNavItem from "./ChatNavItem";
-
 import { useChat } from "../hooks/useChat";
 import { groupByDateBuckets } from "../lib/utils";
-import { User } from "@gadget-client/chatgpt-template";
+import type { User } from "@gadget-client/chatgpt-template";
 
 const LeftNav = (props: { user: User }) => {
   const { user } = props;

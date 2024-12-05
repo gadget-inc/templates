@@ -14,7 +14,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@gadget-client/chatgpt-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.18.0",
+    "@gadgetinc/react": "^0.18.4",
     "framer-motion": "^10.15.0",
     "gadget-server": "link:.gadget/server",
     "lodash": "^4.17.21",

@@ -1,20 +1,20 @@
-import { RouteContext } from "gadget-server";
+import { RouteHandler } from "gadget-server";
 import { openAIResponseStream } from "gadget-server/ai";
-import { ChatCompletionCreateParamsBase } from "openai/resources/chat/completions";
+import type { ChatCompletionCreateParamsBase } from "openai/resources/chat/completions";
 
 type ChatRequestBody = {
   chatId: string;
   messages: ChatCompletionCreateParamsBase["messages"];
 };
 
-export default async function route({
+const route: RouteHandler = async ({
   request,
   reply,
   api,
   logger,
   connections,
-}: RouteContext<{ Body: ChatRequestBody }>) {
-  const { chatId, messages } = request.body;
+}) => {
+  const { chatId, messages } = request.body as ChatRequestBody;
 
   logger.info({ chatId, messages }, "creating new chat completion");
 
@@ -36,4 +36,4 @@ export default async function route({
   };
 
   await reply.send(openAIResponseStream(openAIResponse, { onComplete }));
-}
+};

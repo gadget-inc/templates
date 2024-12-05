@@ -9,7 +9,7 @@ import { useFetch } from "@gadgetinc/react";
 import { api } from "../api";
 import { nanoid } from "nanoid";
 import { orderBy } from "lodash";
-import { Chat, GadgetRecord, Message } from "@gadget-client/chatgpt-template";
+import type { Chat, Message } from "@gadget-client/chatgpt-template";
 
 type Reducer = {
   chats: ChatSubset[] | undefined | null;
@@ -68,7 +68,7 @@ export type ChatSubset = Pick<
 
 type MessageSubset = Pick<Message, "id" | "order" | "role" | "content">;
 
-export type ChatContextType = {
+type ChatContextType = {
   chats: ChatSubset[] | undefined | null;
   currentChat: ChatSubset | null;
   messages: MessageSubset[];

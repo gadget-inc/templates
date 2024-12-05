@@ -3,7 +3,7 @@ import { ChatGPTIcon } from "./icons/ChatGPTIcon";
 import { Flex, Text, Image, Box, Link } from "@chakra-ui/react";
 import { useChat } from "../hooks/useChat";
 import ChatInput from "./ChatInput";
-import { GadgetRecord, User } from "@gadget-client/chatgpt-template";
+import type { User } from "@gadget-client/chatgpt-template";
 
 const Message = (props: {
   content: string;

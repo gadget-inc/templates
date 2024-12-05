@@ -1,5 +1,6 @@
 import { ActionOptions } from "gadget-server";
 import { stripe } from "../stripe";
+import Stripe from "stripe";
 
 export const run: ActionRun = async ({ api, currentAppUrl, session }) => {
   if (!session) throw new Error("No session found");
@@ -19,40 +20,53 @@ export const run: ActionRun = async ({ api, currentAppUrl, session }) => {
     },
   });
 
+  // Modify this configuration object if you want different customer portal settings
+  const configuration: Stripe.BillingPortal.ConfigurationCreateParams = {
+    business_profile: {
+      headline: "template.dev",
+    },
+    features: {
+      customer_update: {
+        allowed_updates: ["email", "tax_id"],
+        enabled: true,
+      },
+      invoice_history: {
+        enabled: true,
+      },
+      payment_method_update: {
+        enabled: true,
+      },
+      subscription_cancel: {
+        cancellation_reason: {
+          enabled: false,
+          options: [
+            "too_expensive",
+            "missing_features",
+            "switched_service",
+            "unused",
+            "other",
+          ],
+        },
+        enabled: true,
+        mode: "immediately",
+        proration_behavior: "create_prorations",
+      },
+    },
+  };
+
+  if (
+    process.env.NODE_ENV === "development" &&
+    settings?.billingPortalConfigId
+  ) {
+    await stripe.billingPortal.configurations.update(
+      settings.billingPortalConfigId,
+      configuration
+    );
+  }
+
   if (!settings?.billingPortalConfigId) {
     const stripeBillingPortalSetting =
-      await stripe.billingPortal.configurations.create({
-        business_profile: {
-          headline: "template.dev",
-        },
-        features: {
-          customer_update: {
-            allowed_updates: ["email", "tax_id"],
-            enabled: true,
-          },
-          invoice_history: {
-            enabled: true,
-          },
-          payment_method_update: {
-            enabled: true,
-          },
-          subscription_cancel: {
-            cancellation_reason: {
-              enabled: false,
-              options: [
-                "too_expensive",
-                "missing_features",
-                "switched_service",
-                "unused",
-                "other",
-              ],
-            },
-            enabled: false,
-            mode: "immediately",
-            proration_behavior: "create_prorations",
-          },
-        },
-      });
+      await stripe.billingPortal.configurations.create(configuration);
 
     settings = await api.stripe.settings.create({
       billingPortalConfigId: stripeBillingPortalSetting.id,

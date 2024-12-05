@@ -37,8 +37,6 @@ const route = async ({
     select: { stripeId: true },
   });
 
-  if (subscription) await stripe.subscriptions.cancel(subscription.stripeId);
-
   const stripeSubscription = await api.stripe.subscription.maybeFindFirst({
     filter: {
       customer: { equals: stripeCustomerId as string | undefined },

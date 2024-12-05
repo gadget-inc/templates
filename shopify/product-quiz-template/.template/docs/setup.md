@@ -4,7 +4,7 @@ The following is a guide to get you started with the product quiz. If you get lo
 
 1. [Connect to Shopify](https://docs.gadget.dev/guides/tutorials/connecting-to-shopify#connecting-to-shopify) using our built-in Shopify plugin.
 
-2. Add an empty `shopify.app.toml` file to the root of your Gadget application and run `yarn dev` to start the Shopify CLI. Make sure that you have the [Shopify CLI](https://shopify.dev/docs/api/shopify-cli#installation) installed locally.
+2. Add an empty `shopify.app.toml` file to the root of your Gadget application. Make sure that you have the [Shopify CLI](https://shopify.dev/docs/api/shopify-cli#installation) installed locally.
 
 ## Setting up liquid files (Online store 1.0)
 
@@ -16,7 +16,7 @@ Make sure to replace `{{ YOUR PROJECT SCRIPT URL }}` in `extensions/quiz/assets/
 
 In order to set up a theme app extension for stores using a new Online Store 2.0 theme:
 
-- Update `extensions/quiz/blocks/quiz-page.liquid` to replace line 7 with the Gadget's script tag:
+- Update `extensions/quiz/blocks/quiz-page.liquid` by replacing the src on line 7 with your script tag
 - Run `yarn dev` in the project root to start the development environment (Shopify CLI)
 - Follow Shopify's prompts to connect to your existing Partners app and store
 

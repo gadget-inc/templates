@@ -5,7 +5,7 @@ import {
 } from "@gadgetinc/react-shopify-app-bridge";
 import { NavMenu } from "@shopify/app-bridge-react";
 import { Page, Spinner, Text } from "@shopify/polaris";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import {
   Outlet,
   Route,

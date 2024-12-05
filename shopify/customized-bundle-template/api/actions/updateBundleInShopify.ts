@@ -40,8 +40,6 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       );
   }
 
-  // UPDATE THIS
-
   if (variantChanges?.length) {
     if (!bundle?.variant?.id) throw new Error("Bundle variant ID not found");
 

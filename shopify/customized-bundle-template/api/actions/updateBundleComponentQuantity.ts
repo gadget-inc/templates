@@ -22,7 +22,9 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     },
   });
 
-  const quantityObj = productVariantId ? { [productVariantId]: quantity } : {};
+  const quantityObj: { [key: string]: number | undefined } = productVariantId
+    ? { [productVariantId]: quantity }
+    : {};
 
   for (const bundleComponent of bundleComponents) {
     if (id && bundleComponent.id === id) continue;

@@ -20,7 +20,7 @@ import { useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../providers";
 import type { ShopContextType } from "../providers/ShopProvider";
-import { Tone } from "@shopify/polaris/build/ts/src/components/Badge";
+import type { Tone } from "@shopify/polaris/build/ts/src/components/Badge";
 
 type Status = "active" | "archived" | "draft";
 

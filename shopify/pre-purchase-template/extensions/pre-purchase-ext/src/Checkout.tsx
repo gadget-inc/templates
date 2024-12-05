@@ -16,7 +16,7 @@ import {
   useApi,
   useAppMetafields,
 } from "@shopify/ui-extensions-react/checkout";
-import {
+import type {
   AppMetafieldEntry,
   CartLine,
   GraphQLError,

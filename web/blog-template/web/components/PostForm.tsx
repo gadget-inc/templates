@@ -1,12 +1,15 @@
 import "@mdxeditor/editor/style.css";
-import { MDXEditor } from "@mdxeditor/editor/MDXEditor";
-import { markdownShortcutPlugin, MDXEditorMethods } from "@mdxeditor/editor";
-import { headingsPlugin } from "@mdxeditor/editor/plugins/headings";
-import { listsPlugin } from "@mdxeditor/editor/plugins/lists";
-import { quotePlugin } from "@mdxeditor/editor/plugins/quote";
-import { UndoRedo } from "@mdxeditor/editor/plugins/toolbar/components/UndoRedo";
-import { BoldItalicUnderlineToggles } from "@mdxeditor/editor/plugins/toolbar/components/BoldItalicUnderlineToggles";
-import { toolbarPlugin } from "@mdxeditor/editor/plugins/toolbar";
+import {
+  MDXEditor,
+  markdownShortcutPlugin,
+  headingsPlugin,
+  listsPlugin,
+  quotePlugin,
+  UndoRedo,
+  BoldItalicUnderlineToggles,
+  toolbarPlugin,
+  type MDXEditorMethods,
+} from "@mdxeditor/editor";
 import { useEffect, useRef } from "react";
 import {
   FormControl,

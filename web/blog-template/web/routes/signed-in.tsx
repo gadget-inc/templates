@@ -15,7 +15,7 @@ import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { api } from "../api";
 import { useAction, useFindMany } from "@gadgetinc/react";
 import { PostForm } from "../components";
-import { GadgetRecord } from "@gadget-client/blog-template";
+import type { GadgetRecord } from "@gadget-client/blog-template";
 
 export type PostToEdit = GadgetRecord<{
   __typename: "Post";

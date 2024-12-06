@@ -1,4 +1,4 @@
-import { GadgetRecord, User } from "@gadget-client/blog-template";
+import type { GadgetRecord, User } from "@gadget-client/blog-template";
 import { api } from "gadget-server";
 
 export async function checkForSingleUser() {

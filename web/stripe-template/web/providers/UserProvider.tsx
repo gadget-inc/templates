@@ -34,6 +34,7 @@ export default ({ children }: { children: React.ReactNode }) => {
       id: true,
       stripeCustomerId: true,
     },
+    pause: !userNonce,
   });
 
   useEffect(() => {

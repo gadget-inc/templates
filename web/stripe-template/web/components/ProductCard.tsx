@@ -28,7 +28,6 @@ const ProductCard = ({
       const priceId = (form[0] as HTMLInputElement).value;
 
       if (
-        // Add statement about !marked to be cancelled
         user?.stripeSubscription?.status == "active" &&
         !user?.stripeSubscription?.cancelAtPeriodEnd &&
         user?.stripeCustomerId

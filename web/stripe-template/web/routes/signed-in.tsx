@@ -31,19 +31,24 @@ export default function () {
   }
 
   return (
-    <section
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
+    <section id="customer-card">
       <div className="div-stripe-product">
         <div className="div-product-header">
           <Logo />
-          <h3 className="h-stripe-payment">Customer detected!</h3>
+          <h3 className="h-stripe-payment">
+            {user?.stripeCustomerId ? "Customer detected!" : "Choose a plan "}
+          </h3>
         </div>
-        <form onSubmit={submit}>
-          <button className="btn-stripe-subscribe" type="submit">
-            Manage your billing information
-          </button>
-        </form>
+        {user?.stripeCustomerId && !user?.stripeSubscription && (
+          <p>You currently do not have an active subscription.</p>
+        )}
+        {user?.stripeCustomerId && (
+          <form onSubmit={submit}>
+            <button className="btn-stripe-subscribe" type="submit">
+              Manage your billing information
+            </button>
+          </form>
+        )}
       </div>
       {error && (
         <code>

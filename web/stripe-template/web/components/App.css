@@ -381,7 +381,7 @@ button {
   gap: 12px;
 }
 
-section#customer-card {
+#customer-card {
   display: flex;
   flex-direction: column;
   align-items: center;

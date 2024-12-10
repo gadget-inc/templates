@@ -3,7 +3,7 @@ import { createContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { api } from "../api";
 import { useEffect } from "react";
-import { StripeSubscriptionStatusEnum } from "@gadget-client/stripe-template";
+import type { StripeSubscriptionStatusEnum } from "@gadget-client/stripe-template";
 
 type UserContextType = {
   user?: {

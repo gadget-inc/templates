@@ -31,8 +31,8 @@ export default function () {
   }
 
   return (
-    <section id="customer-card">
-      <div className="div-stripe-product">
+    <section>
+      <div id="customer-card">
         <div className="div-product-header">
           <Logo />
           <h3 className="h-stripe-payment">

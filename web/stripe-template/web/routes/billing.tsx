@@ -18,7 +18,8 @@ export type Product = {
 
 export default () => {
   const { user } = useContext(UserContext);
-  const [toggled, setToggled] = useState(false);
+  const [toggled, setToggled] = useState(false),
+    [loading, setLoading] = useState(true);
 
   const [
     {
@@ -35,6 +36,8 @@ export default () => {
 
   useEffect(() => {
     void getProducts({ userId: user?.id });
+
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -52,11 +55,11 @@ export default () => {
       console.error(errorCreatingSampleProducts);
   }, [creatingSampleProducts, errorCreatingSampleProducts]);
 
-  if (fetching) {
+  if (fetching || loading) {
     return <div>Loading...</div>;
   }
 
-  if (!products?.length && !fetching) {
+  if (!products?.length && !fetching && !loading) {
     return (
       <div>
         <p>

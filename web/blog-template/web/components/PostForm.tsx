@@ -1,15 +1,16 @@
 import "@mdxeditor/editor/style.css";
-import { MDXEditor } from "@mdxeditor/editor/MDXEditor";
-import { markdownShortcutPlugin } from "@mdxeditor/editor";
-import { headingsPlugin } from "@mdxeditor/editor/plugins/headings";
-import { listsPlugin } from "@mdxeditor/editor/plugins/lists";
-import { quotePlugin } from "@mdxeditor/editor/plugins/quote";
-import { UndoRedo } from "@mdxeditor/editor/plugins/toolbar/components/UndoRedo";
-import { BoldItalicUnderlineToggles } from "@mdxeditor/editor/plugins/toolbar/components/BoldItalicUnderlineToggles";
-import { toolbarPlugin } from "@mdxeditor/editor/plugins/toolbar";
-
+import {
+  MDXEditor,
+  markdownShortcutPlugin,
+  headingsPlugin,
+  listsPlugin,
+  quotePlugin,
+  UndoRedo,
+  BoldItalicUnderlineToggles,
+  toolbarPlugin,
+  type MDXEditorMethods,
+} from "@mdxeditor/editor";
 import { useEffect, useRef } from "react";
-
 import {
   FormControl,
   FormLabel,
@@ -21,11 +22,15 @@ import {
   Heading,
   useToast,
 } from "@chakra-ui/react";
-
 import { api } from "../api";
 import { useUser, useActionForm, Controller } from "@gadgetinc/react";
+import type { PostToEdit } from "../routes/signed-in";
 
-export default ({ postToEdit }) => {
+export default ({ postToEdit }: { postToEdit: PostToEdit }) => {
+  // the useUser hook grabs the user record from the Gadget API
+  // this is used to display the user's avatar in the UI
+  const user = useUser(api);
+
   // form state, used to submit to the backend API
   const {
     submit,
@@ -39,7 +44,14 @@ export default ({ postToEdit }) => {
   } = useActionForm(postToEdit ? api.post.update : api.post.create, {
     defaultValues: {
       title: "",
-      content: "Start writing your blog post here!",
+      content: "Start writing your blog post here!" as
+        | string
+        | {
+            markdown:
+              | string
+              | (string & { markdown: string | null | undefined });
+          },
+      userId: user?.id,
     },
   });
 
@@ -47,18 +59,12 @@ export default ({ postToEdit }) => {
   const toast = useToast();
 
   // reference to the MDXEditor component, required for dynamic updates
-  let editorRef = useRef(null);
-
-  // the useUser hook grabs the user record from the Gadget API
-  // this is used to display the user's avatar in the UI
-  const user = useUser(api);
+  let editorRef = useRef<MDXEditorMethods | null>(null);
 
   // function to reset the editor to a fresh state
   function resetEditor() {
-    editorRef.current.setMarkdown("Start writing your blog post here!");
-    setValue("user", {
-      _link: user.id,
-    });
+    editorRef.current?.setMarkdown("Start writing your blog post here!");
+    setValue("userId", user.id);
     reset();
   }
 
@@ -69,13 +75,11 @@ export default ({ postToEdit }) => {
 
     // if there is a post to edit, hydrate the form and editor state
     if (postToEdit) {
-      editorRef.current.setMarkdown(postToEdit?.content?.markdown || "");
+      editorRef.current?.setMarkdown(postToEdit?.content?.markdown || "");
       setValue("content", postToEdit?.content?.markdown || "");
       setValue("title", postToEdit.title);
       setValue("id", postToEdit.id);
-      setValue("user", {
-        _link: user.id,
-      });
+      setValue("userId", user.id);
     } else {
       // otherwise, reset to a fresh state
       resetEditor();
@@ -83,13 +87,13 @@ export default ({ postToEdit }) => {
   }, [postToEdit]);
 
   // submit the form
-  const handleSave = async (event) => {
+  const handleSave = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // replace all newlines with <br /> tags for markdown compatibility
     const content = getValues("content");
-    if (!content.markdown) {
-      content.replaceAll("\n", "<br />");
+    if (typeof content == "string") {
+      content?.replace(/\n/g, "<br />");
 
       // reformat the content field to be a markdown field
       setValue("content", {

@@ -67,7 +67,7 @@ export default () => {
                 </Text>
               </BlockStack>
             </Card>
-            <Card sectioned>
+            <Card>
               <BlockStack gap="500">
                 <Text as="h2" variant="headingMd">
                   Manually end the trial

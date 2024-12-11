@@ -1,27 +1,28 @@
-import { RouteContext } from "gadget-server";
+import { RouteHandler } from "gadget-server";
 import { default as jwt } from "jsonwebtoken";
 import { Base64 } from "base64-string";
 import { slackClient } from "../../../utilities";
 
-/**
- * Route handler for install slack
- *
- * @param { RouteContext } route This is the endpoint for the end of the Slack OAuth flow
- * @see https://docs.gadget.dev/guides/http-routes/route-configuration#route-context
- *
- * @returns Redirects the user the app's Shopify embedded UI (Overview page)
- */
-export default async function route({
+// Redirects the user the app's Shopify embedded UI (Overview page)
+const route: RouteHandler = async ({
   request,
   reply,
   api,
   logger,
   connections,
   currentAppUrl,
-}) {
+}) => {
+  const { state, code }: { state: string; code: string } = request.query as {
+    state: string;
+    code: string;
+  };
+
   const b64 = new Base64();
-  const decodedString = b64.decode(request.query.state);
-  const token = jwt.verify(decodedString, process.env.JWT_SECRET);
+  const decodedString = b64.decode(state);
+  const token = jwt.verify(
+    decodedString,
+    String(process.env.JWT_SECRET)
+  ) as jwt.JwtPayload;
 
   /**
    * Getting the Slack access token using the temporary code returned from Slack
@@ -29,16 +30,16 @@ export default async function route({
    * Make sure to grab the SLACK_CLIENT_ID and SLACK_CLIENT_SECRET from your Slack app
    */
   const res = await slackClient.oauth.v2.access({
-    client_id: process.env.SLACK_CLIENT_ID,
-    client_secret: process.env.SLACK_CLIENT_SECRET,
-    code: request.query.code,
+    client_id: String(process.env.SLACK_CLIENT_ID),
+    client_secret: String(process.env.SLACK_CLIENT_SECRET),
+    code: code,
     redirect_uri: `${currentAppUrl}slack/callback`,
   });
 
   // Updating the shopifyShop record
   const shop = await api.internal.shopifyShop.update(token.id, {
     slackAccessToken: res.access_token,
-    slackScopes: res.scope.split(","),
+    slackScopes: res.scope?.split(","),
     hasSlackAccessToken: true,
   });
 
@@ -46,4 +47,6 @@ export default async function route({
   await reply
     .code(302)
     .redirect(`https://${shop.domain}/admin/apps/${shop.installedViaApiKey}`);
-}
+};
+
+export default route;

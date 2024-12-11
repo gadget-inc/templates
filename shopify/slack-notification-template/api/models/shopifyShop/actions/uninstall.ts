@@ -5,14 +5,10 @@ import {
   save,
   ActionOptions,
   ShopifyShopState,
-  UninstallShopifyShopActionContext,
 } from "gadget-server";
 import { slackClient } from "../../../../utilities";
 
-/**
- * @param { UninstallShopifyShopActionContext } context
- */
-export async function run({ params, record, logger, api }) {
+export const run: ActionRun = async ({ params, record, logger, api }) => {
   transitionState(record, {
     from: ShopifyShopState.Installed,
     to: ShopifyShopState.Uninstalled,
@@ -23,7 +19,7 @@ export async function run({ params, record, logger, api }) {
   record.hasSlackAccessToken = false;
   record.slackScopes = null;
 
-  if (record.slackChannelId) {
+  if (record.slackChannelId && record.slackAccessToken) {
     await slackClient.conversations.leave({
       token: record.slackAccessToken,
       channel: record.slackChannelId,
@@ -34,17 +30,18 @@ export async function run({ params, record, logger, api }) {
   record.slackAccessToken = null;
 
   await save(record);
-}
+};
 
-/**
- * @param { UninstallShopifyShopActionContext } context
- */
-export async function onSuccess({ params, record, logger, api }) {
+export const onSuccess: ActionOnSuccess = async ({
+  params,
+  record,
+  logger,
+  api,
+}) => {
   // Your logic goes here
-}
+};
 
-/** @type { ActionOptions } */
-export const options = {
+export const options: ActionOptions = {
   actionType: "update",
   triggers: { api: false },
 };

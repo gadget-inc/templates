@@ -1,0 +1,4 @@
+fragment Filter($session: Session) on Subscription {
+  *
+  [where user.id == $session.userId]
+}

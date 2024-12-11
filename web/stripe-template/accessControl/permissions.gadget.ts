@@ -16,14 +16,19 @@ export const permissions: GadgetPermissions = {
         action: true,
       },
       models: {
-        "stripe/price": {
+        "stripe/settings": {
           read: true,
-        },
-        "stripe/product": {
-          read: true,
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
         },
         "stripe/subscription": {
-          read: true,
+          read: {
+            filter:
+              "accessControl/filters/subscription/tenancy.gelly",
+          },
         },
         user: {
           read: {
@@ -44,7 +49,7 @@ export const permissions: GadgetPermissions = {
         createCheckoutSession: true,
         createPortalSession: true,
         getProducts: true,
-        test: true,
+        updateSubscription: true,
       },
     },
     unauthenticated: {

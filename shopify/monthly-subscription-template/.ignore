@@ -1,6 +1,7 @@
-# Shopify
-shopify.app.toml
-
 # Miscellaneous
 **/.DS_*
 **/doc
+
+# Shopify
+extensions/**/dist
+extensions/**/node_modules

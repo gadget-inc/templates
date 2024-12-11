@@ -1,9 +1,17 @@
-import { logger } from "gadget-server";
+import { logger, api, connections } from "gadget-server";
 
-export async function applyTags({ record, api, connections }) {
-  if (record.id && record.body && record.changed("body")) {
+export const applyTags = async ({
+  tags,
+  body,
+  id,
+}: {
+  tags: string[];
+  body: string | null;
+  id: string;
+}) => {
+  if (id && body) {
     // get a unique list of words used in the record's description
-    let newTags = [...new Set(record.body.match(/\w+(?:'\w+)*/g))];
+    let newTags = [...new Set(body.match(/\w+(?:'\w+)*/g))];
 
     // filter down to only those words which are allowed
     // a filter condition is used on the api.allowedTag.findMany() request that checks the shop id
@@ -11,7 +19,7 @@ export async function applyTags({ record, api, connections }) {
       await api.allowedTag.findMany({
         filter: {
           shopId: {
-            equals: connections.shopify.currentShopId,
+            equals: String(connections.shopify.currentShopId),
           },
         },
       })
@@ -20,21 +28,22 @@ export async function applyTags({ record, api, connections }) {
     // merge with any existing tags and use Set to remove duplicates
     const finalTags = [
       ...new Set(
-        newTags.filter((tag) => allowedTags.includes(tag)).concat(record.tags)
+        newTags.filter((tag) => allowedTags.includes(tag)).concat(tags)
       ),
     ];
     logger.info(
       { newTags, allowedTags, finalTags },
-      `applying final tags to product ${record.id}`
+      `applying final tags to product ${id}`
     );
 
     // write tags back to Shopify
-    const shopify = await connections.shopify.current;
+    const shopify = connections.shopify.current;
+
     if (shopify) {
-      logger.info({ message: `writing back to Shopify product ${record.id}` });
-      await shopify.product.update(parseInt(record.id), {
+      logger.info({ message: `writing back to Shopify product ${id}` });
+      await shopify.product.update(parseInt(id), {
         tags: finalTags.join(","),
       });
     }
   }
-}
+};

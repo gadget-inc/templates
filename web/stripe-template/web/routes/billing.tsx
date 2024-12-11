@@ -79,6 +79,7 @@ export default () => {
       <div className="plan-section">
         <div id="billing-header">
           <h2>Plans</h2>
+          {/* If you don't have monthly and yearly plans, this section can be removed */}
           <div id="toggle-div">
             <span>{toggled ? "Yearly" : "Monthly"}</span>
             <div className="toggle-container">

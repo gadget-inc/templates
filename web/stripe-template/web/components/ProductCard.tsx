@@ -29,7 +29,6 @@ const ProductCard = ({
 
       if (
         user?.stripeSubscription?.status == "active" &&
-        !user?.stripeSubscription?.cancelAtPeriodEnd &&
         user?.stripeCustomerId
       ) {
         const { data, error: subUpdateError } = await updateSubscription({

@@ -45,7 +45,7 @@ export const schema: GadgetModel = {
         "trialing",
         "active",
         "past_due",
-        "cancelled",
+        "canceled",
         "unpaid",
       ],
       storageKey: "TmLk6MPFr2V4",

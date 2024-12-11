@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   window.gadgetAPI = new Gadget();
 
   window.wishlistObj = {};
+
   if (window.initialWishlistArr) {
     for (const wishlist of window.initialWishlistArr) {
       window.wishlistObj[wishlist.id] = wishlist;
@@ -220,7 +221,7 @@ function appendNewWishlist(wishlist, parent) {
 }
 
 async function handleWishlistClick(e) {
-  const wishlistId = e.target.id.replace("wishlist-", "");
+  const wishlistId = e.currentTarget.id.replace("wishlist-", "");
 
   // Get the current state of the wishlist item
   const current = state[wishlistId];

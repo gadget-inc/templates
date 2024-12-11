@@ -9,13 +9,13 @@
   },
   "dependencies": {
     "@gadget-client/ai-screenwriter-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.18.0",
+    "@gadgetinc/react": "^0.18.4",
+    "fastify": "^4.24.2",
     "gadget-server": "link:.gadget/server",
+    "openai": "^4.16.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "6.15.0",
-    "openai": "^4.16.1",
-    "fastify": "^4.24.2"
+    "react-router-dom": "6.15.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",

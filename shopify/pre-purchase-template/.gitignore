@@ -3,7 +3,6 @@
 node_modules/
 **/.DS_Store
 
-#Shopify
-extensions/**/node_modules
+# Shopify
 extensions/**/dist
-shopify.app.**.toml
+extensions/**/node_modules

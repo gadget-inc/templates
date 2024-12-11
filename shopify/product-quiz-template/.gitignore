@@ -4,5 +4,5 @@ node_modules/
 **/.DS_Store
 
 # Shopify
-shopify.app.**.toml
 extensions/**/dist
+extensions/**/node_modules

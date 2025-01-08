@@ -29,6 +29,7 @@ export const run: ActionRun = async ({
         type: "$app:review",
         access: {
           storefront: "PUBLIC_READ",
+          admin: "MERCHANT_READ",
         },
         fieldDefinitions: [
           {
@@ -103,6 +104,10 @@ export const run: ActionRun = async ({
               value: record.reviewMetaobjectDefinitionId,
             },
           ],
+          access: {
+            storefront: "PUBLIC_READ",
+            admin: "MERCHANT_READ",
+          },
         },
       }
     );

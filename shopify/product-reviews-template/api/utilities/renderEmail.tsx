@@ -1,7 +1,5 @@
-import React from "react";
 import { render } from "@react-email/render";
 import { Container, Button } from "@react-email/components";
-import { logger } from "gadget-server";
 
 export default async ({
   singleUseCode,
@@ -10,8 +8,6 @@ export default async ({
   singleUseCode: string;
   currentAppUrl: string;
 }) => {
-  logger.info({ singleUseCode, currentAppUrl }, "HERE");
-
   return await render(
     <Container>
       {/* Add more text in here */}

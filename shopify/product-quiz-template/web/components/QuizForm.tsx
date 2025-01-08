@@ -44,12 +44,14 @@ export default ({
         edges: {
           node: {
             id: true,
-            url: true,
+            image: true,
           },
         },
       },
     },
   });
+
+  console.log(productsResponse.data);
 
   if (productsResponse.fetching) {
     return (

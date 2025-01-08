@@ -40,11 +40,11 @@ export default ({
     select: {
       id: true,
       title: true,
-      images: {
+      media: {
         edges: {
           node: {
             id: true,
-            source: true,
+            url: true,
           },
         },
       },

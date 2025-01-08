@@ -7,6 +7,11 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Product",
   fields: {
+    category: {
+      type: "json",
+      storageKey:
+        "ModelField-DataModel-Shopify-Product-__gadget_graphql_category::FieldStorageEpoch-DataModel-Shopify-Product-__gadget_graphql_category-initial",
+    },
     publishedScope: {
       type: "string",
       storageKey:
@@ -39,10 +44,9 @@ export const schema: GadgetModel = {
   shopify: {
     fields: [
       "body",
-      "category",
       "compareAtPriceRange",
       "handle",
-      "images",
+      "media",
       "productCategory",
       "productType",
       "publishedAt",

@@ -79,11 +79,11 @@ export default ({
     | GadgetRecordList<{
         id: string;
         title: string | null;
-        images: {
+        media: {
           edges: {
             node: {
               id: string;
-              source: string | null;
+              url: string | null;
             };
           }[];
         };
@@ -112,7 +112,7 @@ export default ({
 
   const productsImageMap: ProductImages | undefined = products?.reduce(
     (acc: ProductImages, p) => {
-      acc[p.id] = p.images.edges[0]?.node?.source ?? "";
+      acc[p.id] = p.media.edges[0]?.node?.url ?? "";
 
       return acc;
     },

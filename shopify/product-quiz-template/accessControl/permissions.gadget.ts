@@ -59,6 +59,11 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopifyAsset/shopifyAsset.gelly",
           },
         },
+        shopifyFile: {
+          read: {
+            filter: "accessControl/filters/shopify/shopifyFile.gelly",
+          },
+        },
         shopifyGdprRequest: {
           read: {
             filter:
@@ -75,10 +80,10 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopifyProduct/shopifyProduct.gelly",
           },
         },
-        shopifyProductImage: {
+        shopifyProductMedia: {
           read: {
             filter:
-              "accessControl/filters/shopifyProductImage/shopifyProductImage.gelly",
+              "accessControl/filters/shopify/shopifyProductMedia.gelly",
           },
         },
         shopifyShop: {
@@ -133,9 +138,6 @@ export const permissions: GadgetPermissions = {
           read: true,
         },
         shopifyProduct: {
-          read: true,
-        },
-        shopifyProductImage: {
           read: true,
         },
         shopperSuggestion: {

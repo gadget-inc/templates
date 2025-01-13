@@ -40,16 +40,18 @@ export default ({
     select: {
       id: true,
       title: true,
-      images: {
+      media: {
         edges: {
           node: {
             id: true,
-            source: true,
+            image: true,
           },
         },
       },
     },
   });
+
+  console.log(productsResponse.data);
 
   if (productsResponse.fetching) {
     return (

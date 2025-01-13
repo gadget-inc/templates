@@ -11,7 +11,10 @@ import {
 import { Fragment } from "react";
 import { useFieldArray, Controller, useFormContext } from "@gadgetinc/react";
 import { PlusCircleIcon, XCircleIcon, ImageIcon } from "@shopify/polaris-icons";
-import type { GadgetRecordList } from "@gadget-client/product-quiz-template";
+import type {
+  GadgetRecordList,
+  JSONValue,
+} from "@gadget-client/product-quiz-template";
 
 type QuizError = {
   questions?: {
@@ -79,11 +82,11 @@ export default ({
     | GadgetRecordList<{
         id: string;
         title: string | null;
-        images: {
+        media: {
           edges: {
             node: {
               id: string;
-              source: string | null;
+              image: JSONValue | null;
             };
           }[];
         };
@@ -112,7 +115,15 @@ export default ({
 
   const productsImageMap: ProductImages | undefined = products?.reduce(
     (acc: ProductImages, p) => {
-      acc[p.id] = p.images.edges[0]?.node?.source ?? "";
+      acc[p.id] =
+        (
+          p.media.edges[0]?.node?.image as {
+            id: string;
+            originalSrc: string;
+            width: number;
+            height: number;
+          }
+        )?.originalSrc ?? "";
 
       return acc;
     },

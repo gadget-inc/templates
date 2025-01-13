@@ -36,4 +36,5 @@ export const onSuccess: ActionOnSuccess = async ({
 
 export const options: ActionOptions = {
   actionType: "update",
+  triggers: { api: true },
 };

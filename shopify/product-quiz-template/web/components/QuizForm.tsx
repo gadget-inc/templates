@@ -51,8 +51,6 @@ export default ({
     },
   });
 
-  console.log(productsResponse.data);
-
   if (productsResponse.fetching) {
     return (
       <BlockStack inlineAlign="center">
@@ -80,7 +78,7 @@ export default ({
               label="Name"
               autoComplete="off"
               error={
-                (errors.quiz as { title?: { message: string } })?.title?.message
+                (errors.quiz as { title?: { message: string; }; })?.title?.message
               }
               {...fieldProps}
             />
@@ -97,7 +95,7 @@ export default ({
               label="Description"
               autoComplete="off"
               error={
-                (errors.quiz as { body?: { message: string } })?.body?.message
+                (errors.quiz as { body?: { message: string; }; })?.body?.message
               }
               {...fieldProps}
             />
@@ -136,7 +134,7 @@ export default ({
                       (
                         errors.quiz as {
                           questions?: {
-                            [key: string]: { text?: { message: string } };
+                            [key: string]: { text?: { message: string; }; };
                           };
                         }
                       )?.questions?.[i]?.text?.message

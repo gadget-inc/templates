@@ -674,7 +674,28 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.35", "@gadgetinc/api-client-core@^0.15.35":
+"@gadgetinc/api-client-core@0.15.37":
+  version "0.15.37"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.37.tgz#33bc3dcf6edd8785ddcc7f6af0eb5241204d6c91"
+  integrity sha512-1xpxhJs65ayT5VN/FPvMhJzBaH4ZbTnoYbXVHJYcC1+gy3V156cwfDXTsB3CIw3sFZUD5P9WnxatBkx4GPfq3Q==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.4"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^4.0.0"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    type-fest "^3.13.1"
+    wonka "^6.3.2"
+    ws "^8.17.0"
+
+"@gadgetinc/api-client-core@^0.15.35":
   version "0.15.35"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.35.tgz#40b3cb4fb2d132144c6ca1dbd5b536552cf2ce53"
   integrity sha512-DlNnY2ghQJP3qt2PsUN5ii3sQC8i1Fl9N5aTpOZd5uiHRbZci5u4SXhYqFnLSfYV2Ym2vhen5YmWd3Cl/QOYCQ==
@@ -725,10 +746,10 @@
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.18.4":
-  version "0.18.4"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.4.tgz#5177a806bfc2800cd0492691313242776e711aba"
-  integrity sha512-lwf+8zpotLh+Ts+vk7IPNm7l59Zhs7b4XAjr4C4mqmBQW9iERKkJa9an7vffyNw0yX7VRfmnOBXvkqoLkJmbBw==
+"@gadgetinc/react@^0.18.6":
+  version "0.18.6"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.6.tgz#91ac6699ef06e2a77ed7a72b683347d7ba0914e8"
+  integrity sha512-Cx+FQxkcfiFumy7gUVlBNGv9PordMZszYUSL4/ewu1c/Qzh+3EaMHZjWg8EvY7lwRAaQcHbQQPCiUegNC5lQ3A==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@gadgetinc/api-client-core" "^0.15.36"

@@ -19,7 +19,7 @@ export const schema: GadgetModel = {
       "category",
       "compareAtPriceRange",
       "handle",
-      "images",
+      "media",
       "productCategory",
       "productType",
       "publishedAt",

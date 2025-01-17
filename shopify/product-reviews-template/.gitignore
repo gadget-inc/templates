@@ -1,0 +1,8 @@
+.gadget/
+node_modules/
+**/.DS_Store
+
+# Shopify
+extensions/**/dist
+extensions/**/node_modules
+extensions/**/generated

@@ -21,6 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../providers";
 import type { ShopContextType } from "../providers/ShopProvider";
 import type { Tone } from "@shopify/polaris/build/ts/src/components/Badge";
+import { JSONValue } from "@gadget-client/customized-bundle-template";
 
 type Status = "active" | "archived" | "draft";
 
@@ -56,7 +57,13 @@ export default ({
           product: {
             id: string;
             title: string | null;
-            images: { edges: { node: { source: string | null } }[] };
+            media: {
+              edges: {
+                node: {
+                  image: JSONValue | null;
+                };
+              }[];
+            };
           } | null;
         } | null;
       };
@@ -90,14 +97,22 @@ export default ({
         title: variantTitle,
         price: variantPrice,
       } = productVariant || {};
-      const { id, title, images } = productVariant?.product || {};
+      const { id, title, media } = productVariant?.product || {};
 
       if (id) {
         if (!acc[id]) {
           acc[id] = {
             id,
             title,
-            image: images?.edges[0]?.node?.source ?? "",
+            image:
+              (
+                media?.edges[0]?.node?.image as {
+                  id: string;
+                  width: number;
+                  height: number;
+                  originalSrc: string;
+                }
+              )?.originalSrc ?? "",
             variants: [
               {
                 id: variantId,

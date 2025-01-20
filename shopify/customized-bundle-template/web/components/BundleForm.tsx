@@ -21,6 +21,7 @@ import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import ProductCard from "./ProductCard";
 import type { ShopContextType } from "../providers/ShopProvider";
+import { JSONValue } from "@gadget-client/customized-bundle-template";
 
 export type Variant = {
   availableForSale?: boolean;
@@ -101,16 +102,12 @@ export type BundleComponent = {
     product: {
       id: string;
       title: string;
-      images: {
+      media: {
         id: string;
-        source: string;
-        __typename: "ShopifyProductImage";
+        image: JSONValue | null;
       }[];
-      __typename: "ShopifyProduct";
     };
-    __typename: "ShopifyProductVariant";
   };
-  __typename: "BundleComponent";
 };
 
 export default ({ updateForm = false }: { updateForm?: boolean }) => {
@@ -214,9 +211,17 @@ export default ({ updateForm = false }: { updateForm?: boolean }) => {
             ],
             images: [
               {
-                id: `gid://shopify/ProductImage/${bundleComponent?.productVariant?.product?.images[0]?.id}`,
+                id: `gid://shopify/ProductImage/${bundleComponent?.productVariant?.product?.media[0]?.id}`,
                 originalSrc:
-                  bundleComponent?.productVariant?.product?.images[0]?.source,
+                  (
+                    bundleComponent?.productVariant?.product?.media[0]
+                      ?.image as {
+                      id: string;
+                      width: number;
+                      height: number;
+                      originalSrc: string;
+                    }
+                  )?.originalSrc || "",
               },
             ],
           };

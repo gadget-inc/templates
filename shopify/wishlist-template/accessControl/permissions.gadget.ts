@@ -102,10 +102,21 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopify/storefront-customers/shopifyCustomer.gelly",
           },
         },
+        shopifyFile: {
+          read: {
+            filter: "accessControl/filters/shopifyFile/tenancy.gelly",
+          },
+        },
         shopifyProduct: {
           read: {
             filter:
               "accessControl/filters/shopifyProduct/storefront-customers/tenancy.gelly",
+          },
+        },
+        shopifyProductMedia: {
+          read: {
+            filter:
+              "accessControl/filters/shopifyProductMedia/tenancy.gelly",
           },
         },
         shopifyProductVariant: {
@@ -117,6 +128,18 @@ export const permissions: GadgetPermissions = {
         shopifyShop: {
           read: {
             filter: "accessControl/filters/shopify/shopifyShop.gelly",
+          },
+        },
+        wishlist: {
+          read: {
+            filter:
+              "accessControl/filters/wishlist/storefront-customers-tenancy.gelly",
+          },
+        },
+        wishlistItem: {
+          read: {
+            filter:
+              "accessControl/filters/wishlistItem/storefront-customer-tenancy.gelly",
           },
         },
       },

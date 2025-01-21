@@ -18,6 +18,11 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopify/shopifyCustomer.gelly",
           },
         },
+        shopifyFile: {
+          read: {
+            filter: "accessControl/filters/shopify/shopifyFile.gelly",
+          },
+        },
         shopifyGdprRequest: {
           read: {
             filter:
@@ -34,10 +39,10 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopify/shopifyProduct.gelly",
           },
         },
-        shopifyProductImage: {
+        shopifyProductMedia: {
           read: {
             filter:
-              "accessControl/filters/shopify/shopifyProductImage.gelly",
+              "accessControl/filters/shopify/shopifyProductMedia.gelly",
           },
         },
         shopifyProductVariant: {
@@ -103,12 +108,6 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopifyProduct/storefront-customers/tenancy.gelly",
           },
         },
-        shopifyProductImage: {
-          read: {
-            filter:
-              "accessControl/filters/shopifyProductImage/storefront-customer/tenancy.gelly",
-          },
-        },
         shopifyProductVariant: {
           read: {
             filter:
@@ -118,25 +117,6 @@ export const permissions: GadgetPermissions = {
         shopifyShop: {
           read: {
             filter: "accessControl/filters/shopify/shopifyShop.gelly",
-          },
-        },
-        wishlist: {
-          read: {
-            filter:
-              "accessControl/filters/wishlist/storefront-customers-tenancy.gelly",
-          },
-          actions: {
-            create: true,
-            delete: true,
-          },
-        },
-        wishlistItem: {
-          read: {
-            filter:
-              "accessControl/filters/wishlistItem/storefront-customer-tenancy.gelly",
-          },
-          actions: {
-            delete: true,
           },
         },
       },

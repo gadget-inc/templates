@@ -17,8 +17,8 @@
   ],
   "dependencies": {
     "@gadget-client/wishlist-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.18.3",
-    "@gadgetinc/react-shopify-app-bridge": "^0.16.6",
+    "@gadgetinc/react": "^0.18.7",
+    "@gadgetinc/react-shopify-app-bridge": "^0.16.7",
     "@react-email/components": "0.0.22",
     "@react-email/render": "^1.0.2",
     "@shopify/app-bridge-react": "4.0.0",

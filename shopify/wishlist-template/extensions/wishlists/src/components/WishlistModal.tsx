@@ -59,10 +59,10 @@ export default ({ id, name }: { id: string; name: string }) => {
           title: true,
           status: true,
           handle: true,
-          images: {
+          media: {
             edges: {
               node: {
-                source: true,
+                image: true,
                 alt: true,
               },
             },
@@ -125,7 +125,7 @@ export default ({ id, name }: { id: string; name: string }) => {
                 deleted: variant?.deleted,
                 productTitle: variant?.product?.title,
                 status: variant?.product?.status,
-                image: variant?.product?.images?.edges?.[0]?.node,
+                imageNode: variant?.product?.media?.edges?.[0]?.node,
                 inventoryQuantity: variant?.inventoryQuantity,
                 handle: variant?.product?.handle,
               }}

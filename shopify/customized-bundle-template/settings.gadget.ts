@@ -8,8 +8,9 @@ export const settings: GadgetSettings = {
       shopify: {
         apiVersion: "2024-10",
         enabledModels: [
+          "shopifyFile",
           "shopifyProduct",
-          "shopifyProductImage",
+          "shopifyProductMedia",
           "shopifyProductVariant",
         ],
         type: "partner",

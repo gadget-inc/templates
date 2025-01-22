@@ -93,11 +93,11 @@ export default () => {
               product: {
                 id: true,
                 title: true,
-                images: {
+                media: {
                   edges: {
                     node: {
                       id: true,
-                      source: true,
+                      image: true,
                     },
                   },
                 },

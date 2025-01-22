@@ -56,10 +56,10 @@ export default () => {
               product: {
                 id: true,
                 title: true,
-                images: {
+                media: {
                   edges: {
                     node: {
-                      source: true,
+                      image: true,
                     },
                   },
                 },

@@ -15,7 +15,17 @@ import { api } from "../api";
 import { useAction } from "@gadgetinc/react";
 import { useCallback, useContext } from "react";
 import { ShopContext } from "../providers";
-import { ShopifyProductStatusEnum } from "@gadget-client/wishlist-template";
+import {
+  JSONValue,
+  ShopifyProductStatusEnum,
+} from "@gadget-client/wishlist-template";
+
+type ImageField = {
+  id: string;
+  width: number;
+  height: number;
+  originalSrc: string;
+};
 
 export default ({
   id,
@@ -23,7 +33,7 @@ export default ({
   price,
   compareAtPrice,
   productTitle,
-  image,
+  imageNode,
   deleted,
   status,
   inventoryQuantity,
@@ -38,12 +48,7 @@ export default ({
   deleted: boolean | undefined;
   productTitle: string | null | undefined;
   status: ShopifyProductStatusEnum | undefined;
-  image:
-    | {
-        source: string | null;
-        alt: string | null;
-      }
-    | undefined;
+  imageNode: { alt: string | null; image: JSONValue | null } | undefined;
   inventoryQuantity: number | null | undefined;
   handle: string | null | undefined;
 }) => {
@@ -66,8 +71,8 @@ export default ({
         <InlineLayout blockAlignment="start" columns={["fill", "20%"]}>
           <InlineStack>
             <ProductThumbnail
-              source={image?.source ?? ""}
-              alt={image?.alt ?? "thumbnail stand-in"}
+              source={(imageNode?.image as ImageField)?.originalSrc ?? ""}
+              alt={imageNode?.alt ?? "thumbnail stand-in"}
             />
             <BlockStack spacing="extraTight">
               <HeadingGroup>

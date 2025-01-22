@@ -43,7 +43,6 @@ export const schema: GadgetModel = {
       "presentmentPrices",
       "price",
       "product",
-      "productImage",
       "selectedOptions",
       "shop",
       "shopifyCreatedAt",

@@ -18,6 +18,11 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopify/shopifyCustomer.gelly",
           },
         },
+        shopifyFile: {
+          read: {
+            filter: "accessControl/filters/shopify/shopifyFile.gelly",
+          },
+        },
         shopifyGdprRequest: {
           read: {
             filter:
@@ -34,10 +39,10 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopify/shopifyProduct.gelly",
           },
         },
-        shopifyProductImage: {
+        shopifyProductMedia: {
           read: {
             filter:
-              "accessControl/filters/shopify/shopifyProductImage.gelly",
+              "accessControl/filters/shopify/shopifyProductMedia.gelly",
           },
         },
         shopifyProductVariant: {
@@ -97,16 +102,21 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/shopify/storefront-customers/shopifyCustomer.gelly",
           },
         },
+        shopifyFile: {
+          read: {
+            filter: "accessControl/filters/shopifyFile/tenancy.gelly",
+          },
+        },
         shopifyProduct: {
           read: {
             filter:
               "accessControl/filters/shopifyProduct/storefront-customers/tenancy.gelly",
           },
         },
-        shopifyProductImage: {
+        shopifyProductMedia: {
           read: {
             filter:
-              "accessControl/filters/shopifyProductImage/storefront-customer/tenancy.gelly",
+              "accessControl/filters/shopifyProductMedia/tenancy.gelly",
           },
         },
         shopifyProductVariant: {
@@ -127,7 +137,7 @@ export const permissions: GadgetPermissions = {
           },
           actions: {
             create: true,
-            delete: true,
+            update: true,
           },
         },
         wishlistItem: {
@@ -137,6 +147,7 @@ export const permissions: GadgetPermissions = {
           },
           actions: {
             delete: true,
+            update: true,
           },
         },
       },

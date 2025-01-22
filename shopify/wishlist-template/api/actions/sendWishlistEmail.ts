@@ -3,6 +3,13 @@ import type { Changes } from "../utilities/types";
 import { renderEmail } from "../utilities";
 import type { Customer } from "./startCustomerUpdates";
 
+type ImageField = {
+  id: string;
+  width: number;
+  height: number;
+  originalSrc: string;
+};
+
 export const run: ActionRun = async ({
   params,
   logger,
@@ -42,10 +49,10 @@ export const run: ActionRun = async ({
         price: true,
         product: {
           title: true,
-          images: {
+          media: {
             edges: {
               node: {
-                source: true,
+                image: true,
                 alt: true,
               },
             },
@@ -79,9 +86,14 @@ export const run: ActionRun = async ({
     )
       continue;
 
-    const image = variant.product?.images?.edges?.[0]?.node;
+    const imageNode = variant.product?.media?.edges?.[0]?.node;
 
-    if (!image || !image?.alt || !image?.source) continue;
+    if (
+      !imageNode ||
+      !imageNode?.alt ||
+      !(imageNode?.image as ImageField).originalSrc
+    )
+      continue;
 
     if (variant.deleted) {
       count++;
@@ -92,8 +104,8 @@ export const run: ActionRun = async ({
           title: variant.title,
           productTitle: variant.product?.title,
           image: {
-            source: image.source,
-            alt: image.alt,
+            source: (imageNode?.image as ImageField)?.originalSrc ?? "",
+            alt: imageNode.alt,
           },
         };
       }
@@ -108,8 +120,8 @@ export const run: ActionRun = async ({
           price: variant.price,
           compareAtPrice: variant.compareAtPrice,
           image: {
-            source: image.source,
-            alt: image.alt,
+            source: (imageNode?.image as ImageField)?.originalSrc ?? "",
+            alt: imageNode.alt,
           },
         };
       }

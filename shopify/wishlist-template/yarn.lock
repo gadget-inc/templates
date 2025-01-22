@@ -497,10 +497,10 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.35", "@gadgetinc/api-client-core@^0.15.34", "@gadgetinc/api-client-core@^0.15.35":
-  version "0.15.35"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.35.tgz#40b3cb4fb2d132144c6ca1dbd5b536552cf2ce53"
-  integrity sha512-DlNnY2ghQJP3qt2PsUN5ii3sQC8i1Fl9N5aTpOZd5uiHRbZci5u4SXhYqFnLSfYV2Ym2vhen5YmWd3Cl/QOYCQ==
+"@gadgetinc/api-client-core@0.15.38", "@gadgetinc/api-client-core@^0.15.38":
+  version "0.15.38"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.38.tgz#8427e3d74e7278f4d5346dce9517659fdbaa76eb"
+  integrity sha512-rLyOGxzly1LtT724NNpdKukFi4We6jjio/k3LXGINehjPEpSzcgSchjO3icp++GlhAyZCiFBt/cEBUKnLp3mXA==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@n1ru4l/graphql-live-query" "^0.10.0"
@@ -518,43 +518,22 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/api-client-core@^0.15.36":
-  version "0.15.36"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.36.tgz#aca6f7d1fa65677a7180f9b6a6b1251778e1af84"
-  integrity sha512-PkNSf1kXAi6nIba5eqZ7d8KJCyqQ2NA0/Z5JweJQoCMOXSTbsqnAD77fTmkRh1LsH48wfMNDQF7qTxWI3VCCTw==
+"@gadgetinc/react-shopify-app-bridge@^0.16.7":
+  version "0.16.7"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.7.tgz#9b555e70aafd649395eb58fa30b9b7a8e42fecb0"
+  integrity sha512-UGsV0fSiB9CRA4pEqBuie0SVbi6ApDmOeYtEDFWlgRikKNs4vX9VBWSQ0iWviJTLp29+tKhNp8u8bYnQnjbprg==
   dependencies:
-    "@0no-co/graphql.web" "^1.0.4"
-    "@n1ru4l/graphql-live-query" "^0.10.0"
-    "@n1ru4l/json-patch-plus" "^0.2.0"
-    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
-    "@urql/core" "^4.0.10"
-    cross-fetch "^4.0.0"
-    graphql "^16.8.1"
-    graphql-ws "^5.13.1"
-    isomorphic-ws "^5.0.0"
-    klona "^2.0.6"
-    tiny-graphql-query-compiler "^0.2.2"
-    tslib "^2.6.2"
-    type-fest "^3.13.1"
-    wonka "^6.3.2"
-    ws "^8.17.0"
-
-"@gadgetinc/react-shopify-app-bridge@^0.16.6":
-  version "0.16.6"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.6.tgz#27abf7850819b742b897fa58e26a4db6897afa32"
-  integrity sha512-Zg6oxTL5RYLDuPhL1psnVOUYmY8RHQ/Fa5Q50nkcfagG4bmt8oHN2I6jNWZTD/KcIYs6shg7kEvc5bxompfg5g==
-  dependencies:
-    "@gadgetinc/api-client-core" "^0.15.35"
+    "@gadgetinc/api-client-core" "^0.15.38"
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.18.1":
-  version "0.18.3"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.3.tgz#26e7c7edfa2a758c348ac0da7045b718b83bcba6"
-  integrity sha512-VxMBVwjwJXYy6vJNMp3zvww1WEWTm20RFRJhlyR866GFk0vqfbTs4G5/QLEeA1EGz6jqUCk3Ft+IurJc68oCqw==
+"@gadgetinc/react@^0.18.7":
+  version "0.18.7"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.7.tgz#7798cac40096de3d91d59c4094164ac4d30de2b5"
+  integrity sha512-52P8pDauE1/r06a/7cbG7F2ZwJVqlBEtxFXdr0FDckmBHtVGXd4YgpH7IFmAp9aCPnzzhVRdSVw1ILNrOsawcg==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
-    "@gadgetinc/api-client-core" "^0.15.35"
+    "@gadgetinc/api-client-core" "^0.15.38"
     "@hookform/resolvers" "^3.3.1"
     filesize "^10.1.2"
     pluralize "^8.0.0"
@@ -564,28 +543,12 @@
     urql "^4.0.4"
     yup "^1.2.0"
 
-"@gadgetinc/react@^0.18.3":
-  version "0.18.4"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.4.tgz#5177a806bfc2800cd0492691313242776e711aba"
-  integrity sha512-lwf+8zpotLh+Ts+vk7IPNm7l59Zhs7b4XAjr4C4mqmBQW9iERKkJa9an7vffyNw0yX7VRfmnOBXvkqoLkJmbBw==
+"@gadgetinc/shopify-extensions@^0.3.5":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/shopify-extensions/-/shopify-extensions-0.3.5.tgz#b51d7d1fda8bdc6f4fb19379807641ddf5f6890a"
+  integrity sha512-L0TUrW3vEF6undStMKXqD+FMBflMjUn9AnMNu3NemOKvHTJM6nD5Grn22B8q2kpFp1d2lLkaiIGWJ2nhZViLlQ==
   dependencies:
-    "@0no-co/graphql.web" "^1.0.4"
-    "@gadgetinc/api-client-core" "^0.15.36"
-    "@hookform/resolvers" "^3.3.1"
-    filesize "^10.1.2"
-    pluralize "^8.0.0"
-    react-fast-compare "^3.2.2"
-    react-hook-form "~7.48.2"
-    tslib "^2.6.2"
-    urql "^4.0.4"
-    yup "^1.2.0"
-
-"@gadgetinc/shopify-extensions@^0.3.3":
-  version "0.3.4"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/shopify-extensions/-/shopify-extensions-0.3.4.tgz#d989ca45357bd4dd1068d2bbc872e0b8fb5dfd69"
-  integrity sha512-orD5KHCWBfsKYhJWrPA2u8pjboXjEvkNuS0F1CGD/PvkzP97ciFyIEmtHAvSvvEvIhKn/BJf21G2Z/yM+0R2Tg==
-  dependencies:
-    "@gadgetinc/api-client-core" "^0.15.34"
+    "@gadgetinc/api-client-core" "^0.15.38"
 
 "@hookform/resolvers@^3.3.1":
   version "3.9.0"

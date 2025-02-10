@@ -20,7 +20,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     }`,
     {
       metaobject: {
-        type: "$app:review",
+        type: "review",
         fields: [
           {
             key: "anonymous",

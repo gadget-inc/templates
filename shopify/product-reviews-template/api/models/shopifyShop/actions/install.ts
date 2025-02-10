@@ -13,6 +13,117 @@ export const run: ActionRun = async ({
 
   if (!shopify) throw new Error("Shopify connection not found");
 
+  logger.info(
+    { env: process.env.NODE_ENV },
+    "Creating review metaobject definition"
+  );
+
+  // For testing purposes
+  if (process.env.NODE_ENV == "development") {
+    const metaobjectDefinitionsQueryResponse = await shopify.graphql(`
+      query {
+        metaobjectDefinitions(first: 100) {
+          nodes {
+            id
+            type
+          }
+        }
+      }`);
+
+    logger.info({ metaobjectDefinitionsQueryResponse }, "LOGGING");
+
+    let exists = false,
+      deleted = false;
+
+    for (const definition of metaobjectDefinitionsQueryResponse
+      .metaobjectDefinitions.nodes) {
+      if (definition.type === "review") {
+        exists = true;
+        record.reviewMetaobjectDefinitionId = definition.id;
+      }
+
+      if (definition.type.includes("review")) {
+        exists = true;
+
+        const metaobjectDefinitionDeleteResponse = await shopify.graphql(
+          `mutation DeleteMetaobjectDefinition($id: ID!) {
+            metaobjectDefinitionDelete(id: $id) {
+              deletedId
+              userErrors {
+                message
+              }
+            }
+          }`,
+          {
+            id: definition.id,
+          }
+        );
+
+        if (
+          metaobjectDefinitionDeleteResponse?.metaobjectDefinitionDelete
+            ?.userErrors?.length
+        )
+          throw new Error(
+            metaobjectDefinitionDeleteResponse.metaobjectDefinitionDelete.userErrors[0].message
+          );
+
+        deleted = true;
+      }
+    }
+
+    if (exists) {
+      const metafieldDefinitionsQueryResponse = await shopify.graphql(`
+        query {
+          metafieldDefinitions(first: 250, ownerType: PRODUCT) {
+              nodes {
+                id
+                namespace
+                key
+              }
+          }
+        }`);
+
+      for (const metafieldDefinition of metafieldDefinitionsQueryResponse
+        .metafieldDefinitions.nodes) {
+        if (
+          metafieldDefinition.namespace === "productReviews" &&
+          metafieldDefinition.key === "reviewMetaobjects"
+        )
+          record.metaobjectReferenceMetafieldDefinitionId =
+            metafieldDefinition.id;
+
+        if (deleted) {
+          const metafieldDefinitionDeleteResponse = await shopify.graphql(
+            `mutation DeleteMetafieldDefinition($id: ID!, $deleteAllAssociatedMetafields: Boolean!) {
+              metafieldDefinitionDelete(id: $id, deleteAllAssociatedMetafields: $deleteAllAssociatedMetafields) {
+                deletedDefinitionId
+                userErrors {
+                  message
+                }
+              }
+            }`,
+            {
+              id: metafieldDefinition.id,
+            }
+          );
+
+          if (
+            metafieldDefinitionDeleteResponse?.metafieldDefinitionDelete
+              ?.userErrors?.length
+          )
+            throw new Error(
+              metafieldDefinitionDeleteResponse.metafieldDefinitionDelete.userErrors[0].message
+            );
+        }
+      }
+
+      if (!deleted) {
+        await save(record);
+        return;
+      }
+    }
+  }
+
   const reviewMetaobjectDefinitionCreateResponse = await shopify.graphql(
     `mutation ($definition: MetaobjectDefinitionCreateInput!) {
       metaobjectDefinitionCreate(definition: $definition) {
@@ -26,7 +137,7 @@ export const run: ActionRun = async ({
     }`,
     {
       definition: {
-        type: "$app:review",
+        type: "review",
         access: {
           storefront: "PUBLIC_READ",
           admin: "MERCHANT_READ",
@@ -93,7 +204,7 @@ export const run: ActionRun = async ({
       {
         definition: {
           name: "Reviews",
-          namespace: "$app:productReviews",
+          namespace: "productReviews",
           key: "reviewMetaobjects",
           description: "A list of metaobjects associated to this product",
           type: "list.metaobject_reference",

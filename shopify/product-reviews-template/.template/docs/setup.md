@@ -13,7 +13,7 @@ A list of steps that you should follow:
 ## Testing reviews
 
 - Create an order
-  - Go to Shopify Admin and create a new order.
+  - Go to Shopify Admin and create a new order (add yourself as the customer).
   - Mark the order as paid and fulfilled.
 - Modify the review request date
   - In your Gadget app, navigate to the shopifyOrder model data viewer.

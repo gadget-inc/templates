@@ -2,7 +2,7 @@
 
 This template allows merchants to collect and manage reviews for their products, leveraging Shopify's metaobject system for storing review data. Review requests are sent a set number of days after the order is completely fulfilled.
 
-[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=prodcut-reviews-template.gadget.app)
+[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=product-reviews-template.gadget.app)
 
 ## Key features
 

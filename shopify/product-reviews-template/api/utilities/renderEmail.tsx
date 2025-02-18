@@ -1,3 +1,4 @@
+import React from "react";
 import { render } from "@react-email/render";
 import { Container, Button } from "@react-email/components";
 

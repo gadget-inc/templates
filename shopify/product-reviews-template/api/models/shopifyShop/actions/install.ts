@@ -94,7 +94,7 @@ export const run: ActionRun = async ({
 
         if (deleted) {
           const metafieldDefinitionDeleteResponse = await shopify.graphql(
-            `mutation DeleteMetafieldDefinition($id: ID!, $deleteAllAssociatedMetafields: Boolean!) {
+            `mutation ($id: ID!, $deleteAllAssociatedMetafields: Boolean!) {
               metafieldDefinitionDelete(id: $id, deleteAllAssociatedMetafields: $deleteAllAssociatedMetafields) {
                 deletedDefinitionId
                 userErrors {
@@ -104,6 +104,7 @@ export const run: ActionRun = async ({
             }`,
             {
               id: metafieldDefinition.id,
+              deleteAllAssociatedMetafields: false,
             }
           );
 
@@ -140,7 +141,6 @@ export const run: ActionRun = async ({
         type: "review",
         access: {
           storefront: "PUBLIC_READ",
-          admin: "MERCHANT_READ",
         },
         fieldDefinitions: [
           {
@@ -217,7 +217,6 @@ export const run: ActionRun = async ({
           ],
           access: {
             storefront: "PUBLIC_READ",
-            admin: "MERCHANT_READ",
           },
         },
       }

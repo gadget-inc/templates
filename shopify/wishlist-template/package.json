@@ -17,7 +17,7 @@
   ],
   "dependencies": {
     "@gadget-client/wishlist-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.18.7",
+    "@gadgetinc/react": "^0.18.9",
     "@gadgetinc/react-shopify-app-bridge": "^0.16.7",
     "@react-email/components": "0.0.22",
     "@react-email/render": "^1.0.2",
@@ -32,7 +32,7 @@
     "react-dom": "^18.2.0",
     "react-email": "2.1.6",
     "react-router-dom": "6.15.0",
-    "shopify-api-node": "^3.12.6",
+    "shopify-api-node": "^3.14.2",
     "uuid": "^11.0.3"
   },
   "devDependencies": {

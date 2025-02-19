@@ -137,7 +137,7 @@ export const permissions: GadgetPermissions = {
           },
           actions: {
             create: true,
-            update: true,
+            delete: true,
           },
         },
         wishlistItem: {
@@ -147,7 +147,6 @@ export const permissions: GadgetPermissions = {
           },
           actions: {
             delete: true,
-            update: true,
           },
         },
       },

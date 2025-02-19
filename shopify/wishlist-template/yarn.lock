@@ -518,6 +518,27 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
+"@gadgetinc/api-client-core@^0.15.40":
+  version "0.15.40"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.40.tgz#cafa08ce31e17292423bf514fab8504c2a057bda"
+  integrity sha512-AePpyZEKoqDID05Qd6ACbE/9tASNFv3SY/DX254K8c1bBco/fl9MHJmPeghucwGdNyyNmx3stHaluNY1opn4bQ==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.4"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^4.0.0"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    type-fest "^3.13.1"
+    wonka "^6.3.2"
+    ws "^8.17.0"
+
 "@gadgetinc/react-shopify-app-bridge@^0.16.7":
   version "0.16.7"
   resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.7.tgz#9b555e70aafd649395eb58fa30b9b7a8e42fecb0"
@@ -527,13 +548,13 @@
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.18.7":
-  version "0.18.7"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.7.tgz#7798cac40096de3d91d59c4094164ac4d30de2b5"
-  integrity sha512-52P8pDauE1/r06a/7cbG7F2ZwJVqlBEtxFXdr0FDckmBHtVGXd4YgpH7IFmAp9aCPnzzhVRdSVw1ILNrOsawcg==
+"@gadgetinc/react@^0.18.9":
+  version "0.18.9"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.9.tgz#3e13b3113e796391a9848487322e3b2ea69d2cf0"
+  integrity sha512-1sluzcqQ5LrwxHEwD5fgHbm2QLkTHjot8qKNsRT6DuBk7H7zKKv9PKbGM+jVu7f6Muhj9tU/85vveOn85fGYiw==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
-    "@gadgetinc/api-client-core" "^0.15.38"
+    "@gadgetinc/api-client-core" "^0.15.40"
     "@hookform/resolvers" "^3.3.1"
     filesize "^10.1.2"
     pluralize "^8.0.0"
@@ -4065,10 +4086,10 @@ shebang-regex@^3.0.0:
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-3.0.0.tgz#ae16f1644d873ecad843b0307b143362d4c42172"
   integrity sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==
 
-shopify-api-node@^3.12.6:
-  version "3.13.4"
-  resolved "https://registry.yarnpkg.com/shopify-api-node/-/shopify-api-node-3.13.4.tgz#5dc24bf311121e325cdec312455050f14f958ceb"
-  integrity sha512-SI5fWomPxhnrvYWpL7f4lo8eQRvt0o/F53Mqp6pm4tW+0RdjTYGFKRnkBf/93WpqniB6xHeUnT3FokvAH/6oYA==
+shopify-api-node@^3.14.2:
+  version "3.14.2"
+  resolved "https://registry.yarnpkg.com/shopify-api-node/-/shopify-api-node-3.14.2.tgz#e7f8eba16585764a79df78d52a4d4f8c49fe4e28"
+  integrity sha512-f+OTxMFZsZAQtBRV3wwPKg/8XoZ3q+kiw136TXZY178tcoJyUyK0GhJITAHIHl037ka0h46EE/9iSTomi++1jQ==
   dependencies:
     got "^11.1.4"
     lodash "^4.17.10"

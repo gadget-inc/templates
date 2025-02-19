@@ -19,3 +19,5 @@ const route: RouteHandler = async ({
   // Redirect the user to the standalone dashboard
   return await reply.redirect(`/dashboard`);
 };
+
+export default route

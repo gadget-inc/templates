@@ -171,10 +171,10 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.34":
-  version "0.15.34"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.34.tgz#30d5a9ee423832dfae852f6aad4f813391cbd11f"
-  integrity sha512-Z7S+JprURJ2Y0XDySp5bMMM0ctBmZOs6ezPPY4+amV5Ba1e2J9y5JbPIGrBxksysj5LydwZyntNTplVOJVVzwg==
+"@gadgetinc/api-client-core@0.15.37":
+  version "0.15.37"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.37.tgz#33bc3dcf6edd8785ddcc7f6af0eb5241204d6c91"
+  integrity sha512-1xpxhJs65ayT5VN/FPvMhJzBaH4ZbTnoYbXVHJYcC1+gy3V156cwfDXTsB3CIw3sFZUD5P9WnxatBkx4GPfq3Q==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@n1ru4l/graphql-live-query" "^0.10.0"
@@ -192,10 +192,10 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/api-client-core@^0.15.35", "@gadgetinc/api-client-core@^0.15.36":
-  version "0.15.36"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.36.tgz#aca6f7d1fa65677a7180f9b6a6b1251778e1af84"
-  integrity sha512-PkNSf1kXAi6nIba5eqZ7d8KJCyqQ2NA0/Z5JweJQoCMOXSTbsqnAD77fTmkRh1LsH48wfMNDQF7qTxWI3VCCTw==
+"@gadgetinc/api-client-core@^0.15.40":
+  version "0.15.40"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.40.tgz#cafa08ce31e17292423bf514fab8504c2a057bda"
+  integrity sha512-AePpyZEKoqDID05Qd6ACbE/9tASNFv3SY/DX254K8c1bBco/fl9MHJmPeghucwGdNyyNmx3stHaluNY1opn4bQ==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@n1ru4l/graphql-live-query" "^0.10.0"
@@ -213,22 +213,22 @@
     wonka "^6.3.2"
     ws "^8.17.0"
 
-"@gadgetinc/react-shopify-app-bridge@^0.16.6":
-  version "0.16.6"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.6.tgz#27abf7850819b742b897fa58e26a4db6897afa32"
-  integrity sha512-Zg6oxTL5RYLDuPhL1psnVOUYmY8RHQ/Fa5Q50nkcfagG4bmt8oHN2I6jNWZTD/KcIYs6shg7kEvc5bxompfg5g==
+"@gadgetinc/react-shopify-app-bridge@^0.16.7":
+  version "0.16.9"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.16.9.tgz#ae22c5d9b0786d84887900a4534b1f6eb4174682"
+  integrity sha512-ZFbBrsKxnV25ptdqDssBxJVlNdeFNH/htN3R71kx2NYb900J0U7R0eU7fao6Y62JYOMbgEUWzSkzLfmo+qlc5A==
   dependencies:
-    "@gadgetinc/api-client-core" "^0.15.35"
+    "@gadgetinc/api-client-core" "^0.15.40"
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.18.4":
-  version "0.18.4"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.4.tgz#5177a806bfc2800cd0492691313242776e711aba"
-  integrity sha512-lwf+8zpotLh+Ts+vk7IPNm7l59Zhs7b4XAjr4C4mqmBQW9iERKkJa9an7vffyNw0yX7VRfmnOBXvkqoLkJmbBw==
+"@gadgetinc/react@^0.18.9":
+  version "0.18.9"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.18.9.tgz#3e13b3113e796391a9848487322e3b2ea69d2cf0"
+  integrity sha512-1sluzcqQ5LrwxHEwD5fgHbm2QLkTHjot8qKNsRT6DuBk7H7zKKv9PKbGM+jVu7f6Muhj9tU/85vveOn85fGYiw==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
-    "@gadgetinc/api-client-core" "^0.15.36"
+    "@gadgetinc/api-client-core" "^0.15.40"
     "@hookform/resolvers" "^3.3.1"
     filesize "^10.1.2"
     pluralize "^8.0.0"
@@ -549,6 +549,13 @@
   integrity sha512-Fz1xDMCF/B00/tYSVMlmK7hVeLh7jE5f3B7X1/hmV0MJBwE27KlS7EvD/Yp+z1lm8mVhwV5w+n8jOZG8AfTlKw==
   dependencies:
     undici-types "~5.26.4"
+
+"@types/node@^20.17.7":
+  version "20.17.19"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.17.19.tgz#0f2869555719bef266ca6e1827fcdca903c1a697"
+  integrity sha512-LEwC7o1ifqg/6r2gn9Dns0f1rhK+fPFDoMiceTJ6kWmVk6bgXBI/9IOWfVan4WiAavK9pIVWdX0/e3J+eEUh5A==
+  dependencies:
+    undici-types "~6.19.2"
 
 "@types/prop-types@*":
   version "15.7.5"
@@ -1463,10 +1470,10 @@ set-cookie-parser@^2.4.1:
   resolved "https://registry.yarnpkg.com/set-cookie-parser/-/set-cookie-parser-2.6.0.tgz#131921e50f62ff1a66a461d7d62d7b21d5d15a51"
   integrity sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==
 
-shopify-api-node@3.11.3:
-  version "3.11.3"
-  resolved "https://registry.yarnpkg.com/shopify-api-node/-/shopify-api-node-3.11.3.tgz#f48800958967f89521b80690bfd65a401a64b888"
-  integrity sha512-ydD4yHqtcoHCxAIqrJXXIqJFbT26IXW0knht0/gid/9eMZBb6+Dd2TDYa1QWXyl/LeqQ6MinR+A9o+k7IOTTkQ==
+shopify-api-node@^3.14.2:
+  version "3.14.2"
+  resolved "https://registry.yarnpkg.com/shopify-api-node/-/shopify-api-node-3.14.2.tgz#e7f8eba16585764a79df78d52a4d4f8c49fe4e28"
+  integrity sha512-f+OTxMFZsZAQtBRV3wwPKg/8XoZ3q+kiw136TXZY178tcoJyUyK0GhJITAHIHl037ka0h46EE/9iSTomi++1jQ==
   dependencies:
     got "^11.1.4"
     lodash "^4.17.10"
@@ -1567,6 +1574,11 @@ undici-types@~5.26.4:
   version "5.26.5"
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-5.26.5.tgz#bcd539893d00b56e964fd2657a4866b221a65617"
   integrity sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==
+
+undici-types@~6.19.2:
+  version "6.19.8"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
+  integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
 
 uri-js@^4.2.2:
   version "4.4.1"

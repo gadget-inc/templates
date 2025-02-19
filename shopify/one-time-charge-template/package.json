@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@gadget-client/one-time-charge-template": "link:.gadget/client",
-    "@gadgetinc/react": "^0.18.4",
-    "@gadgetinc/react-shopify-app-bridge": "^0.16.6",
+    "@gadgetinc/react": "^0.18.9",
+    "@gadgetinc/react-shopify-app-bridge": "^0.16.7",
     "@shopify/app-bridge-react": "^4.1.1",
     "@shopify/polaris": "^13.9.0",
     "@shopify/polaris-icons": "^9.3.0",
@@ -20,7 +20,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.1",
-    "shopify-api-node": "^3.12.6"
+    "shopify-api-node": "^3.14.2"
   },
   "devDependencies": {
     "@types/node": "^20.12.8",

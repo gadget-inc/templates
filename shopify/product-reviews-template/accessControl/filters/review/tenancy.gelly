@@ -1,0 +1,3 @@
+filter ($session: Session) on Review [
+  where shopId == $session.shopId
+]

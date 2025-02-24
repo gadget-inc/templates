@@ -15,7 +15,7 @@ import { api } from "../api";
 import { useAction } from "@gadgetinc/react";
 import { useCallback, useContext } from "react";
 import { ShopContext } from "../providers";
-import {
+import type {
   JSONValue,
   ShopifyProductStatusEnum,
 } from "@gadget-client/wishlist-template";

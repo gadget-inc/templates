@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 import { ShopContext } from "../providers";
 import type { ShopContextType } from "../providers/ShopProvider";
 import type { Tone } from "@shopify/polaris/build/ts/src/components/Badge";
-import { JSONValue } from "@gadget-client/customized-bundle-template";
+import type { JSONValue } from "@gadget-client/customized-bundle-template";
 
 type Status = "active" | "archived" | "draft";
 

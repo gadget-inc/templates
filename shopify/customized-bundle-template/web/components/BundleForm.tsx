@@ -21,7 +21,7 @@ import { ShopContext } from "../providers";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import ProductCard from "./ProductCard";
 import type { ShopContextType } from "../providers/ShopProvider";
-import { JSONValue } from "@gadget-client/customized-bundle-template";
+import type { JSONValue } from "@gadget-client/customized-bundle-template";
 
 export type Variant = {
   availableForSale?: boolean;

@@ -1,0 +1,36 @@
+div#reviews {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.review-card {
+  display: flex;
+  align-items: center;
+  padding-top: 15px;
+  border-top: 1px solid #e0e0e0;
+  margin: 0 10px 15px 10px;
+}
+
+.review-content {
+  flex-grow: 1; /* Allows the review text to take up the remaining space */
+  padding: 0 15px;
+}
+
+.vertical-divider {
+  border-left: 1px solid #ccc;
+  height: 40px;
+  margin: 10px 15px;
+}
+
+.review-stars {
+  display: flex;
+  gap: 5px;
+  max-width: 100px;
+  flex-shrink: 0; /* Prevent shrinking */
+}
+
+.review-stars svg {
+  width: 18px; /* Star size */
+  height: 18px;
+}

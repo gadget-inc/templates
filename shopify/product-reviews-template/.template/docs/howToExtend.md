@@ -1,0 +1,2 @@
+- Allow merchants to modify the shopifyShop.daysUntilReviewRequest field. This field determines the date that a review request email will be sent
+- Allow email customization. Make input(s) where a merchant can decide the content of a review request email. The email code can be found in the api/utilities/renderEmail.tsx file

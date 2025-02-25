@@ -1,3 +1,0 @@
-filter ($session: Session) on ShopifyGdprRequest [
-  where shopId == $session.shopId
-]

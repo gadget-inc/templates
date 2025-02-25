@@ -16,7 +16,8 @@ export const run: ActionRun = async ({
 
   if (
     record.changed("fulfillmentStatus") &&
-    record.fulfillmentStatus === "fulfilled"
+    record.fulfillmentStatus === "fulfilled" &&
+    trigger.type === "shopify_webhook"
   ) {
     if (!record.shopId) throw new Error("shopId is required");
 

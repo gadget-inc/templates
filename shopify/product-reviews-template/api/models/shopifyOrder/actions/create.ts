@@ -14,9 +14,11 @@ export const run: ActionRun = async ({
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
-  record.singleUseCode = code.generate();
+  if (trigger.type === "shopify_webhook") {
+    record.singleUseCode = code.generate();
 
-  setReviewCreationLimit({ record, trigger });
+    setReviewCreationLimit({ record, trigger });
+  }
 
   await save(record);
 };

@@ -19,10 +19,10 @@ const fetchRecommendedProducts = async (answerIds) => {
           title: true,
           body: true,
           handle: true,
-          images: {
+          media: {
             edges: {
               node: {
-                source: true,
+                image: true,
               },
             },
           },
@@ -112,7 +112,8 @@ const onSubmitHandler = async (evt, quizId) => {
   recommendedProducts.forEach((result) => {
     const { recommendedProduct } = result;
     const imgUrl =
-      recommendedProduct.productSuggestion.images?.edges?.[0]?.node?.source;
+      recommendedProduct.productSuggestion.media?.edges?.[0]?.node?.image
+        .originalSrc;
     const productLink = recommendedProduct.productSuggestion.handle;
     recommendedProductHTML +=
       `<span style="padding: 8px 16px; margin-left: 10px; border: black 1px solid; align-items: center; display: flex; flex-direction: column"><h3>${recommendedProduct.productSuggestion.title}</h3><a class="button" href="/products/${productLink}">Check it out</a>` +

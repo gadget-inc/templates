@@ -19,7 +19,7 @@ import {
 } from "react-router-dom";
 import { api } from "../api";
 import Index from "../routes/index";
-import SignedInPage from "../routes/signed-in";
+import SignedInPage from "../routes/signed-in.tsx.backup";
 import SignInPage from "../routes/sign-in";
 import SignUpPage from "../routes/sign-up";
 import ResetPasswordPage from "../routes/reset-password";

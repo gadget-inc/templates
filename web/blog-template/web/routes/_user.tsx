@@ -53,9 +53,9 @@ const UserMenu = ({ user }: { user: any }) => {
       <DropdownMenuTrigger asChild>
         <button className="flex items-center gap-2 rounded-full p-1 hover:bg-accent">
           <Avatar>
-            {user.profilePicture?.url ? (
+            {user.googleImageUrl ? (
               <AvatarImage
-                src={user.profilePicture.url}
+                src={user.googleImageUrl}
                 alt={user.firstName ?? user.email}
               />
             ) : (

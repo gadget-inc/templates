@@ -25,7 +25,7 @@ type StripeProduct = {
 };
 
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
-  if (!params.userId) throw new Error("No userId provided");
+  if (!params.userId) throw new Error("No userId provided in getProducts call");
 
   const user = await api.user.maybeFindOne(params.userId, {
     select: {

@@ -17,15 +17,15 @@ import {
   Link,
 } from "react-router-dom";
 import { api } from "../api";
-import Index from "../routes/index";
-import SignedInPage from "../routes/signed-in";
-import SignInPage from "../routes/sign-in";
-import SignUpPage from "../routes/sign-up";
-import ResetPasswordPage from "../routes/reset-password";
-import VerifyEmailPage from "../routes/verify-email";
-import ChangePassword from "../routes/change-password";
-import ForgotPassword from "../routes/forgot-password";
-import Billing from "../routes/billing";
+import Index from "../backups/index";
+import SignedInPage from "../backups/signed-in";
+import SignInPage from "../backups/sign-in";
+import SignUpPage from "../backups/sign-up";
+import ResetPasswordPage from "../backups/reset-password";
+import VerifyEmailPage from "../backups/verify-email";
+import ChangePassword from "../backups/change-password";
+import ForgotPassword from "../backups/forgot-password";
+import Billing from "../backups/billing";
 import { UserProvider } from "../providers";
 import "./App.css";
 import "./Pricing.css";

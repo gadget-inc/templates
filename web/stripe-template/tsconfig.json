@@ -1,19 +1,21 @@
 {
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.web.json"
+    },
+    {
+      "path": "./tsconfig.api.json"
+    }
+  ],
   "compilerOptions": {
     "strict": true,
-    "esModuleInterop": true,
     "allowJs": true,
+    "checkJs": true,
     "noImplicitAny": true,
-    "sourceMap": true,
+    "noEmit": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "forceConsistentCasingInFileNames": true,
-    "target": "es2020",
-    "lib": ["es2020", "DOM"],
-    "skipLibCheck": true,
-    "jsx": "react-jsx",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "baseUrl": "/"
+    "skipLibCheck": true
   }
 }

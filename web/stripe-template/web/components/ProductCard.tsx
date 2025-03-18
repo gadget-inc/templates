@@ -1,7 +1,7 @@
 import { useGlobalAction } from "@gadgetinc/react";
 import { SyntheticEvent, useCallback, useContext } from "react";
 import { api } from "../api";
-import type { Product } from "../routes/billing";
+import type { Product } from "../backups/billing";
 import { UserContext } from "../providers";
 import { useNavigate } from "react-router-dom";
 

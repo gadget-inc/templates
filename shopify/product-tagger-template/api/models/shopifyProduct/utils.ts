@@ -19,7 +19,7 @@ export const applyTags = async ({
       await api.allowedTag.findMany({
         filter: {
           shopId: {
-            equals: String(connections.shopify.currentShopId),
+            equals: String(connections.shopify.currentShop?.id),
           },
         },
       })
@@ -41,9 +41,23 @@ export const applyTags = async ({
 
     if (shopify) {
       logger.info({ message: `writing back to Shopify product ${id}` });
-      await shopify.product.update(parseInt(id), {
-        tags: finalTags.join(","),
-      });
+
+      await shopify.graphql(
+        `mutation ($id: ID!, $tags: String!) {
+          productUpdate(input: {id: $id, tags: $tags}) {
+            product {
+              id
+            }
+            userErrors {
+              message
+            }
+          }
+        }`,
+        {
+          id: `gid://shopify/Product/${id}`,
+          tags: finalTags.join(","),
+        }
+      );
     }
   }
 };

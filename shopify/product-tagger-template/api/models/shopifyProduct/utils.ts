@@ -42,7 +42,7 @@ export const applyTags = async ({
     if (shopify) {
       logger.info({ message: `writing back to Shopify product ${id}` });
 
-      await shopify.graphql(
+      const response = await shopify.graphql(
         `mutation ($id: ID!, $tags: String!) {
           productUpdate(input: {id: $id, tags: $tags}) {
             product {
@@ -58,6 +58,9 @@ export const applyTags = async ({
           tags: finalTags.join(","),
         }
       );
+
+      if (response.productUpdate?.userErrors?.length)
+        throw new Error(response.productUpdate.userErrors[0].message);
     }
   }
 };

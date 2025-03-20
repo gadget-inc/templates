@@ -7,6 +7,11 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-GpNBaLB7k8oQ",
   fields: {
+    author: {
+      type: "computed",
+      sourceFile: "api/models/post/author.gelly",
+      storageKey: "x9QF7-yrW7gT",
+    },
     content: {
       type: "richText",
       storageKey:

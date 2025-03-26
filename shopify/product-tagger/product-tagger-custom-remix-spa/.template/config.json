@@ -1,0 +1,42 @@
+{
+  "version": "v1",
+  "featuredModels": {
+    "allowedTag": {
+      "description": "Stores the tag keyword and the shop it is associated with.",
+      "featuredFields": ["keyword"]
+    },
+    "shopifyProduct": {
+      "description": "Synchronizes and stores product data from connected Shopify stores.",
+      "featuredFields": ["body", "tags"]
+    }
+  },
+  "featuredActions": {
+    "shopifyProduct": {
+      "create": {
+        "description": "Reacts to Shopify's product/create events and copies the product data in your database, and then calls `applyTags()` defined in `shopifyProduct/utils.js`",
+        "tags": ["edited"]
+      },
+      "update": {
+        "description": "Reacts to Shopify's product/update events and copies the product data in your database, and then calls `applyTags()` defined in `shopifyProduct/utils.js`",
+        "tags": ["edited"]
+      },
+      "utils.js": {
+        "description": "Matches incoming product descriptions against keywords stored in the `allowedTag` model, and then updates the products in Shopify with any matching tags.",
+        "tags": ["added"]
+      }
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "allowedTag": {
+        "description": "This means you can add `allowedTags` from the authenticated admin view."
+      }
+    }
+  },
+  "featuredFrontends": {
+    "routes/_app._index": {
+      "description": "Displays an embedded Shopify Admin UI that allows merchants to add or manage their keyword list.",
+      "tags": ["edited"]
+    }
+  }
+}

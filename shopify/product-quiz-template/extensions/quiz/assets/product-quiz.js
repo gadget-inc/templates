@@ -1,94 +1,56 @@
-// initialize an API client object
-const api = new Gadget();
-
-// query Gadget for the recommended products based on quiz answers, using a JS query
+// Query Gadget for the recommended products based on quiz answers
 const fetchRecommendedProducts = async (answerIds) => {
-  const queryIdFilter = answerIds.map((answerId) => {
-    return { id: { equals: answerId } };
-  });
-
-  const recommendedProducts = await api.answer.findMany({
-    filter: {
-      OR: queryIdFilter,
-    },
-    select: {
-      recommendedProduct: {
-        id: true,
-        productSuggestion: {
-          id: true,
-          title: true,
-          body: true,
-          handle: true,
-          media: {
-            edges: {
-              node: {
-                image: true,
-              },
-            },
-          },
-        },
+  const reply = await fetch(
+    `${window.shopURL}/apps/product-quiz/recommendations`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    },
-  });
+      body: JSON.stringify({
+        answerIdFilters: answerIds.map((answerId) => ({
+          id: {
+            equals: answerId,
+          },
+        })),
+      }),
+    }
+  );
 
-  return recommendedProducts;
+  return await reply.json();
 };
 
-// fetch the quiz questions and answers to be presented to shoppers, using a GraphQL query
+// Fetch the quiz questions and answers to be presented to shoppers
 const fetchQuiz = async (quizSlug) => {
-  const quiz = await api.quiz.findFirst({
-    filter: {
-      slug: { equals: quizSlug },
-    },
-    select: {
-      id: true,
-      title: true,
-      body: true,
-      questions: {
-        edges: {
-          node: {
-            id: true,
-            text: true,
-            answers: {
-              edges: {
-                node: {
-                  id: true,
-                  text: true,
-                },
-              },
-            },
-          },
-        },
+  const reply = await fetch(
+    `${window.shopURL}/apps/product-quiz/quiz?slug=${quizSlug}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-    },
-  });
+    }
+  );
 
-  return quiz;
+  return await reply.json();
 };
 
-// save the shopper's email and recommended productions to Gadget (for follow-up emails!)
+// Save the shopper's email and recommended product to Gadget (for follow-up emails!)
 const saveSelections = async (quizId, email, recommendedProducts) => {
-  const productsQuery = recommendedProducts.map((rp) => {
-    return {
-      create: {
-        product: {
-          _link: rp.recommendedProduct.productSuggestion.id,
-        },
-        shop: {
-          _link: window.shopId,
-        },
-      },
-    };
-  });
-  await api.quizResult.create({
-    quiz: {
-      _link: quizId,
+  const recommendationIds = recommendedProducts.map(
+    (rp) => rp.recommendedProduct.productSuggestion.id
+  );
+
+  await fetch(`${window.shopURL}/apps/product-quiz/save`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
     },
-    shop: {
-      _link: window.shopId,
-    },
-    email: email,
-    shopperSuggestions: [...productsQuery],
+    body: JSON.stringify({
+      quizId,
+      email,
+      recommendedProducts: recommendationIds,
+    }),
   });
 };
 
@@ -139,7 +101,7 @@ const selectAnswer = (evt, answerId, answerText) => {
 };
 
 document.addEventListener("DOMContentLoaded", function () {
-  var quizSlug = window.quizSlug;
+  const quizSlug = window.quizSlug;
 
   fetchQuiz(quizSlug).then(async (quiz) => {
     const questions = quiz.questions.edges;

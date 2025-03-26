@@ -4,6 +4,11 @@ This application allows Shopify merchants to recommend products to customers bas
 
 [![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=product-quiz-template.gadget.app)
 
+This template requires that you set up a Shopify app proxy. Follow these docs to learn how to create the app proxy and how it will be used:
+
+- [Shopify app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
+- [Route common use cases](https://docs.gadget.dev/guides/http-routes/common-use-cases#hmac-validation)
+
 ## Key features
 
 - Models

@@ -13,7 +13,7 @@ import {
   useNavigate,
   Link,
 } from "react-router-dom";
-import { HomePage, EditQuizPage, CreateQuizPage } from "../routes";
+import { HomePage, QuizPage } from "../routes";
 import { api } from "../api";
 
 const Error404 = () => {
@@ -83,8 +83,8 @@ function EmbeddedApp() {
       </NavMenu>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/create-quiz" element={<CreateQuizPage />} />
-        <Route path="/edit-quiz/:id" element={<EditQuizPage />} />
+        <Route path="/quiz" element={<QuizPage />} />
+        <Route path="/quiz/:id" element={<QuizPage />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </>

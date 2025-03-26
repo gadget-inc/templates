@@ -1,0 +1,21 @@
+name: product-tagger-public-remix-spa deployment
+
+on:
+  push:
+    paths:
+      - "shopify/product-tagger/product-tagger-public-remix-spa/**"
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  push-to-development-environment:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v4
+      - name: Push to development environment
+        run: npx ggt push --app=product-tagger-public-remix-spa --env=development --force --allow-unknown-directory
+        working-directory: shopify/product-tagger/product-tagger-public-remix-spa/
+        env:
+          GGT_TOKEN: ${{ secrets.PRODUCT_TAGGER_PUBLIC_REMIX_SPA_DEPLOY_TOKEN }}

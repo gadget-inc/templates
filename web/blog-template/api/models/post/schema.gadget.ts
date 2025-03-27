@@ -14,26 +14,22 @@ export const schema: GadgetModel = {
     },
     content: {
       type: "richText",
-      storageKey:
-        "ModelField-2fy3djfMrnrJ::FieldStorageEpoch-pprPdvtMS8Tm",
+      storageKey: "ModelField-2fy3djfMrnrJ",
     },
     isPublished: {
       type: "boolean",
       default: false,
-      storageKey:
-        "ModelField-7maCpEU0AODc::FieldStorageEpoch-slJFhG_YLrbE",
+      storageKey: "ModelField-7maCpEU0AODc",
     },
     title: {
       type: "string",
       validations: { required: true, unique: true },
-      storageKey:
-        "ModelField-75xbrb0hnhPi::FieldStorageEpoch-ZkjZYMGZyMKk",
+      storageKey: "ModelField-75xbrb0hnhPi",
     },
     user: {
       type: "belongsTo",
       parent: { model: "user" },
-      storageKey:
-        "ModelField-5Hbep2NRmOv7::FieldStorageEpoch-ELmK89wMj1pb",
+      storageKey: "ModelField-5Hbep2NRmOv7",
     },
   },
 };

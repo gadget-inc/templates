@@ -28,7 +28,7 @@
     "@react-router/node": "^7.0.2",
     "@react-router/serve": "^7.0.2",
     "@gadget-client/blog-template": "link:.gadget/client",
-    "@gadgetinc/react": "github:gadget-inc/js-clients#@gadgetinc/react-v0.19.2-alpha.1-gitpkg-929bcaaa",
+    "@gadgetinc/react": "^0.20.0",
     "fastify": "^4.24.2",
     "autoprefixer": "^10.4.20",
     "class-variance-authority": "^0.7.1",

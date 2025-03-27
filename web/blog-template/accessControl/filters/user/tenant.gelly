@@ -1,4 +1,3 @@
-fragment Filter($session: Session) on User {
-  *
-  [where id == $session.userId]
-}
+fragment Filter($session: Session) on User [
+  where id == $session.userId
+]

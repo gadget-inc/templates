@@ -3,6 +3,7 @@ import { Button } from "../ui/button";
 import { Card, CardDescription, CardTitle } from "../ui/card";
 import { useAction } from "@gadgetinc/react";
 import { api } from "@/api";
+import type { Dispatch, SetStateAction } from "react";
 
 type Post = {
   id: string;
@@ -13,13 +14,13 @@ type Post = {
 type PostProps = {
   post: Post;
   selectedPostId?: string;
-  setSelectedPostId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setSelectedPostId: Dispatch<SetStateAction<string | undefined>>;
 };
 
 type PostList = {
   posts?: Post[];
   selectedPostId?: string;
-  setSelectedPostId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  setSelectedPostId: Dispatch<SetStateAction<string | undefined>>;
 };
 
 const Post = ({ post, selectedPostId, setSelectedPostId }: PostProps) => {

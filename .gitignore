@@ -4,6 +4,9 @@
 # .gadget
 .gadget
 
+# react router v7
+*/.react-router/
+
 ### Linux ###
 *~
 

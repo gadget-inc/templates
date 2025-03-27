@@ -6,13 +6,13 @@ import {
   Card,
   InlineGrid,
   InlineStack,
+  Page,
 } from "@shopify/polaris";
 import { useNavigate } from "react-router-dom";
 import { useFindMany, useAction, useFindFirst } from "@gadgetinc/react";
 import { api } from "../api";
 import { useCallback } from "react";
 import { useState } from "react";
-import { default as PageTemplate } from "./PageTemplate";
 
 export default () => {
   const navigate = useNavigate();
@@ -49,20 +49,20 @@ export default () => {
   }, []);
 
   const onCreateNewQuiz = () => {
-    navigate("/create-quiz");
+    navigate("/quiz");
   };
 
   const onEditQuiz = (id: string) => {
-    navigate(`/edit-quiz/${id}`);
+    navigate(`/quiz/${id}`);
   };
 
   if (quizResponse.fetching || storeResponse.fetching) {
     return (
-      <PageTemplate>
+      <Page>
         <BlockStack inlineAlign="center" align="center">
           <Spinner /> <span>Loading...</span>
         </BlockStack>
-      </PageTemplate>
+      </Page>
     );
   }
 
@@ -74,7 +74,7 @@ export default () => {
           variant="primary"
           onClick={() => onCreateNewQuiz()}
         >
-          Create new quiz
+          New
         </Button>
       </BlockStack>
 

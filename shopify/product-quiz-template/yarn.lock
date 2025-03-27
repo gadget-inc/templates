@@ -179,28 +179,7 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.40":
-  version "0.15.40"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.40.tgz#cafa08ce31e17292423bf514fab8504c2a057bda"
-  integrity sha512-AePpyZEKoqDID05Qd6ACbE/9tASNFv3SY/DX254K8c1bBco/fl9MHJmPeghucwGdNyyNmx3stHaluNY1opn4bQ==
-  dependencies:
-    "@0no-co/graphql.web" "^1.0.4"
-    "@n1ru4l/graphql-live-query" "^0.10.0"
-    "@n1ru4l/json-patch-plus" "^0.2.0"
-    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
-    "@urql/core" "^4.0.10"
-    cross-fetch "^4.0.0"
-    graphql "^16.8.1"
-    graphql-ws "^5.13.1"
-    isomorphic-ws "^5.0.0"
-    klona "^2.0.6"
-    tiny-graphql-query-compiler "^0.2.2"
-    tslib "^2.6.2"
-    type-fest "^3.13.1"
-    wonka "^6.3.2"
-    ws "^8.17.0"
-
-"@gadgetinc/api-client-core@^0.15.41":
+"@gadgetinc/api-client-core@0.15.41", "@gadgetinc/api-client-core@^0.15.41":
   version "0.15.41"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.41.tgz#e10c73875615936e6308ca0fef0e2328befc4bdd"
   integrity sha512-avmNAEklX0yUtA1YZIrREEqWM3aSnBQSUcUeRhSagJl4YomC3MPley7qKlGGpoF5C9E1UbcdlrUDpdxZFvKzVA==

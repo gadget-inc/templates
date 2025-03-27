@@ -79,7 +79,7 @@ function EmbeddedApp() {
   return (
     <>
       <NavMenu>
-        <Link to="/create-quiz">Create quiz</Link>
+        <Link to="/quiz">New quiz</Link>
       </NavMenu>
       <Routes>
         <Route path="/" element={<HomePage />} />

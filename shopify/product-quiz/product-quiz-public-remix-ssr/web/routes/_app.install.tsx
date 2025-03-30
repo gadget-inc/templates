@@ -12,8 +12,6 @@ import { useLoaderData } from "@remix-run/react";
 import PageLayout from "../components/PageLayout";
 
 export async function loader({ context }: LoaderFunctionArgs) {
-  context.logger.info("Loading installation instructions");
-
   const shopify = context.connections.shopify.current;
 
   if (!shopify) {

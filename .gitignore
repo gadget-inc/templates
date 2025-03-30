@@ -4,6 +4,12 @@
 # .gadget
 .gadget
 
+# shopify
+.env
+.env.*
+shopify.app.*.toml
+!shopify.app.toml
+
 ### Linux ###
 *~
 

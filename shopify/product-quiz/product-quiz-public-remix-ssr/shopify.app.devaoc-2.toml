@@ -1,18 +1,22 @@
-# Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
 client_id = "7fa72d01a6c6f0b2b4d81d0e07fb5bb6"
 name = "product-quiz-public-remix-ssr"
+handle = "product-quiz-public-remix-ssr-1"
 application_url = "https://product-quiz-public-remix-ssr--devaoc.gadget.app/api/shopify/install-or-render"
 embedded = true
 
 [build]
-# Gadget manages all your scopes, webhooks and api versioning for your app
-# As such, this line should not be changed unless you are working with
-# Shopify managed installations. Read more at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
-include_config_on_deploy = false
+dev_store_url = "devaoc-test-store.myshopify.com"
+include_config_on_deploy = true
 
 [auth]
-redirect_urls = ["https://product-quiz-public-remix-ssr--devaoc.gadget.app/api/connections/auth/shopify/callback"]
+redirect_urls = [
+  "https://product-quiz-public-remix-ssr--devaoc.gadget.app/api/connections/auth/shopify/callback"
+]
 
 [webhooks]
 api_version = "2025-01"
+
+[pos]
+embedded = false

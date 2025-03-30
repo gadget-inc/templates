@@ -1,29 +1,30 @@
+const proxySubPath = "/apps/product-quiz/";
+
 // Query Gadget for the recommended products based on quiz answers
 const fetchRecommendedProducts = async (answerIds) => {
-  const reply = await fetch(
-    `${window.shopURL}/apps/product-quiz/recommendations`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        answerIdFilters: answerIds.map((answerId) => ({
-          id: {
-            equals: answerId,
-          },
-        })),
-      }),
-    }
-  );
+  const reply = await fetch(`${window.shopURL}${proxySubPath}recommendations`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      answerIdFilters: answerIds.map((answerId) => ({
+        id: {
+          equals: answerId,
+        },
+      })),
+    }),
+  });
 
   return await reply.json();
 };
 
 // Fetch the quiz questions and answers to be presented to shoppers
 const fetchQuiz = async (quizSlug) => {
+  console.log("INFO", { quizSlug, shopURL: window.shopURL });
+
   const reply = await fetch(
-    `${window.shopURL}/apps/product-quiz/quiz?slug=${quizSlug}`,
+    `${window.shopURL}${proxySubPath}quiz?slug=${quizSlug}`,
     {
       method: "GET",
       headers: {
@@ -41,7 +42,7 @@ const saveSelections = async (quizId, email, recommendedProducts) => {
     (rp) => rp.recommendedProduct.productSuggestion.id
   );
 
-  await fetch(`${window.shopURL}/apps/product-quiz/save`, {
+  await fetch(`${window.shopURL}${proxySubPath}save`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

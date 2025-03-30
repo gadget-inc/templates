@@ -23,6 +23,24 @@ const Form = (props: {
         action={api.quiz.update}
         findBy={props.findBy}
         onSuccess={props.onSuccess}
+        select={{
+          id: true,
+          title: true,
+          slug: true,
+          body: true,
+          questions: {
+            id: true,
+            text: true,
+            answers: {
+              id: true,
+              text: true,
+              recommendedProduct: {
+                id: true,
+                title: true,
+              },
+            },
+          },
+        }}
       >
         {props.children}
       </AutoForm>

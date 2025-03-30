@@ -5,8 +5,39 @@ import { RouteHandler } from "gadget-server";
  *
  * See: https://docs.gadget.dev/guides/http-routes/route-configuration#route-context
  */
-const route: RouteHandler = async ({ request, reply, api, logger, connections }) => {
+const route: RouteHandler<{
+  Body: { answerIdFilters: [{ id: { equals: string; }; }]; };
+}> = async ({ request, reply, api, logger, connections }) => {
+  const { answerIdFilters } = request.body;
 
-}
+  const answers = await api.answer.findMany({
+    filter: {
+      OR: answerIdFilters,
+      shopId: {
+        equals: String(connections.shopify.currentShop?.id),
+      },
+    },
+    select: {
+      recommendedProduct: {
+        id: true,
+        productSuggestion: {
+          id: true,
+          title: true,
+          body: true,
+          handle: true,
+          media: {
+            edges: {
+              node: {
+                image: true,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+
+  await reply.send(answers);
+};
 
 export default route;

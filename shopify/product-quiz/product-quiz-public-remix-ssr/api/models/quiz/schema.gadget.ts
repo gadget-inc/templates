@@ -26,7 +26,10 @@ export const schema: GadgetModel = {
     },
     slug: {
       type: "string",
-      validations: { required: true },
+      validations: {
+        required: true,
+        unique: { scopeByField: "shop" },
+      },
       storageKey: "r4Wm0DTObItZ",
     },
     title: {

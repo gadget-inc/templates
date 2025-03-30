@@ -4,7 +4,6 @@ import {
   Card,
   InlineStack,
   Layout,
-  List,
   Text,
 } from "@shopify/polaris";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
@@ -84,41 +83,54 @@ export default function Install() {
               </Button>
             </InlineStack>
             <BlockStack gap="300">
-              <Text as="p">
+              <Text as="p" variant="bodyLg">
                 Before adding the product quiz to your store, we recommend that
                 you first create a quiz. This can be done from the New quiz
                 page, found either from the left navigation menu or via the
                 application's homepage.
               </Text>
-              <Text as="p">
+              <Text as="p" variant="bodyLg">
                 Once you've created a quiz, you can add it to your store by:
               </Text>
-              <List type="number" gap="loose">
-                <List.Item>
+              <BlockStack gap="400">
+                <Text as="p" variant="bodyLg">
                   Copying the slug of the quiz, from the homepage of this
                   application.
-                </List.Item>
-                <List.Item>
+                </Text>
+                <img
+                  src="/assets/pet-quiz.png"
+                  alt="Quiz slug location on quiz card"
+                />
+                <Text as="p" variant="bodyLg">
                   Clicking the "Add to theme" button to the top right of this
                   card.
-                </List.Item>
-                <List.Item>
+                </Text>
+                <InlineStack align="center">
+                  <img
+                    src="/assets/add-to-theme.png"
+                    alt="Add to theme button"
+                    width="100px"
+                  />
+                </InlineStack>
+                <Text as="p" variant="bodyLg">
                   Clicking on the product quiz section in the editor, in the
                   left page items navigation.
-                </List.Item>
-                <List.Item>
+                </Text>
+                <img
+                  src="/assets/editor-left-nav.png"
+                  alt="Left Shopify theme editor navigation"
+                />
+                <Text as="p" variant="bodyLg">
                   Pasting the slug into the "Quiz slug" field in the product
-                  quiz settings section to the right of the screen
-                </List.Item>
-              </List>
-              <Text as="p">
+                  quiz settings section.
+                </Text>
+                <img src="/assets/quiz-section.png" alt="Quiz slug input" />
+              </BlockStack>
+              <Text as="p" variant="bodyLg">
                 You're all done! Customers can now use your quiz to find the
                 perfect product for them.
               </Text>
             </BlockStack>
-            <video muted autoPlay loop>
-              <source src="/assets/store2Install.webm" type="video/webm" />
-            </video>
           </BlockStack>
         </Card>
       </Layout.Section>

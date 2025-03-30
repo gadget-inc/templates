@@ -53,16 +53,7 @@ function LoadingState() {
   return (
     <Card>
       <BlockStack gap="300">
-        <InlineStack align="space-between">
-          <BlockStack>
-            <SkeletonDisplayText />
-            <SkeletonDisplayText size="small" />
-          </BlockStack>
-          <ButtonGroup>
-            <SkeletonDisplayText size="small" maxWidth="10ch" />
-            <SkeletonDisplayText size="small" maxWidth="10ch" />
-          </ButtonGroup>
-        </InlineStack>
+        <SkeletonDisplayText />
         <SkeletonBodyText />
       </BlockStack>
     </Card>

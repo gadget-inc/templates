@@ -8,6 +8,8 @@ import {
   ButtonGroup,
   Box,
   Banner,
+  SkeletonDisplayText,
+  SkeletonBodyText,
 } from "@shopify/polaris";
 import { useAction, useTable } from "@gadgetinc/react";
 import { api } from "../api";
@@ -47,6 +49,26 @@ function NoData() {
   );
 }
 
+function LoadingState() {
+  return (
+    <Card>
+      <BlockStack gap="300">
+        <InlineStack align="space-between">
+          <BlockStack>
+            <SkeletonDisplayText />
+            <SkeletonDisplayText size="small" />
+          </BlockStack>
+          <ButtonGroup>
+            <SkeletonDisplayText size="small" maxWidth="10ch" />
+            <SkeletonDisplayText size="small" maxWidth="10ch" />
+          </ButtonGroup>
+        </InlineStack>
+        <SkeletonBodyText />
+      </BlockStack>
+    </Card>
+  );
+}
+
 function QuizCard(props: QuizCardProps) {
   const {
     quiz: { id, title, slug, body },
@@ -58,32 +80,34 @@ function QuizCard(props: QuizCardProps) {
 
   return (
     <Card>
-      <BlockStack gap="300"></BlockStack>
-      <InlineStack align="space-between">
-        <BlockStack>
-          <Text as="h2" variant="headingMd">
-            {title}
-          </Text>
-          <Text as="p" tone="subdued">
-            {slug}
-          </Text>
-        </BlockStack>
-        <ButtonGroup>
-          <Button
-            variant="tertiary"
-            icon={EditIcon}
-            onClick={() => navigate(`/quiz/${id}`)}
-          />
-          <Button
-            variant="tertiary"
-            tone="critical"
-            icon={DeleteIcon}
-            loading={fetching}
-            disabled={fetching}
-            onClick={() => deleteQuiz({ id })}
-          />
-        </ButtonGroup>
-      </InlineStack>
+      <BlockStack gap="300">
+        <InlineStack align="space-between">
+          <BlockStack>
+            <Text as="h2" variant="headingMd">
+              {title}
+            </Text>
+            <Text as="p" tone="subdued">
+              {slug}
+            </Text>
+          </BlockStack>
+          <ButtonGroup>
+            <Button
+              variant="tertiary"
+              icon={EditIcon}
+              onClick={() => navigate(`/quiz/${id}`)}
+            />
+            <Button
+              variant="tertiary"
+              tone="critical"
+              icon={DeleteIcon}
+              loading={fetching}
+              disabled={fetching}
+              onClick={() => deleteQuiz({ id })}
+            />
+          </ButtonGroup>
+        </InlineStack>
+        <Text as="p">{body}</Text>
+      </BlockStack>
     </Card>
   );
 }
@@ -99,10 +123,6 @@ export default function Index() {
     },
   });
 
-  // Handle loading state
-
-  console.log("data", { data, error, fetching });
-
   return (
     <PageLayout
       title="Quizzes"
@@ -114,7 +134,7 @@ export default function Index() {
       <Layout.Section>
         <BlockStack gap="300">
           {/* Loading state */}
-          {/* {!data && fetching && ()} */}
+          {!data && fetching && <LoadingState />}
           {data?.map((quiz, i) => <QuizCard key={i} {...{ quiz }} />)}
           {/* No data state */}
           {!data?.length && !fetching && <NoData />}

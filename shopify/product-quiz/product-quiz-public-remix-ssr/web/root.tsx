@@ -1,4 +1,12 @@
-import { Meta, Links, Scripts, ScrollRestoration, useLoaderData, useLocation, Outlet } from "@remix-run/react";
+import {
+  Meta,
+  Links,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+  useLocation,
+  Outlet,
+} from "@remix-run/react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { AppProvider } from "@shopify/polaris";
 import enTranslations from "@shopify/polaris/locales/en.json";
@@ -20,8 +28,8 @@ export const links = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://assets.gadget.dev/assets/reset.min.css"
-  }
+    href: "https://assets.gadget.dev/assets/reset.min.css",
+  },
 ];
 
 export const meta = () => [
@@ -33,7 +41,7 @@ export const meta = () => [
   {
     name: "shopify-api-key",
     suppressHydrationWarning: true,
-    content: "%SHOPIFY_API_KEY%"
+    content: "%SHOPIFY_API_KEY%",
   },
 ];
 
@@ -43,7 +51,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
   });
 };
 
-export const Layout = ({ children }: { children: React.ReactNode; }) => {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="en">
       <head>
@@ -52,9 +60,7 @@ export const Layout = ({ children }: { children: React.ReactNode; }) => {
         <Links />
       </head>
       <body>
-        <Suspense fallback={<FullPageSpinner />}>
-          {children}
-        </Suspense>
+        <Suspense fallback={<FullPageSpinner />}>{children}</Suspense>
         <ScrollRestoration />
         <Scripts />
       </body>

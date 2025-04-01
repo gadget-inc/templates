@@ -6,7 +6,6 @@ import {
   AutoForm,
   AutoHasManyForm,
   AutoHasOneForm,
-  AutoHasOneInput,
   AutoStringInput,
   AutoSubmit,
   SubmitResultBanner,

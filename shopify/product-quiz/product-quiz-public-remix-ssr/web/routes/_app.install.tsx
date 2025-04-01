@@ -5,13 +5,13 @@ import {
   InlineStack,
   Layout,
   Text,
-  Divider
+  Divider,
 } from "@shopify/polaris";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import PageLayout from "../components/PageLayout";
 import rawQuizPageLiquid from "../../extensions/quiz/blocks/quiz.liquid?raw";
-import rawProductQuizJs from "../../extensions/quiz/assets/q.js?raw";
+import rawProductQuizJs from "../../extensions/quiz/assets/quiz.js?raw";
 
 const pageQuizJson = `{
   "sections": {
@@ -67,7 +67,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
   });
 }
 
-const CodeBlock = ({ children }: { children: string; }) => {
+const CodeBlock = ({ children }: { children: string }) => {
   return (
     <Card>
       <BlockStack inlineAlign="end">
@@ -93,28 +93,30 @@ export default function Install() {
         <BlockStack gap="500">
           <BlockStack gap="300">
             <Text as="p">
-              Head over to your theme, hit edit code. Under Sections, create a new
-              section called quiz-page.liquid. We're going to replace this page with
-              the following code:
+              Head over to your theme, hit edit code. Under Sections, create a
+              new section called quiz-page.liquid. We're going to replace this
+              page with the following code:
             </Text>
             <CodeBlock>{rawQuizPageLiquid}</CodeBlock>
           </BlockStack>
           <Divider />
           <BlockStack gap="300">
             <Text as="p">
-              Now under Templates, select “Add a new template” and add a template
-              called page.quiz.json. This requires you to select the page template
-              type.
+              Now under Templates, select “Add a new template” and add a
+              template called page.quiz.json. This requires you to select the
+              page template type.
             </Text>
-            <Text as="p">Replace the generated file with the following JSON:</Text>
+            <Text as="p">
+              Replace the generated file with the following JSON:
+            </Text>
             <CodeBlock>{pageQuizJson}</CodeBlock>
           </BlockStack>
           <Divider />
           <BlockStack gap="300">
             <Text as="p">
-              Under the Assets section in the sidebar, select Add a new asset and
-              create a new JavaScript file called product-quiz.js. You can then add
-              the following to that file:
+              Under the Assets section in the sidebar, select Add a new asset
+              and create a new JavaScript file called product-quiz.js. You can
+              then add the following to that file:
             </Text>
             <CodeBlock>{rawProductQuizJs}</CodeBlock>
           </BlockStack>
@@ -122,10 +124,10 @@ export default function Install() {
           <BlockStack>
             <Text as="p">
               Save your changes, and we're ready to go! Head over to the Pages
-              section of the Shopify admin, and create a new page for your quiz. You
-              can set the template to use your new quiz template. View the page to
-              see your quiz right in your Shopify store, ready to recommend products
-              to your shoppers.
+              section of the Shopify admin, and create a new page for your quiz.
+              You can set the template to use your new quiz template. View the
+              page to see your quiz right in your Shopify store, ready to
+              recommend products to your shoppers.
             </Text>
           </BlockStack>
         </BlockStack>

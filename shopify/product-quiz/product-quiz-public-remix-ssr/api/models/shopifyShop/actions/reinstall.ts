@@ -8,7 +8,17 @@ export const run: ActionRun = async ({ params, record, logger, api, connections 
 };
 
 export const onSuccess: ActionOnSuccess = async ({ params, record, logger, api, connections }) => {
-  // Your logic goes here
+  await api.shopifySync.run({
+    domain: record.domain,
+    shop: {
+      _link: record.id,
+    },
+    models: [
+      "shopifyProduct",
+      "shopifyProductMedia",
+      "shopifyFile",
+    ],
+  });
 };
 
 export const options: ActionOptions = { actionType: "update" };

@@ -13,7 +13,7 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, logger, api, 
     },
     models: [
       "shopifyProduct",
-      "shopifyMedia",
+      "shopifyProductMedia",
       "shopifyFile",
     ],
   });

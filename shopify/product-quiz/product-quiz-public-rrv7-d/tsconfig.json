@@ -1,0 +1,31 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "checkJs": true,
+    "noImplicitAny": true,
+    "noEmit": true,
+    "sourceMap": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "forceConsistentCasingInFileNames": true,
+    "target": "es2020",
+    "lib": [
+      "es2020",
+      "DOM"
+    ],
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "baseUrl": ".",
+    "types": [
+      "@shopify/app-bridge-types"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    ".gadget"
+  ]
+}

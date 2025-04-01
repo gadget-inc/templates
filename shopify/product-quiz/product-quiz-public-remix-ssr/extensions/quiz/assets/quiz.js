@@ -32,8 +32,6 @@ const fetchQuiz = async (quizSlug) => {
     }
   );
 
-  console.log("Quiz response", reply);
-
   return await reply.json();
 };
 

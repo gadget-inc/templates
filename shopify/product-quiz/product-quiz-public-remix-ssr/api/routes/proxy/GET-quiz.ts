@@ -50,8 +50,6 @@ const route: RouteHandler<{ Querystring: { slug: string; }; }> = async ({
     },
   });
 
-
-
   await reply.send(quiz);
 };
 

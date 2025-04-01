@@ -6,12 +6,14 @@ import {
   Layout,
   Text,
   Divider,
+  Spinner,
 } from "@shopify/polaris";
 import PageLayout from "../components/PageLayout";
 import rawQuizPageLiquid from "../../extensions/quiz/blocks/quiz.liquid?raw";
 import rawProductQuizJs from "../../extensions/quiz/assets/quiz.js?raw";
 import { api } from "../api";
-import { useLoaderData } from "react-router";
+import { useFindFirst, useGlobalAction } from "@gadgetinc/react";
+import { useEffect } from "react";
 
 const pageQuizJson = `{
   "sections": {
@@ -22,17 +24,6 @@ const pageQuizJson = `{
   },
   "order": ["main"]
 }`;
-
-export async function clientLoader() {
-  return {
-    theme: await api.getTheme(),
-    shop: await api.shopifyShop.findFirst({
-      select: {
-        domain: true,
-      },
-    }),
-  };
-}
 
 const CodeBlock = ({ children }: { children: string }) => {
   return (
@@ -52,9 +43,29 @@ const CodeBlock = ({ children }: { children: string }) => {
 };
 
 export default function Install() {
-  const { theme, shop } = useLoaderData<typeof clientLoader>();
+  // const { theme, shop } = useLoaderData<typeof clientLoader>();
 
-  if (!theme.onlineStore2) {
+  const [{ data: shop, fetching: fetchingShop }] = useFindFirst(
+    api.shopifyShop,
+    { select: { domain: true } }
+  );
+  const [{ data: theme, fetching: fetchingTheme }, getTheme] = useGlobalAction(
+    api.getTheme
+  );
+
+  useEffect(() => {
+    getTheme();
+  }, []);
+
+  if (fetchingTheme || fetchingShop) {
+    return (
+      <PageLayout>
+        <Spinner size="large" />
+      </PageLayout>
+    );
+  }
+
+  if (!theme?.onlineStore2) {
     return (
       <PageLayout>
         <BlockStack gap="500">
@@ -114,7 +125,7 @@ export default function Install() {
               <Button
                 variant="primary"
                 target="_blank"
-                url={`https://${shop.domain}/admin/themes/${theme.id}/editor?addAppBlockId=${process.env.GADGET_PUBLIC_SHOPIFY_THEME_EXTENSION_ID}/quiz&target=newAppsSection`}
+                url={`https://${shop?.domain}/admin/themes/${theme.id}/editor?addAppBlockId=${process.env.GADGET_PUBLIC_SHOPIFY_THEME_EXTENSION_ID}/quiz&target=newAppsSection`}
               >
                 Add to theme
               </Button>

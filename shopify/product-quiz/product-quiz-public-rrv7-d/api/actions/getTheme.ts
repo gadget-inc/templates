@@ -21,6 +21,8 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     }
   `);
 
+  logger.info({ response }, "response");
+
   const { themes } = response;
   const theme = {
     onlineStore2: true,

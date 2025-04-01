@@ -1,3 +1,3 @@
 filter ($session: Session) on Answer [
-  where id == $session.shopId
+  where shopId == $session.shopId
 ]

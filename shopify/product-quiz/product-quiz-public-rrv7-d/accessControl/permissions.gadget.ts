@@ -12,6 +12,47 @@ export const permissions: GadgetPermissions = {
     "shopify-app-users": {
       storageKey: "Role-Shopify-App",
       models: {
+        answer: {
+          read: {
+            filter: "accessControl/filters/answer/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
+        question: {
+          read: {
+            filter: "accessControl/filters/question/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
+        quiz: {
+          read: {
+            filter: "accessControl/filters/quiz/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
+        recommendedProduct: {
+          read: {
+            filter:
+              "accessControl/filters/recommendedProduct/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+            delete: true,
+            update: true,
+          },
+        },
         shopifyFile: {
           read: {
             filter: "accessControl/filters/shopify/shopifyFile.gelly",
@@ -63,7 +104,7 @@ export const permissions: GadgetPermissions = {
         },
       },
       actions: {
-        scheduledShopifySync: true,
+        getTheme: true,
       },
     },
     unauthenticated: {

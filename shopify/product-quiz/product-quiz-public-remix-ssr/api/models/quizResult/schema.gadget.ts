@@ -23,6 +23,7 @@ export const schema: GadgetModel = {
     },
     quiz: {
       type: "belongsTo",
+      validations: { required: true },
       parent: { model: "quiz" },
       storageKey: "QVzzukD3Kepw",
     },

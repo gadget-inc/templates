@@ -1,16 +1,11 @@
 {% assign quizSlug = block.settings.quiz_slug %}
 
-<link rel="stylesheet" href="{{ 'section-main-page.css' | asset_url }}" media="print" onload="this.media='all'">
-<link rel="stylesheet" href="{{ 'component-rte.css' | asset_url }}" media="print" onload="this.media='all'">
-
 <script>
   window.quizSlug = "{{ quizSlug }}";
   window.shopURL = "{{ shop.secure_url }}";
 </script>
 
-<script src="{{ 'product-quiz.js' | asset_url }}" defer="defer"></script>
-<noscript>{{ 'section-main-page.css' | asset_url | stylesheet_tag }}</noscript>
-<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+<script src="{{ 'quiz.js' | asset_url }}" defer="defer"></script>
 
 {% if quizSlug.size > 0 %}
 <div class="page-width page-width--narrow">

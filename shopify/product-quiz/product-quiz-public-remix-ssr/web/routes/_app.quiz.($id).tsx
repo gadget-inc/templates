@@ -2,8 +2,10 @@ import { Card, Layout } from "@shopify/polaris";
 import PageLayout from "../components/PageLayout";
 import { useNavigate, useParams } from "@remix-run/react";
 import {
+  AutoBelongsToInput,
   AutoForm,
   AutoHasManyForm,
+  AutoHasOneForm,
   AutoHasOneInput,
   AutoStringInput,
   AutoSubmit,
@@ -29,14 +31,24 @@ const Form = (props: {
           slug: true,
           body: true,
           questions: {
-            id: true,
-            text: true,
-            answers: {
-              id: true,
-              text: true,
-              recommendedProduct: {
+            edges: {
+              node: {
                 id: true,
-                title: true,
+                text: true,
+                answers: {
+                  edges: {
+                    node: {
+                      id: true,
+                      text: true,
+                      recommendedProduct: {
+                        id: true,
+                        productSuggestion: {
+                          id: true,
+                        },
+                      },
+                    },
+                  },
+                },
               },
             },
           },
@@ -73,7 +85,9 @@ export default function Quiz() {
               <AutoStringInput field="text" />
               <AutoHasManyForm field="answers">
                 <AutoStringInput field="text" />
-                <AutoHasOneInput field="recommendedProduct" />
+                <AutoHasOneForm field="recommendedProduct">
+                  <AutoBelongsToInput field="productSuggestion" />
+                </AutoHasOneForm>
               </AutoHasManyForm>
             </AutoHasManyForm>
             <AutoSubmit />

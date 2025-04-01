@@ -12,6 +12,10 @@ const route: RouteHandler<{
     recommendedProducts: string[];
   };
 }> = async ({ request, reply, api, logger, connections }) => {
+  if (!connections.shopify.current) {
+    return await reply.code(401).send({ error: { message: "Unauthorized" } });
+  }
+
   const { quizId, email, recommendedProducts } = request.body;
 
   await api.quizResult.create({
@@ -33,6 +37,8 @@ const route: RouteHandler<{
       },
     })),
   });
+
+  await reply.send();
 };
 
 export default route;

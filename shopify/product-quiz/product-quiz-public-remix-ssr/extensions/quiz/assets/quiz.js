@@ -1,30 +1,29 @@
-const proxySubPath = "/apps/product-quiz/";
-
 // Query Gadget for the recommended products based on quiz answers
 const fetchRecommendedProducts = async (answerIds) => {
-  const reply = await fetch(`${window.shopURL}${proxySubPath}recommendations`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      answerIdFilters: answerIds.map((answerId) => ({
-        id: {
-          equals: answerId,
-        },
-      })),
-    }),
-  });
+  const reply = await fetch(
+    `${window.shopURL}/apps/pq-p-r-ssr/recommendations`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        answerIdFilters: answerIds.map((answerId) => ({
+          id: {
+            equals: answerId,
+          },
+        })),
+      }),
+    }
+  );
 
   return await reply.json();
 };
 
 // Fetch the quiz questions and answers to be presented to shoppers
 const fetchQuiz = async (quizSlug) => {
-  console.log("INFO", { quizSlug, shopURL: window.shopURL });
-
   const reply = await fetch(
-    `${window.shopURL}${proxySubPath}quiz?slug=${quizSlug}`,
+    `${window.shopURL}/apps/pq-p-r-ssr/quiz?slug=${quizSlug}`,
     {
       method: "GET",
       headers: {
@@ -32,6 +31,8 @@ const fetchQuiz = async (quizSlug) => {
       },
     }
   );
+
+  console.log("Quiz response", reply);
 
   return await reply.json();
 };
@@ -42,7 +43,7 @@ const saveSelections = async (quizId, email, recommendedProducts) => {
     (rp) => rp.recommendedProduct.productSuggestion.id
   );
 
-  await fetch(`${window.shopURL}${proxySubPath}save`, {
+  await fetch(`${window.shopURL}/apps/pq-p-r-ssr/save`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -75,7 +76,7 @@ const onSubmitHandler = async (evt, quizId) => {
   recommendedProducts.forEach((result) => {
     const { recommendedProduct } = result;
     const imgUrl =
-      recommendedProduct.productSuggestion.media?.edges?.[0]?.node?.image
+      recommendedProduct.productSuggestion?.media?.edges?.[0]?.node?.image
         .originalSrc;
     const productLink = recommendedProduct.productSuggestion.handle;
     recommendedProductHTML +=
@@ -105,6 +106,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const quizSlug = window.quizSlug;
 
   fetchQuiz(quizSlug).then(async (quiz) => {
+    console.log("Quiz data", quiz);
+
     const questions = quiz.questions.edges;
 
     if (!customElements.get("product-quiz")) {

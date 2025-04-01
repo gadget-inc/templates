@@ -14,6 +14,7 @@ export const schema: GadgetModel = {
     },
     productSuggestion: {
       type: "belongsTo",
+      validations: { required: true },
       parent: { model: "shopifyProduct" },
       storageKey: "QapJkXi8PURA",
     },

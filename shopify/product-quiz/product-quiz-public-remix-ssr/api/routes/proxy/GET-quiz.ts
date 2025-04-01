@@ -5,16 +5,18 @@ import { RouteHandler } from "gadget-server";
  *
  * See: https://docs.gadget.dev/guides/http-routes/route-configuration#route-context
  */
-const route: RouteHandler<{ Querystring: { slug: string } }> = async ({
+const route: RouteHandler<{ Querystring: { slug: string; }; }> = async ({
   request,
   reply,
   api,
   logger,
   connections,
 }) => {
-  const { slug } = request.query;
+  if (!connections.shopify.current) {
+    return await reply.code(401).send({ error: { message: "Unauthorized" } });
+  }
 
-  logger.info("HIT");
+  const { slug } = request.query;
 
   const quiz = await api.quiz.findFirst({
     filter: {
@@ -22,8 +24,8 @@ const route: RouteHandler<{ Querystring: { slug: string } }> = async ({
         equals: slug,
       },
       shopId: {
-        equals: String(connections.shopify.currentShop?.id),
-      },
+        equals: String(connections.shopify.currentShop?.id)
+      }
     },
     select: {
       id: true,
@@ -48,7 +50,9 @@ const route: RouteHandler<{ Querystring: { slug: string } }> = async ({
     },
   });
 
-  return quiz;
+
+
+  await reply.send(quiz);
 };
 
 export default route;

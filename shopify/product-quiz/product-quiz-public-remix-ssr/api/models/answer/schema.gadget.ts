@@ -9,6 +9,7 @@ export const schema: GadgetModel = {
   fields: {
     question: {
       type: "belongsTo",
+      validations: { required: true },
       parent: { model: "question" },
       storageKey: "7ICaN0ZEOB9B",
     },

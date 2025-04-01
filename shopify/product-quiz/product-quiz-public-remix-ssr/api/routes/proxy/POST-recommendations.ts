@@ -8,6 +8,10 @@ import { RouteHandler } from "gadget-server";
 const route: RouteHandler<{
   Body: { answerIdFilters: [{ id: { equals: string; }; }]; };
 }> = async ({ request, reply, api, logger, connections }) => {
+  if (!connections.shopify.current) {
+    return await reply.code(401).send({ error: { message: "Unauthorized" } });
+  }
+
   const { answerIdFilters } = request.body;
 
   const answers = await api.answer.findMany({

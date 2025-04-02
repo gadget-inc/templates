@@ -4,11 +4,15 @@
 # .gadget
 .gadget
 
+# react router
+**/./react-router
+
 # shopify
 .env
 .env.*
 **/shopify.app.*.toml
 **/!shopify.app.toml
+**/.env.*
 
 ### Linux ###
 *~

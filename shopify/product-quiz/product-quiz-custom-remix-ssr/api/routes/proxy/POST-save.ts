@@ -22,17 +22,11 @@ const route: RouteHandler<{
     quiz: {
       _link: quizId,
     },
-    shop: {
-      _link: String(connections.shopify.currentShop?.id),
-    },
     email: email,
     shopperSuggestions: recommendedProducts.map((recommendedProductId) => ({
       create: {
         product: {
           _link: recommendedProductId,
-        },
-        shop: {
-          _link: String(connections.shopify.currentShop?.id),
         },
       },
     })),

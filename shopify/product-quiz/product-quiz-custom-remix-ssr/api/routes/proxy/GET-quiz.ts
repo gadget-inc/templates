@@ -23,9 +23,6 @@ const route: RouteHandler<{ Querystring: { slug: string; }; }> = async ({
       slug: {
         equals: slug,
       },
-      shopId: {
-        equals: String(connections.shopify.currentShop?.id)
-      }
     },
     select: {
       id: true,

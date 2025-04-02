@@ -17,9 +17,6 @@ const route: RouteHandler<{
   const answers = await api.answer.findMany({
     filter: {
       OR: answerIdFilters,
-      shopId: {
-        equals: String(connections.shopify.currentShop?.id),
-      },
     },
     select: {
       recommendedProduct: {

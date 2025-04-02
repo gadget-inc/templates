@@ -1,0 +1,18 @@
+# Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+
+client_id = "ad4c7735491cbd7858da58e3b56cc64f"
+name = "product-quiz-custom-remix-ssr"
+application_url = "https://product-quiz-custom-remix-ssr--devaoc.gadget.app/api/shopify/install-or-render"
+embedded = true
+
+[build]
+# Gadget manages all your scopes, webhooks and api versioning for your app
+# As such, this line should not be changed unless you are working with
+# Shopify managed installations. Read more at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+include_config_on_deploy = false
+
+[auth]
+redirect_urls = ["https://product-quiz-custom-remix-ssr--devaoc.gadget.app/api/connections/auth/shopify/callback"]
+
+[webhooks]
+api_version = "2025-01"

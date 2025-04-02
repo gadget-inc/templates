@@ -1,18 +1,9 @@
 import { useLoaderData, Outlet } from "@remix-run/react";
-import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { Page, Card, Text, Box } from "@shopify/polaris";
 import { NavMenu } from "../components/NavMenu";
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
-  return json({
-    gadgetConfig: context.gadgetConfig,
-  });
-};
-
 export default function () {
-  const { gadgetConfig } = useLoaderData<typeof loader>();
-
-  return gadgetConfig.shopifyInstallState ? (
+  return window.gadgetConfig.shopifyInstallState ? (
     <>
       <NavMenu />
       <Outlet />
@@ -23,7 +14,6 @@ export default function () {
 }
 
 const Unauthenticated = () => {
-  const { gadgetConfig } = useLoaderData<typeof loader>();
 
   return (
     <Page>
@@ -36,7 +26,7 @@ const Unauthenticated = () => {
             <Text variant="bodyLg" as="p">
               Edit this page:{" "}
               <a
-                href={`/edit/${gadgetConfig.environment}/files/web/components/App.tsx`}
+                href={`/edit/${window.gadgetConfig.environment}/files/web/components/App.tsx`}
               >
                 web/components/App.tsx
               </a>

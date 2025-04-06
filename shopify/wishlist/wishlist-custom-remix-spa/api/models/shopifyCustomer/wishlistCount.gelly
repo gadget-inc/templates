@@ -1,0 +1,3 @@
+field on shopifyCustomer {
+  count(wishlists)
+}

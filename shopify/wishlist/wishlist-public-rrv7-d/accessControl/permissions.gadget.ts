@@ -142,18 +142,6 @@ export const permissions: GadgetPermissions = {
     },
     unauthenticated: {
       storageKey: "unauthenticated",
-      models: {
-        wishlist: {
-          actions: {
-            create: true,
-          },
-        },
-        wishlistItem: {
-          actions: {
-            create: true,
-          },
-        },
-      },
     },
   },
 };

@@ -3,7 +3,7 @@ name: Product Quiz Deployment
 on:
   push:
     paths:
-      - "shopify/product-quiz-template/**"
+      - "shopify/product-quiz/product-quiz-public-rrv7-d/**"
     branches:
       - main
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout the current repository
         uses: actions/checkout@v4
       - name: Push to development environment
-        run: npx ggt push --app=product-quiz-template --env=development --force --allow-unknown-directory
-        working-directory: shopify/product-quiz-template/
+        run: npx ggt push --app=product-quiz-public-rrv7-d --env=development --force --allow-unknown-directory
+        working-directory: shopify/product-quiz/product-quiz-public-rrv7-d/
         env:
-          GGT_TOKEN: ${{ secrets.PRODUCT_QUIZ_DEPLOY_TOKEN }}
+          GGT_TOKEN: ${{ secrets.PRODUCT_QUIZ_P_RRV7_D_DEPLOY_TOKEN }}

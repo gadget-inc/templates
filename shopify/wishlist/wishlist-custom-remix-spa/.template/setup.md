@@ -4,7 +4,7 @@ A pre-requisite for this application is to install the [Shopify CLI](https://sho
 
 1. [Connect to Shopify](https://docs.gadget.dev/guides/tutorials/connecting-to-shopify#connecting-to-shopify) using our built-in Shopify plugin. Make sure that you fill out the Protected Customer Data Access form in the Shopify Partner dashboard.
 
-2. Create a shopify app proxy that has proxy URL matching `https://<application-slug>--<env-slug>.gadget.app/proxy`. Note the subpath used in the theme app extension's JS file.
+2. Create a shopify app proxy that has proxy URL matching `https://<application-slug>--<env-slug>.gadget.app/proxy`. Note the subpath used in the theme app extension's JS file. For more information on Shopify app proxies, read the [Shopify docs](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
 
 3. Sync your application's files locally using the [Gadget CLI](https://docs.gadget.dev/guides/development-tools/cli). An example command can be found at the top left of the application's Gadget editor.
 

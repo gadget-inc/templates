@@ -1,3 +1,0 @@
-filter ($session: Session) on RecommendedProduct [
-  where shopId == $session.shopId
-]

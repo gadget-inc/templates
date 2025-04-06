@@ -1,3 +1,0 @@
-filter ($session: Session) on Wishlist [
-  where customerId == $session.shopifyCustomerId
-]

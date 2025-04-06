@@ -1,3 +1,0 @@
-- Let customers create and manage multiple wishlists
-- _Tenancy enforced:_ App data will be unique to the store it is installed on
-- _Ready-to-Use:_ No need to start from scratch – equipped with a Shopify connection, data models, and backend logic

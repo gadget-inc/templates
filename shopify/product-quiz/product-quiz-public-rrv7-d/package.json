@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@gadget-client/product-quiz-public-rrv7-d": "link:.gadget/client",
-    "@gadgetinc/react": "^0.20.0",
+    "@gadgetinc/react": "^0.20.1",
     "@gadgetinc/react-shopify-app-bridge": "^0.17.0",
     "@shopify/app-bridge-react": "^4.1.5",
     "@shopify/polaris": "^13.8.0",

@@ -42,7 +42,7 @@ function App() {
     createRoutesFromElements(
       <Route path="/" element={<Layout />}>
         <Route index element={<IndexPage />} />
-        <Route path="/quiz" element={<Quiz />} />
+        <Route path="/quiz/:id?" element={<Quiz />} />
         <Route path="install" element={<Install />} />
         <Route path="*" element={<Error404 />} />
       </Route>

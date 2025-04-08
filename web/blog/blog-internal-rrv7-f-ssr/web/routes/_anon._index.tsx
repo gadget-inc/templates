@@ -55,7 +55,7 @@ export default function ({ loaderData }: Route.ComponentProps) {
                   />
                 ))
               ) : (
-                <div>
+                <div className="w-full min-h-[200px] flex flex-col justify-center items-center p-8 text-center">
                   Login to create a post! Note that you need to publish posts to
                   see them on this page.
                 </div>

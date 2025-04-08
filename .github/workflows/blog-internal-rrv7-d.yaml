@@ -1,0 +1,21 @@
+name: Blog template Deployment
+
+on:
+  push:
+    paths:
+      - "web/blog/blog-internal-rrv7-d/**"
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  push-to-development-environment:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v4
+      - name: Push to development environment
+        run: npx ggt push --app=blog-internal-rrv7-d --env=development --force --allow-unknown-directory
+        working-directory: web/blog/blog-internal-rrv7-d/
+        env:
+          GGT_TOKEN: ${{ secrets.BLOG_INTERNAL_RRV7_D_DEPLOY_TOKEN }}

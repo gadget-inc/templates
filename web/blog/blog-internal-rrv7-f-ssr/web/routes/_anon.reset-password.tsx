@@ -108,10 +108,7 @@ export default function () {
       </Card>
       <p className="text-sm text-muted-foreground text-center mt-4">
         Remembered your password?{" "}
-        <Link
-          to="/"
-          className="text-primary hover:underline font-medium"
-        >
+        <Link to="/" className="text-primary hover:underline font-medium">
           Login →
         </Link>
       </p>

@@ -21,24 +21,28 @@ export type RootOutletContext = {
   csrfToken: string;
 };
 
-export default function App() {
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en" className="light">
+    <html lang="en">
       <head>
         <Meta />
-        <Links />
         <script suppressHydrationWarning>/* --GADGET_CONFIG-- */</script>
+        <Links />
       </head>
       <body>
-        <GadgetProvider api={api}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Outlet context={{ gadgetConfig: window.gadgetConfig }} />
-          </Suspense>
-        </GadgetProvider>
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
+  );
+};
+
+export default function App() {
+  return (
+    <GadgetProvider api={api}>
+      <Outlet context={{ gadgetConfig: window.gadgetConfig }} />
+    </GadgetProvider>
   );
 }
 

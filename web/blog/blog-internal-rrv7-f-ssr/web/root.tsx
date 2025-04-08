@@ -1,11 +1,5 @@
 import { Provider as GadgetProvider } from "@gadgetinc/react";
-import {
-  Links,
-  Meta,
-  Outlet,
-  Scripts,
-  ScrollRestoration,
-} from "react-router";
+import { Links, Meta, Outlet, Scripts, ScrollRestoration } from "react-router";
 import { Suspense } from "react";
 import { api } from "./api";
 import "./app.css";
@@ -37,25 +31,29 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
   };
 };
 
-export default function App({ loaderData }: Route.ComponentProps) {
-  const { gadgetConfig, csrfToken } = loaderData;
-
+export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html lang="en" className="light">
+    <html lang="en">
       <head>
         <Meta />
         <Links />
       </head>
       <body>
-        <GadgetProvider api={api}>
-          <Suspense fallback={<div>Loading...</div>}>
-            <Outlet context={{ gadgetConfig, csrfToken }} />
-          </Suspense>
-        </GadgetProvider>
+        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
+  );
+};
+
+export default function App({ loaderData }: Route.ComponentProps) {
+  const { gadgetConfig, csrfToken } = loaderData;
+
+  return (
+    <GadgetProvider api={api}>
+      <Outlet context={{ gadgetConfig, csrfToken }} />
+    </GadgetProvider>
   );
 }
 

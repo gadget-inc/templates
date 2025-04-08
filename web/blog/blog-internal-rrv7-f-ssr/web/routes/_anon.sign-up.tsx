@@ -108,10 +108,7 @@ export default function () {
         </Card>
         <p className="text-sm text-muted-foreground text-center">
           Already have an account?{" "}
-          <Link
-            to="/"
-            className="font-medium text-primary hover:underline"
-          >
+          <Link to="/" className="font-medium text-primary hover:underline">
             Login →
           </Link>
         </p>

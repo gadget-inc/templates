@@ -20,7 +20,12 @@ export default function () {
       findBy={id ?? ""}
       select={
         id
-          ? { id: true, title: true, isPublished: true, content: true }
+          ? {
+              id: true,
+              title: true,
+              isPublished: true,
+              content: { markdown: true, truncatedHTML: true },
+            }
           : undefined
       }
     >

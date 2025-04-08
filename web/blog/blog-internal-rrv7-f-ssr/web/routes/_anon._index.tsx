@@ -33,9 +33,7 @@ export default function ({ loaderData }: Route.ComponentProps) {
             />
           </Link>
           <div className="flex gap-4">
-            <Button variant="default" size="lg" className="w-full" asChild>
-              <Link to="/sign-up">Sign up</Link>
-            </Button>
+            {/* We recommend removing this once going live. It's meant for internal use only */}
             <Button variant="outline" size="lg" className="w-full" asChild>
               <Link to="/sign-in">Sign in</Link>
             </Button>

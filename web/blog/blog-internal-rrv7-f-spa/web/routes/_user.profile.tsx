@@ -19,7 +19,7 @@ export default function () {
   const [isEditing, setIsEditing] = useState(false);
   const [isChangingPassword, setIsChangingPassword] = useState(false);
 
-  const hasName = user.firstName || user.lastName;
+  const hasName = user?.firstName || user?.lastName;
   const title = hasName ? `${user.firstName} ${user.lastName}` : user.email;
   const initials = hasName
     ? (user.firstName?.slice(0, 1) ?? "") + (user.lastName?.slice(0, 1) ?? "")

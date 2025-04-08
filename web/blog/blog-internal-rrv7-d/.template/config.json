@@ -1,0 +1,57 @@
+{
+  "version": "v1",
+  "featuredFrontends": {
+    "App.jsx": {
+      "description": "This page handles routing of the frontend pages.",
+      "tags": ["edited"]
+    },
+    "signed-in.jsx": {
+      "description": "Admin view of blog posts",
+      "tags": ["edited"]
+    },
+    "index.jsx": {
+      "description": "Unauthenticated view of blog posts",
+      "tags": ["edited"]
+    }
+  },
+  "featuredModels": {
+    "post": {
+      "description": "Handles storing the blog post data and who it belongs to",
+      "featuredFields": ["isPublished", "title", "content", "belongsTo:user"]
+    },
+    "user": {
+      "description": "Tracks user authentication, email verification and other auth methods",
+      "featuredFields": ["email", "posts"]
+    }
+  },
+  "featuredActions": {
+    "post": {
+      "create": {
+        "description": "Creates a blog post associated to the user who created it",
+        "tags": ["added"]
+      },
+      "update": {
+        "description": "Used to update existing posts",
+        "tags": ["added"]
+      },
+      "delete": {
+        "description": "Deletes post from database",
+        "tags": ["added"]
+      }
+    }
+  },
+  "featuredAccessControls": {
+    "unauthenticated": {
+      "post": {
+        "description": "Unauthenticated users can see posts with isPublished == true ",
+        "tags": ["read"]
+      }
+    },
+    "signed-in": {
+      "post": {
+        "description": "Signed in users can see all their posts and make changes",
+        "tags": ["read, create, update, delete"]
+      }
+    }
+  }
+}

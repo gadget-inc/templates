@@ -1,0 +1,73 @@
+{
+  "version": "v1",
+  "setup": "docs/setup.md",
+  "introduction": "docs/introduction.md",
+  "featuredGlobalActions": {
+    "createBundleInShopify": {
+      "description": "Calls all the necessary Shopify Admin GraphQL API mutations to create a new product, update it's variant, and set metafields for the bundle."
+    },
+    "updateBundleInShopify": {
+      "description": "Calls all the necessary Shopify Admin GraphQL API mutations to update a the bundle product, update it's variant, and set metafields for the bundle. This is all dependent on what information is passed to the action."
+    },
+    "updateBundleComponentQuantity": {
+      "description": "Sets the value of the productVariantQuantities metafield."
+    }
+  },
+  "featuredFrontends": {
+    "web/routes/index": {
+      "description": "Displays a list of the created bundles which can be expaned to show their components and quantities.",
+      "tags": ["added"]
+    },
+    "web/routes/bundle": {
+      "description": "The component that handles both the create and update functionality for a bundle.",
+      "tags": ["added"]
+    }
+  },
+  "featuredModels": {
+    "bundle": {
+      "description": "Used to store data about bundles.",
+      "featuredFields": [
+        "title",
+        "description",
+        "status",
+        "price",
+        "bundleComponentCount",
+        "productVariants"
+      ]
+    },
+    "bundleComponent": {
+      "description": "The through records linking bundles to product variants.",
+      "featuredFields": ["quantity", "bundle", "productVariant"]
+    }
+  },
+  "featuredActions": {
+    "shopifyShop": {
+      "install": {
+        "description": "Creates metafield definitions, the cart transform function and fetches information about the shop's sales channels.",
+        "tags": ["edited"]
+      }
+    },
+    "bundle": {
+      "create": {
+        "description": "Used to create bundles using the Shopify API.",
+        "tags": ["added"]
+      },
+      "update": {
+        "description": "Used to update existing bundles using the Shopify API.",
+        "tags": ["added"]
+      }
+    }
+  },
+  "webflow": {
+    "title": "Customized bundles",
+    "description": "Create and manage bundles of products in the Shopify store.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/product-bundler.png",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

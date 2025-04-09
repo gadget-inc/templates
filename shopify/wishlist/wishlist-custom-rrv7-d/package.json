@@ -1,0 +1,50 @@
+{
+  "name": "wishlist-custom-rrv7-d",
+  "version": "0.1.0",
+  "description": "Internal package for Gadget app wishlist-public-remix-ssr (Development environment)",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "NODE_ENV=production vite:build",
+    "shopify": "shopify",
+    "shopify:config:use:development": "shopify app config use shopify.app.devaoc.toml",
+    "shopify:config:use:production": "shopify app config use shopify.app.toml",
+    "shopify:dev": "yarn shopify:config:use:development && shopify app dev --no-update",
+    "shopify:deploy:development": "yarn shopify:config:use:development && shopify app deploy",
+    "shopify:deploy:production": "yarn shopify:config:use:production && shopify app deploy",
+    "shopify:deploy": "yarn shopify:deploy:production",
+    "shopify:info": "shopify app info"
+  },
+  "dependencies": {
+    "@gadgetinc/react": "^0.20.1",
+    "@gadgetinc/react-shopify-app-bridge": "^0.17.0",
+    "@react-email/components": "^0.0.36",
+    "@react-router/fs-routes": "^7.5.0",
+    "@shopify/app-bridge-react": "^4.1.5",
+    "@shopify/polaris": "^13.8.0",
+    "@shopify/polaris-icons": "^9.3.0",
+    "@vitejs/plugin-react-swc": "^3.8.1",
+    "fastify": "^4.24.2",
+    "isbot": "^5.1.0",
+    "luxon": "^3.6.1",
+    "p-map": "^4.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-email": "^4.0.3",
+    "react-router": "^7.5.0",
+    "shopify-api-node": "^3.14.2",
+    "uuid": "^11.1.0",
+    "@gadget-client/wishlist-custom-rrv7-d": "link:.gadget/client",
+    "gadget-server": "link:.gadget/server"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^7.5.0",
+    "@shopify/app-bridge-types": "^0.0.15",
+    "@types/luxon": "^3.6.2",
+    "@types/node": "^20.17.7",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.15"
+  }
+}

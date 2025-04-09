@@ -17,10 +17,6 @@ export const schema: GadgetModel = {
       parent: { model: "shopifyProductVariant" },
       storageKey: "I3QjbsJ2cy4g",
     },
-    componentReferenceMetafieldId: {
-      type: "string",
-      storageKey: "Sgc6Fk7en2bi",
-    },
     description: { type: "string", storageKey: "nmRNRWnxUT_G" },
     price: {
       type: "number",

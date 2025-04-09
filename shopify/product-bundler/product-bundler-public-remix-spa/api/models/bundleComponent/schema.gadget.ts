@@ -5,19 +5,19 @@ import type { GadgetModel } from "gadget-server";
 
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
-  storageKey: "ckbSmjbTXBKx",
+  storageKey: "YQ6xrn77bw7Y",
   fields: {
     bundle: {
       type: "belongsTo",
       validations: { required: true },
       parent: { model: "bundle" },
-      storageKey: "1uRg0mCMU3HD",
+      storageKey: "RRC5VYGhChi3",
     },
     productVariant: {
       type: "belongsTo",
       validations: { required: true },
       parent: { model: "shopifyProductVariant" },
-      storageKey: "iUqZUyoVY2yD",
+      storageKey: "jbIyYSZDwuND",
     },
     quantity: {
       type: "number",
@@ -27,13 +27,13 @@ export const schema: GadgetModel = {
         required: true,
         numberRange: { min: 1, max: null },
       },
-      storageKey: "aPnR2XwFvhkQ",
+      storageKey: "bmyOMHqySqTk",
     },
     shop: {
       type: "belongsTo",
       validations: { required: true },
       parent: { model: "shopifyShop" },
-      storageKey: "CNCB7Sd0uZsj",
+      storageKey: "m3soYKW8JcFG",
     },
   },
 };

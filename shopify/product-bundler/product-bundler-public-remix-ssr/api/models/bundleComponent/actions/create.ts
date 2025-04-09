@@ -10,6 +10,9 @@ export const run: ActionRun = async ({
 }) => {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
+
+  if (!record.quantity) record.quantity = 1;
+
   await save(record);
 };
 

@@ -1,7 +1,7 @@
 import { useLoaderData, Outlet } from "@remix-run/react";
 import { Page, Card, Text, Box } from "@shopify/polaris";
 import { NavMenu } from "../components/NavMenu";
-import { api } from "web/api";
+import { api } from "../api";
 
 export type OutletContext = {
   currency: string;

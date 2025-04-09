@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@gadget-client/product-bundler-public-remix-ssr": "link:.gadget/client",
-    "@gadgetinc/react": "^0.20.0",
+    "@gadgetinc/react": "^0.20.2",
     "@gadgetinc/react-shopify-app-bridge": "^0.17.0",
     "@remix-run/node": "^2.12.0",
     "@remix-run/react": "^2.12.0",

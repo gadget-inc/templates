@@ -49,7 +49,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
       <head>
         <Meta />
         <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js"></script>
-        <script suppressHydrationWarning>/* --GADGET_CONFIG-- */</script>
+        <script suppressHydrationWarning>/* --GADGET_CONFIG-- */</script>;
         <Links />
       </head>
       <body>

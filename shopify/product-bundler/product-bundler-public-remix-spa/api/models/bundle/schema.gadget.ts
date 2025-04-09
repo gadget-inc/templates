@@ -5,23 +5,19 @@ import type { GadgetModel } from "gadget-server";
 
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
-  storageKey: "17EjC9ZGcPnH",
+  storageKey: "0-0eJAFBKngl",
   fields: {
     bundleComponentCount: {
       type: "computed",
       sourceFile: "api/models/bundle/bundleComponentCount.gelly",
-      storageKey: "-w5MDgUoQz-s",
+      storageKey: "dFHXjZbzPcXK",
     },
     bundleVariant: {
       type: "belongsTo",
       parent: { model: "shopifyProductVariant" },
-      storageKey: "rPGRvyjlFaA1",
+      storageKey: "I3QjbsJ2cy4g",
     },
-    componentReferenceMetafieldId: {
-      type: "string",
-      storageKey: "TIJLNHtPL50J",
-    },
-    description: { type: "string", storageKey: "e22pdpDsTcIE" },
+    description: { type: "string", storageKey: "nmRNRWnxUT_G" },
     price: {
       type: "number",
       default: 0,
@@ -30,7 +26,7 @@ export const schema: GadgetModel = {
         required: true,
         numberRange: { min: 0, max: null },
       },
-      storageKey: "8My3_dEXAvRF",
+      storageKey: "rkgiGjmLRRdY",
     },
     productVariants: {
       type: "hasManyThrough",
@@ -43,13 +39,13 @@ export const schema: GadgetModel = {
         belongsToSelfField: "bundle",
         belongsToSiblingField: "productVariant",
       },
-      storageKey: "q2f2NfGAM59t",
+      storageKey: "lzl-Ofd4Y8zq",
     },
     shop: {
       type: "belongsTo",
       validations: { required: true },
       parent: { model: "shopifyShop" },
-      storageKey: "tW0QibNbjWZv",
+      storageKey: "fDchSGoQZUyU",
     },
     status: {
       type: "enum",
@@ -58,7 +54,7 @@ export const schema: GadgetModel = {
       acceptUnlistedOptions: false,
       options: ["active", "archived", "draft"],
       validations: { required: true },
-      storageKey: "VpvtvkHZUeUR",
+      storageKey: "cz36c2DHRyJ3",
     },
     title: {
       type: "string",
@@ -66,12 +62,12 @@ export const schema: GadgetModel = {
         required: true,
         unique: { scopeByField: "shop" },
       },
-      storageKey: "-tmA8hu0Zosp",
+      storageKey: "RoXSGH4GiNS8",
     },
     titleLowercase: {
       type: "string",
       validations: { required: true },
-      storageKey: "BoNr2vQckua6",
+      storageKey: "OtNy7Dj_z-Lh",
     },
   },
 };

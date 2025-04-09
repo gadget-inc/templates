@@ -19,11 +19,10 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
 export const options: ActionOptions = {
   triggers: {
-    api: false,
     scheduler: [
       {
         every: "day",
-        at: "15:22 UTC",
+        at: "15:14 UTC",
       },
     ],
   },

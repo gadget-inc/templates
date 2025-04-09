@@ -1,4 +1,9 @@
-import { useNavigate, useOutletContext, useParams } from "@remix-run/react";
+import {
+  useLoaderData,
+  useNavigate,
+  useOutletContext,
+  useParams,
+} from "@remix-run/react";
 import { ReactNode } from "react";
 import { api } from "../api";
 import {
@@ -13,6 +18,42 @@ import {
 import PageLayout from "../components/PageLayout";
 import type { OutletContext } from "./_app";
 import { Card, Layout } from "@shopify/polaris";
+import { DeleteIcon } from "@shopify/polaris-icons";
+import { useAction } from "@gadgetinc/react";
+
+export const clientLoader = async () => {
+  let variants = await api.shopifyProductVariant.findMany({
+    first: 250,
+    select: {
+      id: true,
+      product: {
+        title: true,
+      },
+    },
+    filter: {
+      title: {
+        notEquals: "Default title",
+      },
+    },
+  });
+
+  const allVariants = [...variants];
+
+  while (variants.hasNextPage) {
+    variants = await variants.nextPage();
+    allVariants.push(...variants);
+  }
+
+  const variantMap: { [key: string]: { title: string } } = {};
+
+  for (const variant of allVariants) {
+    variantMap[variant.id] = {
+      title: variant.product?.title || "Default Title",
+    };
+  }
+
+  return { variantMap };
+};
 
 const Form = (props: {
   children: ReactNode;
@@ -35,6 +76,7 @@ const Form = (props: {
             edges: {
               node: {
                 id: true,
+                quantity: true,
                 productVariant: {
                   id: true,
                   title: true,
@@ -63,11 +105,25 @@ export default function () {
   const { id } = useParams();
   const { bundleCount } = useOutletContext<OutletContext>();
   const navigate = useNavigate();
+  const { variantMap } = useLoaderData<typeof clientLoader>();
+
+  const [, deleteBundle] = useAction(api.bundle.delete);
 
   return (
     <PageLayout
       title={id ? "Edit Bundle" : "Create Bundle"}
       backAction={bundleCount ? { onAction: () => history.back() } : undefined}
+      primaryAction={
+        id
+          ? {
+              icon: DeleteIcon,
+              onAction: async () => {
+                await deleteBundle({ id });
+                navigate("/");
+              },
+            }
+          : undefined
+      }
     >
       <Layout>
         <Layout.Section>
@@ -80,7 +136,13 @@ export default function () {
               <AutoStringInput field="description" multiline={4} />
               <AutoHasManyThroughForm
                 field="productVariants"
-                recordLabel={{ primary: ({ record }) => <></> }}
+                recordLabel={{
+                  primary: ({ record: { id, title } }) => (
+                    <>
+                      {title == "Default Title" ? variantMap[id].title : title}
+                    </>
+                  ),
+                }}
               >
                 <AutoHasManyThroughJoinModelForm>
                   <AutoInput field="quantity" />

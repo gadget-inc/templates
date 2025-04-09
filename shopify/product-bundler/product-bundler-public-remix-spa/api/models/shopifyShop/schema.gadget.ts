@@ -9,34 +9,39 @@ export const schema: GadgetModel = {
   fields: {
     bundleComponentQuantitiesDefinitionId: {
       type: "string",
-      storageKey: "tXX2asjCSyzw",
+      storageKey: "c58hV2tWdeYu",
     },
     bundleComponents: {
       type: "hasMany",
       children: { model: "bundleComponent", belongsToField: "shop" },
-      storageKey: "hZAzElRRSQnl",
+      storageKey: "lGpTsMpHlnab",
     },
     bundleCount: {
       type: "computed",
       sourceFile: "api/models/shopifyShop/bundleCount.gelly",
-      storageKey: "OW4JrPvNR5KZ",
+      storageKey: "trxoEj1chQDL",
     },
     bundles: {
       type: "hasMany",
       children: { model: "bundle", belongsToField: "shop" },
-      storageKey: "_rhqhcAVWAir",
+      storageKey: "kZHbCuyVIFvU",
     },
     componentReferenceDefinitionId: {
       type: "string",
-      storageKey: "0qci3GRmhuqZ",
+      storageKey: "XFodaWDv9M0K",
     },
     isBundleDefinitionId: {
       type: "string",
-      storageKey: "3ilOJGKcvKnH",
+      storageKey: "0uKSKqgrx20v",
     },
     onlineStorePublicationId: {
       type: "string",
-      storageKey: "3CynEHPFGV3t",
+      storageKey: "aLHENB_QfjCf",
+    },
+    weightUnitBackup: {
+      type: "string",
+      storageKey:
+        "ModelField-DataModel-Shopify-Shop-weight_unit::FieldStorageEpoch-DataModel-Shopify-Shop-weight_unit-initial",
     },
   },
   shopify: {

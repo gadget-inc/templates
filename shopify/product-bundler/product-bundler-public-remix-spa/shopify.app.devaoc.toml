@@ -1,18 +1,21 @@
-# Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
 
-client_id = "578e98f25020749ea29adc43b3a8880b"
-name = "product-bundler-public-remix-p"
-application_url = "https://product-bundler-public-remix-spa--devaoc.gadget.app/api/shopify/install-or-render"
+client_id = "3a7a926ef500b7b1d2631a64f24a387e"
+name = "product-bundler-public-remix-s"
+handle = "product-bundler-public-remix-s"
+application_url = "https://product-bundler-public-remix-ssr--devaoc.gadget.app/api/shopify/install-or-render"
 embedded = true
 
 [build]
-# Gadget manages all your scopes, webhooks and api versioning for your app
-# As such, this line should not be changed unless you are working with
-# Shopify managed installations. Read more at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
-include_config_on_deploy = false
+dev_store_url = "devaoc-test-store.myshopify.com"
 
 [auth]
-redirect_urls = ["https://product-bundler-public-remix-spa--devaoc.gadget.app/api/connections/auth/shopify/callback"]
+redirect_urls = [
+  "https://product-bundler-public-remix-ssr--devaoc.gadget.app/api/connections/auth/shopify/callback"
+]
 
 [webhooks]
 api_version = "2025-04"
+
+[pos]
+embedded = false

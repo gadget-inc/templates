@@ -2,3 +2,9 @@
 node_modules/
 **/.DS_Store
 .react-router/
+
+# Shopify
+extensions/**/dist
+extensions/**/node_modules
+shopify.app.*.toml
+.env.*

@@ -26,39 +26,9 @@ export const schema: GadgetModel = {
       children: { model: "bundle", belongsToField: "shop" },
       storageKey: "kZHbCuyVIFvU",
     },
-    checkoutApiSupportedBackup: {
-      type: "boolean",
-      storageKey:
-        "ModelField-DataModel-Shopify-Shop-checkout_api_supported::FieldStorageEpoch-DataModel-Shopify-Shop-checkout_api_supported-initial",
-    },
     componentReferenceDefinitionId: {
       type: "string",
       storageKey: "XFodaWDv9M0K",
-    },
-    cookieConsentLevel: {
-      type: "string",
-      storageKey:
-        "ModelField-DataModel-Shopify-Shop-cookie_consent_level::FieldStorageEpoch-DataModel-Shopify-Shop-cookie_consent_level-initial",
-    },
-    currencyBackup: {
-      type: "string",
-      storageKey:
-        "ModelField-DataModel-Shopify-Shop-currency::FieldStorageEpoch-DataModel-Shopify-Shop-currency-initial",
-    },
-    eligibleForCardReaderGiveaway: {
-      type: "boolean",
-      storageKey:
-        "ModelField-DataModel-Shopify-Shop-eligible_for_card_reader_giveaway::FieldStorageEpoch-DataModel-Shopify-Shop-eligible_for_card_reader_giveaway-initial",
-    },
-    enabledPresentmentCurrenciesBackup: {
-      type: "json",
-      storageKey:
-        "ModelField-DataModel-Shopify-Shop-enabled_presentment_currencies::FieldStorageEpoch-DataModel-Shopify-Shop-enabled_presentment_currencies-initial",
-    },
-    forceSsl: {
-      type: "boolean",
-      storageKey:
-        "ModelField-DataModel-Shopify-Shop-force_ssl::FieldStorageEpoch-DataModel-Shopify-Shop-force_ssl-initial",
     },
     isBundleDefinitionId: {
       type: "string",

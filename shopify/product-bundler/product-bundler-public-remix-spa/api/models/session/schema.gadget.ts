@@ -5,12 +5,12 @@ import type { GadgetModel } from "gadget-server";
 
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
-  storageKey: "xJvfCbZf5IUF",
+  storageKey: "gYzOY-Vp550Z",
   fields: {
     roles: {
       type: "roleList",
       default: ["unauthenticated"],
-      storageKey: "i3AfBcZclXGY",
+      storageKey: "6tUadnlYV4BS",
     },
   },
   shopify: { fields: ["shop", "shopifySID"] },

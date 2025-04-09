@@ -230,7 +230,7 @@ export default ({
           </BlockStack>
         </Collapsible>
         <InlineStack align="center" blockAlign="center" gap="200">
-          {bundleComponentCount && (
+          {!!bundleComponentCount && (
             <ButtonGroup>
               <Button
                 variant="monochromePlain"

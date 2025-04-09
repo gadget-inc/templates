@@ -10,7 +10,7 @@ export const schema: GadgetModel = {
     bundle: {
       type: "hasOne",
       child: { model: "bundle", belongsToField: "bundleVariant" },
-      storageKey: "Iw1KILGL2oHt",
+      storageKey: "lTnb5nkeSFgr",
     },
     bundles: {
       type: "hasManyThrough",
@@ -20,7 +20,7 @@ export const schema: GadgetModel = {
         belongsToSelfField: "productVariant",
         belongsToSiblingField: "bundle",
       },
-      storageKey: "BnJ7QDAoazXF",
+      storageKey: "F59xUxuiPjYd",
     },
     componentReference: {
       type: "json",
@@ -31,7 +31,7 @@ export const schema: GadgetModel = {
         metafieldType: "variant_reference",
         allowMultipleEntries: true,
       },
-      storageKey: "yYrznMpy5h8d",
+      storageKey: "7Edj_3xtZB7Y",
     },
     isBundle: {
       type: "boolean",
@@ -42,7 +42,7 @@ export const schema: GadgetModel = {
         metafieldType: "boolean",
         allowMultipleEntries: false,
       },
-      storageKey: "EzQFHfIlEQ3h",
+      storageKey: "zyr3q6TqRv4V",
     },
   },
   shopify: {

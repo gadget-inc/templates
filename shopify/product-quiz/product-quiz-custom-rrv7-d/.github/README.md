@@ -42,26 +42,17 @@ This template requires that you set up a Shopify app proxy. Follow these docs to
     - Fields
       - `product`: The product that the suggestion belongs to
       - `quizResult`: The quiz result record that the product belongs to
-  - ShopifyTheme: Tracks whether a theme is using Shopify's Online Store 2.0.
-    - Fields
-      - `usingOnlineStore2`: Boolean field signifying if the store is using a Shopify 2.0 theme
 
 - Frontend
 
-  - `App.jsx`: Handles routing for the frontend pages.
-  - `HomePage.jsx`: Main page for the Shopify admin app.
-  - `CreateQuizPage.jsx`: Contains the form for creating new quizzes.
-  - `EditQuizPage.jsx`: Contains the form for editing existing quizzes.
-  - `QuizForm.jsx`: Entry point for the form used to create and edit quizzes.
-  - `InstallTab.jsx`: Provides installation instructions for adding the quiz to the storefront.
-  - `Store1Instructions.jsx`: Manual instructions for themes built on Online Store 1.0.
+  - `_app._index`: Main page for the Shopify admin app.
+  - `_app.quiz.($id)`: Where users make and update quizzes.
+  - `_app.install`: Provides installation instructions for adding the quiz to the storefront.
 
 - Actions
 
   - `quiz/create`: Generates an ID/slug when a quiz is created (e.g., "My Cool Quiz" becomes "my-cool-quiz").
   - `quiz/delete`: Cascading delete that removes a quiz along with its questions, answers, and recommended products.
-  - `shopifyAsset/create`: Detects whether the shop is using Shopify Storefront 1.0 or 2.0.
-  - `shopifyAsset/update`: Updates to detect the shop’s storefront version.
 
 - Access Controls
 

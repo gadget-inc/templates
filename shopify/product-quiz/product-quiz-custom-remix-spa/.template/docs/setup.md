@@ -1,4 +1,4 @@
-# Setting up your quiz app
+# Getting started
 
 The following is a guide to get you started with the product quiz. If you get lost, try following the [full tutorial](https://docs.gadget.dev/guides/tutorials/product-recommendation-quiz-app).
 
@@ -12,13 +12,10 @@ The following is a guide to get you started with the product quiz. If you get lo
 
 For themes using Online Store 1.0, instructions are included in the **Install** tab of the admin app. You need to manually copy-paste code files included in the app into the theme.
 
-Make sure to replace `{{ YOUR PROJECT SCRIPT URL }}` in `extensions/quiz/assets/product-quiz.js` with your project's script URL.
-
-## Setting up App Theme Extension (Online store 2.0)
+## Setting up app theme extension (Online store 2.0)
 
 In order to set up a theme app extension for stores using a new Online Store 2.0 theme:
 
-- Update `extensions/quiz/blocks/quiz-page.liquid` by replacing the src on line 7 with your script tag
 - Run `yarn dev` in the project root to start the development environment (Shopify CLI)
 - Follow Shopify's prompts to connect to your existing Partners app and store
 

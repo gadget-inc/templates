@@ -1,33 +1,18 @@
 {
   "version": "v1",
-  "setup": "./setup.md",
+  "introduction": "./docs/introduction.md",
+  "setup": "./docs/setup.md",
   "featuredFrontends": {
-    "App.jsx": {
-      "description": "This page handles routing of the frontend pages.",
-      "tags": ["edited"]
-    },
-    "routes/HomePage.jsx": {
+    "routes/_app._index": {
       "description": "Main page for the shopify admin app.",
       "tags": ["added"]
     },
-    "routes/CreateQuizPage.jsx": {
-      "description": "The page containing the form used for creating new quizzes.",
+    "routes/_app.quiz.($id)": {
+      "description": "The page containing the form used for creating and updating quizzes.",
       "tags": ["added"]
     },
-    "routes/EditQuizPage.jsx": {
-      "description": "The page containing the form used for editing existing quizzes.",
-      "tags": ["added"]
-    },
-    "components/QuizForm.jsx": {
-      "description": "The entrypoint for the form used to create and edit quizzes.",
-      "tags": ["added"]
-    },
-    "components/InstallTab.jsx": {
-      "description": "The installation instructions for adding the quiz to the storefront.",
-      "tags": ["added"]
-    },
-    "components/Store1Instructions.jsx": {
-      "description": "Instructions for manually adding code files for themes built on Online Store 1.",
+    "routes/_app.install": {
+      "description": "The page that helps merchants more quickly add the theme extension to their storefront.",
       "tags": ["added"]
     }
   },
@@ -59,14 +44,6 @@
     "shopifyProduct": {
       "description": "Synchronizes and stores product data from connected Shopify stores.",
       "featuredFields": ["title", "images", "recommendedProduct"]
-    },
-    "shopifyTheme": {
-      "description": "Stores a boolean marking a theme as Online Store 2.0 or not.",
-      "featuredFields": ["usingOnlineStore2", "assets"]
-    },
-    "shopifyAssets": {
-      "description": "Used to mark related Shopify themes as using Online Store 2.0 or 1.0.",
-      "featuredFields": ["key", "theme"]
     }
   },
   "featuredActions": {
@@ -79,16 +56,6 @@
         "description": "A cascading delete that also deletes a quiz's questions, answers, and recommended products.",
         "tags": ["edited"]
       }
-    },
-    "shopifyAsset": {
-      "create": {
-        "description": "We hook into this to find out which storefront version a shop uses, Shopify 1.0 or 2.0.",
-        "tags": ["edited"]
-      },
-      "update": {
-        "description": "We hook into this to find out which storefront version a shop uses.",
-        "tags": ["edited"]
-      }
     }
   },
   "featuredAccessControls": {
@@ -98,16 +65,6 @@
       },
       "quizResult": {
         "description": "Shoppers can enter their email and submit to get product recommendations. Recommendations and emails are saved."
-      }
-    },
-    "shopify-app-users": {
-      "shopifyTheme": {
-        "description": "",
-        "featuredFilters": {
-          "tenancy/shopifyTheme.gelly": {
-            "description": "Has been added so that merchants are only able to read themes from their store."
-          }
-        }
       }
     }
   },

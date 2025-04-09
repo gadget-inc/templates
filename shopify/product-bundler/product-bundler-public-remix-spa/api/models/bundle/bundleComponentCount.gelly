@@ -1,0 +1,4 @@
+# Computed field that is used in frontend logic
+field on bundle {
+  count(productVariants)
+}

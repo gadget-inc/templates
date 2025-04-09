@@ -1,0 +1,44 @@
+{
+  "name": "product-bundler-public-rrv7-d",
+  "version": "0.1.0",
+  "description": "Internal package for Gadget app product-bundler-public-rrv7-d (Development environment)",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "NODE_ENV=production vite build",
+    "shopify": "shopify",
+    "shopify:config:use:development": "shopify app config use shopify.app.devaoc.toml",
+    "shopify:config:use:production": "shopify app config use shopify.app.toml",
+    "shopify:dev": "yarn shopify:config:use:development && shopify app dev --no-update",
+    "shopify:deploy:development": "yarn shopify:config:use:development && shopify app deploy",
+    "shopify:deploy:production": "yarn shopify:config:use:production && shopify app deploy",
+    "shopify:deploy": "yarn shopify:deploy:production",
+    "shopify:info": "shopify app info"
+  },
+  "dependencies": {
+    "@gadget-client/product-bundler-public-rrv7-d": "link:.gadget/client",
+    "@gadgetinc/react": "^0.20.2",
+    "@gadgetinc/react-shopify-app-bridge": "^0.17.0",
+    "@shopify/app-bridge-react": "^4.1.5",
+    "@shopify/polaris": "^13.8.0",
+    "@shopify/polaris-icons": "^9.3.0",
+    "gadget-server": "link:.gadget/server",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router": "^7.0.2",
+    "shopify-api-node": "^3.14.2",
+    "use-debounce": "^10.0.4",
+    "javy": "0.1.1",
+    "@shopify/shopify_function": "0.1.0"
+  },
+  "devDependencies": {
+    "@shopify/app-bridge-types": "^0.0.15",
+    "@types/node": "^20.17.7",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "@vitejs/plugin-react-swc": "^3.8.1",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.15"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

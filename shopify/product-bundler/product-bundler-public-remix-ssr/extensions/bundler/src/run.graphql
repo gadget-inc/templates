@@ -1,0 +1,26 @@
+query RunInput {
+  cart {
+    lines {
+      id
+      quantity
+      merchandise {
+        __typename
+        ... on ProductVariant {
+          id
+          componentReference: metafield(
+            namespace: "bundle"
+            key: "componentReference"
+          ) {
+            value
+          }
+          productVariantQuantities: metafield(
+            namespace: "bundle"
+            key: "productVariantQuantities"
+          ) {
+            value
+          }
+        }
+      }
+    }
+  }
+}

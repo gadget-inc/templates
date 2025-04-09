@@ -1,0 +1,21 @@
+# Learn more about configuring your app at https://shopify.dev/docs/apps/tools/cli/configuration
+
+client_id = "3a7a926ef500b7b1d2631a64f24a387e"
+name = "product-bundler-public-remix-s"
+handle = "product-bundler-public-remix-s"
+application_url = "https://product-bundler-public-remix-ssr--devaoc.gadget.app/api/shopify/install-or-render"
+embedded = true
+
+[build]
+dev_store_url = "devaoc-test-store.myshopify.com"
+
+[auth]
+redirect_urls = [
+  "https://product-bundler-public-remix-ssr--devaoc.gadget.app/api/connections/auth/shopify/callback"
+]
+
+[webhooks]
+api_version = "2025-04"
+
+[pos]
+embedded = false

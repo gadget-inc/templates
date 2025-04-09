@@ -12,7 +12,7 @@ This app template helps Shopify merchants manage customer wishlists and send aut
 
 - Frontends
 
-  - `routes/index.jsx`: The main page of the frontend, displaying the default frequency of wishlist-related emails.
+  - `routes/_app._index`: The main page of the frontend, displaying the default frequency of wishlist-related emails.
 
 - Models
 

@@ -7,7 +7,7 @@
     }
   },
   "featuredFrontends": {
-    "routes/index.jsx": {
+    "routes/_app._index": {
       "description": "This page is the main and only page of the frontend. It displays the default value for the frequenecy of which emails are sent to customers.",
       "tags": ["edited"]
     }

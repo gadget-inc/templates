@@ -2,7 +2,7 @@
 
 Automate product tagging in your Shopify store by matching keywords in product descriptions with predefined tags. This app allows merchants to manage keyword lists in an embedded Admin UI, and automatically applies matching tags to products.
 
-[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=product-tagger-template.gadget.app)
+[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=product-tagger-public-remix-ssr.gadget.app)
 
 ## Key features
 
@@ -20,8 +20,7 @@ Automate product tagging in your Shopify store by matching keywords in product d
 
 - Frontend
 
-  - `App.jsx`: Handles routing for the frontend pages.
-  - `index.jsx`: Displays an embedded Shopify Admin UI where merchants can manage their keyword list.
+  - `_app._index`: The main page of the embedded application.
 
 - Actions
 
@@ -29,9 +28,3 @@ Automate product tagging in your Shopify store by matching keywords in product d
   - `shopifyProduct/actions/update`: Reacts to Shopify's `product/update` events, copies product data to the database, and then calls the `applyTags()` function defined in `shopifyProduct/utils.js`.
   - `shopifyProduct/utils.js`: Matches incoming product descriptions against keywords in the `allowedTag` model and enqueues updates to Shopify products.
   - `writeToShopify`: Accepts a mutation, variables, and a shopId and makes a GraphQL call to the Shopify API
-
-- Access Controls
-  - `shopify-app-users`
-    - read
-    - create
-    - delete

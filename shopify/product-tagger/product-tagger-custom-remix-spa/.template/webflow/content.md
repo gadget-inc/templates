@@ -1,0 +1,5 @@
+- Automatically tag new products as they're added to the Shopify inventory.
+- Easily manage and categorize products updated or added in bulk.
+- Structures unorganized product data uploaded to Shopify.
+- _Tenancy enforced:_ App data will be unique to the store it is installed on.
+- _Ready-to-Use:_ No need to start from scratch – equipped with a Shopify connection, data models, backend logic, and a keyword management frontend.

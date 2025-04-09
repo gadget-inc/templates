@@ -1,4 +1,4 @@
-name: product-tagger-public-remix-spa deployment
+name: pt-public-remix-spa
 
 on:
   push:

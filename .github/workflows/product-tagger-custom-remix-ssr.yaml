@@ -1,4 +1,4 @@
-name: product-tagger-custom-remix-ssr deployment
+name: pt-custom-remix-ssr
 
 on:
   push:

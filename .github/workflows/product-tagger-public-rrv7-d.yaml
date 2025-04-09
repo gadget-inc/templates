@@ -1,4 +1,4 @@
-name: product-tagger-public-rrv7-d deployment
+name: pt-public-rrv7-d
 
 on:
   push:

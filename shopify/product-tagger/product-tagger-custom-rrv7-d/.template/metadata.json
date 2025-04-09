@@ -1,9 +1,0 @@
-{
-  "appType": "shopify",
-  "public": false,
-  "framework": {
-    "name": "rrv7",
-    "ssr": false
-  },
-  "description": "The application is is a product tagger that allows merchants to specify what keywords should be pulled out of product descriptions and added as tags."
-}

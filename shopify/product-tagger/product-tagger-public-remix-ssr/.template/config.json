@@ -1,5 +1,6 @@
 {
   "version": "v1",
+  "introduction": "./docs/introduction.md",
   "featuredModels": {
     "allowedTag": {
       "description": "Stores the tag keyword and the shop it is associated with.",
@@ -7,7 +8,7 @@
     },
     "shopifyProduct": {
       "description": "Synchronizes and stores product data from connected Shopify stores.",
-      "featuredFields": ["body", "tags"]
+      "featuredFields": ["title", "body", "tags"]
     }
   },
   "featuredActions": {
@@ -29,7 +30,12 @@
   "featuredAccessControls": {
     "shopify-app-users": {
       "allowedTag": {
-        "description": "This means you can add `allowedTags` from the authenticated admin view."
+        "description": "This means you can add `allowedTags` from the authenticated admin view.",
+        "featuredFilters": {
+          "allowedTag/filters/tenancy.gelly": {
+            "description": "has been added so that merchants are only able to read tags for their store."
+          }
+        }
       }
     }
   },
@@ -37,6 +43,19 @@
     "routes/_app._index": {
       "description": "Displays an embedded Shopify Admin UI that allows merchants to add or manage their keyword list.",
       "tags": ["edited"]
+    }
+  },
+  "webflow": {
+    "title": "Automated Product Tagger",
+    "description": "Automate tagging products within a Shopify store inventory. This app tracks keywords within product descriptions and creates a tag for each keyword found.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/tagger.webp",
+    "wistiaId": "udboa27dyt",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
     }
   }
 }

@@ -1,0 +1,3 @@
+- Create unique, multiple-choice quizzes. Map answers to specific product recommendations.
+- Merchants can personalize quizzes to their audience.
+- Ready-to-use: No need to start from scratch – equipped with a Shopify connection, data models, backend logic, and a quiz management frontend.

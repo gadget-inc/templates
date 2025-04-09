@@ -1,0 +1,3 @@
+filter ($session: Session) on Answer [
+  where shopId == $session.shopId
+]

@@ -1,4 +1,4 @@
-name: Wishlist Deployment
+name: w-public-remix-ssr
 
 on:
   push:

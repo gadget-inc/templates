@@ -1,4 +1,4 @@
-name: Wishlist Deployment
+name: w-custom-remix-spa
 
 on:
   push:

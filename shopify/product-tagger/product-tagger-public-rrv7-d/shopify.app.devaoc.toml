@@ -1,0 +1,18 @@
+# Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+
+client_id = "3f92fafea5954d944377a3d35010b76b"
+name = "product-tagger-public-rrv7-d-d"
+application_url = "https://product-tagger-public-rrv7-d--devaoc.gadget.app/api/shopify/install-or-render"
+embedded = true
+
+[build]
+# Gadget manages all your scopes, webhooks and api versioning for your app
+# As such, this line should not be changed unless you are working with
+# Shopify managed installations. Read more at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+include_config_on_deploy = false
+
+[auth]
+redirect_urls = ["https://product-tagger-public-rrv7-d--devaoc.gadget.app/api/connections/auth/shopify/callback"]
+
+[webhooks]
+api_version = "2025-01"

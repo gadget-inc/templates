@@ -1,0 +1,3 @@
+filter ($session: Session) on AllowedTag [
+  where shopId == $session.shopId
+]

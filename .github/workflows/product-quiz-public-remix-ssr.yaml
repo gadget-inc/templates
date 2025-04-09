@@ -1,4 +1,4 @@
-name: Product Quiz Deployment
+name: pq-public-remix-ssr
 
 on:
   push:

@@ -1,4 +1,4 @@
-name: Product Quiz Deployment
+name: pq-custom-remix-spa
 
 on:
   push:

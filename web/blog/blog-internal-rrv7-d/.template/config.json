@@ -1,15 +1,12 @@
 {
   "version": "v1",
+  "introduction": "./docs/introduction.md",
   "featuredFrontends": {
-    "App.jsx": {
-      "description": "This page handles routing of the frontend pages.",
-      "tags": ["edited"]
-    },
-    "signed-in.jsx": {
+    "signed-in": {
       "description": "Admin view of blog posts",
       "tags": ["edited"]
     },
-    "index.jsx": {
+    "index": {
       "description": "Unauthenticated view of blog posts",
       "tags": ["edited"]
     }
@@ -52,6 +49,17 @@
         "description": "Signed in users can see all their posts and make changes",
         "tags": ["read, create, update, delete"]
       }
+    }
+  },
+  "webflow": {
+    "title": "CRUD Blog with authentication",
+    "description": "This template shows how CRUD actions work in Gadget with public and protected routes.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/crud-blog.webp",
+    "features": {
+      "frontend": true,
+      "models": true,
+      "actions": true
     }
   }
 }

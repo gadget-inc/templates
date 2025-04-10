@@ -8,9 +8,8 @@ This template demonstrates how to implement basic CRUD operations for a blog usi
 
 - Frontends
 
-  - `App.jsx`: Handles the routing for frontend pages.
-  - `signed-in.jsx`: Admin view of blog posts for authenticated users.
-  - `index.jsx`: Public view of blog posts for unauthenticated users.
+  - `_user.signed-in`: Admin view of blog posts for authenticated users.
+  - `_anon._index`: Public view of blog posts for unauthenticated users.
 
 - Models
 

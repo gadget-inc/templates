@@ -1,5 +1,0 @@
-- Simple blog application featuring email, password and Google authentication.
-- Public page where readers can view published blog posts.
-- Private page where authors can create and publish new blog posts.
-- _Ready-to-use:_ No need to start from scratch – setup with authentication, data models, backend logic, and a frontend all hosted on Gadget.
-- _Ready-to-extend:_ If you can build it in JS you can extend this template.

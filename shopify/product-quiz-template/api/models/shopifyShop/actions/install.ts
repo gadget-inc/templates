@@ -27,7 +27,7 @@ export const onSuccess: ActionOnSuccess = async ({
       },
       models: [
         "shopifyProduct",
-        "shopifyProductImage",
+        "shopifyProductMedia",
         "shopifyTheme",
         "shopifyAsset",
       ],

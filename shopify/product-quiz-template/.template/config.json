@@ -3,32 +3,40 @@
   "setup": "docs/setup.md",
   "introduction": "docs/introduction.md",
   "featuredFrontends": {
-    "App.jsx": {
-      "description": "This page handles routing of the frontend pages.",
+    "extensions/quiz/assets/product-quiz.js": {
+      "description": "Powers a Shopify product quiz for the storefront that's imported within the quiz-page.liquid template. It uses Gadget's API to fetch quiz questions, handle user interactions, and process submissions. After collecting the shopper's answers and email, it retrieves personalized product recommendations and dynamically updates the page to display them, complete with product images and links.",
+      "tags": ["added"]
+    },
+    "extensions/quiz/blocks/quiz-page.liquid": {
+      "description": "This Shopify theme extension block creates a product quiz interface. It loads necessary styles and scripts, including a Gadget API script that needs to be customized with your project URL. The block displays a form with question-answer fields and an email input, rendering the quiz content based on a configurable quiz slug parameter. If no slug is specified, it shows an error message.",
+      "tags": ["added"]
+    },
+    "web/components/App.jsx": {
+      "description": "Defines the main structure of a Shopify embedded app. It uses GadgetProvider for authentication and contains routing logic with React Router. The app has routes for a homepage, creating quizzes, and editing quizzes. It handles authenticated and unauthenticated states, showing a loading spinner during authentication and appropriate UI based on the user's authentication status.",
       "tags": ["edited"]
     },
-    "routes/HomePage.jsx": {
-      "description": "Main page for the shopify admin app.",
+    "web/routes/HomePage.jsx": {
+      "description": "Displays a tabbed interface with two tabs: 'Quizzes' and 'Install'. It uses Shopify Polaris components (Layout, Tabs, Card) wrapped in a PageTemplate. Users can switch between the QuizzesTab component (where they can manage quizzes) and the InstallTab component (for installation instructions).",
       "tags": ["added"]
     },
-    "routes/CreateQuizPage.jsx": {
-      "description": "The page containing the form used for creating new quizzes.",
+    "web/routes/CreateQuizPage.jsx": {
+      "description": "Provides a form for creating quizzes. It uses Gadget's useActionForm hook to manage form state and submission, and Shopify's Polaris components for UI. The form includes default values for nested questions and answers. When submitted successfully, it navigates back to the homepage.",
       "tags": ["added"]
     },
-    "routes/EditQuizPage.jsx": {
-      "description": "The page containing the form used for editing existing quizzes.",
+    "web/routes/EditQuizPage.jsx": {
+      "description": "Allows merchants to update an existing quiz. It uses the Gadget useActionForm hook to fetch and edit a quiz by ID from the URL params. The form loads the quiz with its nested questions and answers (including recommended products). When submitted, it saves the changes and redirects to the home page. During submission, it displays a loading spinner.",
       "tags": ["added"]
     },
-    "components/QuizForm.jsx": {
-      "description": "The entrypoint for the form used to create and edit quizzes.",
+    "web/components/QuizForm.jsx": {
+      "description": "A form used for creating and editing quizzes. It displays fields for the quiz title and description, dynamically manages multiple questions and their associated answers, and loads Shopify products to link with answers. The form includes validation, add/remove functionality for questions, and integrates with Polaris UI components. It conditionally displays 'Create quiz' or 'Save quiz' buttons based on whether it's creating or updating a quiz.",
       "tags": ["added"]
     },
-    "components/InstallTab.jsx": {
-      "description": "The installation instructions for adding the quiz to the storefront.",
+    "web/components/InstallTab.jsx": {
+      "description": "Displays a theme selector dropdown for Shopify stores. It fetches store data using Gadget's API, then shows different installation instructions based on whether the selected theme uses Online Store 2.0 or 1.0. For 2.0 themes, it displays an instructional video and a 'Preview in theme' button, while for 1.0 themes it renders Store1Instructions component.",
       "tags": ["added"]
     },
-    "components/Store1Instructions.jsx": {
-      "description": "Instructions for manually adding code files for themes built on Online Store 1.",
+    "web/components/Store1Instructions.jsx": {
+      "description": "This component provides implementation instructions for Shopify Online Store 1.0. It guides merchants through adding a product quiz to their store by creating three files: a section file (quiz-page.liquid), a template file (page.quiz.json), and a JavaScript file (product-quiz.js). Complete code snippets are provided for each file, with final instructions for creating a quiz page in Shopify admin.",
       "tags": ["added"]
     }
   },

@@ -3,7 +3,7 @@
   "setup": "docs/setup.md",
   "introduction": "docs/introduction.md",
   "featuredGlobalActions": {
-    "sendWishlistEmal": {
+    "sendWishlistEmail": {
       "description": "A global action that sends an email to a customer based on the state of their wishlist."
     }
   },

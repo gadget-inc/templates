@@ -1,7 +1,6 @@
-import { api } from "../api";
-import { useLoaderData, Outlet, Link } from "@remix-run/react";
+import { useLoaderData, Outlet } from "@remix-run/react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import { Spinner, Page, Card, Text, Box } from "@shopify/polaris";
+import { Page, Card, Text, Box } from "@shopify/polaris";
 import { NavMenu } from "../components/NavMenu";
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
@@ -10,7 +9,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
   });
 };
 
-export default function() {
+export default function () {
   const { gadgetConfig } = useLoaderData<typeof loader>();
 
   return gadgetConfig.shopifyInstallState ? (
@@ -25,7 +24,7 @@ export default function() {
 
 const Unauthenticated = () => {
   const { gadgetConfig } = useLoaderData<typeof loader>();
-  
+
   return (
     <Page>
       <div style={{ height: "80px" }}>

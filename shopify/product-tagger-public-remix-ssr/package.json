@@ -16,8 +16,8 @@
     "shopify:info": "shopify app info"
   },
   "dependencies": {
-    "@gadgetinc/react": "^0.20.0",
-    "@gadgetinc/react-shopify-app-bridge": "^0.17.0",
+    "@gadgetinc/react": "^0.21.1",
+    "@gadgetinc/react-shopify-app-bridge": "^0.18.4",
     "@remix-run/node": "^2.12.0",
     "@remix-run/react": "^2.12.0",
     "@shopify/app-bridge-react": "^4.1.5",

@@ -13,11 +13,20 @@ import {
 import { api } from "../api";
 import { ReactNode } from "react";
 
-const Form = (props: {
+/**
+ * Form wrapper for creating or updating quiz records.
+ * Automatically switches between create and update modes based on whether an id is provided.
+ *
+ * @param props.children - Form input components to render
+ * @param props.findBy - Quiz ID for update mode (optional)
+ * @param props.onSuccess - Callback function executed after successful submission
+ * @returns {JSX.Element} AutoForm component configured for quiz operations
+ */
+function Form(props: {
   children: ReactNode;
   findBy?: string;
   onSuccess: () => void;
-}) => {
+}) {
   if (props.findBy) {
     return (
       <AutoForm
@@ -63,8 +72,14 @@ const Form = (props: {
       </AutoForm>
     );
   }
-};
+}
 
+/**
+ * Quiz management page component for creating new quizzes or editing existing ones.
+ * Displays a form with nested questions, answers, and product recommendations.
+ *
+ * @returns {JSX.Element} Quiz creation/editing page with form inputs
+ */
 export default function Quiz() {
   const { id } = useParams();
   const navigate = useNavigate();

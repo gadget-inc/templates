@@ -12,12 +12,17 @@ const route: RouteHandler<{
     recommendedProducts: string[];
   };
 }> = async ({ request, reply, api, logger, connections }) => {
+  /**
+   * Check if the request was made from an authenticated space.
+   * If not, return a 401 Unauthorized response.
+   */
   if (!connections.shopify.current) {
     return await reply.code(401).send({ error: { message: "Unauthorized" } });
   }
 
   const { quizId, email, recommendedProducts } = request.body;
 
+  // Save the quiz result with the provided quizId, email, and recommended products
   await api.quizResult.create({
     quiz: {
       _link: quizId,

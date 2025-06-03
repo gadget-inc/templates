@@ -25,7 +25,9 @@ type QuizCardProps = {
     body: string | null;
   };
 };
-
+/**
+ * @returns {JSX.Element} - A card component that displays a message when no quizzes are found, with an option to create a new quiz.
+ */
 function NoData() {
   const navigate = useNavigate();
 
@@ -60,6 +62,11 @@ function LoadingState() {
   );
 }
 
+/**
+ *
+ * @param props - Data related to a quiz, including its id, title, slug, and body.
+ * @returns {JSX.Element} - A card component displaying the quiz title, slug, and body, with options to edit or delete the quiz.
+ */
 function QuizCard(props: QuizCardProps) {
   const {
     quiz: { id, title, slug, body },
@@ -103,6 +110,10 @@ function QuizCard(props: QuizCardProps) {
   );
 }
 
+/**
+ *
+ * @returns {JSX.Element} The main index page for quizzes, displaying a list of quizzes with options to create, edit, or delete them.
+ */
 export default function Index() {
   const navigate = useNavigate();
   const [{ data, error, fetching }] = useTable(api.quiz, {

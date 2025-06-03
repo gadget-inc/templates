@@ -23,6 +23,7 @@ const pageQuizJson = `{
   "order": ["main"]
 }`;
 
+// A Remix loader function that fetches the current Shopify theme and checks if it supports Online Store 2.0 features.
 export async function loader({ context }: LoaderFunctionArgs) {
   const shopify = context.connections.shopify.current;
 
@@ -57,6 +58,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
     theme.onlineStore2 = false;
   }
 
+  // Returns an object with the theme information and the shop domain.
   return json({
     theme,
     shop: await context.api.shopifyShop.findFirst({
@@ -67,7 +69,11 @@ export async function loader({ context }: LoaderFunctionArgs) {
   });
 }
 
-const CodeBlock = ({ children }: { children: string }) => {
+/**
+ * @param props.children - The code snippet to be displayed in the block.
+ * @returns {JSX.Element} - A card component containing the code snippet and a button to copy it to the clipboard.
+ */
+function CodeBlock({ children }: { children: string }) {
   return (
     <Card>
       <BlockStack inlineAlign="end">
@@ -82,8 +88,14 @@ const CodeBlock = ({ children }: { children: string }) => {
       </Text>
     </Card>
   );
-};
+}
 
+/**
+ * Installation guide component for adding the product quiz to a Shopify theme.
+ * Shows automated setup for Online Store 2.0 themes or manual code installation for legacy themes.
+ *
+ * @returns {JSX.Element} Installation instructions page
+ */
 export default function Install() {
   const { theme, shop } = useLoaderData<typeof loader>();
 

@@ -1,6 +1,17 @@
 {
   "version": "v1",
   "setup": "./setup.md",
+  "webflow": {
+    "title": "Product Quiz",
+    "description": "Recommend products to Shopify customers based on their answers to a quiz using Gadget.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/Product-Quiz.webp",
+    "wistiaId": "45mm8shd0h",
+    "features": {
+      "shopify": true,
+      "frontend": true
+    }
+  },
   "featuredFrontends": {
     "App.jsx": {
       "description": "This page handles routing of the frontend pages.",
@@ -118,17 +129,6 @@
     },
     "index.html": {
       "description": "The home, entrypoint and main file that's served."
-    }
-  },
-  "webflow": {
-    "title": "Product Quiz",
-    "description": "Recommend products to Shopify customers based on their answers to a quiz using Gadget.",
-    "content": "webflow/content.md",
-    "mainImage": "webflow/Product-Quiz.webp",
-    "wistiaId": "45mm8shd0h",
-    "features": {
-      "shopify": true,
-      "frontend": true
     }
   }
 }

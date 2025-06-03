@@ -54,6 +54,11 @@ const saveSelections = async (quizId, email, recommendedProducts) => {
   });
 };
 
+/**
+ *
+ * @param {*} evt - The submit event
+ * @param {string} quizId - The id of the quiz that is being saved
+ */
 const onSubmitHandler = async (evt, quizId) => {
   evt.preventDefault();
 
@@ -100,6 +105,7 @@ const selectAnswer = (evt, answerId, answerText) => {
   parent.innerHTML = "<h3><b>" + decodeURI(answerText) + "</b> selected</h3>";
 };
 
+// Event listener for document load
 document.addEventListener("DOMContentLoaded", function () {
   const quizSlug = window.quizSlug;
 

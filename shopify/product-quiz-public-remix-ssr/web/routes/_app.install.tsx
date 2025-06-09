@@ -8,7 +8,7 @@ import {
   Divider,
 } from "@shopify/polaris";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import PageLayout from "../components/PageLayout";
 import rawQuizPageLiquid from "../../extensions/quiz/blocks/quiz.liquid?raw";
 import rawProductQuizJs from "../../extensions/quiz/assets/quiz.js?raw";
@@ -99,6 +99,8 @@ function CodeBlock({ children }: { children: string }) {
 export default function Install() {
   const { theme, shop } = useLoaderData<typeof loader>();
 
+  const navigate = useNavigate();
+
   if (!theme.onlineStore2) {
     return (
       <PageLayout>
@@ -148,14 +150,14 @@ export default function Install() {
   }
 
   return (
-    <PageLayout backAction={{ onAction: () => history.back() }}>
+    <PageLayout
+      title="Installation instructions"
+      backAction={{ onAction: () => navigate("/") }}
+    >
       <Layout.Section>
         <Card>
           <BlockStack gap="400">
-            <InlineStack align="space-between">
-              <Text as="h1" variant="headingLg">
-                Installation instructions
-              </Text>
+            <InlineStack align="end">
               <Button
                 variant="primary"
                 target="_blank"

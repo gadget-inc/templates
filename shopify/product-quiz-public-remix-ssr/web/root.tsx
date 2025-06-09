@@ -14,7 +14,6 @@ import {
   AppType,
   Provider as GadgetProvider,
 } from "@gadgetinc/react-shopify-app-bridge";
-import "./app.css";
 import polarisStyles from "@shopify/polaris/build/esm/styles.css?url";
 import { Suspense } from "react";
 import { api } from "./api";

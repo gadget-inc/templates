@@ -1,3 +1,0 @@
-filter ($session: Session) on ShopifySync [
-  where shopId == $session.shopId
-]

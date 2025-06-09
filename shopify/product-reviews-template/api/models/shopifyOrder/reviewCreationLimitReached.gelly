@@ -1,3 +1,0 @@
-field on shopifyOrder {
-  count(reviews) >= reviewCreationLimit
-}

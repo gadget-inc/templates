@@ -1,0 +1,61 @@
+{% comment %} Fetching the quiz slug set in the theme customizer {% endcomment %}
+{% assign quizSlug = block.settings.quiz_slug %}
+
+{% comment %} 
+  Setting `quiz_slug` is used to identify the quiz. It should match the slug of the quiz created in the app.
+  The `secure_url` field is used to make calls to the store's URL to make requests to the Gadget app through the Shopify app proxy.
+{% endcomment %}
+<script>
+  window.quizSlug = "{{ quizSlug }}";
+  window.shopURL = "{{ shop.secure_url }}";
+</script>
+
+<script src="{{ 'quiz.js' | asset_url }}" defer="defer"></script>
+
+{% comment %} Check to see if there was a quiz slug insert into the quiz slug input in the theme customizer {% endcomment %}
+{% if quizSlug.size > 0 %}
+<div class="page-width page-width--narrow">
+  <product-quiz class="quiz">
+    <h1 class="main-page-title page-title h0 product-quiz__title">
+    </h1>
+    <div class="product-quiz__body">
+      <span>
+      </span>
+    </div>
+    <form class="form">
+      <div class="product-quiz__questions" id="questions">
+        <div class="product-quiz__question">
+          <span class="product-quiz__question-answer">
+          </span>
+        </div>
+      </div>
+      <hr class="product-quiz__submit-hr" />
+      <div class="product-quiz__email-container">
+        <label htmlFor="email">Enter your email to complete quiz</label><br>
+        <input type="email" id="product-quiz__email" name="email" required="required" style="font-size: 16px; height: 32px"><br><br>
+      </div>
+      <button
+        name="quiz-submit"
+        type="submit"
+        class="product-quiz__submit button button--secondary"
+      >
+        Get my results
+      </button>
+    </form>
+  </product-quiz>
+</div>
+{% else %}
+<div>
+    <h2>No quiz slug, check settings</h2>
+</div>
+{% endif %}
+
+{% schema %}
+{
+    "name": "Quiz section",
+    "target": "section",
+    "settings": [
+        { "type": "text", "label": "Quiz slug", "id": "quiz_slug" }
+    ]
+}
+{% endschema %}

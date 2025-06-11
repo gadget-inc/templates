@@ -36,9 +36,8 @@ export const run: ActionRun = async ({
       .toJSDate();
   }
 
-  if (record.reviewCreationLimit == null) {
+  if (record.reviewCreationLimit == null)
     setReviewCreationLimit({ record, trigger });
-  }
 
   await save(record);
 };

@@ -5,6 +5,7 @@ import {
 import { default as queueOptions } from "../utils/emailQueueOptions";
 
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
+  // Fetch all orders that have been fulfilled, have a requestReviewAfter date in the past,
   let orders = await api.shopifyOrder.findMany({
     first: 250,
     filter: {
@@ -16,7 +17,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       },
       customerId: {
         isSet: true,
-      }
+      },
     },
     select: {
       id: true,
@@ -27,23 +28,26 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     },
   });
 
-  let allOrders = orders;
+  const allOrders = [...orders];
 
+  // Paginate through all orders if there are more than the initial page
   while (orders.hasNextPage) {
     orders = await orders.nextPage();
     allOrders.push(...orders);
   }
 
-  if (allOrders.length)
-    await api.enqueue(
-      api.enqueueEmails,
-      {
-        allOrders: (allOrders as GadgetRecordList<ShopifyOrder>).map(
-          ({ __typename, ...rest }) => rest
-        ),
-      },
-      queueOptions
-    );
+  if (!allOrders.length) return logger.warn("No orders to process");
+
+  // Enqueue action to send emails for each order
+  await api.enqueue(
+    api.enqueueEmails,
+    {
+      allOrders: (allOrders as GadgetRecordList<ShopifyOrder>).map(
+        ({ __typename, ...rest }) => rest
+      ),
+    },
+    queueOptions
+  );
 };
 
 export const options = {

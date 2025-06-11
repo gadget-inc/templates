@@ -3,13 +3,13 @@ import { default as queueOptions } from "../utils/emailQueueOptions";
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
   const { allOrders } = params;
 
-  if (!allOrders?.length) {
-    logger.info("No orders to process");
-    return;
-  }
+  // Validate that there are orders to process and log a warning if not
+  if (!allOrders?.length) return logger.warn("No orders to process");
 
+  // Get a subset of orders to process in this batch
   const orders = allOrders.splice(0, 80);
 
+  // Enqueue emails for each order
   for (const { singleUseCode, customer, id } of orders) {
     await api.enqueue(
       api.sendEmail,
@@ -18,6 +18,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     );
   }
 
+  //  If there are more orders left, enqueue them for later processing
   if (allOrders.length)
     await api.enqueue(api.enqueueEmails, { allOrders }, queueOptions);
 };

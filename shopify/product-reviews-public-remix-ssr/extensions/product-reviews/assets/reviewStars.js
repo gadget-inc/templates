@@ -1,3 +1,5 @@
+// This script dynamically generates star ratings for product reviews
+// Reviews are displayed
 document.addEventListener("DOMContentLoaded", () => {
   for (let i = 0; i < window.reviews.length; i++) {
     const reviewDiv = document.getElementById(`review-${i}`);

@@ -125,6 +125,7 @@ export const run: ActionRun = async ({
     }
   }
 
+  // Create the review metaobject definition
   const reviewMetaobjectDefinitionCreateResponse = await shopify.graphql(
     `mutation ($definition: MetaobjectDefinitionCreateInput!) {
       metaobjectDefinitionCreate(definition: $definition) {
@@ -178,6 +179,7 @@ export const run: ActionRun = async ({
     }
   );
 
+  // Throw an error if Shopify returns an error
   if (
     reviewMetaobjectDefinitionCreateResponse?.metaobjectDefinitionCreate
       ?.userErrors?.length
@@ -186,9 +188,11 @@ export const run: ActionRun = async ({
       reviewMetaobjectDefinitionCreateResponse.metaobjectDefinitionCreate.userErrors[0].message
     );
 
+  // Update the record with the created metaobject definition id
   record.reviewMetaobjectDefinitionId =
     reviewMetaobjectDefinitionCreateResponse.metaobjectDefinitionCreate.metaobjectDefinition.id;
 
+  // Create the metafield definition for the review metaobjects
   const metaobjectReferenceMetafieldDefinitionCreationResponse =
     await shopify.graphql(
       `mutation ($definition: MetafieldDefinitionInput!) {
@@ -222,6 +226,7 @@ export const run: ActionRun = async ({
       }
     );
 
+  // Throw an error if Shopify returns an error
   if (
     metaobjectReferenceMetafieldDefinitionCreationResponse
       ?.metafieldDefinitionCreate?.userErrors?.length
@@ -230,6 +235,7 @@ export const run: ActionRun = async ({
       metaobjectReferenceMetafieldDefinitionCreationResponse.metafieldDefinitionCreate.userErrors[0].message
     );
 
+  // Update the record with the created metafield definition id
   record.metaobjectReferenceMetafieldDefinitionId =
     metaobjectReferenceMetafieldDefinitionCreationResponse.metafieldDefinitionCreate.createdDefinition.id;
 

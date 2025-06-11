@@ -6,16 +6,17 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
   let value;
 
-  // eslint-disable-next-line
+  // Create a Shopify API instance for the given shopId
   const shopify = await connections.shopify.forShopId(shopId);
 
-  // Build the metafield value
+  // Get the existing product metafield
   const product = await api.shopifyProduct.maybeFindOne(productId, {
     select: {
       reviewsMetafield: true,
     },
   });
 
+  // If no product is found, throw an error
   if (!product) throw new Error("Product not found");
 
   const reviewsArray = product.reviewsMetafield as string[];
@@ -32,8 +33,10 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     }
   }
 
+  // If no value is set, return early
   if (!value) return;
 
+  // Update the product's metafield with the new value
   const metafieldsSetResponse = await shopify.graphql(
     `mutation ($metafields: [MetafieldsSetInput!]!) {
       metafieldsSet(metafields: $metafields) {
@@ -58,6 +61,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
     }
   );
 
+  // Throw an error if Shopify returns an error
   if (metafieldsSetResponse?.metafieldsSet?.userErrors?.length)
     throw new Error(metafieldsSetResponse.metafieldsSet.userErrors[0].message);
 };

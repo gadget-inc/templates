@@ -1,6 +1,5 @@
 import renderEmail from "../utils/renderEmail";
 
-
 export const run: ActionRun = async ({
   params,
   logger,
@@ -14,6 +13,7 @@ export const run: ActionRun = async ({
   if (!email || !singleUseCode || !orderId)
     throw new Error("Missing required params");
 
+  // Send the email to the customer
   await emails.sendMail({
     to: email,
     subject: "Review your purchase",

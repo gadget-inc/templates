@@ -9,6 +9,7 @@ export const run: ActionRun = async ({
 }) => {
   applyParams(params, record);
 
+  // Find the order associated with the review
   const order = await api.shopifyOrder.findOne(record.orderId, {
     select: {
       shopId: true,

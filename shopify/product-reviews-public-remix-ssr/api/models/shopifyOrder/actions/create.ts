@@ -14,6 +14,7 @@ export const run: ActionRun = async ({
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
+  // Generate a single-use code for the review
   record.singleUseCode = code.generate();
 
   setReviewCreationLimit({ record, trigger });
@@ -27,6 +28,6 @@ export const onSuccess: ActionOnSuccess = async ({
   logger,
   api,
   connections,
-}) => { };
+}) => {};
 
 export const options: ActionOptions = { actionType: "create" };

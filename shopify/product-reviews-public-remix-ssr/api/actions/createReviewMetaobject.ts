@@ -4,9 +4,10 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   if (!shopId) throw new Error("shopId is required");
   if (!review || !review?.id) throw new Error("review is required");
 
+  // Make a Shopify API instance for the given shopId
   const shopify = await connections.shopify.forShopId(shopId);
 
-  // Create the metaobject
+  // Create the metaobject using the Shopify API
   const metaobjectCreateResponse = await shopify.graphql(
     `mutation ($metaobject: MetaobjectCreateInput!) {
       metaobjectCreate(metaobject: $metaobject) {
@@ -54,6 +55,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       metaobjectCreateResponse.metaobjectCreate.userErrors[0].message
     );
 
+  // Update the review record with the metaobject id
   await api.internal.review.update(review.id, {
     metaobjectId: metaobjectCreateResponse.metaobjectCreate.metaobject.id,
   });

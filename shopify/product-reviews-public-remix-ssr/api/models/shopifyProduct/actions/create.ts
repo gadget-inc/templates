@@ -20,6 +20,7 @@ export const onSuccess: ActionOnSuccess = async ({
   api,
   connections,
 }) => {
+  // Create a metafield for the product to store reviews
   await api.enqueue(
     api.createReviewsMetafield,
     {

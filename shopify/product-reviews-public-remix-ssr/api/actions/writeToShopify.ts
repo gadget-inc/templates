@@ -7,7 +7,6 @@
  * to allow for retries if Shopify's rate limit is hit.
  *
  */
-
 export const run: ActionRun = async ({ params, logger, api, connections }) => {
   if (!params.shopId || !params.mutation) {
     throw new Error("shopId and mutation are required");

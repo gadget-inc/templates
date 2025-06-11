@@ -1,0 +1,22 @@
+view {
+  averageRating: sum(rating, where: createdAt >= dateTrunc("month", date: now()) && 
+    createdAt < dateTrunc("month", date: now() + interval("1 month"))) / count(id, 
+    where: createdAt >= dateTrunc("month", date: now()) && 
+    createdAt < dateTrunc("month", date: now() + interval("1 month"))),
+     
+  percentageChange: sum(rating, where: createdAt >= dateTrunc("month", date: now()) && 
+    createdAt < dateTrunc("month", date: now() + interval("1 month"))) / count(id, 
+    where: createdAt >= dateTrunc("month", date: now()) && 
+    createdAt < dateTrunc("month", date: now() + interval("1 month"))) == 0 ?
+    0 :
+    ((sum(rating, where: createdAt >= dateTrunc("month", date: now()) && 
+    createdAt < dateTrunc("month", date: now() + interval("1 month"))) / count(id, 
+    where: createdAt >= dateTrunc("month", date: now()) && 
+    createdAt < dateTrunc("month", date: now() + interval("1 month"))) - sum(rating, where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+    createdAt < dateTrunc("month", date: now())) / count(id,
+    where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+    createdAt < dateTrunc("month", date: now()))) / sum(rating, where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+    createdAt < dateTrunc("month", date: now())) / count(id,
+    where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+    createdAt < dateTrunc("month", date: now()))) * 100
+}

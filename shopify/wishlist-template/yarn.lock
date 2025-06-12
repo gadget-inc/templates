@@ -459,13 +459,6 @@
   dependencies:
     fast-deep-equal "^3.1.3"
 
-"@fastify/request-context@^5.0.0":
-  version "5.1.0"
-  resolved "https://registry.yarnpkg.com/@fastify/request-context/-/request-context-5.1.0.tgz#e1fdc103767af977485f19501c117eb59a49d30a"
-  integrity sha512-PM7wrLJOEylVDpxabOFLaYsdAiaa0lpDUcP2HMFJ1JzgiWuC6k4r3duf6Pm9YLnzlGmT+Yp4tkQjqsu7V/pSOA==
-  dependencies:
-    fastify-plugin "^4.0.0"
-
 "@floating-ui/core@^1.6.0":
   version "1.6.5"
   resolved "https://registry.yarnpkg.com/@floating-ui/core/-/core-1.6.5.tgz#102335cac0d22035b04d70ca5ff092d2d1a26f2b"
@@ -495,9 +488,8 @@
 
 "@gadget-client/wishlist-template@link:.gadget/client":
   version "0.0.0"
-  uid ""
 
-"@gadgetinc/api-client-core@0.15.38", "@gadgetinc/api-client-core@^0.15.38":
+"@gadgetinc/api-client-core@^0.15.38":
   version "0.15.38"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.38.tgz#8427e3d74e7278f4d5346dce9517659fdbaa76eb"
   integrity sha512-rLyOGxzly1LtT724NNpdKukFi4We6jjio/k3LXGINehjPEpSzcgSchjO3icp++GlhAyZCiFBt/cEBUKnLp3mXA==
@@ -1588,13 +1580,6 @@
   dependencies:
     undici-types "~6.11.1"
 
-"@types/node@^20.17.7":
-  version "20.17.8"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-20.17.8.tgz#42748cdb169adf5be7c9760604c72820c7b7d560"
-  integrity sha512-ahz2g6/oqbKalW9sPv6L2iRbhLnojxjYWspAqhjvqSWBgGebEJT5GvRmk0QXPj3sbC6rU0GTQjPLQkmR8CObvA==
-  dependencies:
-    undici-types "~6.19.2"
-
 "@types/prismjs@^1.26.0":
   version "1.26.4"
   resolved "https://registry.yarnpkg.com/@types/prismjs/-/prismjs-1.26.4.tgz#1a9e1074619ce1d7322669e5b46fbe823925103a"
@@ -2001,9 +1986,9 @@ bl@^4.1.0:
     readable-stream "^3.4.0"
 
 brace-expansion@^2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-2.0.1.tgz#1edc459e0f0c548486ecf9fc99f2221364b9a0ae"
-  integrity sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/brace-expansion/-/brace-expansion-2.0.2.tgz#54fc53237a613d854c7bd37463aad17df87214e7"
+  integrity sha512-Jt0vHyM+jmUBqojB7E1NIYadt0vI0Qxjxd2TErW94wDz+E2LAm5vKMXXwg6ZZBTHPuUlDgQHKXvjGBdfcF1ZDQ==
   dependencies:
     balanced-match "^1.0.0"
 
@@ -2683,11 +2668,6 @@ fast-uri@^3.0.1:
   resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-3.0.1.tgz#cddd2eecfc83a71c1be2cc2ef2061331be8a7134"
   integrity sha512-MWipKbbYiYI0UC7cl8m/i/IWTqfC8YXsqjzybjddLsFjStroQzsHXkc73JutMvBiXmOvapk+axIl79ig5t55Bw==
 
-fastify-plugin@^4.0.0:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.5.1.tgz#44dc6a3cc2cce0988bc09e13f160120bbd91dbee"
-  integrity sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==
-
 fastify@^4.24.2:
   version "4.28.1"
   resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.28.1.tgz#39626dedf445d702ef03818da33064440b469cd1"
@@ -2777,7 +2757,6 @@ function-bind@^1.1.2:
 
 "gadget-server@link:.gadget/server":
   version "0.0.0"
-  uid ""
 
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
@@ -4481,11 +4460,6 @@ undici-types@~6.11.1:
   version "6.11.1"
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.11.1.tgz#432ea6e8efd54a48569705a699e62d8f4981b197"
   integrity sha512-mIDEX2ek50x0OlRgxryxsenE5XaQD4on5U2inY7RApK3SOJpofyw7uW2AyfMKkhAxXIceo2DeWGVGwyvng1GNQ==
-
-undici-types@~6.19.2:
-  version "6.19.8"
-  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.19.8.tgz#35111c9d1437ab83a7cdc0abae2f26d88eda0a02"
-  integrity sha512-ve2KP6f/JnbPBFyobGHuerC9g1FYGn/F8n1LWTwNxCEzd6IfqTwUQcNXgEtmmQ6DlRrC1hrSrBnCZPokRrDHjw==
 
 update-browserslist-db@^1.1.0:
   version "1.1.0"

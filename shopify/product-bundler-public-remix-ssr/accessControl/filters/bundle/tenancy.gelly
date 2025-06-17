@@ -1,0 +1,3 @@
+filter ($session: Session) on Bundle [
+  where shopId == $session.shopId
+]

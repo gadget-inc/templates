@@ -4,5 +4,5 @@ import { remixViteOptions } from "gadget-server/remix";
 import { vitePlugin as remix } from "@remix-run/dev";
 
 export default defineConfig({
-  plugins: [gadget(), remix({ ...remixViteOptions })],
+  plugins: [gadget(), remix(remixViteOptions)],
 });

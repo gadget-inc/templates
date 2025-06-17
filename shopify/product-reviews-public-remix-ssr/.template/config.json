@@ -75,11 +75,11 @@
     }
   },
   "featuredFrontends": {
-    "routes/_app._index": {
+    "web/routes/_app._index": {
       "description": "Displays an embedded Shopify Admin UI for merchants to view and manage customer reviews and approval workflow.",
       "tags": ["edited"]
     },
-    "routes/_anon.review": {
+    "web/routes/_anon.review": {
       "description": "Public review submission page accessible via unique codes sent to customers, allowing them to leave reviews without authentication.",
       "tags": ["added"]
     },

@@ -3,7 +3,7 @@ import { readFile } from "fs/promises";
 import path from "path";
 
 /**
- * Route handler for GET theme-files
+ * Route handler for GET theme-raw
  *
  * See: https://docs.gadget.dev/guides/http-routes/route-configuration#route-context
  */

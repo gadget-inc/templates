@@ -17,30 +17,10 @@ import { useState, useEffect } from "react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
-  let shopId = await context.session?.get("roles");
-
-  // const shop = await context.api.shopifyShop.maybeFindFirst({
-  //   select: {
-  //     id: true,
-  //   },
-  // });
-
-  // shopId = shop?.id ?? shopId;
-
-  context.logger.info({ shopId: shopId ?? "null" }, "Shop ID");
-
   const [totalReviewsMoM, averageRatingMoM] = await Promise.all([
     context.api.review.totalReviews(),
     context.api.review.averageRating(),
   ]);
-
-  context.logger.info(
-    {
-      totalReviewsMoM,
-      averageRatingMoM,
-    },
-    "Total Reviews and Average Rating"
-  );
 
   return json({
     totalReviewsMoM,

@@ -10,8 +10,8 @@ import {
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import PageLayout from "../components/PageLayout";
-import rawQuizPageLiquid from "../../extensions/quiz/blocks/quiz.liquid?raw";
-import rawProductQuizJs from "../../extensions/quiz/assets/quiz.js?raw";
+// import rawQuizPageLiquid from "../../extensions/quiz/blocks/quiz.liquid?raw";
+// import rawProductQuizJs from "../../extensions/quiz/assets/quiz.js?raw";
 
 const pageQuizJson = `{
   "sections": {
@@ -54,8 +54,18 @@ export async function loader({ context }: LoaderFunctionArgs) {
     id: themes.nodes[0].id.split("/").pop(),
   };
 
+  let themeRaw = {
+    rawQuizPageLiquid: "",
+    rawProductQuizJs: "",
+  };
+
+  // If the theme isn't Online Store 2.0, we need to fetch the raw files for the quiz page and JavaScript.
   if (!themes.nodes[0].files.nodes.length) {
     theme.onlineStore2 = false;
+
+    const themeRawRes = await fetch(`${context.currentAppUrl}theme-raw`);
+
+    themeRaw = await themeRawRes.json();
   }
 
   // Returns an object with the theme information and the shop domain.
@@ -66,6 +76,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
         domain: true,
       },
     }),
+    ...themeRaw,
   });
 }
 
@@ -97,7 +108,8 @@ function CodeBlock({ children }: { children: string }) {
  * @returns {JSX.Element} Installation instructions page
  */
 export default function Install() {
-  const { theme, shop } = useLoaderData<typeof loader>();
+  const { theme, shop, rawProductQuizJs, rawQuizPageLiquid } =
+    useLoaderData<typeof loader>();
 
   const navigate = useNavigate();
 

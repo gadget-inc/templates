@@ -3,11 +3,11 @@ import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { Page, Card, Text, Box } from "@shopify/polaris";
 import { NavMenu } from "../components/NavMenu";
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
+export async function loader({ context }: LoaderFunctionArgs) {
   return json({
     gadgetConfig: context.gadgetConfig,
   });
-};
+}
 
 export default function () {
   const { gadgetConfig } = useLoaderData<typeof loader>();

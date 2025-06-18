@@ -84,7 +84,7 @@
     },
     "extensions/product-reviews": {
       "description": "Shopify theme extension that displays customer reviews and ratings directly on product pages in the storefront.",
-      "tags": ["added", "storefront"]
+      "tags": ["added"]
     }
   }
 }

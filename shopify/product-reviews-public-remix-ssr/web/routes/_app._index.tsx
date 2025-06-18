@@ -4,7 +4,6 @@ import {
   Box,
   Button,
   Card,
-  InlineStack,
   Layout,
   Page,
   Text,
@@ -18,7 +17,7 @@ import { useState, useEffect } from "react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useNavigate } from "@remix-run/react";
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
+export async function loader({ context }: LoaderFunctionArgs) {
   const [totalReviewsMoM, averageRatingMoM] = await Promise.all([
     context.api.review.totalReviews(),
     context.api.review.averageRating(),
@@ -28,7 +27,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
     totalReviewsMoM,
     averageRatingMoM,
   });
-};
+}
 
 export default function () {
   const [isClient, setIsClient] = useState(false);

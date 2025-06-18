@@ -1,9 +1,8 @@
 import { Outlet } from "@remix-run/react";
-import { api } from "../api";
 import { json, redirect, type LoaderFunctionArgs } from "@remix-run/node";
 import { Page } from "@shopify/polaris";
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
+export async function loader({ context }: LoaderFunctionArgs) {
   const { gadgetConfig } = context;
 
   if (gadgetConfig.shopifyInstallState) {
@@ -19,7 +18,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
   }
 
   return json({});
-};
+}
 
 export default function () {
   return (

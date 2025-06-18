@@ -3,7 +3,7 @@ import { useLoaderData } from "@remix-run/react";
 import { BlockStack } from "@shopify/polaris";
 import ReviewCard from "../components/ReviewCard";
 
-export const loader = async ({ context, params }: LoaderFunctionArgs) => {
+export async function loader({ context, params }: LoaderFunctionArgs) {
   if (!params.code) {
     return redirect("/invalid");
   }
@@ -11,7 +11,7 @@ export const loader = async ({ context, params }: LoaderFunctionArgs) => {
   return json({
     data: await context.api.fetchOrderData({ code: params.code }),
   });
-};
+}
 
 export default function () {
   const { data } = useLoaderData<typeof loader>();

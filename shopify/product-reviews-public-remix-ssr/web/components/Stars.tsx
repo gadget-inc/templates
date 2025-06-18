@@ -30,13 +30,6 @@ export default ({ rating }: { rating?: number }) => {
       name="review.rating"
       render={({ field: { ref, ...fieldProps } }) => (
         <InlineStack>
-          <InlineStack>
-            <p>{formContext?.control ? "C" : "No C"}</p>
-            <p>{JSON.stringify(formContext.getValues())}</p>
-
-            <p>name{fieldProps.name}</p>
-            <p>value{fieldProps.value}</p>
-          </InlineStack>
           {Array.from({ length: 5 }, (_, index) => (
             <div
               key={index}

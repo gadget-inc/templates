@@ -44,11 +44,6 @@ export default function () {
     <Page title="Reviews">
       <Layout>
         <Layout.Section>
-          <InlineStack blockAlign="center">
-            <Card></Card>
-          </InlineStack>
-        </Layout.Section>
-        <Layout.Section>
           <Card padding="0">
             <AutoTable
               model={api.review}

@@ -10,8 +10,6 @@ import {
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import PageLayout from "../components/PageLayout";
-// import rawQuizPageLiquid from "../../extensions/quiz/blocks/quiz.liquid?raw";
-// import rawProductQuizJs from "../../extensions/quiz/assets/quiz.js?raw";
 
 const pageQuizJson = `{
   "sections": {

@@ -1,4 +1,0 @@
-# Shopify
-extensions/**/dist
-extensions/**/node_modules
-.env

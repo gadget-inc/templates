@@ -1,73 +1,68 @@
 {
   "version": "v1",
-  "setup": "docs/setup.md",
-  "introduction": "docs/introduction.md",
-  "featuredGlobalActions": {
-    "createBundleInShopify": {
-      "description": "Calls all the necessary Shopify Admin GraphQL API mutations to create a new product, update it's variant, and set metafields for the bundle."
-    },
-    "updateBundleInShopify": {
-      "description": "Calls all the necessary Shopify Admin GraphQL API mutations to update a the bundle product, update it's variant, and set metafields for the bundle. This is all dependent on what information is passed to the action."
-    },
-    "updateBundleComponentQuantity": {
-      "description": "Sets the value of the productVariantQuantities metafield."
-    }
-  },
-  "featuredFrontends": {
-    "web/routes/_app._index": {
-      "description": "Displays a list of the created bundles which can be expaned to show their components and quantities.",
-      "tags": ["added"]
-    },
-    "web/routes/_app.bundle.($id)": {
-      "description": "The component that handles both the create and update functionality for a bundle.",
-      "tags": ["added"]
-    }
-  },
-  "featuredModels": {
-    "bundle": {
-      "description": "Used to store data about bundles.",
-      "featuredFields": [
-        "title",
-        "description",
-        "status",
-        "price",
-        "bundleComponentCount",
-        "productVariants"
-      ]
-    },
-    "bundleComponent": {
-      "description": "The through records linking bundles to product variants.",
-      "featuredFields": ["quantity", "bundle", "productVariant"]
-    }
-  },
-  "featuredActions": {
-    "shopifyShop": {
-      "install": {
-        "description": "Creates metafield definitions, the cart transform function and fetches information about the shop's sales channels.",
-        "tags": ["edited"]
-      }
-    },
-    "bundle": {
-      "create": {
-        "description": "Used to create bundles using the Shopify API.",
-        "tags": ["added"]
-      },
-      "update": {
-        "description": "Used to update existing bundles using the Shopify API.",
-        "tags": ["added"]
-      }
-    }
-  },
   "webflow": {
-    "title": "Customized bundles",
-    "description": "Create and manage bundles of products in the Shopify store.",
-    "content": "webflow/content.md",
+    "title": "Product Bundler",
+    "description": "Create custom product bundles from your existing inventory. This app allows you to group multiple product variants together and sell them as a single unit, automatically creating a new product in Shopify to represent the bundle.",
+    "content": "docs/introduction.md",
     "mainImage": "webflow/product-bundler.png",
     "features": {
       "shopify": true,
       "frontend": true,
       "models": true,
       "actions": true
+    }
+  },
+  "featuredModels": {
+    "bundle": {
+      "description": "The core model for storing bundle information, including its title, description, and price. It is connected to a shop and holds the components that make up the bundle.",
+      "featuredFields": ["title", "price", "status", "productVariants"]
+    },
+    "bundleComponent": {
+      "description": "A join model that links a `bundle` to a `shopifyProductVariant`, specifying the quantity of each component within the bundle.",
+      "featuredFields": ["bundle", "productVariant", "quantity"]
+    },
+    "shopifyProductVariant": {
+      "description": "Represents a Shopify product variant. Extended with metafields (`isBundle`, `componentReference`) to identify which variants are bundles and what they contain.",
+      "featuredFields": ["isBundle", "componentReference", "product"]
+    }
+  },
+  "featuredActions": {
+    "bundle": {
+      "create": {
+        "description": "Creates a new bundle record in the Gadget database. This is the first step before the bundle is created in Shopify.",
+        "tags": ["edited"]
+      },
+      "update": {
+        "description": "Updates an existing bundle record in the Gadget database.",
+        "tags": ["edited"]
+      }
+    },
+    "createBundleInShopify": {
+      "description": "A global action that takes a bundle ID, creates a corresponding product and variant in Shopify, and sets the necessary metafields to link them.",
+      "tags": ["added"]
+    }
+  },
+  "featuredBackends": {
+    "api/actions/createBundleInShopify.ts": {
+      "description": "Handles the logic for creating a new product in Shopify that represents a bundle. It sets the price, SKU, and metafields required for the bundling functionality to work.",
+      "tags": ["added"]
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "bundle": {
+        "description": "Allows authenticated Shopify merchants to create, read, update, and delete their own bundles through the app's admin UI."
+      }
+    }
+  },
+  "featuredFrontends": {
+    "web/routes/_app._index.tsx": {
+      "description": "The main dashboard for the app, displaying a list of all created bundles for the merchant's shop.",
+      "tags": ["edited"]
+    },
+    "web/routes/_app.bundle.($id).tsx": {
+      "description": "The page for creating a new bundle or editing an existing one. It includes a form to set the bundle's details and a component to select the product variants to include.",
+      "tags": ["edited"]
     }
   }
 }

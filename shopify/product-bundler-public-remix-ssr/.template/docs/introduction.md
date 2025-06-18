@@ -1,10 +1,10 @@
-# Customized bundles
+# Product Bundler
 
-This template has [setup instructions](template-setup).
+Core Purpose: This app enables Shopify merchants to create, manage, and sell product bundles. It allows merchants to group several individual product variants into a single, purchasable unit, offering curated packages to customers and increasing the average order value.
 
-This template allows merchants to create bundles with little effort. The Shopify app bridge resource picker is used to allow merchants to pick products/variants to be sold as a bundle.
+Key Functionality: The app provides an admin interface for merchants to define a product variant as a "bundle" and associate other product variants as its components, each with a specified quantity. This bundle data is synchronized with Shopify using metafields. When a customer adds a bundle to their cart, a Shopify Function automatically expands the bundle into its individual component products. This ensures that inventory is tracked correctly and that fulfillment processes are seamless. The app maintains a real-time sync with the merchant's product catalog and manages all bundle logic within the Shopify ecosystem.
 
-GraphQL queries and mutations used:
+Relevant Shopify docs:
 
 - [metafieldDefinitionCreate](https://shopify.dev/docs/api/admin-graphql/2024-07/mutations/metafieldDefinitionCreate): Used 3 times to create the metafields `isBundle`, `componentReference` and `productVariantQuantities`
 - [cartTransformCreate](https://shopify.dev/docs/api/admin-graphql/2024-07/mutations/cartTransformCreate): Creates the Cart Transform function on the store installing the application

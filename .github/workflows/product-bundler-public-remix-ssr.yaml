@@ -3,7 +3,7 @@ name: Customized Bundle Deployment
 on:
   push:
     paths:
-      - "shopify/customized-bundle-template/**"
+      - "shopify/product-bundler-public-remix-ssr/**"
     branches:
       - main
   workflow_dispatch:
@@ -15,7 +15,7 @@ jobs:
       - name: Checkout the current repository
         uses: actions/checkout@v4
       - name: Push to development environment
-        run: npx ggt push --app=customized-bundle-template --env=development --force --allow-unknown-directory
-        working-directory: shopify/customized-bundle-template/
+        run: npx ggt push --app=product-bundler-public-remix-ssr --env=development --force --allow-unknown-directory
+        working-directory: shopify/product-bundler-public-remix-ssr/
         env:
-          GGT_TOKEN: ${{ secrets.CUSTOMIZED_BUNDLE_DEPLOY_TOKEN }}
+          GGT_TOKEN: ${{ secrets.PRODUCT_BUNDLER_PUBLIC_REMIX_SSR_DEPLOY_TOKEN }}

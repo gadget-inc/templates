@@ -1,4 +1,0 @@
-- Create/update/delete customized bundles from the embedded admin application
-- Start with a cart transform function that respects item quantities
-- _Tenancy enforced:_ App data will be unique to the store it is installed on.
-- _Ready-to-Use:_ No need to start from scratch – equipped with a Shopify connection, data models, and backend logic.

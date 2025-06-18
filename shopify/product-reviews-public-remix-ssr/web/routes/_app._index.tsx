@@ -2,6 +2,7 @@ import { AutoTable } from "@gadgetinc/react/auto/polaris";
 import {
   BlockStack,
   Box,
+  Button,
   Card,
   InlineStack,
   Layout,
@@ -15,6 +16,7 @@ import ApprovalButton from "../components/ApprovalButton";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { useState, useEffect } from "react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
+import { useNavigate } from "@remix-run/react";
 
 export const loader = async ({ context }: LoaderFunctionArgs) => {
   const [totalReviewsMoM, averageRatingMoM] = await Promise.all([
@@ -32,6 +34,8 @@ export default function () {
   const [isClient, setIsClient] = useState(false);
   const [modalContent, setModelContent] = useState("");
 
+  const navigate = useNavigate();
+
   // Only access app bridge on the client side
   const appBridge = isClient ? useAppBridge() : null;
 
@@ -41,7 +45,12 @@ export default function () {
   }, []);
 
   return (
-    <Page title="Reviews">
+    <Page
+      title="Reviews"
+      primaryAction={
+        <Button onClick={() => navigate("/install")}>Install</Button>
+      }
+    >
       <Layout>
         <Layout.Section>
           <Card padding="0">

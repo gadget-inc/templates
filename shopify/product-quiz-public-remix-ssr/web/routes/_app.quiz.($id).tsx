@@ -87,7 +87,7 @@ export default function Quiz() {
   return (
     <PageLayout
       title={id ? "Refine your quiz" : "Design a quiz"}
-      backAction={{ onAction: () => history.back() }}
+      backAction={{ onAction: () => navigate("/") }}
     >
       <Layout.Section>
         <Card>

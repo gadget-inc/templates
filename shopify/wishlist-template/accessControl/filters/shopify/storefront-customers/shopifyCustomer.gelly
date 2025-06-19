@@ -1,3 +1,0 @@
-filter ($session: Session) on ShopifyCustomer [
-  where id == $session.shopifyCustomerId
-]

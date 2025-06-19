@@ -1,57 +1,75 @@
 {
   "version": "v1",
   "setup": "./setup.md",
-  "featuredGlobalActions": {
-    "sendWishlistEmal": {
-      "description": "A global action that sends an email to a customer based on the state of their wishlist."
-    }
-  },
-  "featuredFrontends": {
-    "routes/index.jsx": {
-      "description": "This page is the main and only page of the frontend. It displays the default value for the frequenecy of which emails are sent to customers.",
-      "tags": ["edited"]
-    }
-  },
-  "featuredModels": {
-    "wishlist": {
-      "description": "This is the model that stores the wishlist items of the customers.",
-      "featuredFields": ["name", "itemCount", "variants"]
-    },
-    "wishlistItem": {
-      "description": "This is the model that stores the items in the wishlist. It is a link between the wishlist record and variants.",
-      "featuredFields": ["wishlist", "variant"]
-    }
-  },
-  "featuredActions": {
-    "shopifyShop": {
-      "install": {
-        "description": "This action creates a metafield definition for the wishlists (and wishlist items) that belong to a customer.",
-        "tags": ["edited"]
-      }
-    }
-  },
-  "featuredAccessControls": {
-    "shopify-storefront-customers": {
-      "wishlist": {
-        "description": "This premission gives the ability for a customer to read, create and delete (only) their wishlists from the customer account UI extension.",
-        "featuredFields": ["read", "create", "delete"]
-      },
-      "wishlistItem": {
-        "description": "This premission gives the ability for a customer to read and delete (only) their wishlist items from the customer account UI extension.",
-        "featuredFields": ["read", "delete"]
-      }
-    }
-  },
   "webflow": {
-    "title": "Customer wishlists",
-    "description": "Sell more by keeping your customers up to date on your store's items.",
+    "title": "Product Wishlists",
+    "description": "A complete wishlist solution for Shopify. Allows customers to create and manage multiple wishlists, and integrates seamlessly into the storefront and customer accounts.",
     "content": "webflow/content.md",
-    "mainImage": "webflow/wishlist-template.png",
+    "mainImage": "webflow/wishlist.webp",
     "features": {
       "shopify": true,
       "frontend": true,
       "models": true,
       "actions": true
+    }
+  },
+  "featuredModels": {
+    "wishlist": {
+      "description": "Stores a named wishlist and associates it with a specific customer and shop.",
+      "featuredFields": ["name", "customer", "shop"]
+    },
+    "wishlistItem": {
+      "description": "Acts as a join table, linking a specific product variant to a wishlist.",
+      "featuredFields": ["variant", "wishlist", "customer"]
+    },
+    "shopifyCustomer": {
+      "description": "Extends the standard shopifyCustomer model to include relationships to all wishlists and wishlist items created by that customer.",
+      "featuredFields": ["wishlists", "wishlistItems"]
+    }
+  },
+  "featuredActions": {
+    "wishlist": {
+      "create": {
+        "description": "Allows a storefront customer to create a new, named wishlist for their account.",
+        "tags": ["added"]
+      },
+      "delete": {
+        "description": "Allows a storefront customer to delete one of their existing wishlists.",
+        "tags": ["added"]
+      }
+    },
+    "wishlistItem": {
+      "create": {
+        "description": "Adds a specific product variant to one of the customer's wishlists.",
+        "tags": ["added"]
+      }
+    }
+  },
+  "featuredBackends": {
+    "api/routes/proxy/wishlist/item/POST-create.ts": {
+      "description": "A backend proxy route that allows the storefront theme extension to add an item to a wishlist without a full user session.",
+      "tags": ["added"]
+    },
+    "api/actions/sendInStockEmail.ts": {
+      "description": "A global action that can be triggered to send an email notification to customers when an item on their wishlist comes back in stock.",
+      "tags": ["added"]
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-storefront-customers": {
+      "wishlist": {
+        "description": "Grants permissions to logged-in storefront customers to fully manage their own wishlists (read, create, update, delete)."
+      }
+    }
+  },
+  "featuredFrontends": {
+    "extensions/wishlists-storefront/blocks/addToWishlist.liquid": {
+      "description": "A Shopify theme extension block that adds an 'Add to Wishlist' button and functionality to product pages.",
+      "tags": ["added"]
+    },
+    "extensions/wishlists/src/App.tsx": {
+      "description": "The main React component for the customer account UI. It renders the interface where customers can view and manage all their wishlists and the items within them.",
+      "tags": ["added"]
     }
   }
 }

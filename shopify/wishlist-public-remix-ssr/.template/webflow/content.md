@@ -1,0 +1,5 @@
+- Allow customers to add any product to their personal wishlists directly from your product pages.
+- Empower shoppers to create and manage multiple wishlists for different occasions, like birthdays or holidays.
+- Seamlessly integrates with the Shopify Customer Account page for a native and intuitive user experience.
+- Tenancy enforced: Wishlist data is unique to the store it's installed on, and each customer's wishlists are kept private.
+- Ready-to-Use: Comes pre-built with a Shopify connection, data models, backend logic, a storefront "Add to Wishlist" button, and a complete customer account UI for wishlist management.

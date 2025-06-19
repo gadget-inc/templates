@@ -103,9 +103,6 @@ export const permissions: GadgetPermissions = {
           },
         },
       },
-      actions: {
-        scheduledShopifySync: true,
-      },
     },
     unauthenticated: {
       storageKey: "unauthenticated",

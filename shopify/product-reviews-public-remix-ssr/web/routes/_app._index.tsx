@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Card,
+  InlineStack,
   Layout,
   Page,
   Text,
@@ -15,7 +16,7 @@ import ApprovalButton from "../components/ApprovalButton";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { useState, useEffect } from "react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import { useNavigate } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 
 export async function loader({ context }: LoaderFunctionArgs) {
   const [totalReviewsMoM, averageRatingMoM] = await Promise.all([
@@ -29,7 +30,17 @@ export async function loader({ context }: LoaderFunctionArgs) {
   });
 }
 
+function formatPercentageChange(percentageChange: number | null) {
+  if (percentageChange === null) {
+    return "No data";
+  }
+
+  return `${percentageChange >= 0 ? "+" : "-"}${Math.abs(percentageChange)}% MoM`;
+}
+
 export default function () {
+  const { totalReviewsMoM, averageRatingMoM } = useLoaderData<typeof loader>();
+
   const [isClient, setIsClient] = useState(false);
   const [modalContent, setModelContent] = useState("");
 
@@ -44,13 +55,47 @@ export default function () {
   }, []);
 
   return (
-    <Page
-      title="Reviews"
-      primaryAction={
-        <Button onClick={() => navigate("/install")}>Install</Button>
-      }
-    >
+    <Page title="Reviews">
       <Layout>
+        <Layout.Section>
+          <Card>
+            <BlockStack gap="200">
+              <Text as="h3" variant="headingMd">
+                Monthly statistics
+              </Text>
+              <InlineStack wrap={false} gap="400" align="space-around">
+                <BlockStack gap="200">
+                  <Text as="h2" variant="bodyLg">
+                    Total reviews
+                  </Text>
+                  <InlineStack gap="200" align="center" blockAlign="center">
+                    <Text as="span" variant="headingLg">
+                      {totalReviewsMoM.currentMonthTotal}
+                    </Text>
+                    <Text as="span" variant="bodySm" tone="subdued">
+                      {formatPercentageChange(totalReviewsMoM.percentageChange)}
+                    </Text>
+                  </InlineStack>
+                </BlockStack>
+                <BlockStack gap="200">
+                  <Text as="h2" variant="bodyLg">
+                    Average rating
+                  </Text>
+                  <InlineStack gap="200" align="center" blockAlign="center">
+                    <Text as="span" variant="headingLg">
+                      {averageRatingMoM.currentAverageRating}
+                    </Text>
+                    <Text as="span" variant="bodySm" tone="subdued">
+                      {formatPercentageChange(
+                        averageRatingMoM.percentageChange
+                      )}
+                    </Text>
+                  </InlineStack>
+                </BlockStack>
+              </InlineStack>
+            </BlockStack>
+          </Card>
+        </Layout.Section>
         <Layout.Section>
           <Card padding="0">
             <AutoTable

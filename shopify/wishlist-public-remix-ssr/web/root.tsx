@@ -1,4 +1,12 @@
-import { Meta, Links, Scripts, ScrollRestoration, useLoaderData, useLocation, Outlet } from "@remix-run/react";
+import {
+  Meta,
+  Links,
+  Scripts,
+  ScrollRestoration,
+  useLoaderData,
+  useLocation,
+  Outlet,
+} from "@remix-run/react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { AppProvider } from "@shopify/polaris";
 import enTranslations from "@shopify/polaris/locales/en.json";
@@ -12,7 +20,7 @@ import { Suspense } from "react";
 import { api } from "./api";
 import { AdaptorLink } from "./components/AdaptorLink";
 import { FullPageSpinner } from "./components/FullPageSpinner";
-import { ErrorBoundary as DefaultGadgetErrorBoundary } from "gadget-server/remix"
+import { ErrorBoundary as DefaultGadgetErrorBoundary } from "gadget-server/remix";
 
 export const links = () => [
   {
@@ -21,8 +29,8 @@ export const links = () => [
   },
   {
     rel: "stylesheet",
-    href: "https://assets.gadget.dev/assets/reset.min.css"
-  }
+    href: "https://assets.gadget.dev/assets/reset.min.css",
+  },
 ];
 
 export const meta = () => [
@@ -34,17 +42,17 @@ export const meta = () => [
   {
     name: "shopify-api-key",
     suppressHydrationWarning: true,
-    content: "%SHOPIFY_API_KEY%"
+    content: "%SHOPIFY_API_KEY%",
   },
 ];
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
+export async function loader({ context }: LoaderFunctionArgs) {
   return json({
     gadgetConfig: context.gadgetConfig,
   });
-};
+}
 
-export const Layout = ({ children }: { children: React.ReactNode; }) => {
+export function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <head>
@@ -53,15 +61,13 @@ export const Layout = ({ children }: { children: React.ReactNode; }) => {
         <Links />
       </head>
       <body>
-        <Suspense fallback={<FullPageSpinner />}>
-          {children}
-        </Suspense>
+        <Suspense fallback={<FullPageSpinner />}>{children}</Suspense>
         <ScrollRestoration />
         <Scripts />
       </body>
     </html>
   );
-};
+}
 
 export default function App() {
   const { gadgetConfig } = useLoaderData<typeof loader>();

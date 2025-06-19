@@ -9,7 +9,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
   });
 };
 
-export default function() {
+export default function () {
   const { gadgetConfig } = useLoaderData<typeof loader>();
 
   return gadgetConfig.shopifyInstallState ? (
@@ -36,9 +36,9 @@ const Unauthenticated = () => {
             <Text variant="bodyLg" as="p">
               Edit this page:{" "}
               <a
-                href={`/edit/${gadgetConfig.environment}/files/web/components/App.tsx`}
+                href={`/edit/${gadgetConfig.environment}/files/web/routes/_app.tsx`}
               >
-                web/components/App.tsx
+                web/routes/_app.tsx
               </a>
             </Text>
           </Box>

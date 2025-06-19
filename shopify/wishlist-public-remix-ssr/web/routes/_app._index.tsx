@@ -4,7 +4,7 @@ import { api } from "../api";
 import { json, type LoaderFunctionArgs } from "@remix-run/router";
 import { useLoaderData } from "@remix-run/react";
 
-export const loader = async ({ context }: LoaderFunctionArgs) => {
+export async function loader({ context }: LoaderFunctionArgs) {
   return json({
     shop: await context.api.shopifyShop.findFirst({
       select: {
@@ -12,7 +12,7 @@ export const loader = async ({ context }: LoaderFunctionArgs) => {
       },
     }),
   });
-};
+}
 
 export default function Index() {
   const { shop } = useLoaderData<typeof loader>();

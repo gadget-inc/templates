@@ -1,5 +1,5 @@
 import { renderEmail } from "../utils";
-import pMap, { pMapSkip } from "p-map";
+import pMap from "p-map";
 
 export const run: ActionRun = async ({
   params,
@@ -55,7 +55,6 @@ export const run: ActionRun = async ({
           });
         } catch (error) {
           logger.error(error);
-          return pMapSkip;
         }
       },
       { concurrency: 5 } // Adjust concurrency level as needed

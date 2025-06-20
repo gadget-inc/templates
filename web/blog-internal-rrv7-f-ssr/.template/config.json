@@ -1,0 +1,66 @@
+{
+  "version": "v1",
+  "webflow": {
+    "title": "Blog Template",
+    "description": "A simple blog application that allows a single organization to manage and post blog posts.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/blog.webp",
+    "features": {
+      "shopify": false,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  },
+  "featuredModels": {
+    "post": {
+      "description": "Stores blog posts with a title, content, and published status.",
+      "featuredFields": ["title", "isPublished", "user"]
+    },
+    "user": {
+      "description": "Stores user information for authors.",
+      "featuredFields": ["firstName", "lastName", "email"]
+    }
+  },
+  "featuredActions": {
+    "post": {
+      "create": {
+        "description": "Creates a new blog post. Only available to signed-in users.",
+        "tags": ["edited"]
+      },
+      "update": {
+        "description": "Updates an existing blog post. Only available to signed-in users who own the post.",
+        "tags": ["edited"]
+      }
+    },
+    "user": {
+      "signUp": {
+        "description": "Allows new users to create an account using email/password or Google.",
+        "tags": ["edited"]
+      }
+    }
+  },
+  "featuredBackends": {
+    "api/models/post/author.gelly": {
+      "description": "A computed field that retrieves the author's details for a post.",
+      "tags": ["added"]
+    }
+  },
+  "featuredAccessControls": {
+    "signed-in": {
+      "post": {
+        "description": "Signed-in users can create posts, and update/delete their own posts."
+      }
+    }
+  },
+  "featuredFrontends": {
+    "web/routes/_user.post.($id).tsx": {
+      "description": "Allows users to create and edit blog posts using a rich text editor.",
+      "tags": ["edited"]
+    },
+    "web/routes/_anon._index.tsx": {
+      "description": "Displays a list of published blog posts to all visitors.",
+      "tags": ["edited"]
+    }
+  }
+}

@@ -1,0 +1,60 @@
+fragment CurrentMonthTotal on Review {
+  currentMonthTotal: count(
+    id, 
+    where: createdAt >= dateTrunc("month", date: now()) &&
+           createdAt < dateTrunc("month", date: now() + interval("1 month"))
+  )
+}
+
+fragment PerviousMonthTotal on Review {
+  previousMonthTotal: count(
+    id,
+    where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+           createdAt < dateTrunc("month", date: now())
+  )
+}
+
+fragment PercentageChange on Review {
+  percentageChange: 
+    count(
+      id,
+      where: createdAt >= dateTrunc("month", date: now()) &&
+             createdAt < dateTrunc("month", date: now() + interval("1 month"))
+    ) == 0 
+    ? 0 
+    : (
+        (
+          count(
+            id,
+            where: createdAt >= dateTrunc("month", date: now()) &&
+                   createdAt < dateTrunc("month", date: now() + interval("1 month"))
+          ) 
+          - 
+          count(
+            id,
+            where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+                   createdAt < dateTrunc("month", date: now())
+          )
+        ) 
+        / 
+        (
+          count(
+            id,
+            where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+                   createdAt < dateTrunc("month", date: now())
+          ) == 0
+          ? 1
+          : count(
+              id,
+              where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+                     createdAt < dateTrunc("month", date: now())
+            )
+        )
+      ) * 100
+}
+
+view {
+  ...CurrentMonthTotal
+  #...PerviousMonthTotal
+  ...PercentageChange
+}

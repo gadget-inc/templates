@@ -1,0 +1,110 @@
+fragment CurrentAverageRating on Review {
+  currentAverageRating: 
+    count(
+      id, 
+      where: createdAt >= dateTrunc("month", date: now()) &&
+             createdAt < dateTrunc("month", date: now() + interval("1 month"))
+    ) == 0 
+    ? 0 
+    : (
+        sum(
+          rating,
+          where: createdAt >= dateTrunc("month", date: now()) &&
+                 createdAt < dateTrunc("month", date: now() + interval("1 month"))
+        ) / count(
+          id,
+          where: createdAt >= dateTrunc("month", date: now()) &&
+                 createdAt < dateTrunc("month", date: now() + interval("1 month"))
+        )
+      )
+}
+
+fragment PreviousAverageRating on Review {
+  previousAverageRating: 
+    count(
+      id, 
+      where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+             createdAt < dateTrunc("month", date: now())
+    ) == 0
+    ? 0
+    : (
+        sum(
+          rating,
+          where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+                 createdAt < dateTrunc("month", date: now())
+        ) / count(
+          id,
+          where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+                 createdAt < dateTrunc("month", date: now())
+        )
+      )
+}
+
+fragment PercentChange on Review {
+  percentageChange:
+    count(
+      id,
+      where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+             createdAt < dateTrunc("month", date: now())
+    ) == 0
+    ? (
+        count(
+          id, 
+          where: createdAt >= dateTrunc("month", date: now()) &&
+                 createdAt < dateTrunc("month", date: now() + interval("1 month"))
+        ) == 0
+        ? 0
+        : 100
+      )
+    : (
+        count(
+          id, 
+          where: createdAt >= dateTrunc("month", date: now()) &&
+                 createdAt < dateTrunc("month", date: now() + interval("1 month"))
+        ) == 0
+        ? 0
+        : (
+            (
+              (
+                sum(
+                  rating,
+                  where: createdAt >= dateTrunc("month", date: now()) &&
+                         createdAt < dateTrunc("month", date: now() + interval("1 month"))
+                ) / count(
+                  id,
+                  where: createdAt >= dateTrunc("month", date: now()) &&
+                         createdAt < dateTrunc("month", date: now() + interval("1 month"))
+                )
+              ) -
+              (
+                sum(
+                  rating,
+                  where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+                         createdAt < dateTrunc("month", date: now())
+                ) / count(
+                  id,
+                  where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+                         createdAt < dateTrunc("month", date: now())
+                )
+              )
+            ) /
+            (
+              sum(
+                rating,
+                where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+                       createdAt < dateTrunc("month", date: now())
+              ) / count(
+                id,
+                where: createdAt >= dateTrunc("month", date: now() - interval("1 month")) &&
+                       createdAt < dateTrunc("month", date: now())
+              )
+            )
+          ) * 100
+      )
+}
+
+view {
+  ...CurrentAverageRating
+  #...PreviousAverageRating
+  ...PercentChange
+}

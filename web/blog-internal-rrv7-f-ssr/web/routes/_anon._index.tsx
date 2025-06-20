@@ -3,7 +3,7 @@ import { Link } from "react-router";
 import { Route } from "./+types/_anon._index";
 import Post from "@/components/Post";
 
-export const loader = async ({ context }: Route.LoaderArgs) => {
+export async function loader({ context }: Route.LoaderArgs) {
   return {
     posts: await context.api.post.findMany({
       select: {
@@ -16,7 +16,7 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
       },
     }),
   };
-};
+}
 
 export default function ({ loaderData }: Route.ComponentProps) {
   const { posts } = loaderData;

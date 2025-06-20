@@ -2,7 +2,7 @@ import { Link, useOutletContext } from "react-router";
 import type { RootOutletContext } from "../root";
 import type { Route } from "./+types/_anon.verify-email";
 
-export const loader = async ({ context, request }: Route.LoaderArgs) => {
+export async function loader({ context, request }: Route.LoaderArgs) {
   const url = new URL(request.url);
   const code = url.searchParams.get("code");
 
@@ -15,7 +15,7 @@ export const loader = async ({ context, request }: Route.LoaderArgs) => {
       success: false,
     };
   }
-};
+}
 
 export default function ({ loaderData }: Route.ComponentProps) {
   const { gadgetConfig } = useOutletContext<RootOutletContext>();

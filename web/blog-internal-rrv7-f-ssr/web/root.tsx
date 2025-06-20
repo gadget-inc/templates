@@ -22,14 +22,14 @@ export type RootOutletContext = {
   csrfToken: string;
 };
 
-export const loader = async ({ context }: Route.LoaderArgs) => {
+export async function loader({ context }: Route.LoaderArgs) {
   const { session, gadgetConfig } = context;
 
   return {
     gadgetConfig,
     csrfToken: session?.get("csrfToken"),
   };
-};
+}
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
   return (

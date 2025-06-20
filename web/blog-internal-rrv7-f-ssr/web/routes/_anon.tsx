@@ -2,7 +2,7 @@ import { Outlet, redirect, useOutletContext } from "react-router";
 import type { RootOutletContext } from "../root";
 import type { Route } from "./+types/_anon";
 
-export const loader = async ({ context }: Route.LoaderArgs) => {
+export async function loader({ context }: Route.LoaderArgs) {
   const { session, gadgetConfig } = context;
 
   const signedIn = !!session?.get("user");
@@ -14,7 +14,7 @@ export const loader = async ({ context }: Route.LoaderArgs) => {
   }
 
   return {};
-};
+}
 
 export default function () {
   const context = useOutletContext<RootOutletContext>();

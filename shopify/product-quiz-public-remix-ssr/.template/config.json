@@ -13,33 +13,21 @@
     }
   },
   "featuredFrontends": {
-    "App.jsx": {
-      "description": "This page handles routing of the frontend pages.",
+     "web/routes/_app._index.tsx": {
+      "description": "Displays a list of quizs created by the merchant.",
       "tags": ["edited"]
     },
-    "routes/HomePage.jsx": {
-      "description": "Main page for the shopify admin app.",
+    "web/routes/_app.install.tsx": {
+      "description": "This file displays theme app extension installation steps to the merchant.",
       "tags": ["added"]
     },
-    "routes/CreateQuizPage.jsx": {
-      "description": "The page containing the form used for creating new quizzes.",
+    "web/routes/_app.quiz.($id).tsx": {
+      "description": "This page allows users to create and update quizzes.",
       "tags": ["added"]
     },
-    "routes/EditQuizPage.jsx": {
-      "description": "The page containing the form used for editing existing quizzes.",
-      "tags": ["added"]
-    },
-    "components/QuizForm.jsx": {
-      "description": "The entrypoint for the form used to create and edit quizzes.",
-      "tags": ["added"]
-    },
-    "components/InstallTab.jsx": {
-      "description": "The installation instructions for adding the quiz to the storefront.",
-      "tags": ["added"]
-    },
-    "components/Store1Instructions.jsx": {
-      "description": "Instructions for manually adding code files for themes built on Online Store 1.",
-      "tags": ["added"]
+    "extensions/quiz/blocks/quiz.liquid": {
+      "description": "Renders the quiz in the merchant's storefront"
+      tags: ["added"]
     }
   },
   "featuredModels": {
@@ -71,14 +59,6 @@
       "description": "Synchronizes and stores product data from connected Shopify stores.",
       "featuredFields": ["title", "images", "recommendedProduct"]
     },
-    "shopifyTheme": {
-      "description": "Stores a boolean marking a theme as Online Store 2.0 or not.",
-      "featuredFields": ["usingOnlineStore2", "assets"]
-    },
-    "shopifyAssets": {
-      "description": "Used to mark related Shopify themes as using Online Store 2.0 or 1.0.",
-      "featuredFields": ["key", "theme"]
-    }
   },
   "featuredActions": {
     "quiz": {
@@ -103,32 +83,16 @@
     }
   },
   "featuredAccessControls": {
-    "unauthenticated": {
-      "quiz": {
-        "description": "Quizzes can be seen by anyone who visits the shop, regardless of whether they are logged in."
-      },
-      "quizResult": {
-        "description": "Shoppers can enter their email and submit to get product recommendations. Recommendations and emails are saved."
-      }
-    },
     "shopify-app-users": {
-      "shopifyTheme": {
-        "description": "",
-        "featuredFilters": {
-          "tenancy/shopifyTheme.gelly": {
-            "description": "Has been added so that merchants are only able to read themes from their store."
-          }
-        }
-      }
+      "quiz": {
+        "description": "Allows merchants to see quizs that they've created."
+      },
+    },
+  },
+  "featuredRoutes": {
+    "api/routes/GET-theme-raw.ts": {
+      "description": "Returns the raw theme file code."
+       "tags": ["added"]
     }
   },
-  "featuredFiles": {
-    "package.json": {
-      "description": "Holds a list of all the dependencies for the project.",
-      "tags": ["edited"]
-    },
-    "index.html": {
-      "description": "The home, entrypoint and main file that's served."
-    }
-  }
 }

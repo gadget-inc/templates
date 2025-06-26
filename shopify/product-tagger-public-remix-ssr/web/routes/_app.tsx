@@ -38,7 +38,7 @@ const Unauthenticated = () => {
               <a
                 href={`/edit/${gadgetConfig.environment}/files/web/routes/_app.tsx`}
               >
-                web/components/App.tsx
+                web/routes/_app.tsx
               </a>
             </Text>
           </Box>

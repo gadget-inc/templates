@@ -1,3 +1,0 @@
-filter ($session: Session) on ShopifyInventoryLevel [
-  where shopId == $session.shopId
-]

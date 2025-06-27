@@ -85,6 +85,10 @@
     }
   },
   "featuredFrontends": {
+    "web/routes/_app._index.tsx": {
+      "description": "This file is the main admin page for the Shopify app that displays a form for updating the default newsletter notification frequency for the shop.",
+      "tags": ["edited"]
+    },
     "extensions/wishlists-storefront/blocks/addToWishlist.liquid": {
       "description": "A Shopify theme extension block that adds an 'Add to Wishlist' button and functionality to product pages.",
       "tags": ["added"]
@@ -104,7 +108,15 @@
       "tags": ["added"]
     },
     "api/utils/email/WishlistEmail.tsx": {
-      "description": "This file is a React component that renders an email template to notify customers that a product variant is back in stock.",
+      "description": "This file is a React component that renders an email to a customer with updates on their wishlist, including items on sale and items that are no longer available.",
+      "tags": ["added"]
+    },
+    "api/utils/types.ts": {
+      "description": "This file defines TypeScript types for email payloads, product variant data, and wishlist changes used throughout the wishlist email functionality.",
+      "tags": ["added"]
+    },
+    "api/utils/updateWishlistMetafield.ts": {
+      "description": "This file is a utility function that aggregates all wishlists and their items for a specific customer and stores them as a JSON metafield on the customer's Shopify record.",
       "tags": ["added"]
     }
   }

@@ -33,7 +33,11 @@
         "tags": ["edited"]
       },
       "update": {
-        "description": "Updates an existing bundle record in the Gadget database.",
+        "description": "Updates an existing bundle record in the Gadget database. Updates the corresponding bundle product in Shopify.",
+        "tags": ["edited"]
+      },
+      "delete": {
+        "description": "This action is responsible for deleting a bundle record from the database. Deletes the corresponding bundle product in Shopify.",
         "tags": ["edited"]
       }
     }

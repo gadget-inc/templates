@@ -1,0 +1,86 @@
+{
+  "version": "v1",
+  "webflow": {
+    "title": "Product Bundler",
+    "description": "Create custom product bundles from your existing inventory. This app allows you to group multiple product variants together and sell them as a single unit, automatically creating a new product in Shopify to represent the bundle.",
+    "content": "docs/introduction.md",
+    "mainImage": "webflow/product-bundler.png",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  },
+  "featuredModels": {
+    "bundle": {
+      "description": "The core model for storing bundle information, including its title, description, and price. It is connected to a shop and holds the components that make up the bundle.",
+      "featuredFields": ["title", "price", "status", "productVariants"]
+    },
+    "bundleComponent": {
+      "description": "A join model that links a `bundle` to a `shopifyProductVariant`, specifying the quantity of each component within the bundle.",
+      "featuredFields": ["bundle", "productVariant", "quantity"]
+    },
+    "shopifyProductVariant": {
+      "description": "Represents a Shopify product variant. Extended with metafields (`isBundle`, `componentReference`) to identify which variants are bundles and what they contain.",
+      "featuredFields": ["isBundle", "componentReference", "product"]
+    }
+  },
+  "featuredActions": {
+    "bundle": {
+      "create": {
+        "description": "Creates a new bundle record in the Gadget database. This is the first step before the bundle is created in Shopify.",
+        "tags": ["edited"]
+      },
+      "update": {
+        "description": "Updates an existing bundle record in the Gadget database. Updates the corresponding bundle product in Shopify.",
+        "tags": ["edited"]
+      },
+      "delete": {
+        "description": "This action is responsible for deleting a bundle record from the database. Deletes the corresponding bundle product in Shopify.",
+        "tags": ["edited"]
+      }
+    }
+  },
+  "featuredGlobalActions": {
+    "createBundleInShopify": {
+      "description": "This action is responsible for creating a corresponding bundle product in Shopify when a new bundle is created in the app.",
+      "tags": ["added"]
+    },
+    "updateBundleComponentQuantity": {
+      "description": "This action updates the quantity of a component within a bundle.",
+      "tags": ["added"]
+    },
+    "updateBundleInShopify": {
+      "description": "This action is responsible for updating an existing bundle product in Shopify whenever the corresponding bundle is updated in the app.",
+      "tags": ["added"]
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "bundle": {
+        "description": "Allows authenticated Shopify merchants to create, read, update, and delete their own bundles through the app's admin UI."
+      }
+    }
+  },
+  "featuredFrontends": {
+    "web/routes/_app._index.tsx": {
+      "description": "The main dashboard for the app, displaying a list of all created bundles for the merchant's shop.",
+      "tags": ["edited"]
+    },
+    "web/routes/_app.bundle.($id).tsx": {
+      "description": "The page for creating a new bundle or editing an existing one. It includes a form to set the bundle's details and a component to select the product variants to include.",
+      "tags": ["added"]
+    },
+    "web/components/BundleCard.tsx": {
+      "description": "This file defines a React component that renders a card for a product bundle, displaying its details and the components within it.",
+      "tags": ["added"]
+    }
+  },
+  "featuredFiles": {
+    "api/utils.ts": {
+      "description": "This file contains reusable helper functions designed to be used across different backend actions within the application.",
+      "tags": ["added"]
+    }
+  }
+}

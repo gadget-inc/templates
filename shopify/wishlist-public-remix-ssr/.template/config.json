@@ -45,13 +45,35 @@
       }
     }
   },
-  "featuredBackends": {
+  "featuredRoutes": {
     "api/routes/proxy/wishlist/item/POST-create.ts": {
-      "description": "A backend proxy route that allows the storefront theme extension to add an item to a wishlist without a full user session.",
+      "description": "This route creates a new wishlist item, linking it to a wishlist, product variant, shop, and customer.",
       "tags": ["added"]
     },
-    "api/actions/sendInStockEmail.ts": {
-      "description": "A global action that can be triggered to send an email notification to customers when an item on their wishlist comes back in stock.",
+    "api/routes/proxy/wishlist/item/POST-remove.ts": {
+      "description": "This route removes a specific item from a customer's wishlist.",
+      "tags": ["added"]
+    },
+    "api/routes/proxy/wishlist/POST-create.ts": {
+      "description": "This route creates a new wishlist with a given name and automatically adds the first product variant to it.",
+      "tags": ["added"]
+    }
+  },
+  "featuredGlobalActions": {
+    "enqueueSendWishlistEmail": {
+      "description": "This action enqueues sendWishlistEmail actions in batches for a given list of customers.",
+      "tags": ["added"]
+    },
+    "sendInStockEmail": {
+      "description": "This action sends an email to a list of customers notifying them that a specific product variant is back in stock.",
+      "tags": ["added"]
+    },
+    "sendWishlistEmail": {
+      "description": "This action sends a summary email to a customer about their wishlist, highlighting items that are now on sale or have been removed, and schedules the next update email.",
+      "tags": ["added"]
+    },
+    "startCustomerUpdates": {
+      "description": "This scheduled action fetches all customers due for a wishlist email update and enqueues another action to send the emails in batches.",
       "tags": ["added"]
     }
   },
@@ -69,6 +91,20 @@
     },
     "extensions/wishlists/src/App.tsx": {
       "description": "The main React component for the customer account UI. It renders the interface where customers can view and manage all their wishlists and the items within them.",
+      "tags": ["added"]
+    }
+  },
+  "featuredFiles": {
+    "api/utils/email/InStockEmail.tsx": {
+      "description": "This file is a React component that renders an email template to notify customers that a product variant is back in stock.",
+      "tags": ["added"]
+    },
+    "api/utils/email/renderEmail.tsx": {
+      "description": "This file is a utility that renders different email templates based on the provided payload, supporting both 'wishlist' and 'inStock' email types.",
+      "tags": ["added"]
+    },
+    "api/utils/email/WishlistEmail.tsx": {
+      "description": "This file is a React component that renders an email template to notify customers that a product variant is back in stock.",
       "tags": ["added"]
     }
   }

@@ -1,4 +1,4 @@
-import { renderEmail } from "../utils";
+import renderEmail from "../utils/email/renderEmail";
 import pMap from "p-map";
 
 export const run: ActionRun = async ({

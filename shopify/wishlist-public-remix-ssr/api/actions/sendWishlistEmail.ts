@@ -1,6 +1,6 @@
 import { DateTime } from "luxon";
 import type { Changes } from "../utils/types";
-import { renderEmail } from "../utils";
+import renderEmail from "../utils/email/renderEmail";
 import type { Customer } from "./startCustomerUpdates";
 
 type ImageField = {

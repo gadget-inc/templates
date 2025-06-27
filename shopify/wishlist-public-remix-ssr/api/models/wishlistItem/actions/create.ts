@@ -1,10 +1,6 @@
-import {
-  applyParams,
-  save,
-  ActionOptions,
-} from "gadget-server";
+import { applyParams, save, ActionOptions } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
-import { updateWishlistMetafield } from "../../../utils";
+import updateWishlistMetafield from "../../../utils/updateWishlistMetafield";
 
 export const run: ActionRun = async ({
   params,

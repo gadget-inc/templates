@@ -7,9 +7,20 @@ export async function loader({ context, params }: LoaderFunctionArgs) {
   if (!params.code) {
     return redirect("/invalid");
   }
+  let data;
+
+  try {
+    data = await context.api.fetchOrderData({ code: params.code });
+  } catch (error) {
+    return redirect("/invalid");
+  }
+
+  if (!data) {
+    return redirect("/invalid");
+  }
 
   return json({
-    data: await context.api.fetchOrderData({ code: params.code }),
+    data,
   });
 }
 

@@ -1006,10 +1006,10 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.42", "@gadgetinc/api-client-core@^0.15.42":
-  version "0.15.42"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.42.tgz#0018e3d571e7caef507885bca544dcd15f8cce83"
-  integrity sha512-2yH19DKWUpjwabOwVYXGNY2IirZKgwyWDPQwZn1l3urMHwiuBuD/hCgefnSDGyiDEuuJI9ZHqFWuR+hGoMUyfg==
+"@gadgetinc/api-client-core@0.15.43", "@gadgetinc/api-client-core@^0.15.43":
+  version "0.15.43"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.43.tgz#85a2d04b9a77539fc049ae36e07857d999059faf"
+  integrity sha512-mbw3cR4IgxgJP3VPaCN3L85n8uth1EnZ8IFLZpXxl63XcfNXnQkAUHRoIZ20OuF8E837DtD51QvMNZ6D6NKcCw==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@n1ru4l/graphql-live-query" "^0.10.0"
@@ -1025,24 +1025,24 @@
     tslib "^2.6.2"
     type-fest "^3.13.1"
     wonka "^6.3.2"
-    ws "^8.17.0"
+    ws "^8.18.2"
 
-"@gadgetinc/react-shopify-app-bridge@^0.18.4":
-  version "0.18.4"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.18.4.tgz#2943a21662942519ee0ccb3080cf9622aa2c08d0"
-  integrity sha512-QM45verz4WxbNViN/HP28Jp7ylrN2kH+y3K2inqIwWRK+u37YVsPEDwF5bHL5Q1nBEgFSHJAEC1jOqCylHbyOQ==
+"@gadgetinc/react-shopify-app-bridge@^0.18.5":
+  version "0.18.5"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.18.5.tgz#e83b18fc520bd0017d86ad0a3ed0947df05c6325"
+  integrity sha512-KPOOFFwQKpSCe4zCyJC5IdQVtVJXHtP61Zt5ANK4wueZB72ubzZfWiIYZAabFfYRD1aP6NzZtQR1y9VJHKFECw==
   dependencies:
-    "@gadgetinc/api-client-core" "^0.15.42"
+    "@gadgetinc/api-client-core" "^0.15.43"
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.21.1.tgz#13cac791a4e6183d80797ad91e8e3078e923da5a"
-  integrity sha512-z2orTP6+3u7v0GcaKe7u6V8BaUVUNkVlmWaK1EEKqhwy/i8zyaND715rdCsppIL3PGwTBKK2nA4ZjVzduq4r4g==
+"@gadgetinc/react@^0.21.2":
+  version "0.21.2"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.21.2.tgz#2fc4a31887494f28e4c66dae4b3b64b9dcad5d18"
+  integrity sha512-7oP1NtP8yQrAnh+1b5iyjcQnNuhpL4vhecJxMATDeFReo1GfhMTvZ1rSaQcR21m+fePoor1ArVyd9Ytt7ZzN5Q==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
-    "@gadgetinc/api-client-core" "^0.15.42"
+    "@gadgetinc/api-client-core" "^0.15.43"
     "@hookform/resolvers" "^3.3.1"
     filesize "^10.1.2"
     pluralize "^8.0.0"
@@ -7624,10 +7624,15 @@ ws@^7.5.10:
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.10.tgz#58b5c20dc281633f6c19113f39b349bd8bd558d9"
   integrity sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==
 
-ws@^8.12.0, ws@^8.17.0:
+ws@^8.12.0:
   version "8.18.1"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.1.tgz#ea131d3784e1dfdff91adb0a4a116b127515e3cb"
   integrity sha512-RKW2aJZMXeMxVpnZ6bck+RswznaxmzdULiBr6KY7XkTnW8uvt0iT9H5DkHUChXrc+uurzwa0rVI16n/Xzjdz1w==
+
+ws@^8.18.2:
+  version "8.18.2"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.2.tgz#42738b2be57ced85f46154320aabb51ab003705a"
+  integrity sha512-DMricUmwGZUVr++AEAe2uiVM7UoO9MAVZMDu05UQOaUII0lp+zOzLLU4Xqh/JvTqklB1T4uELaaPBKyjE1r4fQ==
 
 xtend@~4.0.1:
   version "4.0.2"

@@ -22,7 +22,7 @@ import type { Tone } from "@shopify/polaris/build/ts/src/components/Badge";
 import type { JSONValue } from "@gadget-client/product-bundler-public-remix-ssr";
 import type { OutletContext } from "../routes/_app";
 
-// A map for enums to the ton of a badge (Polaris)
+// A map for enums to the tone of a badge (Polaris)
 const tones = {
   active: "success",
   archived: "complete",

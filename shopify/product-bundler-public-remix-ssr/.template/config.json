@@ -36,15 +36,19 @@
         "description": "Updates an existing bundle record in the Gadget database.",
         "tags": ["edited"]
       }
-    },
-    "createBundleInShopify": {
-      "description": "A global action that takes a bundle ID, creates a corresponding product and variant in Shopify, and sets the necessary metafields to link them.",
-      "tags": ["added"]
     }
   },
-  "featuredBackends": {
-    "api/actions/createBundleInShopify.ts": {
-      "description": "Handles the logic for creating a new product in Shopify that represents a bundle. It sets the price, SKU, and metafields required for the bundling functionality to work.",
+  "featuredGlobalActions": {
+    "createBundleInShopify": {
+      "description": "This action is responsible for creating a corresponding bundle product in Shopify when a new bundle is created in the app.",
+      "tags": ["added"]
+    },
+    "updateBundleComponentQuantity": {
+      "description": "This action updates the quantity of a component within a bundle.",
+      "tags": ["added"]
+    },
+    "updateBundleInShopify": {
+      "description": "This action is responsible for updating an existing bundle product in Shopify whenever the corresponding bundle is updated in the app.",
       "tags": ["added"]
     }
   },
@@ -62,7 +66,17 @@
     },
     "web/routes/_app.bundle.($id).tsx": {
       "description": "The page for creating a new bundle or editing an existing one. It includes a form to set the bundle's details and a component to select the product variants to include.",
-      "tags": ["edited"]
+      "tags": ["added"]
+    },
+    "web/components/BundleCard.tsx": {
+      "description": "This file defines a React component that renders a card for a product bundle, displaying its details and the components within it.",
+      "tags": ["added"]
+    }
+  },
+  "featuredFiles": {
+    "api/utils.ts": {
+      "description": "This file contains reusable helper functions designed to be used across different backend actions within the application.",
+      "tags": ["added"]
     }
   }
 }

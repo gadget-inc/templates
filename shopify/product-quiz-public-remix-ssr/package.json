@@ -24,7 +24,7 @@
     "@shopify/app-bridge-react": "^4.1.10",
     "@shopify/polaris": "^13.9.5",
     "@shopify/polaris-icons": "^9.3.1",
-    "fastify": "^4.24.2",
+    "fastify": "^4.29.1",
     "gadget-server": "link:.gadget/server",
     "isbot": "^5.1.0",
     "react": "^18.2.0",

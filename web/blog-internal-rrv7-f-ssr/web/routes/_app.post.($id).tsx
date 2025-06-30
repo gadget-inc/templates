@@ -31,11 +31,15 @@ export default function () {
     >
       <AutoHiddenInput field="user" value={userId} />
       <SubmitResultBanner />
-      <div className="flex justify-between items-center gap-4">
+      <div className="flex justify-between items-end gap-4">
         <div className="flex-1">
           <AutoInput field="title" label="Title" />
         </div>
-        <AutoBooleanInput field="isPublished" label="Published" />
+        <AutoBooleanInput
+          className="mb-3"
+          field="isPublished"
+          label="Published"
+        />
       </div>
       <AutoInput field="content" label="Body" />
       <AutoSubmit />

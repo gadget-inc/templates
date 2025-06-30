@@ -1,5 +1,6 @@
 import { api } from "@/api";
 import { AutoTable } from "@/components/auto";
+import { Card } from "@/components/ui/card";
 import { Check, Pencil } from "lucide-react";
 import { useNavigate } from "react-router";
 
@@ -7,7 +8,7 @@ export default function () {
   const navigate = useNavigate();
 
   return (
-    <div>
+    <Card>
       <AutoTable
         model={api.post}
         select={{
@@ -49,6 +50,6 @@ export default function () {
           },
         ]}
       />
-    </div>
+    </Card>
   );
 }

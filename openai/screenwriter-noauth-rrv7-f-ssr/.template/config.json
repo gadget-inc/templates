@@ -1,0 +1,62 @@
+{
+  "version": "v1",
+  "introduction": "docs/introduction.md",
+  "featuredModels": {
+    "movie": {
+      "description": "Stores movie titles and quotes fetched from the Hugging Face dataset, along with the vector embeddings returned by the OpenAI API.",
+      "featuredFields": ["title", "quote", "embedding"]
+    },
+    "user": {
+      "description": "Stores and manages signups and user information for all of your application's users."
+    }
+  },
+  "featuredActions": {
+    "movie": {
+      "create": {
+        "description": "An API-endpoint used to create movie records that stores movie titles, quotes and their corresponding vector embeddings (produced by the OpenAI API).",
+        "tags": ["added"]
+      },
+      "update": {
+        "description": "Updates movie records in the movies table.",
+        "tags": ["added"]
+      },
+      "delete": {
+        "description": "Deletes movie records from the movies table.",
+        "tags": ["added"]
+      }
+    }
+  },
+  "featuredGlobalActions": {
+    "fetchMovies": {
+      "description": "This action fetches movie quotes from a Hugging Face dataset, generates vector embeddings for them using OpenAI, and then saves the movies, quotes, and embeddings to the database."
+    },
+    "findSimilarMovies": {
+      "description": "This action takes a movie quote, generates a vector embedding for it using OpenAI, and then returns the four most similar movies from the database based on their cosine similarity score."
+    }
+  },
+  "featuredRoutes": {
+    "api/routes/POST-chat.ts": {
+      "description": "A backend route used to fetch and stream a response from the OpenAI API to the client. An HTTP route is used because Gadget actions do not support response streaming."
+    }
+  },
+
+  "featuredFrontends": {
+    "web/routes/_public._index.tsx": {
+      "description": "Handles routing for the frontend pages of your application.",
+      "tags": ["edited"]
+    }
+  },
+  "webflow": {
+    "title": "Screenwriter GPT",
+    "description": "This template uses the built-in OpenAI connection to generate fake movie scenes based on a user-entered quote.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/screenwriter.png",
+    "wistiaId": "ypddsfou6b",
+    "features": {
+      "openAi": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  }
+}

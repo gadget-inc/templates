@@ -1,5 +1,5 @@
 import { api } from "@/api";
-import { AutoForm, AutoInput, AutoSubmit } from "@/components/auto";
+import { AutoButton, AutoForm, AutoInput, AutoSubmit } from "@/components/auto";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Route } from "./+types/_public._index";
 import { useState } from "react";
@@ -48,12 +48,13 @@ export default function ({ loaderData }: Route.ComponentProps) {
           data.
         </CardContent>
         <CardContent>
-          <AutoForm
+          <AutoButton
             action={api.fetchMovies}
             title=""
-            submitLabel="Fetch movies"
             onSuccess={() => setHideGettingStarted(true)}
-          />
+          >
+            Fetch movies
+          </AutoButton>
         </CardContent>
       </Card>
     );

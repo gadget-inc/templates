@@ -82,7 +82,10 @@ export default function ({ loaderData }: Route.ComponentProps) {
               <div className="flex-grow w-full sm:min-w-[75%]">
                 <AutoInput field="quote" />
               </div>
-              <AutoSubmit className="w-full sm:w-auto mt-2 sm:mt-0">
+              <AutoSubmit
+                disabled={fetching}
+                className="w-full sm:w-auto mt-2 sm:mt-0"
+              >
                 Find movies
               </AutoSubmit>
             </div>
@@ -101,6 +104,7 @@ export default function ({ loaderData }: Route.ComponentProps) {
               value={choice}
               onValueChange={setChoice}
               className="space-y-1"
+              disabled={fetching}
             >
               {options.map((option, i) => (
                 <div

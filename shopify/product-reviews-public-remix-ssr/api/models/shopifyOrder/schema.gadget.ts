@@ -14,6 +14,7 @@ export const schema: GadgetModel = {
     },
     reviewCreationLimit: {
       type: "number",
+      decimals: 0,
       storageKey: "cITH3vD4aLGQ",
     },
     reviewCreationLimitReached: {

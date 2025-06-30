@@ -1,7 +1,7 @@
 import { api } from "@/api";
 import { AutoForm, AutoInput, AutoSubmit } from "@/components/auto";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Route } from "./+types/_anon._index";
+import { Route } from "./+types/_public._index";
 import { useState } from "react";
 import { useFetch } from "@gadgetinc/react";
 import { Button } from "@/components/ui/button";

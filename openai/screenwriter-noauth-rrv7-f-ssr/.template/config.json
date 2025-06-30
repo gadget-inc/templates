@@ -4,11 +4,7 @@
   "featuredModels": {
     "movie": {
       "description": "Stores movie titles and quotes fetched from the Hugging Face dataset, along with the vector embeddings returned by the OpenAI API.",
-      "featuredFields": [
-        "title",
-        "quote",
-        "embedding"
-      ]
+      "featuredFields": ["title", "quote", "embedding"]
     },
     "user": {
       "description": "Stores and manages signups and user information for all of your application's users."
@@ -18,44 +14,36 @@
     "movie": {
       "create": {
         "description": "An API-endpoint used to create movie records that stores movie titles, quotes and their corresponding vector embeddings (produced by the OpenAI API).",
-        "tags": [
-          "added"
-        ]
+        "tags": ["added"]
       },
       "update": {
         "description": "Updates movie records in the movies table.",
-        "tags": [
-          "added"
-        ]
+        "tags": ["added"]
       },
       "delete": {
         "description": "Deletes movie records from the movies table.",
-        "tags": [
-          "added"
-        ]
+        "tags": ["added"]
       }
     }
   },
   "featuredGlobalActions": {
-    "ingestData": {
-      "description": "A global action that fetches movie data from Hugging Face, and sends the data to OpenAI to produce vector embeddings. The action then takes the response and stores the movies and the vector embeddings in the movie model."
+    "fetchMovies": {
+      "description": "This action fetches movie quotes from a Hugging Face dataset, generates vector embeddings for them using OpenAI, and then saves the movies, quotes, and embeddings to the database."
     },
     "findSimilarMovies": {
-      "description": "Takes the user inputted quote and tries to find movies with similar quotes to use as a reference style for the screenplay it generates. The action creates vector embeddings for the user submitted inputs, and then does a findMany lookup through the movies table to find the ones with the closest quotes. "
+      "description": "This action takes a movie quote, generates a vector embedding for it using OpenAI, and then returns the four most similar movies from the database based on their cosine similarity score."
     }
   },
   "featuredRoutes": {
-    "POST-chat": {
+    "api/routes/POST-chat.ts": {
       "description": "A backend route used to fetch and stream a response from the OpenAI API to the client. An HTTP route is used because Gadget actions do not support response streaming."
     }
   },
-  
+
   "featuredFrontends": {
-    "App.jsx": {
+    "web/routes/_public._index.tsx": {
       "description": "Handles routing for the frontend pages of your application.",
-      "tags": [
-        "edited"
-      ]
+      "tags": ["edited"]
     }
   },
   "webflow": {
@@ -63,7 +51,7 @@
     "description": "This template uses the built-in OpenAI connection to generate fake movie scenes based on a user-entered quote.",
     "content": "webflow/content.md",
     "mainImage": "webflow/screenwriter.webp",
-    "wistiaId":"ypddsfou6b",
+    "wistiaId": "ypddsfou6b",
     "features": {
       "openAi": true,
       "frontend": true,
@@ -71,5 +59,4 @@
       "actions": true
     }
   }
-  
 }

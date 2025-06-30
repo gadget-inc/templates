@@ -1,0 +1,44 @@
+{
+  "name": "product-quiz-public-remix-ssr",
+  "version": "0.1.0",
+  "description": "Internal package for Gadget app product-quiz-public-remix-ssr (Development environment)",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "NODE_ENV=production remix vite:build",
+    "shopify": "shopify",
+    "shopify:config:use:development": "shopify app config use shopify.app.development.toml",
+    "shopify:config:use:production": "shopify app config use shopify.app.toml",
+    "shopify:dev": "yarn shopify:config:use:development && shopify app dev --no-update",
+    "shopify:deploy:development": "yarn shopify:config:use:development && shopify app deploy",
+    "shopify:deploy:production": "yarn shopify:config:use:production && shopify app deploy",
+    "shopify:deploy": "yarn shopify:deploy:production",
+    "shopify:info": "shopify app info"
+  },
+  "dependencies": {
+    "@gadget-client/product-quiz-public-remix-ssr": "link:.gadget/client",
+    "@gadgetinc/react": "^0.21.1",
+    "@gadgetinc/react-shopify-app-bridge": "^0.18.4",
+    "@remix-run/node": "^2.12.0",
+    "@remix-run/react": "^2.12.0",
+    "@shopify/app-bridge-react": "^4.1.10",
+    "@shopify/polaris": "^13.9.5",
+    "@shopify/polaris-icons": "^9.3.1",
+    "fastify": "^4.24.2",
+    "gadget-server": "link:.gadget/server",
+    "isbot": "^5.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "shopify-api-node": "^3.15.0"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^2.12.0",
+    "@shopify/app-bridge-types": "^0.0.15",
+    "@types/node": "^20.17.7",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
+    "typescript": "^5.7.2",
+    "vite": "^6.3.5"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

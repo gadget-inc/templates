@@ -107,7 +107,7 @@
       "description": "Displays an embedded Shopify Admin UI for merchants to view and manage customer reviews and approval workflow.",
       "tags": ["edited"]
     },
-    "web/routes/_anon.review": {
+    "web/routes/_public.review": {
       "description": "Public review submission page accessible via unique codes sent to customers, allowing them to leave reviews without authentication.",
       "tags": ["added"]
     },

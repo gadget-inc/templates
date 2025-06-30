@@ -4,24 +4,19 @@ This repository houses the [Gadget app templates](https://gadget.dev/resources/t
 
 ## Shopify
 
-- [Customized bundle](https://github.com/gadget-inc/templates/tree/main/shopify/customized-bundle-template)
-- [Monthly subscription](https://github.com/gadget-inc/templates/tree/main/shopify/monthly-subscription-template)
-- [One time charge](https://github.com/gadget-inc/templates/tree/main/shopify/one-time-charge-template)
-- [Pre-purchase (checkout)](https://github.com/gadget-inc/templates/tree/main/shopify/pre-purchase-template)
-- [Product quiz (storefront)](https://github.com/gadget-inc/templates/tree/main/shopify/product-quiz-template)
-- [Product tagger](https://github.com/gadget-inc/templates/tree/main/shopify/product-tagger-template)
-- [Slack notifications](https://github.com/gadget-inc/templates/tree/main/shopify/slack-notification-template)
-- [Standalone Shopify app](https://github.com/gadget-inc/templates/tree/main/shopify/standalone-shopify-template)
-- [Usage-based subscription](https://github.com/gadget-inc/templates/tree/main/shopify/usage-subscription-template)
-- [Customer wishlists](https://github.com/gadget-inc/templates/tree/main/shopify/wishlist-template)
+- [Product bundler](https://github.com/gadget-inc/templates/tree/main/shopify/product-bundler-public-remix-ssr)
+- [Product quiz (storefront)](https://github.com/gadget-inc/templates/tree/main/shopify/product-quiz-public-remix-ssr)
+- [Product tagger](https://github.com/gadget-inc/templates/tree/main/shopify/product-tagger-public-remix-ssr)
+- [Customer wishlists](https://github.com/gadget-inc/templates/tree/main/shopify/wishlist-public-remix-ssr)
 
 ## OpenAI
 
-- [Screenwriter GPT](https://github.com/gadget-inc/templates/tree/main/openai/ai-screenwriter-template)
-- [ChatGPT clone](https://github.com/gadget-inc/templates/tree/main/openai/chatgpt-template)
+- [Screenwriter GPT](https://github.com/gadget-inc/templates/tree/main/openai/screenwriter-noauth-rrv7-f-ssr)
 
 ## Web
 
-- [Blog with authentication](https://github.com/gadget-inc/templates/tree/main/web/blog-template)
-- [TailwindCSS](https://github.com/gadget-inc/templates/tree/main/web/tailwind-css-template)
-- [Stripe subscriptions](https://github.com/gadget-inc/templates/tree/main/web/stripe-template)
+- [Blog with authentication](https://github.com/gadget-inc/templates/tree/main/web/blog-internal-rrv7-f-ssr)
+
+## Archived
+
+Looking for some more example code? Look at the archived folder to find templates that are no longer upkept but still have some great example code!

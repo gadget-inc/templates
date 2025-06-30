@@ -50,7 +50,7 @@
     "title": "Screenwriter GPT",
     "description": "This template uses the built-in OpenAI connection to generate fake movie scenes based on a user-entered quote.",
     "content": "webflow/content.md",
-    "mainImage": "webflow/screenwriter.webp",
+    "mainImage": "webflow/screenwriter.png",
     "wistiaId": "ypddsfou6b",
     "features": {
       "openAi": true,

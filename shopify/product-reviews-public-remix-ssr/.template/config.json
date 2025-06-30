@@ -1,0 +1,129 @@
+{
+  "version": "v1",
+  "webflow": {
+    "title": "Product Reviews",
+    "description": "A comprehensive product review system for Shopify stores. Automatically requests reviews from customers, manages review data, and displays reviews on product pages through a theme extension.",
+    "setup": "./setup.md",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/reviews.png",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  },
+  "featuredModels": {
+    "review": {
+      "description": "Stores customer reviews with ratings, content, and approval status. Connected to Shopify customers, orders, and products.",
+      "featuredFields": [
+        "rating",
+        "content",
+        "approved",
+        "customer",
+        "product",
+        "order"
+      ]
+    },
+    "shopifyOrder": {
+      "description": "Synchronizes order data from Shopify and tracks review request timing and limits.",
+      "featuredFields": [
+        "requestReviewAfter",
+        "reviewCreationLimit",
+        "reviewCreationLimitReached",
+        "reviews"
+      ]
+    },
+    "shopifyProduct": {
+      "description": "Synchronizes product data from Shopify and stores review metadata in Shopify metafields.",
+      "featuredFields": ["reviewsMetafield", "reviews", "title"]
+    }
+  },
+  "featuredActions": {
+    "review": {
+      "create": {
+        "description": "Creates new customer reviews and updates the associated product's review metafield in Shopify.",
+        "tags": ["edited"]
+      },
+      "update": {
+        "description": "Updates existing reviews and syncs changes back to Shopify metafields when approval status changes.",
+        "tags": ["edited"]
+      }
+    },
+    "shopifyShop": {
+      "install": {
+        "description": "This action creates a review metaobject definition and a corresponding metafield definition in Shopify, and then triggers a data sync for the new shop.",
+        "tags": ["edited"]
+      }
+    }
+  },
+  "featuredGlobalActions": {
+    "createReviewMetaobject": {
+      "description": "This global action is responsible for creating a review metaobject in Shopify for a given shop.",
+      "tags": ["added"]
+    },
+    "createReviewsMetafield": {
+      "description": "Creates the review summary metafield in Shopify.",
+      "tags": ["added"]
+    },
+    "enqueueEmails": {
+      "description": "This global action adds email-sending jobs to a background queue to be processed asynchronously.",
+      "tags": ["added"]
+    },
+    "fetchOrderData": {
+      "description": "This global action fetches an order and its associated products using a unique, single-use code provided as a parameter.",
+      "tags": ["added"]
+    },
+    "sendEmail": {
+      "description": "This global action sends a review request email to a customer and then clears the requestReviewAfter field on the corresponding order to prevent re-sending the email",
+      "tags": ["added"]
+    },
+    "sendReviewRequests": {
+      "description": "Scheduled global action that automatically sends review request emails to customers based on order fulfillment and timing rules.",
+      "tags": ["added"]
+    },
+    "updateReviewsMetafield": {
+      "description": "Updates the review summary metafield in Shopify products with aggregated review data.",
+      "tags": ["added"]
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "review": {
+        "description": "Merchants can update and manage reviews through the admin interface, including approving or rejecting reviews."
+      }
+    },
+    "unauthenticated": {
+      "review": {
+        "description": "Allows public creation of reviews through the storefront theme extension using unique review codes."
+      },
+      "fetchOrderData": {
+        "description": "Enables customers to fetch order data for review creation without authentication."
+      }
+    }
+  },
+  "featuredFrontends": {
+    "web/routes/_app._index": {
+      "description": "Displays an embedded Shopify Admin UI for merchants to view and manage customer reviews and approval workflow.",
+      "tags": ["edited"]
+    },
+    "web/routes/_public.review": {
+      "description": "Public review submission page accessible via unique codes sent to customers, allowing them to leave reviews without authentication.",
+      "tags": ["added"]
+    },
+    "extensions/product-reviews/blocks/productReviews.liquid": {
+      "description": "Shopify theme extension that displays customer reviews and ratings directly on product pages in the storefront.",
+      "tags": ["added"]
+    }
+  },
+  "featuredFiles": {
+    "api/utils/emailQueueOptions.ts": {
+      "description": "This file exports configuration options for a message queue, including a dynamically generated queue name using a UUID, a maximum concurrency of 50, and a retry limit of 1.",
+      "tags": ["added"]
+    },
+    "api/utils/renderEmail.tsx": {
+      "description": "This file exports a function that uses the react-email library to generate the HTML for a review request email, including a link with a unique code for the user to submit their review.",
+      "tags": ["added"]
+    }
+  }
+}

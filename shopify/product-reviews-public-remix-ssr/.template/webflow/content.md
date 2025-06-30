@@ -1,0 +1,5 @@
+- Automatically request reviews from customers after order fulfillment based on configurable timing.
+- Easily manage and moderate customer reviews through an integrated admin interface.
+- Structures customer feedback data and syncs it with Shopify product metafields.
+- Tenancy enforced: Review data will be unique to the store it is installed on.
+- Ready-to-Use: No need to start from scratch – equipped with a Shopify connection, review models, automated email system, theme extension, and customer review management frontend.

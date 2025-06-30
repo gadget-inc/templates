@@ -32,6 +32,7 @@ export const schema: GadgetModel = {
     },
     lineItem: {
       type: "belongsTo",
+      validations: { required: true },
       parent: { model: "shopifyOrderLineItem" },
       storageKey: "yrD3UH5G6G54",
     },

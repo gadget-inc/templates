@@ -1,0 +1,4 @@
+- Allow multiple authors of the same organization to sign up and publish blog posts.
+- Provide a straightforward interface for authors to write, edit, and manage their posts using a rich text editor.
+- Enable signed-in users to invite new authors to the platform via email.
+- Ready-to-Use: The app comes ready-to-use with pre-built data models, backend logic, and a frontend for user management and post creation.

@@ -6,6 +6,7 @@ This repository houses the [Gadget app templates](https://gadget.dev/resources/t
 
 - [Product bundler](https://github.com/gadget-inc/templates/tree/main/shopify/product-bundler-public-remix-ssr)
 - [Product quiz (storefront)](https://github.com/gadget-inc/templates/tree/main/shopify/product-quiz-public-remix-ssr)
+- [Product reviews](https://github.com/gadget-inc/templates/tree/main/shopify/product-reviews-public-remix-ssr)
 - [Product tagger](https://github.com/gadget-inc/templates/tree/main/shopify/product-tagger-public-remix-ssr)
 - [Customer wishlists](https://github.com/gadget-inc/templates/tree/main/shopify/wishlist-public-remix-ssr)
 

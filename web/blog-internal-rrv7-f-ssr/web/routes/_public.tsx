@@ -1,6 +1,6 @@
 import { Outlet, redirect, useOutletContext } from "react-router";
 import type { RootOutletContext } from "../root";
-import type { Route } from "./+types/_anon";
+import type { Route } from "./+types/_public";
 
 export async function loader({ context }: Route.LoaderArgs) {
   const { session, gadgetConfig } = context;

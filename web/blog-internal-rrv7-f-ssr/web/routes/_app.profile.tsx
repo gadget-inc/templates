@@ -12,7 +12,7 @@ import { useActionForm } from "@gadgetinc/react";
 import { useState } from "react";
 import { useOutletContext } from "react-router";
 import { api } from "../api";
-import type { AuthOutletContext } from "./_user";
+import type { AuthOutletContext } from "./_app";
 
 export default function () {
   const { user } = useOutletContext<AuthOutletContext>();

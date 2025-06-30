@@ -54,11 +54,11 @@
     }
   },
   "featuredFrontends": {
-    "web/routes/_user.post.($id).tsx": {
+    "web/routes/_app.post.($id).tsx": {
       "description": "Allows users to create and edit blog posts using a rich text editor.",
       "tags": ["edited"]
     },
-    "web/routes/_anon._index.tsx": {
+    "web/routes/_public._index.tsx": {
       "description": "Displays a list of published blog posts to all visitors.",
       "tags": ["edited"]
     }

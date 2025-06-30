@@ -1,6 +1,6 @@
 import { Link, useOutletContext } from "react-router";
 import type { RootOutletContext } from "../root";
-import type { Route } from "./+types/_anon.verify-email";
+import type { Route } from "./+types/_auth.verify-email";
 
 export async function loader({ context, request }: Route.LoaderArgs) {
   const url = new URL(request.url);

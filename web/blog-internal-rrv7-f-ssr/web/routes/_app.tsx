@@ -18,7 +18,7 @@ import {
   useOutletContext,
 } from "react-router";
 import type { RootOutletContext } from "../root";
-import type { Route } from "./+types/_user";
+import type { Route } from "./+types/_app";
 
 export const loader = async ({ context }: Route.LoaderArgs) => {
   const { session, gadgetConfig } = context;

@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router";
-import { Route } from "./+types/_anon._index";
+import { Route } from "./+types/_public._index";
 import Post from "@/components/Post";
 
 export async function loader({ context }: Route.LoaderArgs) {

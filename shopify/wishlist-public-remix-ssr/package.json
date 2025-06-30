@@ -7,7 +7,7 @@
   "scripts": {
     "build": "NODE_ENV=production remix vite:build",
     "shopify": "shopify",
-    "shopify:config:use:development": "shopify app config use shopify.app.devaoc.toml",
+    "shopify:config:use:development": "shopify app config use shopify.app.development.toml",
     "shopify:config:use:production": "shopify app config use shopify.app.toml",
     "shopify:dev": "yarn shopify:config:use:development && shopify app dev --no-update",
     "shopify:deploy:development": "yarn shopify:config:use:development && shopify app deploy",

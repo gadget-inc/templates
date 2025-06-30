@@ -4,7 +4,7 @@
     "title": "Automated Product Tagger",
     "description": "Automate tagging products within a Shopify store inventory. This app tracks keywords within product descriptions and creates a tag for each keyword found.",
     "content": "webflow/content.md",
-    "mainImage": "webflow/tagger.webp",
+    "mainImage": "webflow/tagger.png",
     "wistiaId": "udboa27dyt",
     "features": {
       "shopify": true,

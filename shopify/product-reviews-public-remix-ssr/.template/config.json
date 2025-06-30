@@ -5,7 +5,7 @@
     "description": "A comprehensive product review system for Shopify stores. Automatically requests reviews from customers, manages review data, and displays reviews on product pages through a theme extension.",
     "setup": "./setup.md",
     "content": "webflow/content.md",
-    "mainImage": "webflow/product-reviews.webp",
+    "mainImage": "webflow/reviews.png",
     "features": {
       "shopify": true,
       "frontend": true,

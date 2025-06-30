@@ -1,0 +1,21 @@
+name: Wishlist Deployment
+
+on:
+  push:
+    paths:
+      - "shopify/wishlist-public-remix-ssr/**"
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  push-to-development-environment:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v4
+      - name: Push to development environment
+        run: npx ggt push --app=wishlist-public-remix-ssr --env=development --force --allow-unknown-directory
+        working-directory: shopify/wishlist-public-remix-ssr/
+        env:
+          GGT_TOKEN: ${{ secrets.WISHLIST_PUBLIC_REMIX_SSR_DEPLOY_TOKEN }}

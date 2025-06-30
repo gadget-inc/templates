@@ -1,0 +1,62 @@
+{
+  "version": "v1",
+  "webflow": {
+    "title": "Automated Product Tagger",
+    "description": "Automate tagging products within a Shopify store inventory. This app tracks keywords within product descriptions and creates a tag for each keyword found.",
+    "content": "webflow/content.md",
+    "mainImage": "webflow/tagger.png",
+    "wistiaId": "udboa27dyt",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  },
+  "featuredModels": {
+    "allowedTag": {
+      "description": "Stores the tag keyword and the shop it is associated with.",
+      "featuredFields": ["keyword", "shop"]
+    },
+    "shopifyProduct": {
+      "description": "Synchronizes and stores product data from connected Shopify stores.",
+      "featuredFields": ["body", "tags"]
+    }
+  },
+  "featuredActions": {
+    "shopifyProduct": {
+      "create": {
+        "description": "Reacts to Shopify's product/create events and copies the product data in your database, and then calls `applyTags` defined in `shopifyProduct/utils.js` (if the product description has changed).",
+        "tags": ["edited"]
+      },
+      "update": {
+        "description": "Reacts to Shopify's product/update events and copies the product data in your database, and then calls `applyTags` defined in `shopifyProduct/utils.js` (if the product description has changed).",
+        "tags": ["edited"]
+      }
+    }
+  },
+  "featuredBackends": {
+    "api/models/shopifyProduct/utils.ts": {
+      "description": "Matches incoming product descriptions against keywords stored in the `allowedTag` model, and then updates the products in Shopify with any matching tags.",
+      "tags": ["added"]
+    }
+  },
+  "featuredAccessControls": {
+    "shopify-app-users": {
+      "allowedTag": {
+        "description": "This means you can add `allowedTags` from the authenticated admin view."
+      }
+    }
+  },
+  "featuredFrontends": {
+    "web/routes/_app._index.tsx": {
+      "description": "Displays an embedded Shopify Admin UI that allows merchants to add or manage their keyword list.",
+      "tags": ["edited"]
+    }
+  },
+  "featuredGlobalActions": {
+    "api/actions/writeToShopify.ts": {
+      "description": "Is used to write to Shopify. In this particular application it writes tags on the product resource."
+    }
+  }
+}

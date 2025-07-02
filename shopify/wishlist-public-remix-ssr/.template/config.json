@@ -2,7 +2,7 @@
   "version": "v1",
   "setup": "./setup.md",
   "webflow": {
-    "title": "Product Wishlists",
+    "title": "Customer Wishlists",
     "description": "A complete wishlist solution for Shopify. Allows customers to create and manage multiple wishlists, and integrates seamlessly into the storefront and customer accounts.",
     "content": "webflow/content.md",
     "mainImage": "webflow/wishlist.png",

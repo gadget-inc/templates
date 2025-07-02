@@ -13,7 +13,7 @@
     }
   },
   "featuredFrontends": {
-     "web/routes/_app._index.tsx": {
+    "web/routes/_app._index.tsx": {
       "description": "Displays a list of quizs created by the merchant.",
       "tags": ["edited"]
     },
@@ -26,8 +26,8 @@
       "tags": ["added"]
     },
     "extensions/quiz/blocks/quiz.liquid": {
-      "description": "Renders the quiz in the merchant's storefront"
-      tags: ["added"]
+      "description": "Renders the quiz in the merchant's storefront",
+      "tags": ["added"]
     }
   },
   "featuredModels": {
@@ -58,7 +58,7 @@
     "shopifyProduct": {
       "description": "Synchronizes and stores product data from connected Shopify stores.",
       "featuredFields": ["title", "images", "recommendedProduct"]
-    },
+    }
   },
   "featuredActions": {
     "quiz": {
@@ -86,13 +86,13 @@
     "shopify-app-users": {
       "quiz": {
         "description": "Allows merchants to see quizs that they've created."
-      },
-    },
+      }
+    }
   },
   "featuredRoutes": {
     "api/routes/GET-theme-raw.ts": {
-      "description": "Returns the raw theme file code."
-       "tags": ["added"]
+      "description": "Returns the raw theme file code.",
+      "tags": ["added"]
     }
-  },
+  }
 }

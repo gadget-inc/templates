@@ -1,7 +1,7 @@
 {
   "version": "v1",
   "webflow": {
-    "title": "Blog Template",
+    "title": "CRUD Blog",
     "description": "A simple blog application that allows a single organization to manage and post blog posts.",
     "content": "webflow/content.md",
     "mainImage": "webflow/blog.webp",

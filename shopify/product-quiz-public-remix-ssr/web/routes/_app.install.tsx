@@ -10,6 +10,8 @@ import {
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import PageLayout from "../components/PageLayout";
+import fs from "fs/promises";
+import path from "path";
 
 const pageQuizJson = `{
   "sections": {
@@ -35,7 +37,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
         nodes {
           name
           id
-          files (first: 250, filenames: ["templates/*.json"]) {
+          files (first: 1, filenames: ["templates/*.json"]) {
             nodes {
               filename
             }
@@ -52,29 +54,26 @@ export async function loader({ context }: LoaderFunctionArgs) {
     id: themes.nodes[0].id.split("/").pop(),
   };
 
-  let themeRaw = {
-    rawQuizPageLiquid: "",
-    rawProductQuizJs: "",
-  };
-
   // If the theme isn't Online Store 2.0, we need to fetch the raw files for the quiz page and JavaScript.
-  if (!themes.nodes[0].files.nodes.length) {
-    theme.onlineStore2 = false;
-
-    const themeRawRes = await fetch(`${context.currentAppUrl}theme-raw`);
-
-    themeRaw = await themeRawRes.json();
-  }
+  if (!themes.nodes[0].files.nodes.length) theme.onlineStore2 = false;
 
   // Returns an object with the theme information and the shop domain.
   return json({
+    shopifyAppId: context.connections.shopify.currentClientId,
     theme,
     shop: await context.api.shopifyShop.findFirst({
       select: {
         domain: true,
       },
     }),
-    ...themeRaw,
+    rawQuizPageLiquid: await fs.readFile(
+      path.join(process.cwd(), "extensions", "quiz", "blocks", "quiz.liquid"),
+      "utf-8"
+    ),
+    rawProductQuizJs: await fs.readFile(
+      path.join("extensions", "quiz", "assets", "quiz.js"),
+      "utf-8"
+    ),
   });
 }
 
@@ -106,7 +105,7 @@ function CodeBlock({ children }: { children: string }) {
  * @returns {JSX.Element} Installation instructions page
  */
 export default function Install() {
-  const { theme, shop, rawProductQuizJs, rawQuizPageLiquid } =
+  const { theme, shop, rawProductQuizJs, rawQuizPageLiquid, shopifyAppId } =
     useLoaderData<typeof loader>();
 
   const navigate = useNavigate();
@@ -171,7 +170,7 @@ export default function Install() {
               <Button
                 variant="primary"
                 target="_blank"
-                url={`https://${shop.domain}/admin/themes/${theme.id}/editor?addAppBlockId=${process.env.GADGET_PUBLIC_SHOPIFY_THEME_EXTENSION_ID}/quiz&target=newAppsSection`}
+                url={`https://${shop.domain}/admin/themes/${theme.id}/editor?addAppBlockId=${shopifyAppId}/quiz&target=newAppsSection`}
               >
                 Add to theme
               </Button>

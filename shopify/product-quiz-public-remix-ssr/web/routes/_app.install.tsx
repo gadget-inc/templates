@@ -54,8 +54,30 @@ export async function loader({ context }: LoaderFunctionArgs) {
     id: themes.nodes[0].id.split("/").pop(),
   };
 
+  const themeRaw = {
+    rawQuizPageLiquid: "",
+    rawProductQuizJs: "",
+  };
+
   // If the theme isn't Online Store 2.0, we need to fetch the raw files for the quiz page and JavaScript.
-  if (!themes.nodes[0].files.nodes.length) theme.onlineStore2 = false;
+  if (!themes.nodes[0].files.nodes.length) {
+    theme.onlineStore2 = false;
+
+    const [rawQuizPageLiquid, rawProductQuizJs] = await Promise.all([
+      fs.readFile(
+        path.join(process.cwd(), "extensions", "quiz", "blocks", "quiz.liquid"),
+        "utf-8"
+      ),
+      fs.readFile(
+        path.join(process.cwd(), "extensions", "quiz", "assets", "quiz.js"),
+        "utf-8"
+      ),
+    ]);
+
+    themeRaw.rawQuizPageLiquid = rawQuizPageLiquid;
+
+    themeRaw.rawProductQuizJs = rawProductQuizJs;
+  }
 
   // Returns an object with the theme information and the shop domain.
   return json({
@@ -66,14 +88,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
         domain: true,
       },
     }),
-    rawQuizPageLiquid: await fs.readFile(
-      path.join(process.cwd(), "extensions", "quiz", "blocks", "quiz.liquid"),
-      "utf-8"
-    ),
-    rawProductQuizJs: await fs.readFile(
-      path.join("extensions", "quiz", "assets", "quiz.js"),
-      "utf-8"
-    ),
+    ...themeRaw,
   });
 }
 

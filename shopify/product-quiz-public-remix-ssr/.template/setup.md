@@ -12,8 +12,6 @@ The following is a guide to get you started with the product quiz. If you get lo
 
 For themes using Online Store 1.0, instructions are included in the **Install** tab of the admin app. You need to manually copy-paste code files included in the app into the theme.
 
-Make sure to replace `{{ YOUR PROJECT SCRIPT URL }}` in `extensions/quiz/assets/product-quiz.js` with your project's script URL. To find your application's script tag, search for `direct script tag` in your docs. Note that the script tag is different per environment and you should change the script tag before going to production.
-
 ## Setting up App Theme Extension (Online store 2.0)
 
 In order to set up a theme app extension for stores using a new Online Store 2.0 theme:

@@ -1,3 +1,18 @@
-# This toml file is used for production. Only edit this file if you have a need for it
-# When you add a production config, values will be auto-populated here
-# Read more at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+# Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+
+client_id = "52b23048a3e0a4ee6e7655cf10333cf1"
+name = "product-quiz-public-remix-ssr"
+application_url = "https://product-quiz-public-remix-ssr.gadget.app/api/shopify/install-or-render"
+embedded = true
+
+[build]
+# Gadget manages all your scopes, webhooks and api versioning for your app
+# As such, this line should not be changed unless you are working with
+# Shopify managed installations. Read more at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+include_config_on_deploy = false
+
+[auth]
+redirect_urls = ["https://product-quiz-public-remix-ssr.gadget.app/api/connections/auth/shopify/callback"]
+
+[webhooks]
+api_version = "2025-04"

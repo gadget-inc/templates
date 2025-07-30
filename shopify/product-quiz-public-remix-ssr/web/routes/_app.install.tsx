@@ -153,8 +153,8 @@ export default function Install() {
           <BlockStack gap="300">
             <Text as="p">
               Under the Assets section in the sidebar, select Add a new asset
-              and create a new JavaScript file called product-quiz.js. You can
-              then add the following to that file:
+              and create a new JavaScript file called quiz.js. You can then add
+              the following to that file:
             </Text>
             <CodeBlock>{rawProductQuizJs}</CodeBlock>
           </BlockStack>

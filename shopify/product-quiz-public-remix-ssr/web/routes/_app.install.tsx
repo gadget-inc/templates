@@ -37,7 +37,7 @@ export async function loader({ context }: LoaderFunctionArgs) {
         nodes {
           name
           id
-          files (first: 1, filenames: ["templates/*.json"]) {
+          files (first: 1, filenames: ["templates/index.json"]) {
             nodes {
               filename
             }

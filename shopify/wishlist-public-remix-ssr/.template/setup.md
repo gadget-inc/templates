@@ -9,11 +9,9 @@ A pre-requisite for this application is to install the [Shopify CLI](https://sho
 - [Shopify docs](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
 - [Gadget docs](https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/extensions#authenticated-requests-with-shopify-app-proxies)
 
-3. Sync your application's files locally using the [Gadget CLI](https://docs.gadget.dev/guides/development-tools/cli). An example command can be found at the top left of the application's Gadget editor.
+3. Run `yarn shopify:dev` to run the Shopify CLI (in the Gadget terminal) and connect to the Shopify app created in step 1.
 
-4. Run `yarn shopify:dev` to run the Shopify CLI (locally) and connect to the Shopify app created in step 1.
-
-5. Install the application on a development store and create a customer account on the online store. Once this is done, you can step through the application and test the functionality.
+4. Install the application on a development store and create a customer account on the online store. Once this is done, you can step through the application and test the functionality.
 
 ## Customer account UI extension
 

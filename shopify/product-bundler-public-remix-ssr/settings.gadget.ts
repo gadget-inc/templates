@@ -6,7 +6,7 @@ export const settings: GadgetSettings = {
   plugins: {
     connections: {
       shopify: {
-        apiVersion: "2025-04",
+        apiVersion: "2025-07",
         enabledModels: [
           "shopifyFile",
           "shopifyProduct",
@@ -18,9 +18,6 @@ export const settings: GadgetSettings = {
           "write_cart_transforms",
           "write_products",
           "write_publications",
-          "read_cart_transforms",
-          "read_products",
-          "read_publications",
         ],
       },
     },

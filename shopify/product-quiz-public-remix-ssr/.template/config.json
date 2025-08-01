@@ -90,8 +90,16 @@
     }
   },
   "featuredRoutes": {
-    "api/routes/GET-theme-raw.ts": {
-      "description": "Returns the raw theme file code.",
+    "api/routes/proxy/GET-quiz.ts": {
+      "description": "Returns quiz data to the theme app extension.",
+      "tags": ["added"]
+    },
+    "api/routes/proxy/POST-recommendations.ts": {
+      "description": "Returns recommendation data to the theme app extension.",
+      "tags": ["added"]
+    },
+    "api/routes/proxy/POST-save.ts": {
+      "description": "Saves the quiz results to the database.",
       "tags": ["added"]
     }
   }

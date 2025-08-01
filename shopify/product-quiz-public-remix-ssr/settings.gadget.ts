@@ -6,7 +6,7 @@ export const settings: GadgetSettings = {
   plugins: {
     connections: {
       shopify: {
-        apiVersion: "2025-04",
+        apiVersion: "2025-07",
         enabledModels: [
           "shopifyFile",
           "shopifyProduct",

@@ -6,7 +6,7 @@ export const settings: GadgetSettings = {
   plugins: {
     connections: {
       shopify: {
-        apiVersion: "2025-04",
+        apiVersion: "2025-07",
         enabledModels: [
           "shopifyCustomer",
           "shopifyFile",
@@ -19,12 +19,9 @@ export const settings: GadgetSettings = {
         scopes: [
           "read_customers",
           "read_orders",
-          "write_products",
-          "read_products",
           "write_metaobject_definitions",
-          "read_metaobject_definitions",
           "write_metaobjects",
-          "read_metaobjects",
+          "write_products",
         ],
       },
     },

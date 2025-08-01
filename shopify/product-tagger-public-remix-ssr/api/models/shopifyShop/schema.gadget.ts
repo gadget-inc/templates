@@ -12,6 +12,11 @@ export const schema: GadgetModel = {
       children: { model: "allowedTag", belongsToField: "shop" },
       storageKey: "iE6qX5eaqkSi",
     },
+    checkoutApiSupported: {
+      type: "json",
+      storageKey:
+        "ModelField-DataModel-Shopify-Shop-__gadget_graphql_checkout_api_supported::FieldStorageEpoch-DataModel-Shopify-Shop-__gadget_graphql_checkout_api_supported-initial",
+    },
   },
   shopify: {
     fields: [
@@ -19,7 +24,6 @@ export const schema: GadgetModel = {
       "address2",
       "alerts",
       "billingAddress",
-      "checkoutApiSupported",
       "city",
       "countriesInShippingZones",
       "country",
@@ -61,6 +65,7 @@ export const schema: GadgetModel = {
       "plan",
       "planDisplayName",
       "planName",
+      "planPublicDisplayName",
       "preLaunchEnabled",
       "primaryLocale",
       "products",

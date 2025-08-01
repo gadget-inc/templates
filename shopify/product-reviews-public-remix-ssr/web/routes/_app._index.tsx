@@ -40,7 +40,6 @@ function formatPercentageChange(percentageChange: number | null) {
 
 export default function () {
   const { totalReviewsMoM, averageRatingMoM } = useLoaderData<typeof loader>();
-
   const [isClient, setIsClient] = useState(false);
   const [modalContent, setModelContent] = useState("");
 

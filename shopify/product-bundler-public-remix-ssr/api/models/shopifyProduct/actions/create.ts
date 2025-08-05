@@ -9,6 +9,10 @@ export const run: ActionRun = async ({ params, record, logger, api, connections 
 
 export const onSuccess: ActionOnSuccess = async ({ params, record, logger, api, connections }) => {
   // Your logic goes here
+  
 };
 
-export const options: ActionOptions = { actionType: "create" };
+export const options: ActionOptions = {
+  actionType: "create",
+  triggers: {},
+};

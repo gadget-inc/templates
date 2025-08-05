@@ -7,6 +7,11 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Shop",
   fields: {
+    checkoutApiSupported: {
+      type: "json",
+      storageKey:
+        "ModelField-DataModel-Shopify-Shop-__gadget_graphql_checkout_api_supported::FieldStorageEpoch-DataModel-Shopify-Shop-__gadget_graphql_checkout_api_supported-initial",
+    },
     defaultUpdateFrequency: {
       type: "enum",
       default: "monthly",
@@ -37,7 +42,6 @@ export const schema: GadgetModel = {
       "address2",
       "alerts",
       "billingAddress",
-      "checkoutApiSupported",
       "city",
       "countriesInShippingZones",
       "country",
@@ -81,6 +85,7 @@ export const schema: GadgetModel = {
       "plan",
       "planDisplayName",
       "planName",
+      "planPublicDisplayName",
       "preLaunchEnabled",
       "primaryLocale",
       "productMedia",

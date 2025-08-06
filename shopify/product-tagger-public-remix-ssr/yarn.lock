@@ -773,10 +773,10 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.42", "@gadgetinc/api-client-core@^0.15.42":
-  version "0.15.42"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.42.tgz#0018e3d571e7caef507885bca544dcd15f8cce83"
-  integrity sha512-2yH19DKWUpjwabOwVYXGNY2IirZKgwyWDPQwZn1l3urMHwiuBuD/hCgefnSDGyiDEuuJI9ZHqFWuR+hGoMUyfg==
+"@gadgetinc/api-client-core@0.15.45", "@gadgetinc/api-client-core@^0.15.45":
+  version "0.15.45"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.45.tgz#368c13b079422352175c578b3164d02a5de72279"
+  integrity sha512-4eTsoAIYavMCyY9q33DBW2lCn+sG68hKw7Uct5dp6gLMuWasxUQQ5M2LWMmN5RZQFma/wCQHNK5dcU44xrZSQw==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
     "@n1ru4l/graphql-live-query" "^0.10.0"
@@ -792,24 +792,24 @@
     tslib "^2.6.2"
     type-fest "^3.13.1"
     wonka "^6.3.2"
-    ws "^8.17.0"
+    ws "^8.18.2"
 
-"@gadgetinc/react-shopify-app-bridge@^0.18.4":
-  version "0.18.4"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.18.4.tgz#2943a21662942519ee0ccb3080cf9622aa2c08d0"
-  integrity sha512-QM45verz4WxbNViN/HP28Jp7ylrN2kH+y3K2inqIwWRK+u37YVsPEDwF5bHL5Q1nBEgFSHJAEC1jOqCylHbyOQ==
+"@gadgetinc/react-shopify-app-bridge@^0.18.8":
+  version "0.18.8"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react-shopify-app-bridge/-/react-shopify-app-bridge-0.18.8.tgz#51c64e3c03cbea056507f8a4b41e0222216be345"
+  integrity sha512-N8IYEEblygHgmN02Z7uQKQ5poSx5LX5JZn1EfGAG37d8PMM9nEP36ZDweihxM2xu7UMPZ2cDEI2QWEDnjUpLWQ==
   dependencies:
-    "@gadgetinc/api-client-core" "^0.15.42"
+    "@gadgetinc/api-client-core" "^0.15.45"
     crypto-js "^4.2.0"
     tslib "^2.6.2"
 
-"@gadgetinc/react@^0.21.1":
-  version "0.21.1"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.21.1.tgz#13cac791a4e6183d80797ad91e8e3078e923da5a"
-  integrity sha512-z2orTP6+3u7v0GcaKe7u6V8BaUVUNkVlmWaK1EEKqhwy/i8zyaND715rdCsppIL3PGwTBKK2nA4ZjVzduq4r4g==
+"@gadgetinc/react@^0.21.4":
+  version "0.21.4"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/react/-/react-0.21.4.tgz#8cdb8f1b8ed5ee9191f514e3bf218e532737df6a"
+  integrity sha512-LWAyWJ67GWpISiqTann18717cIIEskZWMJn9A4pPRmSHM2wOs9LZa0N0EtSMPJhVOm+xEKLP5GJ+El+45JoEeg==
   dependencies:
     "@0no-co/graphql.web" "^1.0.4"
-    "@gadgetinc/api-client-core" "^0.15.42"
+    "@gadgetinc/api-client-core" "^0.15.45"
     "@hookform/resolvers" "^3.3.1"
     filesize "^10.1.2"
     pluralize "^8.0.0"
@@ -1453,6 +1453,13 @@
   integrity sha512-U58sbKhDrthHlxHRJw7ZLiLDZGmAUOZUbpw0S6nL27sYUdhvgBLCRu/keSd6qcTsfArd1sRFCCBxzWATGr/0UA==
   dependencies:
     undici-types "~6.19.2"
+
+"@types/node@^22.13.14":
+  version "22.17.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-22.17.0.tgz#e8c9090e957bd4d9860efb323eb92d297347eac7"
+  integrity sha512-bbAKTCqX5aNVryi7qXVMi+OkB3w/OyblodicMbvE38blyAz7GxXf6XYhklokijuPwwVg9sDLKRxt0ZHXQwZVfQ==
+  dependencies:
+    undici-types "~6.21.0"
 
 "@types/prop-types@*":
   version "15.7.14"
@@ -5293,6 +5300,11 @@ undici-types@~6.20.0:
   resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.20.0.tgz#8171bf22c1f588d1554d55bf204bc624af388433"
   integrity sha512-Ny6QZ2Nju20vw1SRHe3d9jVu6gJ+4e3+MMpqu7pqE5HT6WsTSlce++GQmK5UXS8mzV8DSYHrQH+Xrf2jVcuKNg==
 
+undici-types@~6.21.0:
+  version "6.21.0"
+  resolved "https://registry.yarnpkg.com/undici-types/-/undici-types-6.21.0.tgz#691d00af3909be93a7faa13be61b3a5b50ef12cb"
+  integrity sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==
+
 undici@^6.11.1:
   version "6.21.2"
   resolved "https://registry.yarnpkg.com/undici/-/undici-6.21.2.tgz#49c5884e8f9039c65a89ee9018ef3c8e2f1f4928"
@@ -5633,10 +5645,10 @@ ws@^7.5.10:
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.10.tgz#58b5c20dc281633f6c19113f39b349bd8bd558d9"
   integrity sha512-+dbF1tHwZpXcbOJdVOkzLDxZP1ailvSxM6ZweXTegylPny803bFhA+vqBYw4s31NSAk4S2Qz+AKXK9a4wkdjcQ==
 
-ws@^8.17.0:
-  version "8.18.1"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.1.tgz#ea131d3784e1dfdff91adb0a4a116b127515e3cb"
-  integrity sha512-RKW2aJZMXeMxVpnZ6bck+RswznaxmzdULiBr6KY7XkTnW8uvt0iT9H5DkHUChXrc+uurzwa0rVI16n/Xzjdz1w==
+ws@^8.18.2:
+  version "8.18.3"
+  resolved "https://registry.yarnpkg.com/ws/-/ws-8.18.3.tgz#b56b88abffde62791c639170400c93dcb0c95472"
+  integrity sha512-PEIGCY5tSlUt50cqyMXfCzX+oOPqN0vuGqWzbcJ2xvnkzkq46oOpz7dQaTDBdfICb4N14+GARUDw2XV2N4tvzg==
 
 xtend@~4.0.1:
   version "4.0.2"

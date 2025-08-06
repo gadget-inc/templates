@@ -12,11 +12,6 @@ export const schema: GadgetModel = {
       children: { model: "answer", belongsToField: "shop" },
       storageKey: "rbUx6Ku7_w5H",
     },
-    checkoutApiSupported: {
-      type: "json",
-      storageKey:
-        "ModelField-DataModel-Shopify-Shop-__gadget_graphql_checkout_api_supported::FieldStorageEpoch-DataModel-Shopify-Shop-__gadget_graphql_checkout_api_supported-initial",
-    },
     questions: {
       type: "hasMany",
       children: { model: "question", belongsToField: "shop" },

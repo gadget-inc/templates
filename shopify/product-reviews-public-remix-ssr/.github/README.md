@@ -19,54 +19,66 @@ This app allows Shopify merchants to collect, manage, and display customer revie
 
 1. Order Placed
 
-: A `requestReviewAfter` date is set on the order (a future date to follow up).
+A `requestReviewAfter` date is set on the order (a future date to follow up).
 
 2. Scheduled Action Runs (Hourly)
 
-: An action `sendReviewRequest` checks for fulfilled orders past their `requestReviewAfter` date.
-: If found, it triggers the `sendEmail` action that reminds the customer to send an email.
+An action `sendReviewRequest` checks for fulfilled orders past their `requestReviewAfter` date.
+If found, it triggers the `sendEmail` action that reminds the customer to send an email.
 
-Email Sent
+3. Email Sent
+
 The customer receives a secure link to submit a review. After sending, the app sets `sendReviewRequest` to null to avoid sending again.
 
-Customer Submits Review
+4. Customer Submits Review
+
 Review is linked to the product via a metaobject created by the app to display on the storefront.
 
-Merchant Moderates
+5. Merchant Moderates
+
 The merchant approves or rejects the review in the admin panel. Approved reviews are displayed on the product page.
 
 ## How to Test it
 
-Confirm Setup
+1. Confirm Setup
+
 Make sure your extension is visible on your storefront (follow the setup guide if not).
 
-Create an Order
+2. Create an Order
+
 In your Shopify admin, create a test order and select a customer with a valid email you can access.
 (Create yourself as a customer if one doesn't exist.)
 
-Fulfill the Order
+3. Fulfill the Order
+
 Mark the order as fulfilled in your Shopify admin.
 
-Check the Order in Gadget
+4. Check the Order in Gadget
+
 In Gadget, go to the Files tab → `api/models/shopifyOrder/data`.
 Find the order you just created.
 
 If the email is missing, revisit your **protected customer data access (PCDA)** form settings and ensure **email** is selected under “Optional fields.” Then recreate the order.
 
-Update Review Trigger Time
+5. Update Review Trigger Time
+
 In the same data view, set `requestReviewAfter` to a **past date**.
 
-Trigger the Review Email
+6. Trigger the Review Email
+
 Go to the API tab (API Playground).
 Run this command: await api.sendReviewRequests();
 This should send the review email.
 
-Submit a Review
+7. Submit a Review
+
 Check your email, click the review link, and submit a review.
 
-Approve the Review
+8. Approve the Review
+
 In Shopify: **Apps > [Your App Name]**, find and approve the submitted review.
 
-View it on Your Storefront
+9. View it on Your Storefront
+
 Visit the product page for the reviewed product.
 The approved review should now appear.

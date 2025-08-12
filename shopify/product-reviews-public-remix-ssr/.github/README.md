@@ -19,11 +19,12 @@ This app allows Shopify merchants to collect, manage, and display customer revie
 
 1. Order Placed
 
-A `requestReviewAfter` date is set on the order (a future date to follow up).
+: A `requestReviewAfter` date is set on the order (a future date to follow up).
 
-Scheduled Action Runs (Hourly)
-An action `sendReviewRequest` checks for fulfilled orders past their `requestReviewAfter` date.
-If found, it triggers the `sendEmail` action that reminds the customer to send an email.
+2. Scheduled Action Runs (Hourly)
+
+: An action `sendReviewRequest` checks for fulfilled orders past their `requestReviewAfter` date.
+: If found, it triggers the `sendEmail` action that reminds the customer to send an email.
 
 Email Sent
 The customer receives a secure link to submit a review. After sending, the app sets `sendReviewRequest` to null to avoid sending again.

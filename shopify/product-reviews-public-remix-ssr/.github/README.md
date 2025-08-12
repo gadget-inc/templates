@@ -28,7 +28,7 @@ This app allows Shopify merchants to collect, manage, and display customer revie
 
 3. Email sent
 
-   The customer receives a secure link to submit a review. After sending, the app sets `sendReviewRequest` to null to avoid sending again.
+   The customer receives a secure link to submit a review. After sending, the app sets `sendReviewRequest` to `null` to avoid sending again.
 
 4. Customer submits review
 
@@ -40,45 +40,45 @@ This app allows Shopify merchants to collect, manage, and display customer revie
 
 ## How to test it
 
-1. Confirm setup
+1. **Confirm setup**
 
    Make sure your extension is visible on your storefront (follow the setup guide if not).
 
-2. Create an order
+2. **Create an order**
 
    In your Shopify admin, create a test order and select a customer with a valid email you can access.
    (Create yourself as a customer if one doesn't exist.)
 
-3. Fulfill the order
+3. **Fulfill the order**
 
    Mark the order as fulfilled in your Shopify admin.
 
-4. Check the order in Gadget
+4. **Check the order in Gadget**
 
-   In Gadget, go to the Files tab → `api/models/shopifyOrder/data`.
+   In Gadget, go to the **Files** tab → `api/models/shopifyOrder/data`.
    Find the order you just created.
 
    If the email is missing, revisit your **protected customer data access (PCDA)** form settings and ensure **email** is selected under “Optional fields.” Then recreate the order.
 
-5. Update review trigger time
+5. **Update review trigger time**
 
    In the same data view, set `requestReviewAfter` to a **past date**.
 
-6. Trigger the review email
+6. **Trigger the review email**
 
    Go to the API tab (API Playground).
    Run this command: await api.sendReviewRequests();
    This should send the review email.
 
-7. Submit a review
+7. **Submit a review**
 
    Check your email, click the review link, and submit a review.
 
-8. Approve the review
+8. **Approve the review**
 
    In Shopify: **Apps > [Your App Name]**, find and approve the submitted review.
 
-9. View it on your storefront
+9. **View it on your storefront**
 
    Visit the product page for the reviewed product.
    The approved review should now appear.

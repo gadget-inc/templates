@@ -1,25 +1,70 @@
 # Product Reviews
 
-This application allows Shopify merchants to collect and display product reviews from their customers. Merchants can approve and manage reviews, and customers can submit reviews with a rating and content. This application includes a theme extension to display reviews on the storefront.
+This app allows Shopify merchants to collect, manage, and display customer reviews for fulfilled products. It provides a:
+
+1. Admin UI: To track and approve reviews
+2. Email: To automatically send emails to customers when orders are fulfilled
+3. Storefront integration: To display approved reviews on product pages
 
 [![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=product-reviews-public-remix-ssr.gadget.app)
 
-## Key features
+## Requirements
 
-- Models
+1. Connect your Gadget app to Shopify
+2. Complete customer protected data access and select the email field under “Optional fields”
+3. Run `yarn shopify:app dev` in your Gadget terminal to serve the extension
+4. Ensure the extension is placed on a product default template
 
-  - `review`: Stores review data including the rating, content, and approval status, and links to the corresponding product, customer, and order.
-  - `shopifyShop`: Extended with settings for review requests, like `daysUntilReviewRequest`.
-  - `shopifyOrder`: Extended to manage when review requests are sent.
+## App Workflow Summary
 
-- Frontend
+Order Placed
+A requestReviewAfter date is set on the order (a future date to follow up).
 
-  - `web/routes/_app._index.tsx`: The main dashboard for merchants to view and manage product reviews.
-  - `web/rotues/_public.review.($code).tsx`: A public page where customers can submit a review for their purchase.
-  - `extensions/product-reviews/blocks/productReviews.liquid`: A theme extension block to display approved reviews on product pages.
+Scheduled Action Runs (Hourly)
+An action sendReviewRequest checks for fulfilled orders past their requestReviewAfter date.
+If found, it triggers the sendEmail action that reminds the customer to send an email.
 
-- Actions
+Email Sent
+The customer receives a secure link to submit a review. After sending, the app sets sendReviewRequest to null to avoid sending again.
 
-  - `review/create, update, delete`: Allow for the management and approval of reviews.
-  - `sendReviewRequests`: A scheduled action to email customers asking for a review after their purchase.
-  - `createReviewMetaobject` & `updateReviewsMetafield`: Actions to store review data as Shopify metaobjects and metafields, making them accessible on the storefront.
+Customer Submits Review
+Review is linked to the product via a metaobject created by the app to display on the storefront.
+
+Merchant Moderates
+The merchant approves or rejects the review in the admin panel. Approved reviews are displayed on the product page.
+
+## How to Test it
+
+Confirm Setup
+Make sure your extension is visible on your storefront (follow the setup guide if not).
+
+Create an Order
+In your Shopify admin, create a test order and select a customer with a valid email you can access.
+(Create yourself as a customer if one doesn't exist.)
+
+Fulfill the Order
+Mark the order as fulfilled in your Shopify admin.
+
+Check the Order in Gadget
+In Gadget, go to the Files tab → api/models/shopifyOrder/data.
+Find the order you just created.
+
+If the email is missing, revisit your CPD access settings and ensure email is selected under “Optional fields.” Then recreate the order.
+
+Update Review Trigger Time
+In the same data view, set requestReviewAfter to a past date.
+
+Trigger the Review Email
+Go to the API tab (API Playground).
+Run this command: await api.sendReviewRequests();
+This should send the review email.
+
+Submit a Review
+Check your email, click the review link, and submit a review.
+
+Approve the Review
+In Shopify: Apps > [Your App Name], find and approve the submitted review.
+
+View it on Your Storefront
+Visit the product page for the reviewed product.
+The approved review should now appear.

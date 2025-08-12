@@ -29,6 +29,7 @@
     "gadget-server": "link:.gadget/server",
     "isbot": "^5.1.0",
     "luxon": "^3.6.1",
+    "p-map": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "shopify-api-node": "^3.15.0",
@@ -36,13 +37,13 @@
     "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "@types/uuid": "^10.0.0",
     "@remix-run/dev": "^2.12.0",
     "@shopify/app-bridge-types": "^0.0.15",
     "@types/luxon": "^3.6.2",
     "@types/node": "^20.17.7",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/uuid": "^10.0.0",
     "react-email": "4.0.7",
     "typescript": "^5.8.3",
     "vite": "^6.3.5"

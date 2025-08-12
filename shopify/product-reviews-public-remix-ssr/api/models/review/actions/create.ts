@@ -44,7 +44,7 @@ export const onSuccess: ActionOnSuccess = async ({
   connections,
 }) => {
   await api.enqueue(
-    api.createReviewMetaobject,
+    api.metadata.reviews.metaobject.create,
     {
       // @ts-ignore
       shopId: record.shop,
@@ -71,7 +71,7 @@ export const onSuccess: ActionOnSuccess = async ({
 
   if (order?.reviewCreationLimitReached) {
     await api.internal.shopifyOrder.update(record.orderId, {
-      singleUseCode: null,
+      reviewToken: null,
     });
   }
 };

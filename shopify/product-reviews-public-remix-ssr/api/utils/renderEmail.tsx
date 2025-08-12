@@ -4,10 +4,10 @@ import { Container, Button } from "@react-email/components";
 
 // This file is used to render the email content for sending review requests.
 export default async ({
-  singleUseCode,
+  reviewToken,
   currentAppUrl,
 }: {
-  singleUseCode: string;
+  reviewToken: string;
   currentAppUrl: string;
 }) => {
   return await render(
@@ -15,7 +15,7 @@ export default async ({
       {/* Add more text in here */}
       {/* Email written with React-Email: https://react.email/components */}
       <Button
-        href={`${currentAppUrl}review/${singleUseCode}`}
+        href={`${currentAppUrl}review/${reviewToken}`}
         style={{ color: "#61dafb", padding: "10px 20px" }}
       >
         Review

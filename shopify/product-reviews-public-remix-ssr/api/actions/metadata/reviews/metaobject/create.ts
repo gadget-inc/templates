@@ -8,7 +8,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   const shopify = await connections.shopify.forShopId(shopId);
 
   // Create the metaobject using the Shopify API
-  const metaobjectCreateResponse = await shopify.graphql(
+  const response = await shopify.graphql(
     `mutation ($metaobject: MetaobjectCreateInput!) {
       metaobjectCreate(metaobject: $metaobject) {
         metaobject {
@@ -50,14 +50,12 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   );
 
   // Throw an error if Shopify returns an error
-  if (metaobjectCreateResponse?.metaobjectCreate?.userErrors?.length)
-    throw new Error(
-      metaobjectCreateResponse.metaobjectCreate.userErrors[0].message
-    );
+  if (response?.metaobjectCreate?.userErrors?.length)
+    throw new Error(response.metaobjectCreate.userErrors[0].message);
 
   // Update the review record with the metaobject id
   await api.internal.review.update(review.id, {
-    metaobjectId: metaobjectCreateResponse.metaobjectCreate.metaobject.id,
+    metaobjectId: response.metaobjectCreate.metaobject.id,
   });
 };
 

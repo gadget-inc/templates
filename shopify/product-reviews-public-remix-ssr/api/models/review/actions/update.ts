@@ -23,7 +23,7 @@ export const onSuccess: ActionOnSuccess = async ({
   if (changes.changed) {
     const approved = changes.current as boolean;
 
-    await api.enqueue(api.updateReviewsMetafield, {
+    await api.enqueue(api.metadata.reviews.metafield.update, {
       shopId: record.shopId,
       productId: record.productId,
       metaobjectId: record.metaobjectId,

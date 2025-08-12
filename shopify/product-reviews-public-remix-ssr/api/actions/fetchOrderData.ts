@@ -4,7 +4,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
   if (!code) throw new Error("Single use code is required");
 
   // Find the order associated with the single use code
-  const order = await api.shopifyOrder.maybeFindBySingleUseCode(code, {
+  const order = await api.shopifyOrder.maybeFindByReviewToken(code, {
     select: {
       id: true,
       reviewCreationLimit: true,

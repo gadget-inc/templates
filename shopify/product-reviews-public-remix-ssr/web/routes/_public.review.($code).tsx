@@ -10,40 +10,93 @@ export async function loader({ context, params }: LoaderFunctionArgs) {
   let data;
 
   try {
-    data = await context.api.fetchOrderData({ code: params.code });
+    const order =
+      await context.api.actAsAdmin.shopifyOrder.maybeFindByReviewToken(
+        params.code,
+        {
+          select: {
+            id: true,
+            reviewCreationLimit: true,
+          },
+        }
+      );
+
+    // If no order is found, throw an error
+    if (!order)
+      throw new Error(`Order attributed with code '${params.code}' not found`);
+
+    // Get the order's line items
+    let lineItems = await context.api.actAsAdmin.shopifyOrderLineItem.findMany({
+      filter: {
+        orderId: {
+          equals: order.id,
+        },
+      },
+      select: {
+        id: true,
+        reviewCreated: true,
+        product: {
+          id: true,
+          title: true,
+          featuredMedia: {
+            file: {
+              url: true,
+              alt: true,
+            },
+          },
+        },
+      },
+    });
+
+    const allLineItems = [...lineItems];
+
+    // Paginate through all line items if there are more than the initial page
+    while (lineItems.hasNextPage) {
+      lineItems = await lineItems.nextPage();
+      allLineItems.push(...lineItems);
+    }
+
+    const seen: { [key: string]: boolean } = {};
+    const products: {
+      id: string;
+      title: string;
+      image: string;
+      alt: string;
+      reviewCreated: boolean;
+      lineItemId: string;
+    }[] = [];
+
+    for (const { id, reviewCreated, product } of allLineItems) {
+      if (!product?.id) continue;
+
+      if (!seen[product?.id]) {
+        seen[product?.id] = true;
+        products.push({
+          id: product?.id,
+          title: product.title ?? "",
+          image: product.featuredMedia?.file?.url ?? "",
+          alt: product.featuredMedia?.file?.alt ?? "",
+          reviewCreated: reviewCreated ?? false,
+          lineItemId: id,
+        });
+      }
+    }
+
+    data = { orderId: order.id, products };
   } catch (error) {
     return redirect("/invalid");
   }
 
-  if (!data) {
-    return redirect("/invalid");
-  }
-
-  return json({
-    data,
-  });
+  return json(data);
 }
 
 export default function () {
-  const { data } = useLoaderData<typeof loader>();
+  const { orderId, products } = useLoaderData<typeof loader>();
 
   return (
     <BlockStack>
-      {(
-        data as {
-          orderId: string;
-          orderNumber: string;
-          products: {
-            lineItemId: string;
-            reviewCreated: boolean;
-            id: string;
-            title: string;
-            image: string;
-            alt: string;
-          }[];
-        }
-      ).products.map((product) => (
-        <ReviewCard key={product.id} {...product} orderId={data.orderId} />
+      {products.map((product) => (
+        <ReviewCard key={product.id} {...product} orderId={orderId} />
       ))}
     </BlockStack>
   );

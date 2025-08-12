@@ -17,15 +17,16 @@ This app allows Shopify merchants to collect, manage, and display customer revie
 
 ## App Workflow Summary
 
-Order Placed
-A requestReviewAfter date is set on the order (a future date to follow up).
+1. Order Placed
+
+A `requestReviewAfter` date is set on the order (a future date to follow up).
 
 Scheduled Action Runs (Hourly)
-An action sendReviewRequest checks for fulfilled orders past their requestReviewAfter date.
-If found, it triggers the sendEmail action that reminds the customer to send an email.
+An action `sendReviewRequest` checks for fulfilled orders past their `requestReviewAfter` date.
+If found, it triggers the `sendEmail` action that reminds the customer to send an email.
 
 Email Sent
-The customer receives a secure link to submit a review. After sending, the app sets sendReviewRequest to null to avoid sending again.
+The customer receives a secure link to submit a review. After sending, the app sets `sendReviewRequest` to null to avoid sending again.
 
 Customer Submits Review
 Review is linked to the product via a metaobject created by the app to display on the storefront.
@@ -46,13 +47,13 @@ Fulfill the Order
 Mark the order as fulfilled in your Shopify admin.
 
 Check the Order in Gadget
-In Gadget, go to the Files tab → api/models/shopifyOrder/data.
+In Gadget, go to the Files tab → `api/models/shopifyOrder/data`.
 Find the order you just created.
 
-If the email is missing, revisit your CPD access settings and ensure email is selected under “Optional fields.” Then recreate the order.
+If the email is missing, revisit your **protected customer data access (PCDA)** form settings and ensure **email** is selected under “Optional fields.” Then recreate the order.
 
 Update Review Trigger Time
-In the same data view, set requestReviewAfter to a past date.
+In the same data view, set `requestReviewAfter` to a **past date**.
 
 Trigger the Review Email
 Go to the API tab (API Playground).
@@ -63,7 +64,7 @@ Submit a Review
 Check your email, click the review link, and submit a review.
 
 Approve the Review
-In Shopify: Apps > [Your App Name], find and approve the submitted review.
+In Shopify: **Apps > [Your App Name]**, find and approve the submitted review.
 
 View it on Your Storefront
 Visit the product page for the reviewed product.

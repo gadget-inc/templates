@@ -32,7 +32,7 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 
 4. Customer submits review
 
-   Review is linked to the product via a metaobject created by the app to display on the storefront.
+   Review is created as a metaobject to allow easier display on the product page.
 
 5. Merchant moderates
 
@@ -67,7 +67,7 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 6. **Trigger the review email**
 
    Go to the API tab (API Playground).
-   Run this command: await api.sendReviewRequests();
+   Run: `await api.sendReviewRequests()`;
    This should send the review email.
 
 7. **Submit a review**

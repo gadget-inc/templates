@@ -52,6 +52,8 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
 export const options = {
   triggers: {
-    scheduler: [{ every: "hour", at: "0 mins" }],
+    scheduler: [
+      { every: "hour", at: "0 mins" },
+    ],
   },
 };

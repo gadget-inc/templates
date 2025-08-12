@@ -1,18 +1,5 @@
 {
   "version": "v1",
-  "webflow": {
-    "title": "Product Reviews",
-    "description": "A comprehensive product review system for Shopify stores. Automatically requests reviews from customers, manages review data, and displays reviews on product pages through a theme extension.",
-    "setup": "./setup.md",
-    "content": "webflow/content.md",
-    "mainImage": "webflow/reviews.png",
-    "features": {
-      "shopify": true,
-      "frontend": true,
-      "models": true,
-      "actions": true
-    }
-  },
   "featuredModels": {
     "review": {
       "description": "Stores customer reviews with ratings, content, and approval status. Connected to Shopify customers, orders, and products.",

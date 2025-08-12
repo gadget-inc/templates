@@ -1,18 +1,18 @@
 # Product reviews
 
-This app allows Shopify merchants to collect, manage, and display customer reviews for fulfilled products. It provides a:
+This app allows Shopify merchants to collect, manage, and display customers' product reviews for fulfilled orders. It provides a:
 
 1. Admin UI: To track and approve reviews
 2. Email: To automatically send emails to customers when orders are fulfilled
-3. Storefront integration: To display approved reviews on product pages
+3. Theme app extension: To display approved reviews on product pages
 
 [![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=product-reviews-public-remix-ssr.gadget.app)
 
 ## Requirements
 
-1. Connect your Gadget app to Shopify
-2. Complete customer protected data access and select the email field under “Optional fields”
-3. Run `yarn shopify:app dev` in your Gadget terminal to serve the extension
+1. [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart)
+2. Complete the **protected customer data access (PCDA)** form and select the email field under “Optional fields”
+3. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
 4. Ensure the extension is placed on a product default template
 
 ## App workflow summary
@@ -47,7 +47,7 @@ This app allows Shopify merchants to collect, manage, and display customer revie
 2. **Create an order**
 
    In your Shopify admin, create a test order and select a customer with a valid email you can access.
-   (Create yourself as a customer if one doesn't exist.)
+   (Create yourself as a customer if one doesn't exist)
 
 3. **Fulfill the order**
 
@@ -58,7 +58,7 @@ This app allows Shopify merchants to collect, manage, and display customer revie
    In Gadget, go to the **Files** tab → `api/models/shopifyOrder/data`.
    Find the order you just created.
 
-   If the email is missing, revisit your **protected customer data access (PCDA)** form settings and ensure **email** is selected under “Optional fields.” Then recreate the order.
+   If the email is missing, revisit your **PCDA** form settings and ensure **email** is selected under “Optional fields”; then recreate the order.
 
 5. **Update review trigger time**
 

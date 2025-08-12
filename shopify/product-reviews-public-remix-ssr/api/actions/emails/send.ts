@@ -1,5 +1,5 @@
-import renderEmail from "api/utils/renderEmail";
-import { default as queueOptions } from "../../utils/emailQueueOptions";
+import renderEmail from "../../utils/emails/render";
+import { default as queueOptions } from "../../utils/emails/queueOptions";
 import pMap from "p-map";
 
 export const run: ActionRun = async ({

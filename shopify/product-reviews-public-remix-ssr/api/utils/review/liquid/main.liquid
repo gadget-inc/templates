@@ -25,19 +25,21 @@
         color: #202223;
       }
       
-      .review-card { 
+      .review-card {
+        display: flex;
         background: white; 
         border-radius: 8px; 
         padding: 24px; 
         margin-bottom: 20px; 
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        flex-direction: column;
+        gap: 16px;
       }
       
       .review-header { 
         display: flex; 
         justify-content: space-between; 
-        align-items: center; 
-        margin-bottom: 20px; 
+        align-items: center;
       }
       
       .review-product { 
@@ -99,6 +101,8 @@
       .star:hover, .star.active { 
         color: #fbbf24; 
       }
+      
+
       
       .rating-text { 
         font-size: 12px; 
@@ -209,11 +213,12 @@
       <h1>Add your reviews</h1>
       {% for product in products %}
       <div class="review-card">
+        <form action="/api/review/create" method="post" class="review-form">
         <div class="review-header">
           <div class="review-product">
             <img 
-              src="{{ product.image | default: 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjRjZGNEY3Ii8+CjxwYXRoIGQ9Ik0yMCAxMEMyMi43NjEgMTAgMjUgMTIuMjM5IDI1IDE1QzI1IDE3Ljc2MSAyMi43NjEgMjAgMjAgMjBDMTcuMjM5IDIwIDE1IDE3Ljc2MSAxNSAxNUMxNSAxMi4yMzkgMTcuMjM5IDEwIDIwIDEwWiIgZmlsbD0iI0M5Q0FBNyIvPgo8L3N2Zz4K' }}" 
-              alt="{{ product.alt | default: 'Image placeholder' }}" 
+              src="{{ product.image | default: 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?v=1530129081' }}" 
+              alt="{{ product.alt | default: 'Product image placeholder' }}" 
               class="review-thumbnail"
             >
             <div>
@@ -239,7 +244,6 @@
         </div>
 
         {% unless product.reviewCreated %}
-        <form action="/api/review/create" method="post" class="review-form">
           <input type="hidden" name="orderId" value="{{ orderId }}">
           <input type="hidden" name="productId" value="{{ product.id }}">
           <input type="hidden" name="lineItemId" value="{{ product.lineItemId }}">
@@ -265,6 +269,16 @@
       </div>
       {% endfor %}
     </div>
+    
+    <script src="https://product-reviews-public-remix-ssr--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
+
+    <script>
+      window.addEventListener("DOMContentLoaded", function() {
+        window.api = new Gadget({
+          endpoint: "/apps/product-reviews/api/graphql",
+        })
+      })
+    </script>
 
     <script>
       // Star rating functionality
@@ -280,8 +294,11 @@
           
           // Update star display
           const stars = starsContainer.querySelectorAll(".star");
-          stars.forEach((star, index) => {
-            if (index < rating) {
+          
+          stars.forEach((star) => {
+            const starRating = parseInt(star.dataset.rating);
+            
+            if (starRating <= rating) {
               star.classList.add("active");
             } else {
               star.classList.remove("active");
@@ -300,29 +317,100 @@
       });
 
       // Form submission handling
-      document.addEventListener("submit", function(e) {
+      document.addEventListener("submit", async function(e) {
         if (e.target.matches(".review-form")) {
+          e.preventDefault();
           const form = e.target;
+          
           const submitBtn = form.querySelector(".btn-primary");
           const ratingInput = form.querySelector("input[name='rating']");
           const contentInput = form.querySelector("textarea[name='content']");
+          const productIdInput = form.querySelector("input[name='productId']");
+          const lineItemIdInput = form.querySelector("input[name='lineItemId']");
+          const orderIdInput = form.querySelector("input[name='orderId']");
           
           // Basic validation
           if (parseInt(ratingInput.value) === 0) {
-            e.preventDefault();
             alert("Please select a rating before submitting.");
             return;
           }
           
           if (!contentInput.value.trim()) {
-            e.preventDefault();
             alert("Please write a review before submitting.");
             return;
           }
           
           // Disable submit button to prevent double submission
-          submitBtn.disabled = true;
-          submitBtn.textContent = "Submitting...";
+          if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.textContent = "Submitting...";
+          }
+
+          const review = await window.api.review.create({
+            lineItem: {
+              _link: lineItemIdInput.value,
+            },
+            order: {
+              _link: orderIdInput.value,
+            },
+            rating: parseInt(ratingInput.value),
+            content: contentInput.value,
+            product: {
+              _link: productIdInput.value,
+            },
+            shop: {
+              _link: "{{ shop.id }}",
+            },
+          })
+
+          if (review) {
+            // Update the UI to show review completed
+            const reviewCard = form.closest('.review-card');
+            const reviewHeader = reviewCard.querySelector('.review-header');
+            const reviewProduct = reviewHeader.querySelector('.review-product');
+            
+            // Find the stars input container
+            const starsInput = reviewProduct.querySelector('.stars-input');
+            
+            // Create the completed status element
+            const reviewStatus = document.createElement('div');
+            reviewStatus.className = 'review-status';
+            reviewStatus.innerHTML = `
+              <span class="status-icon">✅</span>
+              <h3>Review completed!</h3>
+            `;
+            
+            // Replace stars with completed status
+            if (starsInput) {
+              starsInput.parentNode.replaceChild(reviewStatus, starsInput);
+            }
+            
+            // Transform the form to show completed state
+            const formGroup = form.querySelector('.form-group');
+            const reviewActions = form.querySelector('.review-actions');
+            
+            // Replace the textarea with a success message
+            if (formGroup) {
+              formGroup.innerHTML = `
+                <div style="padding: 20px; background: #f0f9ff; border: 1px solid #0ea5e9; border-radius: 6px; text-align: center;">
+                  <div style="font-size: 16px; color: #0369a1; margin-bottom: 8px;">Thank you for your review!</div>
+                  <div style="font-size: 14px; color: #0c4a6e;">Your review has been submitted successfully.</div>
+                </div>
+              `;
+            }
+            
+            // Hide the submit button
+            if (reviewActions) {
+              reviewActions.style.display = 'none';
+            }
+            
+            // Reset form
+            form.reset();
+            if (submitBtn) {
+              submitBtn.disabled = false;
+              submitBtn.textContent = 'Submit review';
+            }
+          }
         }
       });
     </script>

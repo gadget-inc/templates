@@ -12,15 +12,9 @@ export const run: ActionRun = async ({
   // Find the order associated with the review
   const order = await api.shopifyOrder.findOne(record.orderId, {
     select: {
-      shopId: true,
       customerId: true,
     },
   });
-
-  // @ts-ignore
-  record.shop = {
-    _link: order.shopId,
-  };
 
   // @ts-ignore
   record.customer = {
@@ -47,7 +41,7 @@ export const onSuccess: ActionOnSuccess = async ({
     api.metadata.review.metaobject.create,
     {
       // @ts-ignore
-      shopId: record.shop,
+      shopId: record.shop || record.shopId,
       review: {
         id: record.id,
         rating: record.rating,

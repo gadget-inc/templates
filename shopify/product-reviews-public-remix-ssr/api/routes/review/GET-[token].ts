@@ -16,16 +16,15 @@ const route: RouteHandler<{
   if (!connections.shopify.current) return await reply.status(401).send();
 
   const { token } = request.params;
+  const invalid = await readFile(
+    join(__dirname, "../../utils/review/liquid/invalid.liquid"),
+    "utf-8"
+  );
 
   if (!token)
     return await reply
       .header("Content-Type", "application/liquid")
-      .send(
-        await readFile(
-          join(__dirname, "../../utils/review/liquid/invalid.liquid"),
-          "utf-8"
-        )
-      );
+      .send(invalid);
 
   const order = await api.shopifyOrder.maybeFindFirst({
     filter: {
@@ -46,12 +45,7 @@ const route: RouteHandler<{
   if (!order)
     return await reply
       .header("Content-Type", "application/liquid")
-      .send(
-        await readFile(
-          join(__dirname, "../../utils/review/liquid/invalid.liquid"),
-          "utf-8"
-        )
-      );
+      .send(invalid);
 
   let lineItems = await api.shopifyOrderLineItem.findMany({
     filter: {
@@ -103,7 +97,7 @@ const route: RouteHandler<{
         title: product.title ?? "",
         image:
           (product.featuredMedia?.file?.image as { originalSrc: string })
-            .originalSrc ?? "",
+            ?.originalSrc ?? "",
         alt: product.featuredMedia?.file?.alt ?? "",
         reviewCreated: reviewCreated ?? false,
         lineItemId: id,

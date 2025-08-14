@@ -28,6 +28,7 @@
     "fastify": "^4.24.2",
     "gadget-server": "link:.gadget/server",
     "isbot": "^5.1.0",
+    "liquidjs": "^10.21.1",
     "luxon": "^3.6.1",
     "p-map": "^4.0.0",
     "react": "^18.2.0",

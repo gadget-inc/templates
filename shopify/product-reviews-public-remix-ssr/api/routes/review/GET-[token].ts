@@ -21,7 +21,10 @@ const route: RouteHandler<{
     return await reply
       .header("Content-Type", "application/liquid")
       .send(
-        await readFile(join(__dirname, "liquid", "invalid.liquid"), "utf-8")
+        await readFile(
+          join(__dirname, "../../utils/review/liquid/invalid.liquid"),
+          "utf-8"
+        )
       );
 
   const order = await api.shopifyOrder.maybeFindFirst({
@@ -44,7 +47,10 @@ const route: RouteHandler<{
     return await reply
       .header("Content-Type", "application/liquid")
       .send(
-        await readFile(join(__dirname, "liquid", "invalid.liquid"), "utf-8")
+        await readFile(
+          join(__dirname, "../../utils/review/liquid/invalid.liquid"),
+          "utf-8"
+        )
       );
 
   let lineItems = await api.shopifyOrderLineItem.findMany({

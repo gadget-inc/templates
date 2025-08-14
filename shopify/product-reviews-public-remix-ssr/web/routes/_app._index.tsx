@@ -2,7 +2,6 @@ import { AutoTable } from "@gadgetinc/react/auto/polaris";
 import {
   BlockStack,
   Box,
-  Button,
   Card,
   InlineStack,
   Layout,

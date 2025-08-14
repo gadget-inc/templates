@@ -57,10 +57,6 @@
       "description": "This global action adds email-sending jobs to a background queue to be processed asynchronously.",
       "tags": ["added"]
     },
-    "fetchOrderData": {
-      "description": "This global action fetches an order and its associated products using a unique, single-use code provided as a parameter.",
-      "tags": ["added"]
-    },
     "sendEmail": {
       "description": "This global action sends a review request email to a customer and then clears the requestReviewAfter field on the corresponding order to prevent re-sending the email",
       "tags": ["added"]
@@ -104,11 +100,7 @@
     }
   },
   "featuredFiles": {
-    "api/utils/emailQueueOptions.ts": {
-      "description": "This file exports configuration options for a message queue, including a dynamically generated queue name using a UUID, a maximum concurrency of 50, and a retry limit of 1.",
-      "tags": ["added"]
-    },
-    "api/utils/renderEmail.tsx": {
+    "api/utils/email/render.tsx": {
       "description": "This file exports a function that uses the react-email library to generate the HTML for a review request email, including a link with a unique code for the user to submit their review.",
       "tags": ["added"]
     }

@@ -1,5 +1,4 @@
-import renderEmail from "../../utils/emails/render";
-import { default as queueOptions } from "../../utils/emails/queueOptions";
+import renderEmail from "../../utils/email/render";
 import pMap from "p-map";
 
 export const run: ActionRun = async ({
@@ -49,7 +48,7 @@ export const run: ActionRun = async ({
         return logger.warn("No email found for order", { id });
 
       if (!reviewToken)
-        return logger.warn("No single use code found for order", { id });
+        return logger.warn("No review token found for order", { id });
 
       // Send the email to the customer
       await emails.sendMail({

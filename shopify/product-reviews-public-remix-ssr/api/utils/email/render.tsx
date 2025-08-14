@@ -15,6 +15,7 @@ export default async ({
       {/* Add more text in here */}
       {/* Email written with React-Email: https://react.email/components */}
       <Button
+        // TODO: Change the link to redirect the user to the shop's review page
         href={`${currentAppUrl}review/${reviewToken}`}
         style={{ color: "#61dafb", padding: "10px 20px" }}
       >

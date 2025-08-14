@@ -22,7 +22,7 @@ export const onSuccess: ActionOnSuccess = async ({
 }) => {
   // Create a metafield for the product to store reviews
   await api.enqueue(
-    api.metadata.reviews.metafield.create,
+    api.metadata.review.metafield.create,
     {
       shopId: record.shopId,
       productId: record.id,

@@ -44,7 +44,7 @@ export const onSuccess: ActionOnSuccess = async ({
   connections,
 }) => {
   await api.enqueue(
-    api.metadata.reviews.metaobject.create,
+    api.metadata.review.metaobject.create,
     {
       // @ts-ignore
       shopId: record.shop,

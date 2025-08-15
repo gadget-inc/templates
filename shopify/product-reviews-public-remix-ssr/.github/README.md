@@ -12,7 +12,7 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 ## Requirements
 
 1. [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart)
-2. Complete the **protected customer data access (PCDA)** form and select the email field under “Optional fields”
+2. Complete the **protected customer data access (PCDA)** form and select the **email** field under “Optional fields”
 3. Change `api/utils/review/liquid/main.liquid` (line 273) to use your environment's CDN URL.
    - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
 4. Configure your application's [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data).

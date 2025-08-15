@@ -1,3 +1,9 @@
+/**
+ * This file is used to display the setup instructions for the app
+ * It can be removed once the app is live
+ * You may also remove the `react-markdown` once removing this file
+ */
+
 import { readFile } from "fs/promises";
 import { join } from "path";
 import Markdown, { type Components } from "react-markdown";
@@ -17,6 +23,7 @@ import {
   FooterHelp,
 } from "@shopify/polaris";
 
+// This loader is used to fetch the contents of the README.md file and loads the data into the route component
 export async function loader() {
   const readme = await readFile(
     join(process.cwd(), ".github/README.md"),

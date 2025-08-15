@@ -14,6 +14,7 @@ import {
   Divider,
   Thumbnail,
   Layout,
+  FooterHelp,
 } from "@shopify/polaris";
 
 export async function loader() {
@@ -146,13 +147,15 @@ export default function SetupPage() {
 
   return (
     <Page title="Setup">
-      <Layout>
+      <Layout sectioned>
         <Layout.Section>
           <BlockStack gap="400">
             <Markdown components={components}>{readme}</Markdown>
           </BlockStack>
         </Layout.Section>
       </Layout>
+      {/* Used to add spacing to the bottom of the page */}
+      <FooterHelp></FooterHelp>
     </Page>
   );
 }

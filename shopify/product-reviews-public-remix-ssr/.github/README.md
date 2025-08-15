@@ -2,9 +2,10 @@
 
 This app allows Shopify merchants to collect, manage, and display customers' product reviews for fulfilled orders. It provides a:
 
-1. Admin UI: To track and approve reviews
-2. Email: To automatically send emails to customers when orders are fulfilled
-3. Theme app extension: To display approved reviews on product pages
+1. Email: To automatically send emails to customers when orders are fulfilled
+2. Review page: For customers to write reviews about the products on their order
+3. Admin UI: To track and approve reviews
+4. Theme app extension: To display approved reviews on product pages
 
 [![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=product-reviews-public-remix-ssr.gadget.app)
 
@@ -73,7 +74,7 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 6. **Trigger the review email**
 
    Go to the API tab (API Playground).
-   Run: `await api.email.send()`;
+   Run: `await api.email.send()`
    This should send the review email.
 
 7. **Submit a review**

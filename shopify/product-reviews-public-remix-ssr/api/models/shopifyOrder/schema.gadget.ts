@@ -23,15 +23,15 @@ export const schema: GadgetModel = {
         "api/models/shopifyOrder/reviewCreationLimitReached.gelly",
       storageKey: "jcbZXyVH10Cn",
     },
+    reviewToken: {
+      type: "string",
+      validations: { unique: { caseSensitive: true } },
+      storageKey: "GzTtaWfbv1rN",
+    },
     reviews: {
       type: "hasMany",
       children: { model: "review", belongsToField: "order" },
       storageKey: "OoQVLFKhGgUo",
-    },
-    singleUseCode: {
-      type: "string",
-      validations: { unique: { caseSensitive: true } },
-      storageKey: "GzTtaWfbv1rN",
     },
   },
   shopify: {

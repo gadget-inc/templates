@@ -15,7 +15,7 @@ export const run: ActionRun = async ({
   await preventCrossShopDataAccess(params, record);
 
   // Generate a single-use code for the review
-  record.singleUseCode = code.generate();
+  record.reviewToken = code.generate();
 
   setReviewCreationLimit({ record, trigger });
 

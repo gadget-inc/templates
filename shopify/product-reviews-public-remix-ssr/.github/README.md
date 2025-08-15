@@ -1,25 +1,91 @@
-# Product Reviews
+# Product reviews
 
-This application allows Shopify merchants to collect and display product reviews from their customers. Merchants can approve and manage reviews, and customers can submit reviews with a rating and content. This application includes a theme extension to display reviews on the storefront.
+This app allows Shopify merchants to collect, manage, and display customers' product reviews for fulfilled orders. It provides a:
+
+1. Email: To automatically send emails to customers when orders are fulfilled
+2. Review page: For customers to write reviews about the products on their order
+3. Admin UI: To track and approve reviews
+4. Theme app extension: To display approved reviews on product pages
 
 [![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=product-reviews-public-remix-ssr.gadget.app)
 
-## Key features
+## Requirements
 
-- Models
+1. [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart)
+2. Complete the **protected customer data access (PCDA)** form and select the **email** field under “Optional fields”
+3. Change `api/utils/review/liquid/main.liquid` (line 273) to use your environment's CDN URL.
+   - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
+4. Configure your application's [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data).
+   - Subpath prefix: `apps`
+   - Subpath: `product-reviews`
+     - You may change this subpath to any desired subpath. Note that you will also need to change it in the `api/utils/review/liquid/main.liquid` file (line 278)
+   - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
+5. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
+6. Ensure the extension is placed on a product template
 
-  - `review`: Stores review data including the rating, content, and approval status, and links to the corresponding product, customer, and order.
-  - `shopifyShop`: Extended with settings for review requests, like `daysUntilReviewRequest`.
-  - `shopifyOrder`: Extended to manage when review requests are sent.
+## App workflow summary
 
-- Frontend
+1. Order placed
 
-  - `web/routes/_app._index.tsx`: The main dashboard for merchants to view and manage product reviews.
-  - `web/rotues/_public.review.($code).tsx`: A public page where customers can submit a review for their purchase.
-  - `extensions/product-reviews/blocks/productReviews.liquid`: A theme extension block to display approved reviews on product pages.
+   A `requestReviewAfter` date is set on the order (a future date to follow up).
 
-- Actions
+2. Scheduled action runs (hourly)
 
-  - `review/create, update, delete`: Allow for the management and approval of reviews.
-  - `sendReviewRequests`: A scheduled action to email customers asking for a review after their purchase.
-  - `createReviewMetaobject` & `updateReviewsMetafield`: Actions to store review data as Shopify metaobjects and metafields, making them accessible on the storefront.
+   The `email.send` action checks for fulfilled orders past their `requestReviewAfter` date and sends review request emails to customers.
+
+3. Email sent
+
+   The customer receives a secure link to submit a review. After sending, the app sets `sendReviewRequest` to `null` to avoid sending again.
+
+4. Customer submits review
+
+   Review is created as a metaobject to allow easier display on the product page.
+
+5. Merchant moderates
+
+   The merchant approves or rejects the review in the admin panel. Approved reviews are displayed on the product page.
+
+## How to test it
+
+1. **Confirm setup**
+
+   Make sure your extension is visible on your storefront (follow the setup guide if not).
+
+2. **Create an order**
+
+   In your Shopify admin, create a test order and select a customer with a valid email you can access.
+   (Create yourself as a customer if one doesn't exist)
+
+3. **Fulfill the order**
+
+   Mark the order as fulfilled in your Shopify admin.
+
+4. **Check the order in Gadget**
+
+   In Gadget, go to the **Files** tab → `api/models/shopifyOrder/data`.
+   Find the order you just created.
+
+   If the email is missing, revisit your **PCDA** form settings and ensure **email** is selected under “Optional fields”; then recreate the order.
+
+5. **Update review trigger time**
+
+   In the same data view, set `requestReviewAfter` to a **past date**.
+
+6. **Trigger the review email**
+
+   Go to the API tab (API Playground).
+   Run: `await api.email.send()`
+   This should send the review email.
+
+7. **Submit a review**
+
+   Check your email, click the review link, and submit a review.
+
+8. **Approve the review**
+
+   In Shopify: **Apps > [Your App Name]**, find and approve the submitted review.
+
+9. **View it on your storefront**
+
+   Visit the product page for the reviewed product.
+   The approved review should now appear.

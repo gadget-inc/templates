@@ -33,9 +33,9 @@
     "p-map": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-markdown": "^10.1.0",
     "shopify-api-node": "^3.15.0",
-    "short-uuid": "^5.2.0",
-    "uuid": "^11.1.0"
+    "short-uuid": "^5.2.0"
   },
   "devDependencies": {
     "@remix-run/dev": "^2.12.0",

@@ -12,8 +12,13 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 
 1. [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart)
 2. Complete the **protected customer data access (PCDA)** form and select the email field under “Optional fields”
-3. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
-4. Ensure the extension is placed on a product default template
+3. Configure your application's [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data).
+   - Subpath prefix: `apps`
+   - Subpath: `product-reviews`
+     - You may change this subpath to any desired subpath. Note that you will also need to change it in the `api/utils/review/liquid/main.liquid` file (line 278)
+   - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
+4. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
+5. Ensure the extension is placed on a product template
 
 ## App workflow summary
 
@@ -23,8 +28,7 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 
 2. Scheduled action runs (hourly)
 
-   An action `sendReviewRequest` checks for fulfilled orders past their `requestReviewAfter` date.
-   If found, it triggers the `sendEmail` action that reminds the customer to send an email.
+   The `email.send` action checks for fulfilled orders past their `requestReviewAfter` date and sends review request emails to customers.
 
 3. Email sent
 
@@ -67,7 +71,7 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 6. **Trigger the review email**
 
    Go to the API tab (API Playground).
-   Run: `await api.sendReviewRequests()`;
+   Run: `await api.email.send()`;
    This should send the review email.
 
 7. **Submit a review**

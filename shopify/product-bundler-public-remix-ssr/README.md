@@ -21,7 +21,7 @@ Relevant Shopify docs:
 
 ## Setup
 
-A list of steps that you should follow:
+Follow these steps to get the template working:
 
 1. [Connect to Shopify](https://docs.gadget.dev/guides/tutorials/connecting-to-shopify#connecting-to-shopify) using our built-in Shopify plugin.
 

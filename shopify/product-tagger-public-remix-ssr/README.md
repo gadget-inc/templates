@@ -1,5 +1,7 @@
 # Product Tagger
 
+To build this template from scratch, follow along with [this video tutorial](https://www.youtube.com/watch?v=opNY69HAE7U&pp=ygUWcHJvZHVjdCB0YWdnZXIgc2hvcGlmeQ%3D%3D). If you're new to Gadget, and want to learn how to build enterprise-grade Shopify apps, the video is a great place to start.
+
 ## Core purpose
 
 This app allows Shopify merchants to create and manage a curated list of "allowed tags" that can be applied to their products. Rather than letting merchants use any random tags, it provides a controlled tagging system where only pre-approved keywords can be used as product tags.

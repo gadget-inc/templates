@@ -4,6 +4,13 @@
 
 This application provides a comprehensive wishlist feature for Shopify stores. It allows shoppers to create multiple wishlists, add product variants to them, and manage their selections through their customer account. This enhances the shopping experience by enabling customers to save products for future purchase, increasing engagement and potential sales.
 
+## Key functionality
+
+- Multi-Wishlist Management: Customers can create, name, and manage several distinct wishlists (e.g., "Birthday List," "Holiday Gift Ideas") directly within their customer account page.
+- Theme app extension: An "Add to Wishlist" button is available on product pages, allowing shoppers to easily add items to their chosen wishlist without leaving the product page.
+- Customer account UI extension: A dedicated UI within the Shopify Customer Account page allows logged-in users to view all their wishlists, the items in each, and remove items as needed.
+- Email notifications: The app is equipped to send emails related to wishlists, such as sharing a wishlist or notifying a customer when a desired out-of-stock item becomes available again.
+
 ## Setup
 
 A pre-requisite for this application is to install the [Shopify CLI](https://shopify.dev/docs/api/shopify-cli#installation) locally. A list of steps that you should follow:
@@ -34,13 +41,6 @@ Make sure change the application and environment on `line 2` and `5` of `extensi
 To test your theme app extension on a storefront, navigate to your installed development store. From there, go to the online store's admin page and click on the `Customize` button next to the theme selector. Here's navigate to a product page and add the section and save.
 
 Make sure to change the value of the proxy subpaths in `extensions/wishlists-storefront/blocks/addToWishlist.js` to your application's (and environment's) URL.
-
-## Key functionality
-
-- Multi-Wishlist Management: Customers can create, name, and manage several distinct wishlists (e.g., "Birthday List," "Holiday Gift Ideas") directly within their customer account page.
-- Theme app extension: An "Add to Wishlist" button is available on product pages, allowing shoppers to easily add items to their chosen wishlist without leaving the product page.
-- Customer account UI extension: A dedicated UI within the Shopify Customer Account page allows logged-in users to view all their wishlists, the items in each, and remove items as needed.
-- Email notifications: The app is equipped to send emails related to wishlists, such as sharing a wishlist or notifying a customer when a desired out-of-stock item becomes available again.
 
 ## Key features
 

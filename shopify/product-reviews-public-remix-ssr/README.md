@@ -8,6 +8,20 @@ This app enables Shopify merchants to collect, manage, and display customer revi
 
 The app automatically sends review request emails to customers based on configurable timing after order fulfillment. Customers can submit reviews through a secure, code-based system that doesn't require account creation. Merchants can approve or reject reviews through the admin interface, and approved reviews are displayed on product pages via a theme extension. The system syncs review data with Shopify using metafields, maintaining review summaries and ratings directly in the merchant's product catalog for seamless integration with their storefront.
 
+## Setup
+
+1. [Connect to Shopify](https://docs.gadget.dev/guides/tutorials/connecting-to-shopify#connecting-to-shopify) using our built-in Shopify plugin
+
+2. Find the application slug and the environment slug. You'll need them for step 3.
+
+![Photo showing where to find the app and env slug in Gadget UI](./.template/docs/assets/env-app-slug.png)
+
+3. Create a shopify app proxy that has proxy URL matching `https://<application-slug>--<env-slug>.gadget.app/proxy`. Note the subpath used in the theme app extension's JS file. For more information on Shopify app proxies, read the [Shopify docs](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
+
+4. Run the `shopify app dev` command in the Gadget terminal
+
+5. Embed your theme app extension on the product page of your development store
+
 ## Key features
 
 - Models

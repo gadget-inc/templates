@@ -2,7 +2,7 @@
 
 ## Core purpose
 
-This application serves as a powerful template for building AI-powered applications that generate creative text content. It comes pre-configured with an OpenAI connection, allowing you to quickly build features like automated script writing, character dialogue generation, or any other creative writing task.
+This template is a great starting point to build AI applications. It comes pre-configured with an OpenAI connection, allowing you to quickly build features like automated script writing, character dialogue generation, or any other creative writing task.
 
 ## Key functionality
 

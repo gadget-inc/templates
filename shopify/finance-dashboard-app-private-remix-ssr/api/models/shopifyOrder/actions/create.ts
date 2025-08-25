@@ -5,12 +5,11 @@ import { Client } from "@notionhq/client";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
 const updateNotionDb = async (
-  logger: any,
-  orderId: any,
-  type: any,
-  value: any
+  orderId: string,
+  type: "Sales" | "Cost of Goods" | "Margin",
+  value: number
 ) => {
-  const response = await notion.pages.create({
+  return await notion.pages.create({
     parent: {
       type: "database_id",
       database_id: process.env.NOTION_DB_ID ?? "",
@@ -45,9 +44,6 @@ const updateNotionDb = async (
       },
     },
   });
-
-  logger.debug("************ Notion response ************");
-  logger.debug(response);
 };
 
 export const run: ActionRun = async ({
@@ -118,13 +114,12 @@ export const onSuccess: ActionOnSuccess = async ({
         );
 
         if (totalCOGS > 0) {
-          await updateNotionDb(logger, record.id, "Sales", totalSales);
-          await updateNotionDb(logger, record.id, "Cost of Goods", totalCOGS);
-          await updateNotionDb(
-            logger,
-            record.id,
-            "Margin",
-            totalSales - totalCOGS
+          logger.info(await updateNotionDb(record.id, "Sales", totalSales));
+          logger.info(
+            await updateNotionDb(record.id, "Cost of Goods", totalCOGS)
+          );
+          logger.info(
+            await updateNotionDb(record.id, "Margin", totalSales - totalCOGS)
           );
         }
       } catch (error) {

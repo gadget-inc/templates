@@ -13,12 +13,15 @@ import { api } from "../api";
 
 export default function Index() {
   return (
-    <Page title="App">
+    <Page title="Notion - Shopify middleware">
       <Layout>
         <Layout.Section>
           <Card>
             <BlockStack gap="200" inlineAlign="center">
-              <img src="https://assets.gadget.dev/assets/icon.svg" style={{ width: '72px', height: '72px' }} />
+              <img
+                src="https://assets.gadget.dev/assets/icon.svg"
+                style={{ width: "72px", height: "72px" }}
+              />
               <Text variant="bodyMd" as="p" alignment="center">
                 Edit this page's code directly:&nbsp;
                 <Link

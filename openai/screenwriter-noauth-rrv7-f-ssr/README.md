@@ -14,7 +14,7 @@ This template is a great starting point to build AI applications. It comes pre-c
 
 - Models
 
-  - Movie: Stores movie titles, quotes, and vector embeddings
+  - `movie`: Stores movie titles, quotes, and vector embeddings
   - User: Manages signups and user information.
 
 - Global actions:

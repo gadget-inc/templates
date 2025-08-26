@@ -6,7 +6,18 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-Order",
-  fields: {},
+  fields: {
+    costOfGoods: {
+      type: "computed",
+      sourceFile: "api/models/shopifyOrder/costOfGoods.gelly",
+      storageKey: "QQiwrmjD9Nyu",
+    },
+    margin: {
+      type: "computed",
+      sourceFile: "api/models/shopifyOrder/margin.gelly",
+      storageKey: "jBTD7WRpnRxe",
+    },
+  },
   shopify: {
     fields: [
       "billingAddress",

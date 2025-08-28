@@ -9,6 +9,8 @@ New Shopify orders flow into Notion, updating your finance dashboard with sales,
   <p>Watch this video walkthrough guide to set up this template</p>
 </a>
 
+[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=finance-dashboard-app.gadget.app)
+
 ### Requirements
 
 - Shopify Partner account with access to a development store

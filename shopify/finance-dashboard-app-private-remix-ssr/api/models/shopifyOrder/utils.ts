@@ -25,7 +25,7 @@ export const enqueueNotionJob = async (
   jsonValMargin: JSONValue | null
 ) => {
   const notionOrder = await getNotionOrder(orderId);
-  // Race condition check...
+  // We only write new records to Notion if the order ID is not in the DB yet
   if (totalPrice && notionOrder.results.length === 0) {
     const price = Number(totalPrice);
     const costOfGoods = Number(jsonValCOGS);

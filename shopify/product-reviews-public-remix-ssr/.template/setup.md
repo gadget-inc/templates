@@ -6,4 +6,4 @@
 
 3. Run the `shopify app dev` command in the Gadget terminal
 
-4. Embed your theme app extension on the product page of your devalopment store
+4. Embed your theme app extension on the product page of your development store

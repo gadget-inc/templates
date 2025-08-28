@@ -43,10 +43,12 @@ const updateOrderInNotion = async (
   logger.info(JSON.stringify(updates));
 
   if (updates.length > 0)
-    return await api.enqueue(api.shopifyOrder.bulkUpdateNotionOrder, updates);
+    return await api.enqueue(api.shopifyOrder.bulkUpdateNotionOrder, updates, {
+      queue: { name: "notion-jobs" },
+    });
 };
 
-export const onSuccess: ActionOnSuccess = async ({ record, api }) => {
+export const onSuccess: ActionOnSuccess = async ({ params, record, api }) => {
   const {
     id: orderId,
     totalPrice,
@@ -63,7 +65,7 @@ export const onSuccess: ActionOnSuccess = async ({ record, api }) => {
     updateOrderInNotion(orderId, totalPrice, jsonValCOGS, jsonValMargin);
   } else {
     logger.info("*** creating new order...");
-    enqueueNotionJob(orderId, totalPrice, jsonValCOGS, jsonValMargin);
+    await enqueueNotionJob(orderId, totalPrice, jsonValCOGS, jsonValMargin);
   }
 };
 

@@ -162,3 +162,4 @@ Since Gadget is acting as middleware, we have no need to customize this landing 
 - [Gadget Documentation](https://docs.gadget.dev/)
 
 Happy building!
+

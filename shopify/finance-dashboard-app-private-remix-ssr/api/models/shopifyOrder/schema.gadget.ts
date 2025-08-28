@@ -10,12 +10,12 @@ export const schema: GadgetModel = {
     costOfGoods: {
       type: "computed",
       sourceFile: "api/models/shopifyOrder/costOfGoods.gelly",
-      storageKey: "QQiwrmjD9Nyu",
+      storageKey: "kYLenlzQQzJq",
     },
     margin: {
       type: "computed",
       sourceFile: "api/models/shopifyOrder/margin.gelly",
-      storageKey: "jBTD7WRpnRxe",
+      storageKey: "CTEE-UgMUptB",
     },
   },
   shopify: {

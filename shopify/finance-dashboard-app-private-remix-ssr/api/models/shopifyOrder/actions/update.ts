@@ -9,8 +9,10 @@ import { Client } from "@notionhq/client";
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
 export const getNotionOrder = async (orderId: string) => {
+  if (process.env.NOTION_DB_ID)
+    throw new Error("The NOTION_DB_ID environment variable is missing");
   const response = await notion.databases.query({
-    database_id: process.env.NOTION_DB_ID ?? "",
+    database_id: process.env.NOTION_DB_ID,
     filter: {
       property: "Order ID",
       rich_text: {
@@ -54,8 +56,7 @@ const updateOrderInNotion = async (
       updates.push({ id: orderId, pageId: result.id, value: newValue });
   }
 
-  logger.info("*** updates ***");
-  logger.info(JSON.stringify(updates));
+  logger.info({ updates }, "*** update Notion order ***");
 
   if (updates.length > 0)
     return await api.enqueue(api.shopifyOrder.bulkUpdateNotionOrder, updates, {
@@ -112,7 +113,7 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api }) => {
   const notionOrder = await getNotionOrder(orderId);
 
   if (notionOrder.results.length > 0) {
-    logger.info("*** updating order...");
+    logger.info(`*** updating order #${orderId} ***`);
     updateOrderInNotion(
       orderId,
       totalPrice,
@@ -121,7 +122,7 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api }) => {
       notionOrder
     );
   } else {
-    logger.info("*** creating new order...");
+    logger.info(`*** creating new order #${orderId} ***`);
     await enqueueNotionJob(orderId, totalPrice, jsonValCOGS, jsonValMargin);
   }
 };

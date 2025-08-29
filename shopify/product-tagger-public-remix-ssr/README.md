@@ -17,17 +17,17 @@ Merchants can define a set of approved keywords through the `allowedTag` model (
 2. Using the UI of the product tagger app you installed in step 1, add a tag.
 
 <p align="center">
-<img src="https://image-hosting--development.gadget.app/public/tagger-ui.png" alt='product tagger UI with "shirt" tag' width="400px" />
+<img src="https://image-hosting.gadget.app/tagger-ui.png" alt='product tagger UI with "shirt" tag' width="400px" />
 </p>
 
 3. In the Shopify admin, add a product. The description should include the tag you just added.
 
 <p align="center">
-<img src="https://image-hosting--development.gadget.app/public/product-description.png" alt='product tagger UI with "shirt" tag' width="400px" />
+<img src="https://image-hosting.gadget.app/product-description.png" alt='product tagger UI with "shirt" tag' width="400px" />
 </p>
 
 4. Assuming the tag matches a word you entered in the description, the product should be automatically ben tagged.
 
 <p align="center">
-<img src="https://image-hosting--development.gadget.app/public/successful-tag.png" alt="shirt tag on a new product" width="400px" />
+<img src="https://image-hosting.gadget.app/successful-tag.png" alt="shirt tag on a new product" width="400px" />
 </p>

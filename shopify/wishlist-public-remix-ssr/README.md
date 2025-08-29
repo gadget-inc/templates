@@ -20,7 +20,7 @@ A pre-requisite for this application is to install the [Shopify CLI](https://sho
 2. Find the application slug and the environment slug. You'll need them for step 3.
 
 <p align="center">
-<img src="https://image-hosting--development.gadget.app/public/env-app-slug.png" alt="Photo showing where to find the app and env slug in Gadget UI" width="400px" />
+<img src="https://image-hosting.gadget.app/env-app-slug.png" alt="Photo showing where to find the app and env slug in Gadget UI" width="400px" />
 </p>
 
 3. Create a shopify app proxy that has proxy URL matching `https://<application-slug>--<env-slug>.gadget.app/proxy`. Note the subpath used in the theme app extension's JS file. Take a look at these docs if you're unsure how to do so:

@@ -1,0 +1,18 @@
+# Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+
+client_id = "fcd8e45bb18e38314c414cce93ceca9c"
+name = "finance-dashboard-app"
+application_url = "https://finance-dashboard-app.gadget.app/api/shopify/install-or-render"
+embedded = true
+
+[build]
+# Gadget manages all your scopes, webhooks and api versioning for your app
+# As such, this line should not be changed unless you are working with
+# Shopify managed installations. Read more at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+include_config_on_deploy = false
+
+[auth]
+redirect_urls = ["https://finance-dashboard-app.gadget.app/api/connections/auth/shopify/callback"]
+
+[webhooks]
+api_version = "2025-07"

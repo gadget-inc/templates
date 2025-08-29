@@ -1,0 +1,5 @@
+field on shopifyOrder {
+  sum(
+    lineItems.quantity * cast(lineItems.variant.inventoryItem.cost, type: "Number")
+  )
+}

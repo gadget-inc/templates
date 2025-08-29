@@ -37,7 +37,11 @@ const updateOrderInNotion = async (
   for (const result of notionOrder.results) {
     if (!isFullPage(result)) continue;
 
+    // Getting the type (an enum that's either Sales, Cost of Goods or Margin) from Notion
     const typeProp = result.properties.Type;
+    // Getting the value, which is the number associated with the type (i.e. type: "Sales", value: "$100")
+    // The data is formatted like this because of Notion's charting limitations
+    // See https://youtu.be/i_D8MlBAk0A?feature=shared&t=2067
     const valueProp = result.properties.Value;
     if (typeProp.type !== "select" || valueProp.type !== "number") continue;
 

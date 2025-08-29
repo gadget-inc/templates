@@ -14,7 +14,9 @@ The app automatically sends review request emails to customers based on configur
 
 2. Find the application slug and the environment slug. You'll need them for step 3.
 
-![Photo showing where to find the app and env slug in Gadget UI](./.template/docs/assets/env-app-slug.png)
+<p align="center">
+<img src="https://image-hosting.gadget.app/env-app-slug.png" alt="Photo showing where to find the app and env slug in Gadget UI" width="400px" />
+</p>
 
 3. Create a shopify app proxy that has proxy URL matching `https://<application-slug>--<env-slug>.gadget.app/proxy`. Note the subpath used in the theme app extension's JS file. For more information on Shopify app proxies, read the [Shopify docs](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
 

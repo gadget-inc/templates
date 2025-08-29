@@ -1,4 +1,4 @@
-import renderEmail from "../../utils/email/render";
+import render from "../../utils/email/render";
 import pMap from "p-map";
 
 export const run: ActionRun = async ({
@@ -54,7 +54,7 @@ export const run: ActionRun = async ({
       await emails.sendMail({
         to: customer.email,
         subject: "Review your purchase",
-        html: await renderEmail({ currentAppUrl, reviewToken }),
+        html: await render({ currentAppUrl, reviewToken }),
       });
 
       // Clear the field so we don't send the email again

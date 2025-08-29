@@ -10,8 +10,8 @@ import {
   Tooltip,
 } from "@shopify/polaris";
 import { api } from "../api";
-import Stars from "../components/Stars";
-import ApprovalButton from "../components/ApprovalButton";
+import Stars from "../components/review/Stars";
+import ApprovalButton from "../components/review/ApprovalButton";
 import { useAppBridge } from "@shopify/app-bridge-react";
 import { useState, useEffect } from "react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";

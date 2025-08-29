@@ -13,12 +13,14 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 
 1. [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart)
 2. Complete the **protected customer data access (PCDA)** form and select the **email** field under “Optional fields”
+   - This form can be found in the **Partner dashboard > your Shopify app > API access > Protected customer data access section**
 3. Change `api/utils/review/liquid/main.liquid` (line 273) to use your environment's CDN URL.
    - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
 4. Configure your application's [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data).
+   - Configurations are set in the **Partner dashboard > your Shopify app > Configuration > App proxy section**
    - Subpath prefix: `apps`
    - Subpath: `product-reviews`
-     - You may change this subpath to any desired subpath. Note that you will also need to change it in the `api/utils/review/liquid/main.liquid` file (line 278)
+     - You may change this subpath to any desired subpath. Note that you will also need to change it in the `api/utils/review/liquid/main.liquid` file (line 283)
    - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
 5. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
 6. Ensure the extension is placed on a product template

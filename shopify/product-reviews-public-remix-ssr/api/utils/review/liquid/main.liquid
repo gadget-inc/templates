@@ -275,6 +275,11 @@
     <script>
       window.addEventListener("DOMContentLoaded", function() {
         window.api = new Gadget({
+          /**
+           * App proxy configuration:
+           * Subpath prefix: `apps`
+           * Subpath: `product-reviews`
+          */
           endpoint: "/apps/product-reviews/api/graphql",
         })
       })

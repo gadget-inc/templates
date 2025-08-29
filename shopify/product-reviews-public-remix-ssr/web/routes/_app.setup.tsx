@@ -25,10 +25,7 @@ import {
 
 // This loader is used to fetch the contents of the README.md file and loads the data into the route component
 export async function loader() {
-  const readme = await readFile(
-    join(process.cwd(), ".github/README.md"),
-    "utf-8"
-  );
+  const readme = await readFile(join(process.cwd(), "README.md"), "utf-8");
 
   // Filter out lines containing the fork template badge
   const filteredReadme = readme

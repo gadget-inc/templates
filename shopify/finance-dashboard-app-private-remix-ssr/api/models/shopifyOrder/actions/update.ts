@@ -4,6 +4,7 @@ import { isFullPage } from "@notionhq/client";
 import { enqueueNotionJob, getNotionOrder } from "../utils";
 import { JSONValue } from "@gadget-client/finance-dashboard-app";
 import { api } from "gadget-server";
+import { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
 
 export const run: ActionRun = async ({ params, record }) => {
   applyParams(params, record);
@@ -15,15 +16,15 @@ const updateOrderInNotion = async (
   orderId: string,
   totalPrice: string | null,
   jsonValCOGS: JSONValue | null,
-  jsonValMargin: JSONValue | null
+  jsonValMargin: JSONValue | null,
+  notionOrder: QueryDatabaseResponse
 ) => {
   const price = Number(totalPrice);
   const costOfGoods = Number(jsonValCOGS);
   const margin = Number(jsonValMargin);
-  const response = await getNotionOrder(orderId);
   const updates: { id: string; pageId: string; value: number }[] = [];
 
-  for (const result of response.results) {
+  for (const result of notionOrder.results) {
     if (!isFullPage(result)) continue;
 
     const typeProp = result.properties.Type;
@@ -62,7 +63,13 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api }) => {
 
   if (notionOrder.results.length > 0) {
     logger.info("*** updating order...");
-    updateOrderInNotion(orderId, totalPrice, jsonValCOGS, jsonValMargin);
+    updateOrderInNotion(
+      orderId,
+      totalPrice,
+      jsonValCOGS,
+      jsonValMargin,
+      notionOrder
+    );
   } else {
     logger.info("*** creating new order...");
     await enqueueNotionJob(orderId, totalPrice, jsonValCOGS, jsonValMargin);

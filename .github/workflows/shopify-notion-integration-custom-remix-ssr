@@ -1,0 +1,21 @@
+name: Shopify Notion Integration Deployment
+
+on:
+  push:
+    paths:
+      - "shopify/shopify-notion-integration-custom-remix-ssr/**"
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  push-to-development-environment:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout the current repository
+        uses: actions/checkout@v4
+      - name: Push to development environment
+        run: npx ggt push --app=shopify-notion-integration-custom-remix-ssr --env=development --force --allow-unknown-directory
+        working-directory: shopify/shopify-notion-integration-custom-remix-ssr/
+        env:
+          GGT_TOKEN: ${{ secrets.SHOPIFY_NOTION_INTEGRATION_CUSTOM_REMIX_SSR_DEPLOY_TOKEN }}

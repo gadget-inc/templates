@@ -6,6 +6,10 @@ import { api } from "gadget-server";
 import { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
 import { Client } from "@notionhq/client";
 
+const SALES = "Sales";
+const COGS = "Cost of Goods";
+const MARGIN = "Margin";
+
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 
 export const getNotionOrder = async (orderId: string) => {
@@ -48,9 +52,9 @@ const updateOrderInNotion = async (
     if (typeProp.type !== "select" || valueProp.type !== "number") continue;
 
     let newValue: number | undefined;
-    if (typeProp.select?.name === "Sales") newValue = price;
-    if (typeProp.select?.name === "Cost of Goods") newValue = costOfGoods;
-    if (typeProp.select?.name === "Margin") newValue = margin;
+    if (typeProp.select?.name === SALES) newValue = price;
+    if (typeProp.select?.name === COGS) newValue = costOfGoods;
+    if (typeProp.select?.name === MARGIN) newValue = margin;
 
     if (newValue !== undefined && valueProp.number !== newValue)
       updates.push({ id: orderId, pageId: result.id, value: newValue });
@@ -79,9 +83,9 @@ export const createOrderInNotion = async (
     // Sales, COGS and margin are three separate rows because of Notion's graphing limitations
     // See https://youtu.be/i_D8MlBAk0A?feature=shared&t=2068
     const notionPages = [
-      { id: orderId, rowType: "Sales", value: price },
-      { id: orderId, rowType: "Cost of Goods", value: costOfGoods },
-      { id: orderId, rowType: "Margin", value: margin },
+      { id: orderId, rowType: SALES, value: price },
+      { id: orderId, rowType: COGS, value: costOfGoods },
+      { id: orderId, rowType: MARGIN, value: margin },
     ];
 
     await api.enqueue(api.shopifyOrder.bulkCreateNotionOrder, notionPages, {

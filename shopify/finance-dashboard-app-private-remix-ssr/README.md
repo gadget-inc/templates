@@ -12,7 +12,7 @@ New Shopify orders flow into Notion, updating your finance dashboard with sales,
 ### Requirements
 
 - Shopify Partner account with access to a development store
-- Connect your Gadget app to Shopify
+- [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart#connecting-via-the-shopify-cli)
 - A Notion workspace with a copy of the prebuilt [finance dashboard](https://steampunk-education.notion.site/Finance-Dashboard-249719c13e368029a77be68a7b824e35).
 
 ### Part 1: Connect Shopify to Gadget

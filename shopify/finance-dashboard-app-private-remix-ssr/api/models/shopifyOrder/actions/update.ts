@@ -64,7 +64,7 @@ const updateOrderInNotion = async (
     });
 };
 
-export const enqueueNotionJob = async (
+export const createOrderInNotion = async (
   orderId: string,
   totalPrice: string | null,
   jsonValCOGS: JSONValue | null,
@@ -85,6 +85,8 @@ export const enqueueNotionJob = async (
     ];
 
     await api.enqueue(api.shopifyOrder.bulkCreateNotionOrder, notionPages, {
+      id: `${orderId} ${price} ${costOfGoods} ${margin}`,
+      onDuplicateID: "ignore",
       queue: { name: "notion-jobs" },
     });
   } else {
@@ -128,7 +130,7 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api }) => {
     );
   } else {
     logger.info(`*** creating new order #${orderId} ***`);
-    await enqueueNotionJob(orderId, totalPrice, jsonValCOGS, jsonValMargin);
+    await createOrderInNotion(orderId, totalPrice, jsonValCOGS, jsonValMargin);
   }
 };
 

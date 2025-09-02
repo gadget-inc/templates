@@ -1,6 +1,6 @@
-import { Button, Card, Text, InlineStack } from "@shopify/polaris";
+import { Button, Card, Text, InlineStack, Box } from "@shopify/polaris";
 import { ChevronDownIcon, ChevronUpIcon } from "@shopify/polaris-icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import hljs from "highlight.js";
 import "highlight.js/styles/github.css";
 
@@ -70,6 +70,66 @@ const customStyles = `
   }
 `;
 
+// Simple syntax highlighting without HTML injection
+function highlightCode(
+  code: string,
+  language: string | null
+): React.ReactNode[] {
+  if (!language || language === "text" || !hljs.getLanguage(language)) {
+    return [code];
+  }
+
+  try {
+    // Use highlight.js to get the actual highlighted HTML
+    const result = hljs.highlight(code, { language });
+
+    // Parse the HTML safely by converting it to React elements
+    // This is safer than dangerouslySetInnerHTML because we control the parsing
+    const html = result.value;
+
+    // Decode HTML entities before parsing
+    const decodedHtml = html
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#39;/g, "'")
+      .replace(/&apos;/g, "'");
+
+    // Simple HTML parser for highlight.js output
+    const parts = decodedHtml.split(/(<span class="[^"]*">|<\/span>)/);
+    const elements: React.ReactNode[] = [];
+
+    for (let i = 0; i < parts.length; i++) {
+      const part = parts[i];
+
+      if (part.startsWith('<span class="')) {
+        // Extract the class name
+        const className = part.match(/class="([^"]*)"/)?.[1];
+        if (className && parts[i + 1]) {
+          // Create a React span with the highlight.js class
+          elements.push(
+            <span key={i} className={`hljs-override ${className}`}>
+              {parts[i + 1]}
+            </span>
+          );
+          i++; // Skip the next part since we've already processed it
+        }
+      } else if (!part.startsWith("</span>")) {
+        // Regular text content
+        if (part) {
+          elements.push(part);
+        }
+      }
+    }
+
+    return elements.length > 0 ? elements : [code];
+  } catch (error) {
+    console.warn(`Failed to highlight ${language}:`, error);
+    return [code];
+  }
+}
+
 export default function ({
   children,
   title,
@@ -98,129 +158,68 @@ export default function ({
     }
   }, []);
 
-  // Simple syntax highlighting without HTML injection
-  const highlightCode = (
-    code: string,
-    language: string | null
-  ): React.ReactNode[] => {
-    if (!language || language === "text" || !hljs.getLanguage(language)) {
-      return [code];
-    }
-
-    try {
-      // Use highlight.js to get the actual highlighted HTML
-      const result = hljs.highlight(code, { language });
-
-      // Parse the HTML safely by converting it to React elements
-      // This is safer than dangerouslySetInnerHTML because we control the parsing
-      const html = result.value;
-
-      // Decode HTML entities before parsing
-      const decodedHtml = html
-        .replace(/&quot;/g, '"')
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        .replace(/&#39;/g, "'")
-        .replace(/&apos;/g, "'");
-
-      // Simple HTML parser for highlight.js output
-      const parts = decodedHtml.split(/(<span class="[^"]*">|<\/span>)/);
-      const elements: React.ReactNode[] = [];
-
-      for (let i = 0; i < parts.length; i++) {
-        const part = parts[i];
-
-        if (part.startsWith('<span class="')) {
-          // Extract the class name
-          const className = part.match(/class="([^"]*)"/)?.[1];
-          if (className && parts[i + 1]) {
-            // Create a React span with the highlight.js class
-            elements.push(
-              <span key={i} className={`hljs-override ${className}`}>
-                {parts[i + 1]}
-              </span>
-            );
-            i++; // Skip the next part since we've already processed it
-          }
-        } else if (!part.startsWith("</span>")) {
-          // Regular text content
-          if (part) {
-            elements.push(part);
-          }
-        }
-      }
-
-      return elements.length > 0 ? elements : [code];
-    } catch (error) {
-      console.warn(`Failed to highlight ${language}:`, error);
-      return [code];
-    }
-  };
-
-  const renderCodeWithLineNumbers = (
-    codeLines: string[],
-    showLineNumbers = true,
-    isCollapsed = false
-  ) => {
-    return (
-      <div style={{ position: "relative" }}>
-        <pre
-          style={{
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
-            margin: 0,
-            padding: "16px",
-            backgroundColor: "#f6f6f7",
-            borderTopLeftRadius: "8px",
-            borderTopRightRadius: "8px",
-            fontFamily: "monospace",
-            fontSize: "14px",
-            lineHeight: "1.5",
-            overflowX: "auto",
-          }}
-          className="hljs-override"
-        >
-          {codeLines.map((line, index) => (
-            <div key={index} style={{ display: "flex" }}>
-              {showLineNumbers && (
-                <span
-                  style={{
-                    color: "#6d7175",
-                    opacity: 0.6,
-                    userSelect: "none",
-                    paddingRight: "16px",
-                    minWidth: "40px",
-                    textAlign: "right",
-                  }}
-                >
-                  {index + 1}
-                </span>
-              )}
-              <span style={{ flex: 1 }}>{highlightCode(line, language)}</span>
-            </div>
-          ))}
-        </pre>
-        {isCollapsed && (
-          <div
+  const renderCodeWithLineNumbers = useCallback(
+    (codeLines: string[], showLineNumbers = true, isCollapsed = false) => {
+      return (
+        <Box position="relative">
+          <pre
             style={{
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: "60px",
-              background: "linear-gradient(to bottom, transparent, #f6f6f7)",
-              pointerEvents: "none",
-              borderBottomLeftRadius: "8px",
-              borderBottomRightRadius: "8px",
+              whiteSpace: "pre-wrap",
+              wordBreak: "break-word",
+              margin: 0,
+              padding: "16px",
+              backgroundColor: "#f6f6f7",
+              borderTopLeftRadius: "8px",
+              borderTopRightRadius: "8px",
+              fontFamily: "monospace",
+              fontSize: "14px",
+              lineHeight: "1.5",
+              overflowX: "auto",
             }}
-          />
-        )}
-      </div>
-    );
-  };
+            className="hljs-override"
+          >
+            {codeLines.map((line, index) => (
+              <Box key={index}>
+                {showLineNumbers && (
+                  <span
+                    style={{
+                      color: "#6d7175",
+                      opacity: 0.6,
+                      userSelect: "none",
+                      paddingRight: "16px",
+                      minWidth: "40px",
+                      textAlign: "right",
+                    }}
+                  >
+                    {index + 1}
+                  </span>
+                )}
+                <span style={{ flex: 1 }}>{highlightCode(line, language)}</span>
+              </Box>
+            ))}
+          </pre>
+          {isCollapsed && (
+            <div
+              style={{
+                position: "absolute",
+                bottom: 0,
+                left: 0,
+                right: 0,
+                height: "60px",
+                background: "linear-gradient(to bottom, transparent, #f6f6f7)",
+                pointerEvents: "none",
+                borderBottomLeftRadius: "8px",
+                borderBottomRightRadius: "8px",
+              }}
+            />
+          )}
+        </Box>
+      );
+    },
+    [language]
+  );
 
-  const handleCopy = async () => {
+  const handleCopy = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(code);
       // Show toast notification using Shopify App Bridge
@@ -232,11 +231,11 @@ export default function ({
     } catch (error) {
       console.error("Failed to copy code:", error);
     }
-  };
+  }, [code]);
 
   return (
     <Card background="bg-surface-secondary">
-      <InlineStack align="space-between" blockAlign="start">
+      <InlineStack align="space-between" blockAlign="center">
         <InlineStack gap="200" blockAlign="center">
           {title && (
             <Text as="span" variant="bodySm" tone="subdued">
@@ -247,34 +246,27 @@ export default function ({
         <Button onClick={handleCopy}>Copy</Button>
       </InlineStack>
       {open ? (
-        <div>{renderCodeWithLineNumbers(lines, true, false)}</div>
+        <Box>{renderCodeWithLineNumbers(lines, true, false)}</Box>
       ) : (
-        <div>
+        <Box>
           {renderCodeWithLineNumbers(
             lines.slice(0, linesShownWhenCollapsed),
             true,
             true
           )}
-        </div>
+        </Box>
       )}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          padding: "8px",
-          background: "#f6f6f7",
-          borderBottomLeftRadius: "8px",
-          borderBottomRightRadius: "8px",
-        }}
-      >
-        <Button
-          variant="monochromePlain"
-          icon={open ? ChevronUpIcon : ChevronDownIcon}
-          onClick={() => setOpen(!open)}
-        >
-          {open ? "Show less" : "Show more"}
-        </Button>
-      </div>
+      <Box padding="100" background="bg-surface-secondary">
+        <InlineStack align="center" blockAlign="center">
+          <Button
+            variant="monochromePlain"
+            icon={open ? ChevronUpIcon : ChevronDownIcon}
+            onClick={() => setOpen(!open)}
+          >
+            {open ? "Show less" : "Show more"}
+          </Button>
+        </InlineStack>
+      </Box>
     </Card>
   );
 }

@@ -240,8 +240,6 @@ export async function getBlockDetails(
     version: string;
   }[]
 ) {
-  console.log("themeVersions", themeVersions);
-
   const extensionFolderPath = await getThemeAppExtensionPath();
 
   if (!extensionFolderPath) throw new Error("No extension folder path found");

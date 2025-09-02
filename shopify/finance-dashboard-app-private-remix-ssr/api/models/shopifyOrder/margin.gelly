@@ -1,5 +1,5 @@
 field on shopifyOrder {
-  cast(totalPrice, type: "Number") - sum(
-    lineItems.quantity * cast(lineItems.variant.inventoryItem.cost, type: "Number")
+  cast(currentTotalPrice, type: "Number") - sum(
+    lineItems.currentQuantity * cast(lineItems.variant.inventoryItem.cost, type: "Number")
   )
 }

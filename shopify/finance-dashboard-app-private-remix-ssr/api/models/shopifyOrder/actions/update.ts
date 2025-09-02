@@ -103,11 +103,16 @@ export const run: ActionRun = async ({ params, record }) => {
 export const onSuccess: ActionOnSuccess = async ({ params, record, api }) => {
   const {
     id: orderId,
-    totalPrice,
+    currentTotalPrice: totalPrice,
     costOfGoods: jsonValCOGS,
     margin: jsonValMargin,
   } = await api.shopifyOrder.findOne(record.id, {
-    select: { id: true, totalPrice: true, costOfGoods: true, margin: true },
+    select: {
+      id: true,
+      currentTotalPrice: true,
+      costOfGoods: true,
+      margin: true,
+    },
   });
 
   const notionOrder = await getNotionOrder(orderId);

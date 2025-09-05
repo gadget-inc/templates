@@ -1,0 +1,3 @@
+filter ($session: Session) on ShopifyOrder [
+  where shopId == $session.shopId
+]

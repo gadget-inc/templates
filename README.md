@@ -4,6 +4,7 @@ This repository houses the [Gadget app templates](https://gadget.dev/resources/t
 
 ## Shopify
 
+- [Shopify <> Notion Integration](https://github.com/gadget-inc/templates/tree/main/shopify/shopify-notion-integration-custom-remix-ssr)
 - [Product bundler](https://github.com/gadget-inc/templates/tree/main/shopify/product-bundler-public-remix-ssr)
 - [Product quiz (storefront)](https://github.com/gadget-inc/templates/tree/main/shopify/product-quiz-public-remix-ssr)
 - [Product reviews](https://github.com/gadget-inc/templates/tree/main/shopify/product-reviews-public-remix-ssr)

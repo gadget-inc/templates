@@ -1,0 +1,11 @@
+.gadget/
+node_modules/
+**/.DS_Store
+.react-router/
+
+# Shopify
+extensions/**/dist
+extensions/**/node_modules
+extensions/**/generated
+shopify.app.*.toml
+.env.*

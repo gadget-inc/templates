@@ -20,7 +20,7 @@ import {
   ImageIcon,
   CheckCircleIcon,
 } from "@shopify/polaris-icons";
-import { api } from "../api";
+import { api } from "../../api";
 import { useState } from "react";
 import Stars from "./Stars";
 
@@ -74,7 +74,7 @@ export default ({
                 orderId,
                 productId,
                 lineItemId,
-                rating: 0
+                rating: 0,
               },
             }}
             onSuccess={() => {

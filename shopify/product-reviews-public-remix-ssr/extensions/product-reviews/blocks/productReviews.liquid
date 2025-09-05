@@ -1,3 +1,8 @@
+{% comment %}
+  This block displays customer reviews on your product pages, helping build trust and increase sales.
+  Customers can see what others think about your products, including star ratings and written feedback.
+{% endcomment %}
+
 <script src="{{ 'reviewStars.js' | asset_url }}" defer="defer"></script>
 {{ 'reviews.css' | asset_url | stylesheet_tag }}
 
@@ -6,8 +11,6 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
       window.reviews = {{ reviews | json }};
-      console.log("Reviews:", window.reviews);
-      
     });
  </script>
 
@@ -37,7 +40,10 @@
     "name": "Reviews",
     "stylesheet": "reviews.css",
     "target": "section",
-    "settings": []
+    "settings": [],
+    "enabled_on": {
+      "templates": ["product"]
+    }
   }
 {% endschema %}
 

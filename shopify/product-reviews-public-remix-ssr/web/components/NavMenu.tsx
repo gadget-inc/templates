@@ -7,6 +7,9 @@ export function NavMenu() {
       <Link to="/" rel="home">
         Shop Information
       </Link>
+      <Link to="/install">Install</Link>
+      {/* Remove the setup link when going live */}
+      <Link to="/setup">Template setup</Link>
     </AppBridgeNavMenu>
   );
 }

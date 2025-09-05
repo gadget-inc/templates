@@ -1,18 +1,5 @@
 {
   "version": "v1",
-  "webflow": {
-    "title": "Product Reviews",
-    "description": "A comprehensive product review system for Shopify stores. Automatically requests reviews from customers, manages review data, and displays reviews on product pages through a theme extension.",
-    "setup": "./setup.md",
-    "content": "webflow/content.md",
-    "mainImage": "webflow/reviews.png",
-    "features": {
-      "shopify": true,
-      "frontend": true,
-      "models": true,
-      "actions": true
-    }
-  },
   "featuredModels": {
     "review": {
       "description": "Stores customer reviews with ratings, content, and approval status. Connected to Shopify customers, orders, and products.",
@@ -42,11 +29,11 @@
   "featuredActions": {
     "review": {
       "create": {
-        "description": "Creates new customer reviews and updates the associated product's review metafield in Shopify.",
+        "description": "Creates new customer review and creates a metaobject for that review in Shopify.",
         "tags": ["edited"]
       },
       "update": {
-        "description": "Updates existing reviews and syncs changes back to Shopify metafields when approval status changes.",
+        "description": "Updates existing review and calls the metadata/review/metaobject/create action to update linked product metafield in Shopify.",
         "tags": ["edited"]
       }
     },
@@ -58,32 +45,20 @@
     }
   },
   "featuredGlobalActions": {
-    "createReviewMetaobject": {
-      "description": "This global action is responsible for creating a review metaobject in Shopify for a given shop.",
+    "email/send": {
+      "description": "Sends a review request email to a customer and then clears the requestReviewAfter field on the corresponding order to prevent re-sending the email",
       "tags": ["added"]
     },
-    "createReviewsMetafield": {
-      "description": "Creates the review summary metafield in Shopify.",
+    "metadata/review/metafield/create": {
+      "description": "Creates a review metafield on a product in Shopify.",
       "tags": ["added"]
     },
-    "enqueueEmails": {
-      "description": "This global action adds email-sending jobs to a background queue to be processed asynchronously.",
+    "metadata/review/metafield/update": {
+      "description": "Updates the linked review metaobjects on a product in Shopify.",
       "tags": ["added"]
     },
-    "fetchOrderData": {
-      "description": "This global action fetches an order and its associated products using a unique, single-use code provided as a parameter.",
-      "tags": ["added"]
-    },
-    "sendEmail": {
-      "description": "This global action sends a review request email to a customer and then clears the requestReviewAfter field on the corresponding order to prevent re-sending the email",
-      "tags": ["added"]
-    },
-    "sendReviewRequests": {
-      "description": "Scheduled global action that automatically sends review request emails to customers based on order fulfillment and timing rules.",
-      "tags": ["added"]
-    },
-    "updateReviewsMetafield": {
-      "description": "Updates the review summary metafield in Shopify products with aggregated review data.",
+    "metadata/review/metaobject/create": {
+      "description": "Creates a review metaobject linked to a product in Shopify.",
       "tags": ["added"]
     }
   },
@@ -92,14 +67,6 @@
       "review": {
         "description": "Merchants can update and manage reviews through the admin interface, including approving or rejecting reviews."
       }
-    },
-    "unauthenticated": {
-      "review": {
-        "description": "Allows public creation of reviews through the storefront theme extension using unique review codes."
-      },
-      "fetchOrderData": {
-        "description": "Enables customers to fetch order data for review creation without authentication."
-      }
     }
   },
   "featuredFrontends": {
@@ -107,8 +74,8 @@
       "description": "Displays an embedded Shopify Admin UI for merchants to view and manage customer reviews and approval workflow.",
       "tags": ["edited"]
     },
-    "web/routes/_public.review": {
-      "description": "Public review submission page accessible via unique codes sent to customers, allowing them to leave reviews without authentication.",
+    "web/routes/_app._install": {
+      "description": "Contains a list of installation instructions for extensions linked to this app.",
       "tags": ["added"]
     },
     "extensions/product-reviews/blocks/productReviews.liquid": {
@@ -117,13 +84,22 @@
     }
   },
   "featuredFiles": {
-    "api/utils/emailQueueOptions.ts": {
-      "description": "This file exports configuration options for a message queue, including a dynamically generated queue name using a UUID, a maximum concurrency of 50, and a retry limit of 1.",
-      "tags": ["added"]
-    },
-    "api/utils/renderEmail.tsx": {
+    "api/utils/email/render.tsx": {
       "description": "This file exports a function that uses the react-email library to generate the HTML for a review request email, including a link with a unique code for the user to submit their review.",
       "tags": ["added"]
+    },
+    "api/utils/review/liquid/main.liquid": {
+      "description": "This file is used to display the review submission page to the customer.",
+      "tags": ["added"]
+    },
+    "api/utils/review/liquid/invalid.liquid": {
+      "description": "This file is used to display the invalid review token page.",
+      "tags": ["added"]
+    }
+  },
+  "featuredRoutes": {
+    "api/routes/review/GET-[token]": {
+      "description": "This route is responsible for displaying the review submission page to the customer."
     }
   }
 }

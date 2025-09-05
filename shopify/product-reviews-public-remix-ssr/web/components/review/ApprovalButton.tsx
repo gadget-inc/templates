@@ -1,5 +1,5 @@
 import { Button } from "@shopify/polaris";
-import { api } from "../api";
+import { api } from "../../api";
 import { useAction } from "@gadgetinc/react";
 import { useEffect } from "react";
 

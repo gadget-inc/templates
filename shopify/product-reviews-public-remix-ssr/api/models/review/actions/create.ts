@@ -12,15 +12,9 @@ export const run: ActionRun = async ({
   // Find the order associated with the review
   const order = await api.shopifyOrder.findOne(record.orderId, {
     select: {
-      shopId: true,
       customerId: true,
     },
   });
-
-  // @ts-ignore
-  record.shop = {
-    _link: order.shopId,
-  };
 
   // @ts-ignore
   record.customer = {
@@ -44,10 +38,10 @@ export const onSuccess: ActionOnSuccess = async ({
   connections,
 }) => {
   await api.enqueue(
-    api.createReviewMetaobject,
+    api.metadata.review.metaobject.create,
     {
       // @ts-ignore
-      shopId: record.shop,
+      shopId: record.shop || record.shopId,
       review: {
         id: record.id,
         rating: record.rating,
@@ -71,7 +65,7 @@ export const onSuccess: ActionOnSuccess = async ({
 
   if (order?.reviewCreationLimitReached) {
     await api.internal.shopifyOrder.update(record.orderId, {
-      singleUseCode: null,
+      reviewToken: null,
     });
   }
 };

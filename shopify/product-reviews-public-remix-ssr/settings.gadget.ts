@@ -22,6 +22,7 @@ export const settings: GadgetSettings = {
           "write_metaobject_definitions",
           "write_metaobjects",
           "write_products",
+          "read_themes",
         ],
       },
     },

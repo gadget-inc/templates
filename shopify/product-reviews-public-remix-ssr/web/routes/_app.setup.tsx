@@ -150,7 +150,7 @@ export default function SetupPage() {
   };
 
   return (
-    <Page title="Setup">
+    <Page title="Template setup">
       <Layout sectioned>
         <Layout.Section>
           <BlockStack gap="400">

@@ -144,6 +144,7 @@ export default function ({
   const [open, setOpen] = useState(false);
   const code = children.trim();
   const lines = code.split("\n");
+  const shouldShowCollapse = lines.length > linesShownWhenCollapsed;
 
   // Inject custom CSS to override Polaris
   useEffect(() => {
@@ -245,28 +246,34 @@ export default function ({
         </InlineStack>
         <Button onClick={handleCopy}>Copy</Button>
       </InlineStack>
-      {open ? (
-        <Box>{renderCodeWithLineNumbers(lines, true, false)}</Box>
-      ) : (
-        <Box>
-          {renderCodeWithLineNumbers(
-            lines.slice(0, linesShownWhenCollapsed),
-            true,
-            true
+      {shouldShowCollapse ? (
+        <>
+          {open ? (
+            <Box>{renderCodeWithLineNumbers(lines, true, false)}</Box>
+          ) : (
+            <Box>
+              {renderCodeWithLineNumbers(
+                lines.slice(0, linesShownWhenCollapsed),
+                true,
+                true
+              )}
+            </Box>
           )}
-        </Box>
+          <Box padding="100" background="bg-surface-secondary">
+            <InlineStack align="center" blockAlign="center">
+              <Button
+                variant="monochromePlain"
+                icon={open ? ChevronUpIcon : ChevronDownIcon}
+                onClick={() => setOpen(!open)}
+              >
+                {open ? "Show less" : "Show more"}
+              </Button>
+            </InlineStack>
+          </Box>
+        </>
+      ) : (
+        <Box>{renderCodeWithLineNumbers(lines, true, false)}</Box>
       )}
-      <Box padding="100" background="bg-surface-secondary">
-        <InlineStack align="center" blockAlign="center">
-          <Button
-            variant="monochromePlain"
-            icon={open ? ChevronUpIcon : ChevronDownIcon}
-            onClick={() => setOpen(!open)}
-          >
-            {open ? "Show less" : "Show more"}
-          </Button>
-        </InlineStack>
-      </Box>
     </Card>
   );
 }

@@ -1,7 +1,9 @@
 import { AutoTable } from "@gadgetinc/react/auto/polaris";
 import {
+  Banner,
   BlockStack,
   Box,
+  Button,
   Card,
   InlineStack,
   Layout,
@@ -13,9 +15,9 @@ import { api } from "../api";
 import Stars from "../components/review/Stars";
 import ApprovalButton from "../components/review/ApprovalButton";
 import { useAppBridge } from "@shopify/app-bridge-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 
 export async function loader({ context }: LoaderFunctionArgs) {
   const [totalReviewsMoM, averageRatingMoM] = await Promise.all([
@@ -41,9 +43,16 @@ export default function () {
   const { totalReviewsMoM, averageRatingMoM } = useLoaderData<typeof loader>();
   const [isClient, setIsClient] = useState(false);
   const [modalContent, setModelContent] = useState("");
+  const [dismissed, setDismissed] = useState(false);
 
   // Only access app bridge on the client side
   const appBridge = isClient ? useAppBridge() : null;
+  const navigate = useNavigate();
+
+  const handleDismiss = useCallback(() => {
+    setDismissed((prev) => !prev);
+    // Suggestion: Add a permanent flag to the database to persist the dismissal
+  }, [setDismissed]);
 
   // Set isClient to true when component mounts on the client
   useEffect(() => {
@@ -53,6 +62,26 @@ export default function () {
   return (
     <Page title="Reviews">
       <Layout>
+        {!dismissed && (
+          <Layout.Section>
+            <Banner
+              title="Install your app extension"
+              onDismiss={() => handleDismiss()}
+            >
+              <BlockStack gap="200">
+                <Text as="p" variant="bodyMd">
+                  Run shopify dev to push your extension to your Shopify app,
+                  then install it on your store's theme to start using the app.
+                </Text>
+                <InlineStack>
+                  <Button onClick={() => navigate("/install")}>
+                    Installation guide
+                  </Button>
+                </InlineStack>
+              </BlockStack>
+            </Banner>
+          </Layout.Section>
+        )}
         <Layout.Section>
           <Card>
             <BlockStack gap="200">

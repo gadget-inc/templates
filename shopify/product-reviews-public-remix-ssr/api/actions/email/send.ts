@@ -6,7 +6,7 @@ export const run: ActionRun = async ({
   logger,
   api,
   emails,
-  currentAppUrl,
+  connections,
 }) => {
   // Fetch all orders that have been fulfilled, have a requestReviewAfter date in the past,
   let orders = await api.shopifyOrder.findMany({
@@ -28,6 +28,9 @@ export const run: ActionRun = async ({
       customer: {
         email: true,
       },
+      shop: {
+        myshopifyDomain: true,
+      },
     },
   });
 
@@ -43,18 +46,25 @@ export const run: ActionRun = async ({
 
   await pMap(
     allOrders,
-    async ({ reviewToken, customer, id }) => {
+    async ({ reviewToken, customer, id, shop }) => {
       if (!customer?.email)
         return logger.warn("No email found for order", { id });
 
       if (!reviewToken)
         return logger.warn("No review token found for order", { id });
 
-      // Send the email to the customer
+      /**
+       * Send the email to the customer
+       * Consider adding a custom transporter so that the email doesn't come from the app
+       * Alternatively, you should use a third party service like Mailgun, SendGrid, etc.
+       */
       await emails.sendMail({
         to: customer.email,
         subject: "Review your purchase",
-        html: await render({ currentAppUrl, reviewToken }),
+        html: await render({
+          shopDomain: shop?.myshopifyDomain,
+          reviewToken,
+        }),
       });
 
       // Clear the field so we don't send the email again

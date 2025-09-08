@@ -37,7 +37,7 @@ function Form(props: {
           id: true,
           title: true,
           slug: true,
-          body: true,
+          description: true,
           questions: {
             edges: {
               node: {
@@ -94,7 +94,7 @@ export default function Quiz() {
           <Form findBy={id} onSuccess={() => navigate("/")}>
             <SubmitResultBanner />
             <AutoStringInput field="title" />
-            <AutoStringInput field="body" />
+            <AutoStringInput field="description" />
             <AutoHasManyForm field="questions">
               <AutoStringInput field="text" />
               <AutoHasManyForm field="answers">

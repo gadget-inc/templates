@@ -157,7 +157,7 @@ export default function Index() {
             <BlockStack gap="300">
               <Text as="p" variant="bodyMd">
                 Run <code>yarn shopify:dev</code>, in the Gadget terminal, to
-                run your extension, then install it on your store's theme to
+                run your extension. Then install it on your store's theme to
                 start using the app.
               </Text>
               <InlineStack>

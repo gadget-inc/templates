@@ -65,16 +65,21 @@ const onSubmitHandler = async (evt, quizId) => {
   const email = document.getElementById("product-quiz__email").value;
 
   const submitButton = document.querySelector(".product-quiz__submit");
-  submitButton.classList.add("disabled");
+  const originalButtonText = submitButton.textContent;
+  submitButton.classList.add("disabled", "loading");
+  submitButton.textContent = "Getting your results...";
 
   const recommendedProducts = await fetchRecommendedProducts(selectedAnswers);
 
   // save email and recommendations to Gadget for follow-up emails
   await saveSelections(quizId, email, recommendedProducts);
 
-  // display recommendations
-  let recommendedProductHTML =
-    "<div><h2>Based on your selections, we recommend the following products</h2><div style='display: flex; overflow: auto'>";
+  // display recommendations with beautiful styling
+  let recommendedProductHTML = `
+    <div class="quiz-results">
+      <h2>🎉 Perfect! Here are your personalized recommendations</h2>
+      <div class="product-recommendations">
+  `;
 
   recommendedProducts.forEach((result) => {
     const { recommendedProduct } = result;
@@ -82,12 +87,29 @@ const onSubmitHandler = async (evt, quizId) => {
       recommendedProduct.productSuggestion?.media?.edges?.[0]?.node?.image
         .originalSrc;
     const productLink = recommendedProduct.productSuggestion.handle;
-    recommendedProductHTML +=
-      `<span style="padding: 8px 16px; margin-left: 10px; border: black 1px solid; align-items: center; display: flex; flex-direction: column"><h3>${recommendedProduct.productSuggestion.title}</h3><a class="button" href="/products/${productLink}">Check it out</a>` +
-      `<br/><img src=${imgUrl} width="200px" /><br /></span>`;
+    const productTitle = recommendedProduct.productSuggestion.title;
+    const productPrice =
+      recommendedProduct.productSuggestion.priceRange?.minVariantPrice
+        ?.amount || "Price available on product page";
+
+    recommendedProductHTML += `
+      <div class="product-card">
+        <h3>${productTitle}</h3>
+        ${imgUrl ? `<img src="${imgUrl}" alt="${productTitle}" loading="lazy">` : ""}
+        <p style="margin: 1rem 0; font-weight: 600; color: #667eea; font-size: 1.125rem;">$${productPrice}</p>
+        <a class="button" href="/products/${productLink}">View Product</a>
+      </div>
+    `;
   });
 
-  recommendedProductHTML += "</div></div>";
+  recommendedProductHTML += `
+      </div>
+      <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: #ffffff; border-radius: 16px; border: 2px solid #e2e8f0;">
+        <p style="margin: 0; font-size: 1.125rem; color: #4a5568; line-height: 1.6;">Thank you for taking our quiz! We'll send you more personalized recommendations via email.</p>
+      </div>
+    </div>
+  `;
+
   document.getElementById("questions").innerHTML = recommendedProductHTML;
 
   submitButton.classList.add("hidden");
@@ -102,7 +124,31 @@ const selectAnswer = (evt, answerId, answerText) => {
   selectedAnswers.push(answerId);
   let elId = evt.srcElement.id;
   let parent = document.getElementById(elId).parentNode;
-  parent.innerHTML = "<h3><b>" + decodeURI(answerText) + "</b> selected</h3>";
+
+  // Add selected class to the button
+  const button = evt.srcElement;
+  button.classList.add("selected");
+
+  // Update the parent container with a nice confirmation
+  parent.style.transition = "all 0.3s ease";
+  parent.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); border-radius: 12px; color: white; font-weight: 600;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20,6 9,17 4,12"></polyline>
+      </svg>
+      <span>${decodeURI(answerText)}</span>
+    </div>
+  `;
+
+  // Disable all other buttons in the same question
+  const questionContainer = parent.closest(".product-quiz__question");
+  const allButtons = questionContainer.querySelectorAll(".answer");
+  allButtons.forEach((btn) => {
+    if (btn.id !== elId) {
+      btn.style.opacity = "0.5";
+      btn.style.pointerEvents = "none";
+    }
+  });
 };
 
 // Event listener for document load
@@ -139,9 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
               clonedDiv.id = "question_" + i;
               clonedDiv.insertAdjacentHTML(
                 "beforeend",
-                "<hr /><div><h3>" +
-                  question.node.text +
-                  `</h3></div><div class='product-quiz__answers_${i}'></div>`
+                `<div><h3>${question.node.text}</h3></div><div class='product-quiz__answers product-quiz__answers_${i}'></div>`
               );
               this.questions.appendChild(clonedDiv);
 
@@ -151,7 +195,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 clonedSpan.id = "answer_" + i + "_" + j;
                 clonedSpan.insertAdjacentHTML(
                   "beforeend",
-                  `<span><button class="button answer" id="${clonedSpan.id}">${answer.node.text}</button></span>`
+                  `<button class="answer" id="${clonedSpan.id}">${answer.node.text}</button>`
                 );
                 clonedSpan.addEventListener("click", (evt) => {
                   selectAnswer(evt, answer.node.id, answer.node.text);

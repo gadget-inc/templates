@@ -30,7 +30,7 @@ const route: RouteHandler<{ Querystring: { slug: string } }> = async ({
     select: {
       id: true,
       title: true,
-      body: true,
+      description: true,
       questions: {
         edges: {
           node: {

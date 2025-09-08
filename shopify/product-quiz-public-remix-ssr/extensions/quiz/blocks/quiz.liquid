@@ -11,6 +11,7 @@
 </script>
 
 <script src="{{ 'quiz.js' | asset_url }}" defer="defer"></script>
+{{ 'quiz.css' | asset_url | stylesheet_tag }}
 
 {% comment %} Check to see if there was a quiz slug insert into the quiz slug input in the theme customizer {% endcomment %}
 {% if quizSlug.size > 0 %}
@@ -31,8 +32,8 @@
       </div>
       <hr class="product-quiz__submit-hr" />
       <div class="product-quiz__email-container">
-        <label htmlFor="email">Enter your email to complete quiz</label><br>
-        <input type="email" id="product-quiz__email" name="email" required="required" style="font-size: 16px; height: 32px"><br><br>
+        <label for="email">Enter your email to get personalized results</label>
+        <input type="email" id="product-quiz__email" name="email" required="required" placeholder="your@email.com">
       </div>
       <button
         name="quiz-submit"

@@ -11,6 +11,7 @@ import {
   FooterHelp,
   InlineStack,
   Layout,
+  Link,
   List,
   Page,
   Select,
@@ -153,6 +154,13 @@ function InstallGuide(props: { block: Block | null }) {
               Follow these steps to install the extension:
             </Text>
             <List type="number" gap="loose">
+              <List.Item>
+                <Text as="span" variant="bodyMd">
+                  Start by{" "}
+                  <Link onClick={() => navigate("/quiz")}>creating a quiz</Link>{" "}
+                  on the app admin ui
+                </Text>
+              </List.Item>
               {/* The two first steps are the same for all theme versions */}
               <List.Item>
                 <Text as="span" variant="bodyMd">

@@ -78,7 +78,6 @@ function InstallGuide(props: { block: Block | null }) {
   const { themeVersions } = useLoaderData<typeof loader>();
   const multipleTemplates =
     (block?.enabledOn?.length || 0) > 1 || block?.enabledOn?.includes("*");
-  const navigate = useNavigate();
 
   const [template, setTemplate] = useState<string>("");
 

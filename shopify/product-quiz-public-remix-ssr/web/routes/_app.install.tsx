@@ -225,6 +225,16 @@ function InstallGuide(props: { block: Block | null }) {
                       Save changes and return to the Shopify admin
                     </Text>
                   </List.Item>
+                  <List.Item>
+                    <Text as="span" variant="bodyMd">
+                      To add your quiz go to{" "}
+                      <strong>
+                        Online store {">"} Theme {">"} Customize
+                      </strong>
+                      . Go to the template your app is invoked and paste in your
+                      <strong>Quiz ID</strong> on the settings panel.
+                    </Text>
+                  </List.Item>
                 </>
               ) : (
                 <>

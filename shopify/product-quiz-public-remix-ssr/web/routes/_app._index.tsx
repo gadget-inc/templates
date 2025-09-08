@@ -151,13 +151,14 @@ export default function Index() {
         <Layout.Section>
           <Banner
             title="Install your app extension"
+            tone="info"
             onDismiss={() => handleDismiss()}
           >
-            <BlockStack gap="200">
+            <BlockStack gap="300">
               <Text as="p" variant="bodyMd">
-                Run `yarn shopify:dev` to push your extension to your Shopify
-                app, then install it on your store's theme to start using the
-                app.
+                Run <code>yarn shopify:dev</code>, in the Gadget terminal, to
+                run your extension, then install it on your store's theme to
+                start using the app.
               </Text>
               <InlineStack>
                 <Button onClick={() => navigate("/install")}>

@@ -189,7 +189,7 @@ function InstallGuide(props: { block: Block | null }) {
                         and paste in the following snippet:
                       </Text>
                       <CodeBlock
-                        title={block?.name.toLocaleLowerCase()}
+                        title={`${block?.name.toLocaleLowerCase()}.liquid`}
                         language="liquid"
                       >
                         {block?.content

@@ -4,7 +4,6 @@ import {
   type LiquidRawTag,
   toLiquidHtmlAST,
 } from "@shopify/liquid-html-parser";
-import type Shopify from "shopify-api-node";
 import type {
   Asset,
   Block,
@@ -304,7 +303,7 @@ export async function getBlockDetails(
         }
 
         blocks.push({
-          name: schema.name || blockFile.replace(".liquid", ""),
+          name: blockFile.replace(".liquid", ""),
           description:
             (ast.children?.[0] as any)?.body?.nodes?.[0]?.value ||
             "A description was not added to the theme app extension block. To add a description, add a comment to the top of the block file.",

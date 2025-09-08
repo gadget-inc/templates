@@ -10,9 +10,9 @@ export function NavMenu() {
       <Link to="/quiz" rel="newQuiz">
         New quiz
       </Link>
-      <Link to="/install" rel="installation">
+      {/* <Link to="/install" rel="installation">
         Installation
-      </Link>
+      </Link> */}
     </AppBridgeNavMenu>
   );
 }

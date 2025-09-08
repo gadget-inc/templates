@@ -11,4 +11,7 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, logger, api, 
   // Your logic goes here
 };
 
-export const options: ActionOptions = { actionType: "update" };
+export const options: ActionOptions = {
+  actionType: "update",
+  triggers: { api: true },
+};

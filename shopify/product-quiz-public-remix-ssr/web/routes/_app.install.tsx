@@ -29,7 +29,7 @@ function processLiquidContent(content: string): string {
   return (
     content
       // Remove the "target" line from the schema section
-      .replace(/(\s*"target"\s*:\s*"[^"]*",?\s*)/g, "")
+      .replace(/(\s*"target"\s*:\s*"[^"]*",?\s*)/g, "\n\t")
       // Replace all instances of "block." with "section."
       .replace(/block\./g, "section.")
   );

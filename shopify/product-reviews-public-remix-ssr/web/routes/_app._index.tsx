@@ -70,8 +70,9 @@ export default function () {
             >
               <BlockStack gap="200">
                 <Text as="p" variant="bodyMd">
-                  Run shopify dev to push your extension to your Shopify app,
-                  then install it on your store's theme to start using the app.
+                  Run <code>yarn shopify:dev</code>, in the Gadget terminal, to
+                  run your extension. Then install it on your store's theme to
+                  start using the app.
                 </Text>
                 <InlineStack>
                   <Button onClick={() => navigate("/install")}>

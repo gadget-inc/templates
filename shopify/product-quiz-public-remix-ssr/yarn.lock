@@ -3001,6 +3001,11 @@ hast-util-whitespace@^3.0.0:
   dependencies:
     "@types/hast" "^3.0.0"
 
+highlight.js@^11.11.1:
+  version "11.11.1"
+  resolved "https://registry.yarnpkg.com/highlight.js/-/highlight.js-11.11.1.tgz#fca06fa0e5aeecf6c4d437239135fabc15213585"
+  integrity sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==
+
 hosted-git-info@^6.0.0, hosted-git-info@^6.1.1:
   version "6.1.3"
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-6.1.3.tgz#2ee1a14a097a1236bddf8672c35b613c46c55946"

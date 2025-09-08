@@ -5,7 +5,6 @@ import {
   InlineStack,
   Text,
   BlockStack,
-  ButtonGroup,
   Box,
   Banner,
   SkeletonDisplayText,
@@ -16,15 +15,17 @@ import { api } from "../api";
 import PageLayout from "../components/PageLayout";
 import { useNavigate } from "@remix-run/react";
 import { DeleteIcon, EditIcon } from "@shopify/polaris-icons";
+import { useCallback, useState } from "react";
 
 type QuizCardProps = {
   quiz: {
     id: string;
     title: string;
     slug: string;
-    body: string | null;
+    description: string | null;
   };
 };
+
 /**
  * @returns {JSX.Element} - A card component that displays a message when no quizzes are found, with an option to create a new quiz.
  */
@@ -64,31 +65,26 @@ function LoadingState() {
 
 /**
  *
- * @param props - Data related to a quiz, including its id, title, slug, and body.
- * @returns {JSX.Element} - A card component displaying the quiz title, slug, and body, with options to edit or delete the quiz.
+ * @param props - Data related to a quiz, including its id, title, slug, and description.
+ * @returns {JSX.Element} - A card component displaying the quiz title, slug, and description, with options to edit or delete the quiz.
  */
 function QuizCard(props: QuizCardProps) {
   const {
-    quiz: { id, title, slug, body },
+    quiz: { id, title, slug, description },
   } = props;
 
   const navigate = useNavigate();
 
-  const [{ fetching }, deleteQuiz] = useAction(api.quiz.delete);
+  const [{ fetching, error }, deleteQuiz] = useAction(api.quiz.delete);
 
   return (
     <Card>
       <BlockStack gap="300">
         <InlineStack align="space-between">
-          <BlockStack>
-            <Text as="h2" variant="headingMd">
-              {title}
-            </Text>
-            <Text as="p" tone="subdued">
-              {slug}
-            </Text>
-          </BlockStack>
-          <ButtonGroup>
+          <Text as="h2" variant="headingMd" fontWeight="bold">
+            {title}
+          </Text>
+          <InlineStack gap="300">
             <Button
               variant="tertiary"
               icon={EditIcon}
@@ -102,9 +98,19 @@ function QuizCard(props: QuizCardProps) {
               disabled={fetching}
               onClick={() => deleteQuiz({ id })}
             />
-          </ButtonGroup>
+          </InlineStack>
         </InlineStack>
-        <Text as="p">{body}</Text>
+        <Text as="p" tone="subdued">
+          {description || "No description provided"}
+        </Text>
+        <Text as="p" variant="bodySm" tone="subdued">
+          Quiz ID
+        </Text>
+        <Box padding="200" background="bg-surface-tertiary" borderRadius="200">
+          <Text as="p" variant="bodySm">
+            {slug}
+          </Text>
+        </Box>
       </BlockStack>
     </Card>
   );
@@ -115,15 +121,23 @@ function QuizCard(props: QuizCardProps) {
  * @returns {JSX.Element} The main index page for quizzes, displaying a list of quizzes with options to create, edit, or delete them.
  */
 export default function Index() {
+  const [dismissed, setDismissed] = useState(false);
+
   const navigate = useNavigate();
+
   const [{ data, error, fetching }] = useTable(api.quiz, {
     select: {
       id: true,
       title: true,
       slug: true,
-      body: true,
+      description: true,
     },
   });
+
+  const handleDismiss = useCallback(() => {
+    setDismissed((prev) => !prev);
+    // Suggestion: Add a permanent flag to the database to persist the dismissal
+  }, [setDismissed]);
 
   return (
     <PageLayout
@@ -133,6 +147,36 @@ export default function Index() {
         <Button onClick={() => navigate("/install")}>Install</Button>
       }
     >
+      {!dismissed && (
+        <Layout.Section>
+          <Banner
+            title="Install your app extension"
+            onDismiss={() => handleDismiss()}
+          >
+            <BlockStack gap="200">
+              <Text as="p" variant="bodyMd">
+                Run `yarn shopify:dev` to push your extension to your Shopify
+                app, then install it on your store's theme to start using the
+                app.
+              </Text>
+              <InlineStack>
+                <Button onClick={() => navigate("/install")}>
+                  Installation guide
+                </Button>
+              </InlineStack>
+            </BlockStack>
+          </Banner>
+        </Layout.Section>
+      )}
+      {error && !fetching && (
+        <Layout.Section>
+          <Banner title="Uh oh! Something went wrong" tone="critical">
+            <Text as="p">
+              There was an error loading your quizzes. Please try again later.
+            </Text>
+          </Banner>
+        </Layout.Section>
+      )}
       <Layout.Section>
         <BlockStack gap="300">
           {/* Loading state */}
@@ -141,13 +185,6 @@ export default function Index() {
           {/* No data state */}
           {!data?.length && !fetching && <NoData />}
           {/* Error state */}
-          {error && !fetching && (
-            <Banner title="Uh oh! Something went wrong" tone="critical">
-              <Text as="p">
-                There was an error loading your quizzes. Please try again later.
-              </Text>
-            </Banner>
-          )}
         </BlockStack>
       </Layout.Section>
     </PageLayout>

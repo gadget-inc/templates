@@ -21,11 +21,13 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
    - Configurations can be found in the `shopify.app.development.toml` file
    - Subpath prefix: `apps`
    - Subpath is a non-deterministic key
-     - Note that the subpath will need to be changed in the `api/utils/review/liquid/main.liquid` file. You can find where to change it by using CMD/CTRL+F (in the file) and searching for `Subpath`
+     - Note that the subpath will need to be changed in the `api/utils/review/liquid/main.liquid` file. You can find where to change it by using CMD/CTRL+F (in the file), searching for `Subpath`
    - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
-5. Run `yarn shopify:deploy:development` to push your development app configurations to Shopify
-6. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
-7. Ensure the extension is placed on a product template
+5. Update the proxy subpath in `api/utils/email/render.tsx`
+   - You can find where to make the change using CMD/CTRL+F (in the file) and searching for `href`
+6. Run `yarn shopify:deploy:development` to push your development app configurations to Shopify
+7. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
+8. Ensure the extension is placed on a product template
 
 ## App workflow summary
 

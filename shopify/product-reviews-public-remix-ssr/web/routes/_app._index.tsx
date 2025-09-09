@@ -42,7 +42,7 @@ function formatPercentageChange(percentageChange: number | null) {
 export default function () {
   const { totalReviewsMoM, averageRatingMoM } = useLoaderData<typeof loader>();
   const [isClient, setIsClient] = useState(false);
-  const [modalContent, setModelContent] = useState("");
+  const [modalContent, setModalContent] = useState("");
   const [dismissed, setDismissed] = useState(false);
 
   // Only access app bridge on the client side
@@ -161,7 +161,7 @@ export default function () {
                     <Tooltip {...{ content }}>
                       <div
                         onClick={() => {
-                          setModelContent(content);
+                          setModalContent(content);
                           if (isClient && appBridge?.modal) {
                             appBridge.modal.show("review-content-modal");
                           }

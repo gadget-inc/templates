@@ -43,7 +43,7 @@ export default async ({
 
             <Section style={buttonContainer}>
               <Button
-                href={`${shopDomain}review/${reviewToken}`}
+                href={`https://${shopDomain}/review/${reviewToken}`}
                 style={button}
               >
                 Write a Review

@@ -14,7 +14,7 @@ import {
 import { api } from "../api";
 import Stars from "../components/review/Stars";
 import ApprovalButton from "../components/review/ApprovalButton";
-import { useAppBridge } from "@shopify/app-bridge-react";
+import { useAppBridge, Modal, TitleBar } from "@shopify/app-bridge-react";
 import { useState, useEffect, useCallback } from "react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
@@ -191,16 +191,16 @@ export default function () {
             />
           </Card>
         </Layout.Section>
-        <ui-modal id="review-content-modal">
+        <Modal id="review-content-modal">
           <BlockStack gap="300">
-            <ui-title-bar title="Review" />
+            <TitleBar title="Review" />
             <Box padding="300">
               <Text as="p" variant="bodyMd">
                 {modalContent}
               </Text>
             </Box>
           </BlockStack>
-        </ui-modal>
+        </Modal>
       </Layout>
     </Page>
   );

@@ -14,24 +14,18 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 1. [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart)
 2. Complete the **protected customer data access (PCDA)** form and select the **email** field under “Optional fields”
    - This form can be found in the **Partner dashboard > your Shopify app > API access > Protected customer data access section**
-3. Change `api/utils/review/liquid/main.liquid` (line 273) to use your environment's CDN URL.
+3. Change `api/utils/review/liquid/main.liquid` to use your environment's CDN URL
+   - Find the CDN URL using CMD/CTRL+F (in the file) and search for `/api/client/web.min.js`
    - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
-4. Configure your application's [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data).
-   - Configurations are set in the `shopify.app.development.toml` file.
+4. This application uses an [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
+   - Configurations can be found in the `shopify.app.development.toml` file
    - Subpath prefix: `apps`
-   - Subpath should be a non-deterministic key. We recommend using this website to create a key: [https://randomkeygen.com/](https://randomkeygen.com/)
-     - Note that the subpath will also need to be changed in the `api/utils/review/liquid/main.liquid` file. You can find where to change it by using CMD/CTRL+F (in the file) and searching for `Subpath`.
+   - Subpath is a non-deterministic key
+     - Note that the subpath will need to be changed in the `api/utils/review/liquid/main.liquid` file. You can find where to change it by using CMD/CTRL+F (in the file) and searching for `Subpath`
    - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
-5. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
-6. Ensure the extension is placed on a product template
-
-```toml
-// in example proxy config
-[app_proxy]
-   url = "https://product-reviews-public-remix-ssr--development.gadget.app/"
-   subpath = "d9RjCiUHZo"
-   prefix = "apps"
-```
+5. Run `yarn shopify:deploy:development` to push your development app configurations to Shopify
+6. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
+7. Ensure the extension is placed on a product template
 
 ## App workflow summary
 

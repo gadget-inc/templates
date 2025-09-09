@@ -130,6 +130,71 @@ function highlightCode(
   }
 }
 
+// Highlight entire code block and split into lines while preserving syntax highlighting
+function highlightCodeAndSplitIntoLines(
+  code: string,
+  language: string | null
+): React.ReactNode[][] {
+  if (!language || language === "text" || !hljs.getLanguage(language)) {
+    return code.split("\n").map((line) => [line]);
+  }
+
+  try {
+    // Use highlight.js to get the actual highlighted HTML for the entire code
+    const result = hljs.highlight(code, { language });
+    const html = result.value;
+
+    // Decode HTML entities before parsing
+    const decodedHtml = html
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&#39;/g, "'")
+      .replace(/&apos;/g, "'");
+
+    // Split the highlighted HTML by newlines while preserving HTML tags
+    const lines = decodedHtml.split("\n");
+    const highlightedLines: React.ReactNode[][] = [];
+
+    for (const line of lines) {
+      // Parse each line's HTML to convert to React elements
+      const parts = line.split(/(<span class="[^"]*">|<\/span>)/);
+      const elements: React.ReactNode[] = [];
+
+      for (let i = 0; i < parts.length; i++) {
+        const part = parts[i];
+
+        if (part.startsWith('<span class="')) {
+          // Extract the class name
+          const className = part.match(/class="([^"]*)"/)?.[1];
+          if (className && parts[i + 1]) {
+            // Create a React span with the highlight.js class
+            elements.push(
+              <span key={i} className={`hljs-override ${className}`}>
+                {parts[i + 1]}
+              </span>
+            );
+            i++; // Skip the next part since we've already processed it
+          }
+        } else if (!part.startsWith("</span>")) {
+          // Regular text content
+          if (part) {
+            elements.push(part);
+          }
+        }
+      }
+
+      highlightedLines.push(elements.length > 0 ? elements : [line]);
+    }
+
+    return highlightedLines;
+  } catch (error) {
+    console.warn(`Failed to highlight ${language}:`, error);
+    return code.split("\n").map((line) => [line]);
+  }
+}
+
 export default function ({
   children,
   title,
@@ -161,6 +226,9 @@ export default function ({
 
   const renderCodeWithLineNumbers = useCallback(
     (codeLines: string[], showLineNumbers = true, isCollapsed = false) => {
+      // Get highlighted lines for the entire code block
+      const highlightedLines = highlightCodeAndSplitIntoLines(code, language);
+
       return (
         <Box position="relative">
           <pre
@@ -195,7 +263,9 @@ export default function ({
                     {index + 1}
                   </span>
                 )}
-                <span style={{ flex: 1 }}>{highlightCode(line, language)}</span>
+                <span style={{ flex: 1 }}>
+                  {highlightedLines[index] || [line]}
+                </span>
               </Box>
             ))}
           </pre>
@@ -263,7 +333,7 @@ export default function ({
             <InlineStack align="center" blockAlign="center">
               <Button
                 variant="monochromePlain"
-                icon={open ? ChevronUpIcon : ChevronDownIcon}
+                icon={open ? <ChevronUpIcon /> : <ChevronDownIcon />}
                 onClick={() => setOpen(!open)}
               >
                 {open ? "Show less" : "Show more"}

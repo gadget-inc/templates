@@ -4,7 +4,7 @@ import {
   getBlockDetails,
 } from "../lib/utils/theme/index";
 import { determineShopThemeVersion } from "gadget-server/shopify";
-import { useLoaderData, useNavigate } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import {
   BlockStack,
   Card,
@@ -176,7 +176,7 @@ function InstallGuide(props: { block: Block | null }) {
                   .
                 </Text>
               </List.Item>
-              {selectedThemeVersion === "v1" ? (
+              {selectedThemeVersion === "v2" ? (
                 <>
                   <List.Item>
                     <BlockStack gap="200">

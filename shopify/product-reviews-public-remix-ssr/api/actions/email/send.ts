@@ -18,7 +18,12 @@ export const run: ActionRun = async ({
       requestReviewAfter: {
         lessThanOrEqual: new Date(),
       },
-      customerId: {
+      customer: {
+        email: {
+          isSet: true,
+        },
+      },
+      reviewToken: {
         isSet: true,
       },
     },
@@ -56,7 +61,7 @@ export const run: ActionRun = async ({
       /**
        * Send the email to the customer
        * Consider adding a custom transporter so that the email doesn't come from the app
-       * Alternatively, you should use a third party service like Mailgun, SendGrid, etc.
+       * For production, you should use a third party service like Mailgun, SendGrid, etc.
        */
       await emails.sendMail({
         to: customer.email,

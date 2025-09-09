@@ -22,7 +22,7 @@ import { useCallback, useEffect, useState } from "react";
 import Assets from "../components/theme/Assets";
 import BlockList from "../components/theme/Block";
 import CodeBlock from "../components/theme/CodeBlock";
-import ThreeDots from "web/components/assets/svgs/ThreeDots";
+import ThreeDots from "../components/assets/svgs/ThreeDots";
 
 // Utility function to process liquid content for display
 function processLiquidContent(content: string): string {
@@ -151,7 +151,7 @@ function InstallGuide(props: { block: Block | null }) {
                   .
                 </Text>
               </List.Item>
-              {selectedThemeVersion === "v1" ? (
+              {selectedThemeVersion === "v2" ? (
                 <>
                   <List.Item>
                     <BlockStack gap="200">

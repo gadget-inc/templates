@@ -17,13 +17,21 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 3. Change `api/utils/review/liquid/main.liquid` (line 273) to use your environment's CDN URL.
    - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
 4. Configure your application's [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data).
-   - Configurations are set in the **Partner dashboard > your Shopify app > Configuration > App proxy section**
+   - Configurations are set in the `shopify.app.development.toml` file.
    - Subpath prefix: `apps`
-   - Subpath: `product-reviews`
-     - You may change this subpath to any desired subpath. Note that you will also need to change it in the `api/utils/review/liquid/main.liquid` file (line 283)
+   - Subpath should be a non-deterministic key. We recommend using this website to create a key: [https://randomkeygen.com/](https://randomkeygen.com/)
+     - Note that the subpath will also need to be changed in the `api/utils/review/liquid/main.liquid` file. You can find where to change it by using CMD/CTRL+F (in the file) and searching for `Subpath`.
    - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
 5. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
 6. Ensure the extension is placed on a product template
+
+```toml
+// in example proxy config
+[app_proxy]
+   url = "https://product-reviews-public-remix-ssr--development.gadget.app/"
+   subpath = "d9RjCiUHZo"
+   prefix = "apps"
+```
 
 ## App workflow summary
 

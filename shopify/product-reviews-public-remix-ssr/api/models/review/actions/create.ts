@@ -1,13 +1,9 @@
 import { applyParams, save, ActionOptions } from "gadget-server";
+import { preventCrossShopDataAccess } from "gadget-server/shopify";
 
-export const run: ActionRun = async ({
-  params,
-  record,
-  logger,
-  api,
-  connections,
-}) => {
+export const run: ActionRun = async ({ params, record, logger, api }) => {
   applyParams(params, record);
+  await preventCrossShopDataAccess(params, record);
 
   // Find the order associated with the review
   const order = await api.shopifyOrder.findOne(record.orderId, {
@@ -35,7 +31,6 @@ export const onSuccess: ActionOnSuccess = async ({
   record,
   logger,
   api,
-  connections,
 }) => {
   await api.enqueue(
     api.metadata.review.metaobject.create,

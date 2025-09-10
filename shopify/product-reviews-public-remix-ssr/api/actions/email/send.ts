@@ -12,16 +12,23 @@ export const run: ActionRun = async ({
   let orders = await api.shopifyOrder.findMany({
     first: 250,
     filter: {
-      fulfillmentStatus: {
-        equals: "fulfilled",
-      },
+      OR: [
+        {
+          fulfillmentStatus: {
+            equals: "FULFILLED",
+          },
+        },
+        {
+          fulfillmentStatus: {
+            equals: "fulfilled",
+          },
+        },
+      ],
       requestReviewAfter: {
         lessThanOrEqual: new Date(),
       },
-      customer: {
-        email: {
-          isSet: true,
-        },
+      email: {
+        isSet: true,
       },
       reviewToken: {
         isSet: true,
@@ -30,9 +37,7 @@ export const run: ActionRun = async ({
     select: {
       id: true,
       reviewToken: true,
-      customer: {
-        email: true,
-      },
+      email: true,
       shop: {
         myshopifyDomain: true,
       },
@@ -51,12 +56,11 @@ export const run: ActionRun = async ({
 
   await pMap(
     allOrders,
-    async ({ reviewToken, customer, id, shop }) => {
-      if (!customer?.email)
-        return logger.warn("No email found for order", { id });
+    async ({ reviewToken, email, id, shop }) => {
+      if (!email) return logger.warn({ id }, "No email found for order");
 
       if (!reviewToken)
-        return logger.warn("No review token found for order", { id });
+        return logger.warn({ id }, "No review token found for order");
 
       /**
        * Send the email to the customer
@@ -64,7 +68,7 @@ export const run: ActionRun = async ({
        * For production, you should use a third party service like Mailgun, SendGrid, etc.
        */
       await emails.sendMail({
-        to: customer.email,
+        to: email,
         subject: "Review your purchase",
         html: await render({
           shopDomain: shop?.myshopifyDomain,

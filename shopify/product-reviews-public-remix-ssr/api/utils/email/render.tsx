@@ -149,11 +149,3 @@ const listItem = {
   margin: "8px 0",
   paddingLeft: "16px",
 };
-
-const signature = {
-  color: "#333",
-  fontSize: "16px",
-  lineHeight: "24px",
-  margin: "32px 0 0",
-  fontStyle: "italic",
-};

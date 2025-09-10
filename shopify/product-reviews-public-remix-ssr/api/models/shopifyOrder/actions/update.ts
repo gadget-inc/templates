@@ -29,9 +29,7 @@ export const run: ActionRun = async ({
     if (!record.shopifyCreatedAt)
       throw new Error("shopifyCreatedAt is required");
 
-    record.requestReviewAfter = DateTime.fromJSDate(
-      new Date(record.shopifyCreatedAt)
-    )
+    record.requestReviewAfter = DateTime.fromJSDate(new Date())
       .plus({ days: shop.daysUntilReviewRequest })
       .toJSDate();
   }

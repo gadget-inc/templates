@@ -211,7 +211,7 @@
       <h1>Add your reviews</h1>
       {% for product in products %}
       <div class="review-card">
-        <form action="/api/review/create" method="post" class="review-form">
+        <form class="review-form">
         <div class="review-header">
           <div class="review-product">
             <img 
@@ -246,6 +246,7 @@
           <input type="hidden" name="productId" value="{{ product.id }}">
           <input type="hidden" name="lineItemId" value="{{ product.lineItemId }}">
           <input type="hidden" name="rating" value="0" id="rating-{{ product.id }}">
+          <input type="hidden" name="shopId" value="{{ shop.id }}">
 
           <div class="form-group">
             <textarea 
@@ -276,7 +277,7 @@
           /**
            * App proxy configuration:
            * Subpath prefix: `apps`
-           * Subpath: Your non-deterministic key
+           * Subpath: Change to your non-deterministic key
           */
           endpoint: "/apps/product-reviews/api/graphql",
         })
@@ -360,9 +361,6 @@
             content: contentInput.value,
             product: {
               _link: productIdInput.value,
-            },
-            shop: {
-              _link: "{{ shop.id }}",
             },
           })
 

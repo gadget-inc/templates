@@ -151,7 +151,7 @@ function InstallGuide(props: { block: Block | null }) {
                   .
                 </Text>
               </List.Item>
-              {selectedThemeVersion === "v2" ? (
+              {selectedThemeVersion === "v1" ? (
                 <>
                   <List.Item>
                     <BlockStack gap="200">
@@ -182,7 +182,7 @@ function InstallGuide(props: { block: Block | null }) {
                         appear
                       </Text>
                       <CodeBlock title="app invocation">
-                        {`{%section "${block?.name.toLocaleLowerCase()}"%}`}
+                        {`{%section "${block?.name}"%}`}
                       </CodeBlock>
                     </BlockStack>
                   </List.Item>

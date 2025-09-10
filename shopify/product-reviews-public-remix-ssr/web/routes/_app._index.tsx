@@ -14,7 +14,7 @@ import {
 import { api } from "../api";
 import Stars from "../components/review/Stars";
 import ApprovalButton from "../components/review/ApprovalButton";
-import { useAppBridge, Modal, TitleBar } from "@shopify/app-bridge-react";
+import { useAppBridge, Modal } from "@shopify/app-bridge-react";
 import { useState, useEffect, useCallback } from "react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
@@ -42,7 +42,7 @@ function formatPercentageChange(percentageChange: number | null) {
 export default function () {
   const { totalReviewsMoM, averageRatingMoM } = useLoaderData<typeof loader>();
   const [isClient, setIsClient] = useState(false);
-  const [modalContent, setModalContent] = useState("");
+  const [selectedReview, setSelectedReview] = useState<any>(null);
   const [dismissed, setDismissed] = useState(false);
 
   // Only access app bridge on the client side
@@ -157,18 +157,18 @@ export default function () {
                 {
                   field: "content",
                   header: "Review",
-                  render: ({ record: { content } }) => (
-                    <Tooltip {...{ content }}>
+                  render: ({ record }) => (
+                    <Tooltip content={record.content}>
                       <div
                         onClick={() => {
-                          setModalContent(content);
+                          setSelectedReview(record);
                           if (isClient && appBridge?.modal) {
                             appBridge.modal.show("review-content-modal");
                           }
                         }}
                       >
                         <Text as="span" variant="bodyMd" truncate>
-                          {content}
+                          {record.content}
                         </Text>
                       </div>
                     </Tooltip>
@@ -192,14 +192,108 @@ export default function () {
           </Card>
         </Layout.Section>
         <Modal id="review-content-modal">
-          <BlockStack gap="300">
-            <TitleBar title="Review" />
-            <Box padding="300">
-              <Text as="p" variant="bodyMd">
-                {modalContent}
-              </Text>
-            </Box>
-          </BlockStack>
+          {selectedReview && (
+            <BlockStack gap="400">
+              <Box padding="400">
+                <BlockStack gap="300">
+                  {/* Header with product and rating */}
+                  <InlineStack align="space-between" blockAlign="start">
+                    <BlockStack gap="200">
+                      <Text as="h2" variant="headingMd">
+                        {selectedReview.product?.title}
+                      </Text>
+                    </BlockStack>
+                    <Stars rating={selectedReview.rating} />
+                  </InlineStack>
+
+                  {/* Customer information */}
+                  <Box padding="300" background="bg-surface-secondary">
+                    <BlockStack gap="200">
+                      <Text as="h3" variant="headingSm">
+                        Customer Information
+                      </Text>
+                      <InlineStack gap="400">
+                        <Text as="p" variant="bodyMd">
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            fontWeight="semibold"
+                          >
+                            Name:
+                          </Text>{" "}
+                          {selectedReview.customer?.firstName.trim() || ""}{" "}
+                          {selectedReview.customer?.lastName.trim() || ""}
+                        </Text>
+                        <Text as="p" variant="bodyMd">
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            fontWeight="semibold"
+                          >
+                            Status:
+                          </Text>{" "}
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            tone={
+                              selectedReview.approved ? "success" : "critical"
+                            }
+                          >
+                            {selectedReview.approved
+                              ? "Approved"
+                              : "Pending Approval"}
+                          </Text>
+                        </Text>
+                      </InlineStack>
+                    </BlockStack>
+                  </Box>
+
+                  {/* Review content */}
+                  <Box padding="300" background="bg-surface">
+                    <BlockStack gap="200">
+                      <Text as="h3" variant="headingSm">
+                        Review Content
+                      </Text>
+                      <Text as="p" variant="bodyMd">
+                        {selectedReview.content}
+                      </Text>
+                    </BlockStack>
+                  </Box>
+
+                  {/* Review metadata */}
+                  <Box padding="300" background="bg-surface-secondary">
+                    <BlockStack gap="200">
+                      <Text as="h3" variant="headingSm">
+                        Review Details
+                      </Text>
+                      <InlineStack gap="400" wrap={false}>
+                        <Text as="p" variant="bodyMd">
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            fontWeight="semibold"
+                          >
+                            Rating:
+                          </Text>{" "}
+                          {selectedReview.rating} stars
+                        </Text>
+                        <Text as="p" variant="bodyMd">
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            fontWeight="semibold"
+                          >
+                            Anonymous:
+                          </Text>{" "}
+                          {selectedReview.anonymous ? "Yes" : "No"}
+                        </Text>
+                      </InlineStack>
+                    </BlockStack>
+                  </Box>
+                </BlockStack>
+              </Box>
+            </BlockStack>
+          )}
         </Modal>
       </Layout>
     </Page>

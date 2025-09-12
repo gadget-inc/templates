@@ -18,16 +18,24 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
    - Find the CDN URL using CMD/CTRL+F (in the file) and search for `/api/client/web.min.js`
    - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
 4. This application uses an [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
-   - Configurations can be found in the `shopify.app.development.toml` file
-   - Subpath prefix: `apps`
-   - Subpath is a non-deterministic key
-     - Note that the subpath will need to be changed in the `api/utils/review/liquid/main.liquid` file. You can find where to change it by using CMD/CTRL+F (in the file), searching for `Subpath`
    - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
-5. Update the proxy subpath in `api/utils/email/render.tsx`
-   - You can find where to make the change using CMD/CTRL+F (in the file) and searching for `href`
-6. Run `yarn shopify:deploy:development` to push your development app configurations to Shopify
-7. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
-8. Ensure the extension is placed on a product template
+   - Subpath prefix: `apps`
+   - Subpath should be a non-deterministic key to avoid collisions with another applications' proxies
+     - You can generate a non-deterministic key at [https://randomkeygen.com/](https://randomkeygen.com/)
+     - Update the subpath in the `api/utils/review/liquid/main.liquid`. Use CMD/CTRL+F (in the file), searching for `endpoint`, to find the line that needs an update
+     - Update the proxy subpath in `api/utils/email/render.tsx`. Use CMD/CTRL+F (in the file), searching for `href`, to find the line that needs an update
+5. Run `yarn shopify:deploy:development` to push your development app configurations to Shopify
+6. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
+7. Ensure the extension is placed on a [product template page](https://shopify.dev/docs/storefronts/themes/tools/online-editor)
+
+Example proxy setup:
+
+```toml
+[app_proxy]
+url = "https://product-reviews-public-remix-ssr--devaoc.gadget.app"
+subpath = "f8b1phd8ga"
+prefix = "apps"
+```
 
 ## App workflow summary
 

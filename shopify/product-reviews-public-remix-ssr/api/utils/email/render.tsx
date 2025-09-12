@@ -43,7 +43,10 @@ export default async ({
 
             <Section style={buttonContainer}>
               <Button
-                // Make sure to change the subpath to the key in your toml
+                /**
+                 * Make sure to change the subpath to the key in your toml
+                 * URL format: https://${shopDomain}/</<subpath_prefix>/<subpath>/review/${reviewToken}
+                 */
                 href={`https://${shopDomain}/apps/product-reviews/review/${reviewToken}`}
                 style={button}
               >

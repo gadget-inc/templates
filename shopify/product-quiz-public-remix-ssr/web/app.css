@@ -1,0 +1,68 @@
+.gadgetLogo {
+  margin: 14px auto;
+  height: 44px;
+}
+
+/* CodeBlock syntax highlighting styles */
+.hljs-override {
+  font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: #374151 !important;
+}
+
+.hljs-override .hljs-keyword {
+  color: #dc2626 !important;
+  font-weight: 600 !important;
+}
+
+.hljs-override .hljs-string {
+  color: #059669 !important;
+}
+
+.hljs-override .hljs-number {
+  color: #2563eb !important;
+}
+
+.hljs-override .hljs-literal {
+  color: #7c3aed !important;
+}
+
+.hljs-override .hljs-comment {
+  color: #6b7280 !important;
+  font-style: italic !important;
+}
+
+.hljs-override .hljs-function {
+  color: #7c3aed !important;
+  font-weight: 600 !important;
+}
+
+.hljs-override .hljs-title {
+  color: #7c3aed !important;
+  font-weight: 600 !important;
+}
+
+.hljs-override .hljs-params {
+  color: #374151 !important;
+}
+
+.hljs-override .hljs-built_in {
+  color: #ea580c !important;
+}
+
+.hljs-override .hljs-type {
+  color: #5b21b6 !important;
+}
+
+.hljs-override .hljs-variable {
+  color: #374151 !important;
+}
+
+.hljs-override .hljs-operator {
+  color: #dc2626 !important;
+}
+
+.hljs-override .hljs-punctuation {
+  color: #6b7280 !important;
+}

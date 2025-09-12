@@ -9,7 +9,7 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 
 [![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=product-reviews-public-remix-ssr.gadget.app)
 
-## Requirements
+## Template setup
 
 1. [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart)
 2. Complete the **protected customer data access (PCDA)** form and select the **email** field under “Optional fields”

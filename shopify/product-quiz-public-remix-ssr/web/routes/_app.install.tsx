@@ -4,13 +4,14 @@ import {
   getBlockDetails,
 } from "../lib/utils/theme/index";
 import { determineShopThemeVersion } from "gadget-server/shopify";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
 import {
   BlockStack,
   Card,
   FooterHelp,
   InlineStack,
   Layout,
+  Link,
   List,
   Page,
   Select,
@@ -53,6 +54,7 @@ function InstallGuide(props: { block: Block | null }) {
   const { themeVersions } = useLoaderData<typeof loader>();
   const multipleTemplates =
     (block?.enabledOn?.length || 0) > 1 || block?.enabledOn?.includes("*");
+  const navigate = useNavigate();
 
   const [template, setTemplate] = useState<string>("");
 
@@ -127,6 +129,13 @@ function InstallGuide(props: { block: Block | null }) {
               Follow these steps to install the extension:
             </Text>
             <List type="number" gap="loose">
+              <List.Item>
+                <Text as="span" variant="bodyMd">
+                  Start by{" "}
+                  <Link onClick={() => navigate("/quiz")}>creating a quiz</Link>{" "}
+                  on the app admin ui
+                </Text>
+              </List.Item>
               {/* The two first steps are the same for all theme versions */}
               <List.Item>
                 <Text as="span" variant="bodyMd">
@@ -211,6 +220,17 @@ function InstallGuide(props: { block: Block | null }) {
                   </List.Item>
                 </>
               )}
+              <List.Item>
+                <Text as="span" variant="bodyMd">
+                  To add your quiz go to{" "}
+                  <strong>
+                    Online store {">"} Theme {">"} Customize
+                  </strong>
+                  . Go to the template where your extension is invoked and paste
+                  in your
+                  <strong>Quiz ID</strong> on the settings panel.
+                </Text>
+              </List.Item>
             </List>
           </BlockStack>
         </Card>

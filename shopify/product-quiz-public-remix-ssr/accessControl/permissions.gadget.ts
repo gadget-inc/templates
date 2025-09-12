@@ -42,6 +42,14 @@ export const permissions: GadgetPermissions = {
             update: true,
           },
         },
+        quizResult: {
+          read: {
+            filter: "accessControl/filters/quizResult/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+          },
+        },
         recommendedProduct: {
           read: {
             filter:

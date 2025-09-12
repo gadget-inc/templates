@@ -1,5 +1,4 @@
 /**
- *
  * @param {*} evt - The submit event
  * @param {string} quizId - The id of the quiz that is being saved
  */
@@ -54,7 +53,6 @@ const onSubmitHandler = async (evt, quizId) => {
       },
     })),
   });
-  // await saveSelections(quizId, email, recommendedProducts);
 
   // display recommendations with beautiful styling
   let recommendedProductHTML = `

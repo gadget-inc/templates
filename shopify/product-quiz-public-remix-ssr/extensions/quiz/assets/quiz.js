@@ -1,59 +1,3 @@
-// Query Gadget for the recommended products based on quiz answers
-const fetchRecommendedProducts = async (answerIds) => {
-  const reply = await fetch(
-    `${window.shopURL}/apps/pq-p-r-ssr/recommendations`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        answerIdFilters: answerIds.map((answerId) => ({
-          id: {
-            equals: answerId,
-          },
-        })),
-      }),
-    }
-  );
-
-  return await reply.json();
-};
-
-// Fetch the quiz questions and answers to be presented to shoppers
-const fetchQuiz = async (quizSlug) => {
-  const reply = await fetch(
-    `${window.shopURL}/apps/pq-p-r-ssr/quiz?slug=${quizSlug}`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-
-  return await reply.json();
-};
-
-// Save the shopper's email and recommended product to Gadget (for follow-up emails!)
-const saveSelections = async (quizId, email, recommendedProducts) => {
-  const recommendationIds = recommendedProducts.map(
-    (rp) => rp.recommendedProduct.productSuggestion.id
-  );
-
-  await fetch(`${window.shopURL}/apps/pq-p-r-ssr/save`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      quizId,
-      email,
-      recommendedProducts: recommendationIds,
-    }),
-  });
-};
-
 /**
  *
  * @param {*} evt - The submit event
@@ -63,16 +7,54 @@ const onSubmitHandler = async (evt, quizId) => {
   evt.preventDefault();
 
   const email = document.getElementById("product-quiz__email").value;
-
   const submitButton = document.querySelector(".product-quiz__submit");
-  const originalButtonText = submitButton.textContent;
+
   submitButton.classList.add("disabled", "loading");
   submitButton.textContent = "Getting your results...";
 
-  const recommendedProducts = await fetchRecommendedProducts(selectedAnswers);
+  const recommendedProducts = await api.answer.findMany({
+    filter: {
+      OR: selectedAnswers.map((answerId) => ({
+        id: {
+          equals: answerId,
+        },
+      })),
+    },
+    select: {
+      recommendedProduct: {
+        id: true,
+        productSuggestion: {
+          id: true,
+          title: true,
+          body: true,
+          handle: true,
+          media: {
+            edges: {
+              node: {
+                image: true,
+              },
+            },
+          },
+        },
+      },
+    },
+  });
 
   // save email and recommendations to Gadget for follow-up emails
-  await saveSelections(quizId, email, recommendedProducts);
+  await api.quizResult.create({
+    quiz: {
+      _link: quizId,
+    },
+    email,
+    shopperSuggestions: recommendedProducts.map((recommendedProductId) => ({
+      create: {
+        product: {
+          _link: recommendedProductId,
+        },
+      },
+    })),
+  });
+  // await saveSelections(quizId, email, recommendedProducts);
 
   // display recommendations with beautiful styling
   let recommendedProductHTML = `
@@ -152,66 +134,89 @@ const selectAnswer = (evt, answerId, answerText) => {
 };
 
 // Event listener for document load
-document.addEventListener("DOMContentLoaded", function () {
-  const quizSlug = window.quizSlug;
-
-  fetchQuiz(quizSlug).then(async (quiz) => {
-    console.log("Quiz data", quiz);
-
-    const questions = quiz.questions.edges;
-
-    if (!customElements.get("product-quiz")) {
-      customElements.define(
-        "product-quiz",
-        class ProductQuiz extends HTMLElement {
-          constructor() {
-            super();
-            this.form = this.querySelector("form");
-            this.heading = this.querySelector(".product-quiz__title");
-            this.heading.innerHTML = quiz.title;
-            this.body = this.querySelector(".product-quiz__body span");
-            this.body.innerHTML = quiz.body;
-            this.questions = this.querySelector(".product-quiz__questions");
-
-            const questionContainer = this.querySelector(
-              ".product-quiz__question"
-            );
-            const answerContainer = this.querySelector(
-              ".product-quiz__question-answer"
-            );
-
-            questions.forEach((question, i) => {
-              const clonedDiv = questionContainer.cloneNode(true);
-              clonedDiv.id = "question_" + i;
-              clonedDiv.insertAdjacentHTML(
-                "beforeend",
-                `<div><h3>${question.node.text}</h3></div><div class='product-quiz__answers product-quiz__answers_${i}'></div>`
-              );
-              this.questions.appendChild(clonedDiv);
-
-              const answers = question.node.answers.edges;
-              answers.forEach((answer, j) => {
-                const clonedSpan = answerContainer.cloneNode(true);
-                clonedSpan.id = "answer_" + i + "_" + j;
-                clonedSpan.insertAdjacentHTML(
-                  "beforeend",
-                  `<button class="answer" id="${clonedSpan.id}">${answer.node.text}</button>`
-                );
-                clonedSpan.addEventListener("click", (evt) => {
-                  selectAnswer(evt, answer.node.id, answer.node.text);
-                });
-                this.querySelector(`.product-quiz__answers_${i}`).appendChild(
-                  clonedSpan
-                );
-              });
-            });
-
-            this.form.addEventListener("submit", async function (evt) {
-              await onSubmitHandler(evt, quiz.id);
-            });
-          }
-        }
-      );
-    }
+document.addEventListener("DOMContentLoaded", async function () {
+  const quiz = await api.quiz.findFirst({
+    filter: {
+      slug: {
+        equals: window.quizSlug,
+      },
+    },
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      questions: {
+        edges: {
+          node: {
+            id: true,
+            text: true,
+            answers: {
+              edges: {
+                node: {
+                  id: true,
+                  text: true,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
   });
+
+  const questions = quiz.questions.edges;
+
+  if (!customElements.get("product-quiz")) {
+    customElements.define(
+      "product-quiz",
+      class ProductQuiz extends HTMLElement {
+        constructor() {
+          super();
+          this.form = this.querySelector("form");
+          this.heading = this.querySelector(".product-quiz__title");
+          this.heading.innerHTML = quiz.title;
+          this.body = this.querySelector(".product-quiz__body span");
+          this.body.innerHTML = quiz.body;
+          this.questions = this.querySelector(".product-quiz__questions");
+
+          const questionContainer = this.querySelector(
+            ".product-quiz__question"
+          );
+          const answerContainer = this.querySelector(
+            ".product-quiz__question-answer"
+          );
+
+          questions.forEach((question, i) => {
+            const clonedDiv = questionContainer.cloneNode(true);
+            clonedDiv.id = "question_" + i;
+            clonedDiv.insertAdjacentHTML(
+              "beforeend",
+              `<div><h3>${question.node.text}</h3></div><div class='product-quiz__answers product-quiz__answers_${i}'></div>`
+            );
+            this.questions.appendChild(clonedDiv);
+
+            const answers = question.node.answers.edges;
+            answers.forEach((answer, j) => {
+              const clonedSpan = answerContainer.cloneNode(true);
+              clonedSpan.id = "answer_" + i + "_" + j;
+              clonedSpan.insertAdjacentHTML(
+                "beforeend",
+                `<button class="answer" id="${clonedSpan.id}">${answer.node.text}</button>`
+              );
+              clonedSpan.addEventListener("click", (evt) => {
+                selectAnswer(evt, answer.node.id, answer.node.text);
+              });
+              this.querySelector(`.product-quiz__answers_${i}`).appendChild(
+                clonedSpan
+              );
+            });
+          });
+
+          this.form.addEventListener("submit", async function (evt) {
+            await onSubmitHandler(evt, quiz.id);
+          });
+        }
+      }
+    );
+  }
 });

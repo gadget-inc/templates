@@ -94,7 +94,7 @@ export default function Quiz() {
           <Form findBy={id} onSuccess={() => navigate("/")}>
             <SubmitResultBanner />
             <AutoStringInput field="title" />
-            <AutoStringInput field="description" />
+            <AutoStringInput field="description" multiline={4} />
             <AutoHasManyForm field="questions">
               <AutoStringInput field="text" />
               <AutoHasManyForm field="answers">

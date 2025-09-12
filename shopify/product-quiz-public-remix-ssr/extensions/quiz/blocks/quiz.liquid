@@ -7,11 +7,27 @@
 {% endcomment %}
 <script>
   window.quizSlug = "{{ quizSlug }}";
-  window.shopURL = "{{ shop.secure_url }}";
 </script>
 
 <script src="{{ 'quiz.js' | asset_url }}" defer="defer"></script>
 {{ 'quiz.css' | asset_url | stylesheet_tag }}
+
+{% comment %} Make sure to modify this script to point to the correct endpoint for your Gadget app {% endcomment %}
+<script src="https://product-quiz-public-remix-ssr--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
+
+<script>
+  window.addEventListener("DOMContentLoaded", function() {
+    window.api = new Gadget({
+      /**
+       * App proxy configuration:
+       * Subpath prefix: `apps`
+       * Subpath: Change to your non-deterministic key
+       * Endpoint format: `/<subpath_prefix>/<subpath>/api/graphql`
+      */
+      endpoint: "/apps/product-reviews/api/graphql",
+    })
+  })
+</script>
 
 {% comment %} Check to see if there was a quiz slug insert into the quiz slug input in the theme customizer {% endcomment %}
 {% if quizSlug.size > 0 %}

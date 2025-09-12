@@ -14,8 +14,9 @@ import { useAction, useTable } from "@gadgetinc/react";
 import { api } from "../api";
 import PageLayout from "../components/PageLayout";
 import { useNavigate } from "@remix-run/react";
-import { DeleteIcon, EditIcon } from "@shopify/polaris-icons";
+import { DeleteIcon, EditIcon, ClipboardIcon } from "@shopify/polaris-icons";
 import { useCallback, useState } from "react";
+import { useAppBridge } from "@shopify/app-bridge-react";
 
 type QuizCardProps = {
   quiz: {
@@ -74,8 +75,22 @@ function QuizCard(props: QuizCardProps) {
   } = props;
 
   const navigate = useNavigate();
+  const shopify = useAppBridge();
 
-  const [{ fetching, error }, deleteQuiz] = useAction(api.quiz.delete);
+  const [{ fetching }, deleteQuiz] = useAction(api.quiz.delete);
+
+  const handleCopySlug = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(slug);
+      shopify.toast.show("Quiz ID copied!", { duration: 3000 });
+    } catch (err) {
+      console.error("Failed to copy slug:", err);
+      shopify.toast.show("Failed to copy quiz ID", {
+        duration: 3000,
+        isError: true,
+      });
+    }
+  }, [slug, shopify]);
 
   return (
     <Card>
@@ -87,13 +102,13 @@ function QuizCard(props: QuizCardProps) {
           <InlineStack gap="300">
             <Button
               variant="tertiary"
-              icon={EditIcon}
+              icon={EditIcon as any}
               onClick={() => navigate(`/quiz/${id}`)}
             />
             <Button
               variant="tertiary"
               tone="critical"
-              icon={DeleteIcon}
+              icon={DeleteIcon as any}
               loading={fetching}
               disabled={fetching}
               onClick={() => deleteQuiz({ id })}
@@ -106,11 +121,30 @@ function QuizCard(props: QuizCardProps) {
         <Text as="p" variant="bodySm" tone="subdued">
           Quiz ID
         </Text>
-        <Box padding="200" background="bg-surface-tertiary" borderRadius="200">
-          <Text as="p" variant="bodySm">
-            {slug}
-          </Text>
-        </Box>
+        <div
+          onClick={handleCopySlug}
+          style={{
+            cursor: "pointer",
+            padding: "var(--p-space-200)",
+            background: "var(--p-color-bg-surface-tertiary)",
+            borderRadius: "var(--p-border-radius-200)",
+          }}
+          tabIndex={0}
+          aria-label={`Copy quiz ID: ${slug}`}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleCopySlug();
+            }
+          }}
+        >
+          <InlineStack gap="200" align="space-between">
+            <Text as="p" variant="bodySm">
+              {slug}
+            </Text>
+            <ClipboardIcon width={16} height={16} />
+          </InlineStack>
+        </div>
       </BlockStack>
     </Card>
   );
@@ -181,7 +215,7 @@ export default function Index() {
         <BlockStack gap="300">
           {/* Loading state */}
           {!data && fetching && <LoadingState />}
-          {data?.map((quiz, i) => <QuizCard key={i} {...{ quiz }} />)}
+          {data?.map((quiz, i) => <QuizCard key={i} quiz={quiz} />)}
           {/* No data state */}
           {!data?.length && !fetching && <NoData />}
           {/* Error state */}

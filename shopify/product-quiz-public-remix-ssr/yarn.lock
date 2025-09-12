@@ -773,7 +773,28 @@
   version "0.0.0"
   uid ""
 
-"@gadgetinc/api-client-core@0.15.45", "@gadgetinc/api-client-core@^0.15.45":
+"@gadgetinc/api-client-core@0.15.46":
+  version "0.15.46"
+  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.46.tgz#08123dd62faaa95a60f9aa42bbc3e518ecc178be"
+  integrity sha512-NKc/1PKo6KzVnPaTnuQCVxbg6Q7Vvkr0Q4au4i/vr/aZQ8RQagcxqlDq6XElO8xM/UfIN0qXMK63ImeBdmo9Gw==
+  dependencies:
+    "@0no-co/graphql.web" "^1.0.4"
+    "@n1ru4l/graphql-live-query" "^0.10.0"
+    "@n1ru4l/json-patch-plus" "^0.2.0"
+    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
+    "@urql/core" "^4.0.10"
+    cross-fetch "^4.0.0"
+    graphql "^16.8.1"
+    graphql-ws "^5.13.1"
+    isomorphic-ws "^5.0.0"
+    klona "^2.0.6"
+    tiny-graphql-query-compiler "^0.2.2"
+    tslib "^2.6.2"
+    type-fest "^3.13.1"
+    wonka "^6.3.2"
+    ws "^8.18.2"
+
+"@gadgetinc/api-client-core@^0.15.45":
   version "0.15.45"
   resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.45.tgz#368c13b079422352175c578b3164d02a5de72279"
   integrity sha512-4eTsoAIYavMCyY9q33DBW2lCn+sG68hKw7Uct5dp6gLMuWasxUQQ5M2LWMmN5RZQFma/wCQHNK5dcU44xrZSQw==
@@ -5665,16 +5686,7 @@ string-hash@^1.1.3:
   resolved "https://registry.yarnpkg.com/string-hash/-/string-hash-1.1.3.tgz#e8aafc0ac1855b4666929ed7dd1275df5d6c811b"
   integrity sha512-kJUvRUFK49aub+a7T1nNE66EJbZBMnBgoC1UbCZ5n6bsZKBRga4KgBRTMn/pFkeCZSYtNeSyMxPDM0AXWELk2A==
 
-"string-width-cjs@npm:string-width@^4.2.0":
-  version "4.2.3"
-  resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
-  integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
-  dependencies:
-    emoji-regex "^8.0.0"
-    is-fullwidth-code-point "^3.0.0"
-    strip-ansi "^6.0.1"
-
-string-width@^4.1.0:
+"string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -5714,14 +5726,7 @@ stringify-entities@^4.0.0:
     character-entities-html4 "^2.0.0"
     character-entities-legacy "^3.0.0"
 
-"strip-ansi-cjs@npm:strip-ansi@^6.0.1":
-  version "6.0.1"
-  resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
-  integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==
-  dependencies:
-    ansi-regex "^5.0.1"
-
-strip-ansi@^6.0.0, strip-ansi@^6.0.1:
+"strip-ansi-cjs@npm:strip-ansi@^6.0.1", strip-ansi@^6.0.0, strip-ansi@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/strip-ansi/-/strip-ansi-6.0.1.tgz#9e26c63d30f53443e9489495b2105d37b67a85d9"
   integrity sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A==

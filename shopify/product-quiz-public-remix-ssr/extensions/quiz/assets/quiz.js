@@ -7,9 +7,12 @@ const onSubmitHandler = async (evt, quizId) => {
 
   const email = document.getElementById("product-quiz__email").value;
   const submitButton = document.querySelector(".product-quiz__submit");
+  const buttonText = submitButton.querySelector(".button-text");
+  const buttonLoading = submitButton.querySelector(".button-loading");
 
   submitButton.classList.add("disabled", "loading");
-  submitButton.textContent = "Getting your results...";
+  if (buttonText) buttonText.style.display = "none";
+  if (buttonLoading) buttonLoading.style.display = "flex";
 
   const recommendedProducts = await api.answer.findMany({
     filter: {
@@ -100,6 +103,9 @@ const onSubmitHandler = async (evt, quizId) => {
 };
 
 let selectedAnswers = [];
+let currentQuestionIndex = 0;
+let totalQuestions = 0;
+
 const selectAnswer = (evt, answerId, answerText) => {
   selectedAnswers.push(answerId);
   let elId = evt.srcElement.id;
@@ -108,27 +114,65 @@ const selectAnswer = (evt, answerId, answerText) => {
   // Add selected class to the button
   const button = evt.srcElement;
   button.classList.add("selected");
+  button.setAttribute("aria-checked", "true");
 
   // Update the parent container with a nice confirmation
-  parent.style.transition = "all 0.3s ease";
+  parent.style.transition = "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)";
   parent.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.5rem; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); border-radius: 12px; color: white; font-weight: 600;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem 1.75rem; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); border-radius: 16px; color: white; font-weight: 600; box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3); animation: slideInUp 0.4s ease-out;" role="button" aria-pressed="true" tabindex="-1">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <polyline points="20,6 9,17 4,12"></polyline>
       </svg>
       <span>${decodeURI(answerText)}</span>
     </div>
   `;
 
-  // Disable all other buttons in the same question
+  // Mark question as answered
   const questionContainer = parent.closest(".product-quiz__question");
+  questionContainer.classList.add("answered");
+
+  // Disable all other buttons in the same question
   const allButtons = questionContainer.querySelectorAll(".answer");
   allButtons.forEach((btn) => {
     if (btn.id !== elId) {
-      btn.style.opacity = "0.5";
-      btn.style.pointerEvents = "none";
+      btn.classList.add("disabled");
+      btn.setAttribute("aria-checked", "false");
+      btn.setAttribute("tabindex", "-1");
     }
   });
+
+  // Update progress
+  currentQuestionIndex++;
+  updateProgress();
+
+  // Auto-scroll to next question after a short delay
+  setTimeout(() => {
+    const nextQuestion = questionContainer.nextElementSibling;
+    if (nextQuestion) {
+      nextQuestion.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      // Focus on the first answer of the next question
+      const nextFirstAnswer = nextQuestion.querySelector(
+        ".answer:not(.disabled)"
+      );
+      if (nextFirstAnswer) {
+        nextFirstAnswer.focus();
+      }
+    }
+  }, 800);
+};
+
+const updateProgress = () => {
+  const progressFill = document.querySelector(".quiz-progress-fill");
+  const progressText = document.querySelector(".quiz-progress-text");
+
+  if (progressFill && progressText) {
+    const progress = (currentQuestionIndex / totalQuestions) * 100;
+    progressFill.style.width = `${progress}%`;
+    progressText.textContent = `Question ${currentQuestionIndex} of ${totalQuestions}`;
+  }
 };
 
 // Event listener for document load
@@ -163,6 +207,7 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
 
   const questions = quiz.questions.edges;
+  totalQuestions = questions.length;
 
   if (!customElements.get("product-quiz")) {
     customElements.define(
@@ -173,9 +218,16 @@ document.addEventListener("DOMContentLoaded", async function () {
           this.form = this.querySelector("form");
           this.heading = this.querySelector(".product-quiz__title");
           this.heading.innerHTML = quiz.title;
-          this.body = this.querySelector(".product-quiz__body span");
-          this.body.innerHTML = quiz.body;
+          this.heading.id = "quiz-title";
+          this.body = this.querySelector(".product-quiz__body p");
+          this.body.innerHTML =
+            quiz.description ||
+            "Answer a few questions to get personalized product recommendations!";
+          this.body.id = "quiz-description";
           this.questions = this.querySelector(".product-quiz__questions");
+
+          // Add progress bar
+          this.addProgressBar();
 
           const questionContainer = this.querySelector(
             ".product-quiz__question"
@@ -187,9 +239,10 @@ document.addEventListener("DOMContentLoaded", async function () {
           questions.forEach((question, i) => {
             const clonedDiv = questionContainer.cloneNode(true);
             clonedDiv.id = "question_" + i;
+            clonedDiv.setAttribute("aria-labelledby", `question-title-${i}`);
             clonedDiv.insertAdjacentHTML(
               "beforeend",
-              `<div><h3>${question.node.text}</h3></div><div class='product-quiz__answers product-quiz__answers_${i}'></div>`
+              `<div><h3 id="question-title-${i}">${question.node.text}</h3></div><div class='product-quiz__answers product-quiz__answers_${i}' role="radiogroup" aria-labelledby="question-title-${i}"></div>`
             );
             this.questions.appendChild(clonedDiv);
 
@@ -199,10 +252,24 @@ document.addEventListener("DOMContentLoaded", async function () {
               clonedSpan.id = "answer_" + i + "_" + j;
               clonedSpan.insertAdjacentHTML(
                 "beforeend",
-                `<button class="answer" id="${clonedSpan.id}">${answer.node.text}</button>`
+                `<button 
+                  class="answer" 
+                  id="${clonedSpan.id}" 
+                  type="button"
+                  role="radio"
+                  aria-checked="false"
+                  tabindex="0"
+                  aria-describedby="question-title-${i}"
+                >${answer.node.text}</button>`
               );
               clonedSpan.addEventListener("click", (evt) => {
                 selectAnswer(evt, answer.node.id, answer.node.text);
+              });
+              clonedSpan.addEventListener("keydown", (evt) => {
+                if (evt.key === "Enter" || evt.key === " ") {
+                  evt.preventDefault();
+                  selectAnswer(evt, answer.node.id, answer.node.text);
+                }
               });
               this.querySelector(`.product-quiz__answers_${i}`).appendChild(
                 clonedSpan
@@ -213,6 +280,18 @@ document.addEventListener("DOMContentLoaded", async function () {
           this.form.addEventListener("submit", async function (evt) {
             await onSubmitHandler(evt, quiz.id);
           });
+        }
+
+        addProgressBar() {
+          const progressHTML = `
+            <div class="quiz-progress">
+              <div class="quiz-progress-bar">
+                <div class="quiz-progress-fill" style="width: 0%"></div>
+              </div>
+              <div class="quiz-progress-text">Question 0 of ${totalQuestions}</div>
+            </div>
+          `;
+          this.questions.insertAdjacentHTML("beforebegin", progressHTML);
         }
       }
     );

@@ -32,32 +32,61 @@
 {% comment %} Check to see if there was a quiz slug insert into the quiz slug input in the theme customizer {% endcomment %}
 {% if quizSlug.size > 0 %}
 <div class="page-width page-width--narrow">
-  <product-quiz class="quiz">
-    <h1 class="main-page-title page-title h0 product-quiz__title">
-    </h1>
-    <div class="product-quiz__body">
-      <span>
-      </span>
-    </div>
-    <form class="form">
-      <div class="product-quiz__questions" id="questions">
-        <div class="product-quiz__question">
-          <span class="product-quiz__question-answer">
+  <product-quiz class="quiz" role="main" aria-label="Product Recommendation Quiz">
+    <header class="quiz-header">
+      <h1 class="main-page-title page-title h0 product-quiz__title" id="quiz-title">
+        Loading quiz...
+      </h1>
+      <div class="product-quiz__body">
+        <p id="quiz-description">
+          Please wait while we load your personalized quiz...
+        </p>
+      </div>
+    </header>
+    
+    <form class="form" role="form" aria-label="Quiz Form">
+      <div class="product-quiz__questions" id="questions" role="group" aria-label="Quiz Questions">
+        <div class="product-quiz__question" role="group" aria-labelledby="question-title">
+          <span class="product-quiz__question-answer" role="group" aria-label="Answer Options">
           </span>
         </div>
       </div>
-      <hr class="product-quiz__submit-hr" />
+      
+      <hr class="product-quiz__submit-hr" aria-hidden="true" />
+      
       <div class="product-quiz__email-container">
-        <label for="email">Enter your email to get personalized results</label>
-        <input type="email" id="product-quiz__email" name="email" required="required" placeholder="your@email.com">
+        <label for="product-quiz__email" class="email-label">
+          Enter your email to get personalized results
+        </label>
+        <input 
+          type="email" 
+          id="product-quiz__email" 
+          name="email" 
+          required="required" 
+          placeholder="your@email.com"
+          aria-describedby="email-help"
+          autocomplete="email"
+        >
+        <div id="email-help" class="sr-only">
+          We'll send your personalized product recommendations to this email address
+        </div>
       </div>
+      
       <button
         name="quiz-submit"
         type="submit"
         class="product-quiz__submit button button--secondary"
+        aria-describedby="submit-help"
       >
-        Get my results
+        <span class="button-text">Get my results</span>
+        <span class="button-loading" style="display: none;">
+          <span class="loading-spinner" aria-hidden="true"></span>
+          Getting your results...
+        </span>
       </button>
+      <div id="submit-help" class="sr-only">
+        Click to submit your quiz and receive personalized product recommendations
+      </div>
     </form>
   </product-quiz>
 </div>

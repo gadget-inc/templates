@@ -113,9 +113,6 @@ export const permissions: GadgetPermissions = {
           },
         },
       },
-      actions: {
-        fetchOrderData: true,
-      },
     },
   },
 };

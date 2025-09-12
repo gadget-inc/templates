@@ -9,4 +9,4 @@ extensions/**/node_modules
 extensions/**/generated
 shopify.app.*.toml
 .env.*
-.shopify
+.shopify/

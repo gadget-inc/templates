@@ -1,5 +1,6 @@
 import { AutoTable } from "@gadgetinc/react/auto/polaris";
 import {
+  Banner,
   BlockStack,
   Box,
   Button,
@@ -11,10 +12,10 @@ import {
   Tooltip,
 } from "@shopify/polaris";
 import { api } from "../api";
-import Stars from "../components/Stars";
-import ApprovalButton from "../components/ApprovalButton";
-import { useAppBridge } from "@shopify/app-bridge-react";
-import { useState, useEffect } from "react";
+import Stars from "../components/review/Stars";
+import ApprovalButton from "../components/review/ApprovalButton";
+import { useAppBridge, Modal } from "@shopify/app-bridge-react";
+import { useState, useEffect, useCallback } from "react";
 import { json, type LoaderFunctionArgs } from "@remix-run/node";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 
@@ -41,12 +42,17 @@ function formatPercentageChange(percentageChange: number | null) {
 export default function () {
   const { totalReviewsMoM, averageRatingMoM } = useLoaderData<typeof loader>();
   const [isClient, setIsClient] = useState(false);
-  const [modalContent, setModelContent] = useState("");
-
-  const navigate = useNavigate();
+  const [selectedReview, setSelectedReview] = useState<any>(null);
+  const [dismissed, setDismissed] = useState(false);
 
   // Only access app bridge on the client side
   const appBridge = isClient ? useAppBridge() : null;
+  const navigate = useNavigate();
+
+  const handleDismiss = useCallback(() => {
+    setDismissed((prev) => !prev);
+    // Suggestion: Add a permanent flag to the database to persist the dismissal
+  }, [setDismissed]);
 
   // Set isClient to true when component mounts on the client
   useEffect(() => {
@@ -56,6 +62,27 @@ export default function () {
   return (
     <Page title="Reviews">
       <Layout>
+        {!dismissed && (
+          <Layout.Section>
+            <Banner
+              title="Install your app extension"
+              onDismiss={() => handleDismiss()}
+            >
+              <BlockStack gap="200">
+                <Text as="p" variant="bodyMd">
+                  Run <code>yarn shopify:dev</code>, in the Gadget terminal, to
+                  run your extension. Then install it on your store's theme to
+                  start using the app.
+                </Text>
+                <InlineStack>
+                  <Button onClick={() => navigate("/install")}>
+                    Installation guide
+                  </Button>
+                </InlineStack>
+              </BlockStack>
+            </Banner>
+          </Layout.Section>
+        )}
         <Layout.Section>
           <Card>
             <BlockStack gap="200">
@@ -130,18 +157,18 @@ export default function () {
                 {
                   field: "content",
                   header: "Review",
-                  render: ({ record: { content } }) => (
-                    <Tooltip {...{ content }}>
+                  render: ({ record }) => (
+                    <Tooltip content={record.content}>
                       <div
                         onClick={() => {
-                          setModelContent(content);
+                          setSelectedReview(record);
                           if (isClient && appBridge?.modal) {
                             appBridge.modal.show("review-content-modal");
                           }
                         }}
                       >
                         <Text as="span" variant="bodyMd" truncate>
-                          {content}
+                          {record.content}
                         </Text>
                       </div>
                     </Tooltip>
@@ -164,16 +191,110 @@ export default function () {
             />
           </Card>
         </Layout.Section>
-        <ui-modal id="review-content-modal">
-          <BlockStack gap="300">
-            <ui-title-bar title="Review" />
-            <Box padding="300">
-              <Text as="p" variant="bodyMd">
-                {modalContent}
-              </Text>
-            </Box>
-          </BlockStack>
-        </ui-modal>
+        <Modal id="review-content-modal">
+          {selectedReview && (
+            <BlockStack gap="400">
+              <Box padding="400">
+                <BlockStack gap="300">
+                  {/* Header with product and rating */}
+                  <InlineStack align="space-between" blockAlign="start">
+                    <BlockStack gap="200">
+                      <Text as="h2" variant="headingMd">
+                        {selectedReview.product?.title}
+                      </Text>
+                    </BlockStack>
+                    <Stars rating={selectedReview.rating} />
+                  </InlineStack>
+
+                  {/* Customer information */}
+                  <Box padding="300" background="bg-surface-secondary">
+                    <BlockStack gap="200">
+                      <Text as="h3" variant="headingSm">
+                        Customer Information
+                      </Text>
+                      <InlineStack gap="400">
+                        <Text as="p" variant="bodyMd">
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            fontWeight="semibold"
+                          >
+                            Name:
+                          </Text>{" "}
+                          {selectedReview.customer?.firstName.trim() || ""}{" "}
+                          {selectedReview.customer?.lastName.trim() || ""}
+                        </Text>
+                        <Text as="p" variant="bodyMd">
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            fontWeight="semibold"
+                          >
+                            Status:
+                          </Text>{" "}
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            tone={
+                              selectedReview.approved ? "success" : "critical"
+                            }
+                          >
+                            {selectedReview.approved
+                              ? "Approved"
+                              : "Pending Approval"}
+                          </Text>
+                        </Text>
+                      </InlineStack>
+                    </BlockStack>
+                  </Box>
+
+                  {/* Review content */}
+                  <Box padding="300" background="bg-surface">
+                    <BlockStack gap="200">
+                      <Text as="h3" variant="headingSm">
+                        Review Content
+                      </Text>
+                      <Text as="p" variant="bodyMd">
+                        {selectedReview.content}
+                      </Text>
+                    </BlockStack>
+                  </Box>
+
+                  {/* Review metadata */}
+                  <Box padding="300" background="bg-surface-secondary">
+                    <BlockStack gap="200">
+                      <Text as="h3" variant="headingSm">
+                        Review Details
+                      </Text>
+                      <InlineStack gap="400" wrap={false}>
+                        <Text as="p" variant="bodyMd">
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            fontWeight="semibold"
+                          >
+                            Rating:
+                          </Text>{" "}
+                          {selectedReview.rating} stars
+                        </Text>
+                        <Text as="p" variant="bodyMd">
+                          <Text
+                            as="span"
+                            variant="bodyMd"
+                            fontWeight="semibold"
+                          >
+                            Anonymous:
+                          </Text>{" "}
+                          {selectedReview.anonymous ? "Yes" : "No"}
+                        </Text>
+                      </InlineStack>
+                    </BlockStack>
+                  </Box>
+                </BlockStack>
+              </Box>
+            </BlockStack>
+          )}
+        </Modal>
       </Layout>
     </Page>
   );

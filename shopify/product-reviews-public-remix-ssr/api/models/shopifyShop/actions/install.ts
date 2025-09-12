@@ -13,11 +13,6 @@ export const run: ActionRun = async ({
 
   if (!shopify) throw new Error("Shopify connection not found");
 
-  logger.info(
-    { env: process.env.NODE_ENV },
-    "Creating review metaobject definition"
-  );
-
   // For testing purposes
   if (process.env.NODE_ENV == "development") {
     const metaobjectDefinitionsQueryResponse = await shopify.graphql(`
@@ -29,8 +24,6 @@ export const run: ActionRun = async ({
           }
         }
       }`);
-
-    logger.info({ metaobjectDefinitionsQueryResponse }, "LOGGING");
 
     let exists = false,
       deleted = false;

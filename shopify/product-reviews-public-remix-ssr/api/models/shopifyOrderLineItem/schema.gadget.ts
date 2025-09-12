@@ -7,12 +7,12 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "DataModel-Shopify-OrderLineItem",
   fields: {
-    reviewCreated: { type: "boolean", storageKey: "2coIMP9UJkWP" },
-    reviews: {
-      type: "hasMany",
-      children: { model: "review", belongsToField: "lineItem" },
+    review: {
+      type: "hasOne",
+      child: { model: "review", belongsToField: "lineItem" },
       storageKey: "yhrEXJTW2kUN",
     },
+    reviewCreated: { type: "boolean", storageKey: "2coIMP9UJkWP" },
   },
   shopify: { fields: ["order", "product", "shop"] },
 };

@@ -1,26 +1,16 @@
 import { applyParams, save, ActionOptions } from "gadget-server";
+import { preventCrossShopDataAccess } from "gadget-server/shopify";
 
-export const run: ActionRun = async ({
-  params,
-  record,
-  logger,
-  api,
-  connections,
-}) => {
+export const run: ActionRun = async ({ params, record, logger, api }) => {
   applyParams(params, record);
+  await preventCrossShopDataAccess(params, record);
 
   // Find the order associated with the review
   const order = await api.shopifyOrder.findOne(record.orderId, {
     select: {
-      shopId: true,
       customerId: true,
     },
   });
-
-  // @ts-ignore
-  record.shop = {
-    _link: order.shopId,
-  };
 
   // @ts-ignore
   record.customer = {
@@ -41,13 +31,12 @@ export const onSuccess: ActionOnSuccess = async ({
   record,
   logger,
   api,
-  connections,
 }) => {
   await api.enqueue(
-    api.createReviewMetaobject,
+    api.metadata.review.metaobject.create,
     {
       // @ts-ignore
-      shopId: record.shop,
+      shopId: record.shop || record.shopId,
       review: {
         id: record.id,
         rating: record.rating,
@@ -71,7 +60,7 @@ export const onSuccess: ActionOnSuccess = async ({
 
   if (order?.reviewCreationLimitReached) {
     await api.internal.shopifyOrder.update(record.orderId, {
-      singleUseCode: null,
+      reviewToken: null,
     });
   }
 };

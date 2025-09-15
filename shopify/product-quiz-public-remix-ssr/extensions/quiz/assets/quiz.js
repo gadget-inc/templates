@@ -1,3 +1,7 @@
+const selectedAnswers = [];
+let currentQuestionIndex = 0;
+let totalQuestions = 0;
+
 /**
  * @param {*} evt - The submit event
  * @param {string} quizId - The id of the quiz that is being saved
@@ -14,7 +18,7 @@ const onSubmitHandler = async (evt, quizId) => {
   if (buttonText) buttonText.style.display = "none";
   if (buttonLoading) buttonLoading.style.display = "flex";
 
-  const recommendedProducts = await api.answer.findMany({
+  const recommendedProducts = await window.api.answer.findMany({
     filter: {
       OR: selectedAnswers.map((answerId) => ({
         id: {
@@ -43,9 +47,9 @@ const onSubmitHandler = async (evt, quizId) => {
   });
 
   // save email and recommendations to Gadget for follow-up emails
-  await api.quizResult.create({
+  await window.api.quizResult.create({
     quiz: {
-      _link: quizId,
+      _link: String(quizId),
     },
     email,
     shopperSuggestions: recommendedProducts.map((recommendedProductId) => ({
@@ -101,10 +105,6 @@ const onSubmitHandler = async (evt, quizId) => {
     .querySelector(".product-quiz__email-container")
     .classList.add("hidden");
 };
-
-let selectedAnswers = [];
-let currentQuestionIndex = 0;
-let totalQuestions = 0;
 
 const selectAnswer = (evt, answerId, answerText) => {
   selectedAnswers.push(answerId);
@@ -177,123 +177,172 @@ const updateProgress = () => {
 
 // Event listener for document load
 document.addEventListener("DOMContentLoaded", async function () {
-  const quiz = await api.quiz.findFirst({
-    filter: {
-      slug: {
-        equals: window.quizSlug,
-      },
-    },
-    select: {
-      id: true,
-      title: true,
-      description: true,
-      questions: {
-        edges: {
-          node: {
-            id: true,
-            text: true,
-            answers: {
-              edges: {
-                node: {
-                  id: true,
-                  text: true,
+  try {
+    window.api = new Gadget({
+      /**
+       * App proxy configuration:
+       * Subpath prefix: `apps`
+       * Subpath: Change to your non-deterministic key
+       * Endpoint format: `/<subpath_prefix>/<subpath>/api/graphql`
+       */
+      endpoint: "/apps/d9RjCiUHZo/api/graphql",
+    });
+
+    // Check if API is available
+    if (!window.api) {
+      throw new Error(
+        "Gadget API not initialized. Check if the API script loaded correctly."
+      );
+    }
+
+    // Check if quizSlug is set
+    if (!window.quizSlug) {
+      throw new Error("Quiz slug not found. Please check your theme settings.");
+    }
+
+    const quiz = await window.api.quiz.maybeFindBySlug(window.quizSlug, {
+      select: {
+        id: true,
+        title: true,
+        description: true,
+        questions: {
+          edges: {
+            node: {
+              id: true,
+              text: true,
+              answers: {
+                edges: {
+                  node: {
+                    id: true,
+                    text: true,
+                  },
                 },
               },
             },
           },
         },
       },
-    },
-  });
+    });
 
-  const questions = quiz.questions.edges;
-  totalQuestions = questions.length;
+    // Check if quiz was found
+    if (!quiz) {
+      throw new Error(
+        `No quiz found with slug: ${window.quizSlug}. Please check your quiz settings.`
+      );
+    }
 
-  if (!customElements.get("product-quiz")) {
-    customElements.define(
-      "product-quiz",
-      class ProductQuiz extends HTMLElement {
-        constructor() {
-          super();
-          this.form = this.querySelector("form");
-          this.heading = this.querySelector(".product-quiz__title");
-          this.heading.innerHTML = quiz.title;
-          this.heading.id = "quiz-title";
-          this.body = this.querySelector(".product-quiz__body p");
-          this.body.innerHTML =
-            quiz.description ||
-            "Answer a few questions to get personalized product recommendations!";
-          this.body.id = "quiz-description";
-          this.questions = this.querySelector(".product-quiz__questions");
+    // Check if quiz has questions
+    if (!quiz.questions || !quiz.questions.edges) {
+      throw new Error(
+        "Quiz found but has no questions. Please add questions to your quiz."
+      );
+    }
 
-          // Add progress bar
-          this.addProgressBar();
+    const questions = quiz.questions.edges;
+    totalQuestions = questions.length;
 
-          const questionContainer = this.querySelector(
-            ".product-quiz__question"
-          );
-          const answerContainer = this.querySelector(
-            ".product-quiz__question-answer"
-          );
+    if (!customElements.get("product-quiz")) {
+      customElements.define(
+        "product-quiz",
+        class ProductQuiz extends HTMLElement {
+          constructor() {
+            super();
+            this.form = this.querySelector("form");
+            this.heading = this.querySelector(".product-quiz__title");
+            this.heading.innerHTML = quiz.title;
+            this.heading.id = "quiz-title";
+            this.body = this.querySelector(".product-quiz__body p");
+            this.body.innerHTML =
+              quiz.description ||
+              "Answer a few questions to get personalized product recommendations!";
+            this.body.id = "quiz-description";
+            this.questions = this.querySelector(".product-quiz__questions");
 
-          questions.forEach((question, i) => {
-            const clonedDiv = questionContainer.cloneNode(true);
-            clonedDiv.id = "question_" + i;
-            clonedDiv.setAttribute("aria-labelledby", `question-title-${i}`);
-            clonedDiv.insertAdjacentHTML(
-              "beforeend",
-              `<div><h3 id="question-title-${i}">${question.node.text}</h3></div><div class='product-quiz__answers product-quiz__answers_${i}' role="radiogroup" aria-labelledby="question-title-${i}"></div>`
+            // Add progress bar
+            this.addProgressBar();
+
+            const questionContainer = this.querySelector(
+              ".product-quiz__question"
             );
-            this.questions.appendChild(clonedDiv);
+            const answerContainer = this.querySelector(
+              ".product-quiz__question-answer"
+            );
 
-            const answers = question.node.answers.edges;
-            answers.forEach((answer, j) => {
-              const clonedSpan = answerContainer.cloneNode(true);
-              clonedSpan.id = "answer_" + i + "_" + j;
-              clonedSpan.insertAdjacentHTML(
+            questions.forEach((question, i) => {
+              const clonedDiv = questionContainer.cloneNode(true);
+              clonedDiv.id = "question_" + i;
+              clonedDiv.setAttribute("aria-labelledby", `question-title-${i}`);
+              clonedDiv.insertAdjacentHTML(
                 "beforeend",
-                `<button 
-                  class="answer" 
-                  id="${clonedSpan.id}" 
-                  type="button"
-                  role="radio"
-                  aria-checked="false"
-                  tabindex="0"
-                  aria-describedby="question-title-${i}"
-                >${answer.node.text}</button>`
+                `<div><h3 id="question-title-${i}">${question.node.text}</h3></div><div class='product-quiz__answers product-quiz__answers_${i}' role="radiogroup" aria-labelledby="question-title-${i}"></div>`
               );
-              clonedSpan.addEventListener("click", (evt) => {
-                selectAnswer(evt, answer.node.id, answer.node.text);
-              });
-              clonedSpan.addEventListener("keydown", (evt) => {
-                if (evt.key === "Enter" || evt.key === " ") {
-                  evt.preventDefault();
+              this.questions.appendChild(clonedDiv);
+
+              const answers = question.node.answers.edges;
+              answers.forEach((answer, j) => {
+                const clonedSpan = answerContainer.cloneNode(true);
+                clonedSpan.id = "answer_" + i + "_" + j;
+                clonedSpan.insertAdjacentHTML(
+                  "beforeend",
+                  `<button 
+                    class="answer" 
+                    id="${clonedSpan.id}" 
+                    type="button"
+                    role="radio"
+                    aria-checked="false"
+                    tabindex="0"
+                    aria-describedby="question-title-${i}"
+                  >${answer.node.text}</button>`
+                );
+                clonedSpan.addEventListener("click", (evt) => {
                   selectAnswer(evt, answer.node.id, answer.node.text);
-                }
+                });
+                clonedSpan.addEventListener("keydown", (evt) => {
+                  if (evt.key === "Enter" || evt.key === " ") {
+                    evt.preventDefault();
+                    selectAnswer(evt, answer.node.id, answer.node.text);
+                  }
+                });
+                this.querySelector(`.product-quiz__answers_${i}`).appendChild(
+                  clonedSpan
+                );
               });
-              this.querySelector(`.product-quiz__answers_${i}`).appendChild(
-                clonedSpan
-              );
             });
-          });
 
-          this.form.addEventListener("submit", async function (evt) {
-            await onSubmitHandler(evt, quiz.id);
-          });
-        }
+            this.form.addEventListener("submit", async function (evt) {
+              await onSubmitHandler(evt, quiz.id);
+            });
+          }
 
-        addProgressBar() {
-          const progressHTML = `
-            <div class="quiz-progress">
-              <div class="quiz-progress-bar">
-                <div class="quiz-progress-fill" style="width: 0%"></div>
+          addProgressBar() {
+            const progressHTML = `
+              <div class="quiz-progress">
+                <div class="quiz-progress-bar">
+                  <div class="quiz-progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="quiz-progress-text">Question 0 of ${totalQuestions}</div>
               </div>
-              <div class="quiz-progress-text">Question 0 of ${totalQuestions}</div>
-            </div>
-          `;
-          this.questions.insertAdjacentHTML("beforebegin", progressHTML);
+            `;
+            this.questions.insertAdjacentHTML("beforebegin", progressHTML);
+          }
         }
-      }
-    );
+      );
+    }
+  } catch (error) {
+    console.error("Quiz initialization error:", error);
+
+    // Display error message to user
+    const quizContainer = document.querySelector("product-quiz");
+    if (quizContainer) {
+      quizContainer.innerHTML = `
+        <div class="quiz-error" style="text-align: center; padding: 2rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; color: #dc2626;">
+          <h2 style="color: #dc2626; margin-bottom: 1rem;">⚠️ Quiz Error</h2>
+          <p style="margin-bottom: 1rem;">${error.message}</p>
+          <p style="font-size: 0.875rem; color: #6b7280;">
+            Please check your quiz settings or contact support if the problem persists.
+          </p>
+        </div>
+      `;
+    }
   }
 });

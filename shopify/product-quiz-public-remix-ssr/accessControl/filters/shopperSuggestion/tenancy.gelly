@@ -1,0 +1,3 @@
+filter ($session: Session) on ShopperSuggestion [
+  where shopId == $session.shopId
+]

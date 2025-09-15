@@ -4,30 +4,16 @@
 {% comment %} 
   Setting `quiz_slug` is used to identify the quiz. It should match the slug of the quiz created in the app.
   The `secure_url` field is used to make calls to the store's URL to make requests to the Gadget app through the Shopify app proxy.
-{% endcomment %}
-<script>
-  window.quizSlug = "{{ quizSlug }}";
-</script>
-
-<script src="{{ 'quiz.js' | asset_url }}" defer="defer"></script>
-{{ 'quiz.css' | asset_url | stylesheet_tag }}
+  {% endcomment %}
+  <script>
+    window.quizSlug = "{{ quizSlug }}";
+  </script>
 
 {% comment %} Make sure to modify this script to point to the correct endpoint for your Gadget app {% endcomment %}
 <script src="https://product-quiz-public-remix-ssr--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
 
-<script>
-  window.addEventListener("DOMContentLoaded", function() {
-    window.api = new Gadget({
-      /**
-       * App proxy configuration:
-       * Subpath prefix: `apps`
-       * Subpath: Change to your non-deterministic key
-       * Endpoint format: `/<subpath_prefix>/<subpath>/api/graphql`
-      */
-      endpoint: "/apps/product-reviews/api/graphql",
-    })
-  })
-</script>
+{{ 'quiz.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'quiz.js' | asset_url }}" defer="defer"></script>
 
 {% comment %} Check to see if there was a quiz slug insert into the quiz slug input in the theme customizer {% endcomment %}
 {% if quizSlug.size > 0 %}

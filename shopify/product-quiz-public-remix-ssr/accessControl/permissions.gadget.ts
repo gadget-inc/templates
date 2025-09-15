@@ -42,14 +42,6 @@ export const permissions: GadgetPermissions = {
             update: true,
           },
         },
-        quizResult: {
-          read: {
-            filter: "accessControl/filters/quizResult/tenancy.gelly",
-          },
-          actions: {
-            create: true,
-          },
-        },
         recommendedProduct: {
           read: {
             filter:
@@ -117,6 +109,46 @@ export const permissions: GadgetPermissions = {
     },
     unauthenticated: {
       storageKey: "unauthenticated",
+      models: {
+        answer: {
+          read: {
+            filter: "accessControl/filters/answer/tenancy.gelly",
+          },
+        },
+        question: {
+          read: {
+            filter: "accessControl/filters/question/tenancy.gelly",
+          },
+        },
+        quiz: {
+          read: {
+            filter: "accessControl/filters/quiz/tenancy.gelly",
+          },
+        },
+        quizResult: {
+          read: {
+            filter: "accessControl/filters/quizResult/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+          },
+        },
+        recommendedProduct: {
+          read: {
+            filter:
+              "accessControl/filters/recommendedProduct/tenancy.gelly",
+          },
+        },
+        shopperSuggestion: {
+          read: {
+            filter:
+              "accessControl/filters/shopperSuggestion/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+          },
+        },
+      },
     },
   },
 };

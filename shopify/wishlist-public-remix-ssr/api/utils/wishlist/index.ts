@@ -1,6 +1,6 @@
 import { api } from "gadget-server";
 
-export const metafieldUpdate = async ({
+export const updateMetafield = async ({
   shopId,
   customerId,
 }: {

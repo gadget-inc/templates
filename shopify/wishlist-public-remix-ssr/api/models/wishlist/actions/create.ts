@@ -1,6 +1,6 @@
 import { applyParams, save, ActionOptions } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
-import { metafieldUpdate } from "../../../utils/wishlist";
+import { updateMetafield } from "../../../utils/wishlist";
 
 export const run: ActionRun = async ({
   params,
@@ -30,7 +30,7 @@ export const onSuccess: ActionOnSuccess = async ({
   });
 
   // Update the wishlist metafield to include the new wishlist
-  await metafieldUpdate({
+  await updateMetafield({
     // @ts-ignore
     shopId: record.shop,
     customerId: record.customerId,

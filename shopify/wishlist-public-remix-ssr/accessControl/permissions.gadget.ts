@@ -79,9 +79,6 @@ export const permissions: GadgetPermissions = {
           },
         },
       },
-      actions: {
-        scheduledShopifySync: true,
-      },
     },
     "shopify-storefront-customers": {
       storageKey: "Role-Shopify-Customer",

@@ -1,13 +1,8 @@
-import { api, connections } from "gadget-server";
+export const run: ActionRun = async ({ params, logger, api, connections }) => {
+  const { shopId, customerId } = params;
 
-export default async ({
-  shopId,
-  customerId,
-}: {
-  shopId: string;
-  customerId: string;
-}) => {
-  // Instantiate the Shopify API and fetch the first page of wishlists
+  if (!shopId || !customerId) throw new Error("Missing required parameters");
+
   let [shopify, wishlists] = await Promise.all([
     connections.shopify.forShopId(shopId),
     api.wishlist.findMany({
@@ -69,7 +64,7 @@ export default async ({
     },
   });
 
-  let allWishlistItems = wishlistItems;
+  const allWishlistItems = [...wishlistItems];
 
   // Paginate to get all the wishlist items
   while (wishlistItems.hasNextPage) {
@@ -110,4 +105,13 @@ export default async ({
 
   if (metafieldsSetResponse?.metafieldsSet?.userErrors?.length)
     throw new Error(metafieldsSetResponse.metafieldsSet.userErrors[0].message);
+};
+
+export const params = {
+  shopId: {
+    type: "string",
+  },
+  customerId: {
+    type: "string",
+  },
 };

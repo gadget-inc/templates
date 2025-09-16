@@ -6,13 +6,14 @@ import {
   Text,
   Row,
   Img,
+  render,
 } from "@react-email/components";
 import React from "react";
 import type { OnSaleVariant, RemovedVariant } from "../types";
 
 const placeholderImage = "https://picsum.photos/100";
 
-export default ({
+export default async ({
   name,
   onSale,
   removed,
@@ -23,7 +24,7 @@ export default ({
   removed: RemovedVariant[];
   count: number;
 }) => {
-  return (
+  return await render(
     <Html>
       <Text>Hello {name},</Text>
       <Container>

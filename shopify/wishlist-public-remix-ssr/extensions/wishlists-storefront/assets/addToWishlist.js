@@ -1,6 +1,16 @@
 const state = {};
 
 document.addEventListener("DOMContentLoaded", async () => {
+  window.api = new Gadget({
+    /**
+     * App proxy configuration:
+     * Subpath prefix: `apps`
+     * Subpath: Change to your non-deterministic key
+     * Endpoint format: `/<subpath_prefix>/<subpath>/api/graphql`
+     */
+    endpoint: "/apps/vJPH9wyxLC/api/graphql",
+  });
+
   window.wishlistObj = {};
 
   if (window.initialWishlistArr) {
@@ -21,75 +31,83 @@ document.addEventListener("DOMContentLoaded", async () => {
   let createBtnText;
 
   // Setting an event listener in case the selected variant changes
-  idInputs[0].addEventListener("change", (event) => {
-    const { value } = event?.target;
+  if (idInputs && idInputs[0]) {
+    idInputs[0].addEventListener("change", (event) => {
+      const { value } = event?.target;
 
-    if (value) applyCheckmarks(value);
-  });
+      if (value) applyCheckmarks(value);
+    });
+  }
 
   // Event listener for the modal open button
-  btn.onclick = () => {
-    modal.style.display = "block";
+  if (btn && modal) {
+    btn.onclick = () => {
+      modal.style.display = "block";
 
-    // Getting the tags from the modal
-    form = document.getElementById("new-wishlist-form");
-    createSpinner = document.getElementById("creation-spinner");
-    createBtnText = document.getElementById("create-button-text");
+      // Getting the tags from the modal
+      form = document.getElementById("new-wishlist-form");
+      createSpinner = document.getElementById("creation-spinner");
+      createBtnText = document.getElementById("create-button-text");
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
+      form.addEventListener("submit", async (event) => {
+        event.preventDefault();
 
-      createSpinner.style.display = "block";
-      createBtnText.style.display = "none";
+        createSpinner.style.display = "block";
+        createBtnText.style.display = "none";
 
-      const wishlistResponse = await fetch(
-        `${window.shopURL}/apps/wishlist-p-r-ssr/wishlist/create`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
+        const wishlist = await window.api.wishlist.create({
+          name: document.getElementById("new-wishlist-input").value,
+          variant: {
+            _link: window.currentVariant,
           },
-          body: JSON.stringify({
-            name: document.getElementById("new-wishlist-input").value,
-            variantId: window.currentVariant,
-          }),
+          wishlistItems: [
+            {
+              create: {
+                variant: {
+                  _link: window.currentVariant,
+                },
+              },
+            },
+          ],
+        });
+
+        if (wishlist) {
+          form.removeEventListener("submit", () => {});
+          createSpinner.style.display = "none";
+          createBtnText.style.display = "block";
+          modal.style.display = "none";
+
+          appendNewWishlist(wishlist, wishlistContainer);
+        } else {
+          createSpinner.style.display = "none";
+          createBtnText.style.display = "block";
+          // Add error displaying logic here
         }
-      );
-
-      const wishlist = await wishlistResponse.json();
-
-      if (wishlist) {
-        form.removeEventListener("submit", () => {});
-        createSpinner.style.display = "none";
-        createBtnText.style.display = "block";
-        modal.style.display = "none";
-
-        appendNewWishlist(wishlist, wishlistContainer);
-      } else {
-        createSpinner.style.display = "none";
-        createBtnText.style.display = "block";
-        // Add error displaying logic here
-      }
-    });
-  };
+      });
+    };
+  }
 
   // Event listener for the modal close button
-  closeIcon.onclick = () => {
-    if (form) form.removeEventListener("submit", () => {});
-    createSpinner.style.display = "none";
-    createBtnText.style.display = "block";
-    modal.style.display = "none";
-  };
+  if (closeIcon) {
+    closeIcon.onclick = () => {
+      if (form) form.removeEventListener("submit", () => {});
+      if (createSpinner) createSpinner.style.display = "none";
+      if (createBtnText) createBtnText.style.display = "block";
+      if (modal) modal.style.display = "none";
+    };
+  }
 
   // Event listener for clicking outside the modal
-  window.onclick = (event) => {
-    if (event.target === modal) {
-      if (form) form.removeEventListener("submit", () => {});
-      createSpinner.style.display = "none";
-      createBtnText.style.display = "block";
-      modal.style.display = "none";
-    }
-  };
+  if (modal) {
+    window.onclick = (event) => {
+      if (event.target === modal) {
+        if (form) form.removeEventListener("submit", () => {});
+        if (createSpinner) createSpinner.style.display = "none";
+        if (createBtnText) createBtnText.style.display = "block";
+        modal.style.display = "none";
+      }
+    };
+  }
 
   // Applying checkmarks to the wishlist cards on initial load
   applyCheckmarks(window.currentVariant);
@@ -225,49 +243,47 @@ async function handleWishlistClick(e) {
 
   // If the item is already in the wishlist, remove it
   if (current) {
-    // Change this app proxy subpath to your app proxy subpath
-    const deleteResponse = await fetch(
-      `${window.shopURL}/apps/wishlist-p-r-ssr/wishlist/item/remove`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+    const wishlistItem = await window.api.wishlistItem.maybeFindFirst({
+      filter: {
+        wishlistId: {
+          equals: wishlistId,
         },
-        body: JSON.stringify({
-          wishlistId,
-          variantId: window.currentVariant,
-        }),
-      }
-    );
+        variantId: {
+          equals: window.currentVariant,
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+
+    if (wishlistItem) {
+      const deletedResponse = await window.api.wishlistItem.delete(
+        wishlistItem.id
+      );
+
+      if (deletedResponse.success) state[wishlistId] = false;
+    }
 
     plusIcon.style.display = "block";
-
-    const deleteResponseData = await deleteResponse.json();
-
-    if (deleteResponseData.success) state[wishlistId] = false;
   } else {
     // If the item is not in the wishlist, add it
-    const addResponse = await fetch(
-      `${window.shopURL}/apps/wishlist-p-r-ssr/wishlist/item/create`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          wishlistId,
-          variantId: window.currentVariant,
-        }),
-      }
-    );
+    const addResponse = await window.api.wishlistItem.create({
+      wishlist: {
+        _link: wishlistId,
+      },
+      variant: {
+        _link: window.currentVariant,
+      },
+    });
 
-    const addResponseData = await addResponse.json();
-
-    checkmarkIcon.style.display = "block";
-
-    if (addResponseData.success) state[wishlistId] = true;
+    if (addResponse) {
+      state[wishlistId] = true;
+      if (checkmarkIcon?.style) checkmarkIcon.style.display = "block";
+      if (plusIcon?.style) plusIcon.style.display = "none";
+    }
   }
 
   // Hide the spinner
-  spinner.style.display = "none";
+  if (spinner?.style) spinner.style.display = "none";
 }

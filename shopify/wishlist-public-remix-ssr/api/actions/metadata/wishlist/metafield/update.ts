@@ -94,7 +94,7 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
       metafields: [
         {
           key: "wishlists",
-          namespace: "wishlist_app",
+          namespace: "wishlist_namespace",
           ownerId: `gid://shopify/Customer/${customerId}`,
           value: JSON.stringify(Object.values(wishlistObj)),
           type: "json",

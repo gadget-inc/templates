@@ -1,23 +1,25 @@
 <script src="{{ 'addToWishlist.js' | asset_url }}" defer="defer"></script>
 {{ 'addToWishlist.css' | asset_url | stylesheet_tag }}
 
-{% assign wishlists = customer.metafields.wishlist_app.wishlists.value %}
+{% assign wishlists = customer.metafields.wishlist_namespace.wishlists.value %}
 
 {% comment %} Initializing values to be used in the addToWishlist.js file {% endcomment %}
  <script>
     document.addEventListener("DOMContentLoaded", function () {
       window.initialWishlistArr = {{ wishlists | json }};
-      window.currentVariant = {{ product.selected_or_first_available_variant.id | json }}
-      window.shopURL = "{{ shop.secure_url }}";
+      window.currentVariant = {{ product.selected_or_first_available_variant.id | json }};
+      window.shopURL = "{{ shop.permanent_domain | prepend: 'https://' }}";
     });
  </script>
+
+<script src="https://wishlist-public-remix-ssr--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
 
 {% comment %} https://shopify.dev/docs/api/liquid/objects/customer {% endcomment %}
 {% if customer %}
   <div>
     <div class="wishlist-container-heading">
       <h3>Wishlists</h3>
-      <button id="openModalBtn">New</button>
+      <button id="openModalBtn">Create New</button>
     </div>
     <div id="wishlist-container">
       {% if wishlists %}
@@ -43,13 +45,13 @@
 <div id="new-wishlist-modal" class="modal">
   <div class="modal-content">
     <div class="modal-header">
-      <h2 class="modal-header-text">New wishlist</h2>
+      <h2 class="modal-header-text">Create Your Wishlist</h2>
       <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" class="svg close" viewBox="0 0 50 50">
         <path d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
       </svg>
     </div>
     <form id="new-wishlist-form">
-      <input id="new-wishlist-input" type="">
+      <input id="new-wishlist-input" type="text" placeholder="Give your wishlist a name...">
       <button type="submit" class="new-wishlist-button">
         <span id="create-button-text">Create</span>
         <div id="creation-spinner" class="spinner-white" style="display: none;"></div>
@@ -60,7 +62,7 @@
 
 {% schema %}
 {
-  "name": "Wishlist selector",
+  "name": "Wishlist",
   "target": "section",
   "settings": [],
   "enabled_on": {

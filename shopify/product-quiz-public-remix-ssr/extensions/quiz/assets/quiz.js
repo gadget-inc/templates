@@ -81,7 +81,7 @@ const onSubmitHandler = async (evt, quizId) => {
       recommendationsGrid.innerHTML = `
       <div class="recommendation-card">
         <h3>No specific recommendations found</h3>
-        <p>Thank you for taking our quiz! We'll send you more personalized recommendations via email.</p>
+        <p>Thank you for taking our quiz!</p>
       </div>
     `;
     } else {

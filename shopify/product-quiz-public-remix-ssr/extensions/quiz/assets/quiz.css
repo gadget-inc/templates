@@ -696,6 +696,106 @@ product-quiz button[name="quiz-submit"]:disabled {
   transform: none;
 }
 
+/* Quiz Results Styling */
+.quiz-results {
+  background: var(--quiz-bg);
+  border: 1px solid var(--quiz-border);
+  border-radius: var(--quiz-radius-lg);
+  padding: 3rem 2rem;
+  margin-top: 2rem;
+  box-shadow: var(--quiz-shadow);
+  animation: fadeInScale 0.8s ease-out;
+}
+
+.quiz-results.hidden {
+  display: none;
+}
+
+.quiz-results-content {
+  text-align: center;
+}
+
+.quiz-results h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--quiz-text);
+  margin: 0 0 2rem 0;
+  letter-spacing: -0.025em;
+}
+
+.recommendations-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.recommendation-card {
+  background: var(--quiz-bg);
+  border: 1px solid var(--quiz-border);
+  border-radius: var(--quiz-radius);
+  padding: 1.5rem;
+  text-align: center;
+  transition: var(--quiz-transition);
+  animation: slideInUp 0.6s ease-out forwards;
+  box-shadow: var(--quiz-shadow);
+}
+
+.recommendation-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--quiz-shadow-lg);
+}
+
+.recommendation-card h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--quiz-text);
+  margin: 0 0 1rem 0;
+}
+
+.recommendation-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--quiz-radius);
+  margin-bottom: 1rem;
+}
+
+.recommendation-card p {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--quiz-primary);
+  margin: 0 0 1rem 0;
+}
+
+.recommendation-card a {
+  display: inline-block;
+  background: var(--quiz-primary);
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--quiz-radius);
+  font-weight: 600;
+  transition: var(--quiz-transition);
+}
+
+.recommendation-card a:hover {
+  background: var(--quiz-primary-hover);
+  transform: translateY(-2px);
+}
+
+.quiz-results-footer {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--quiz-border);
+}
+
+.quiz-results-footer p {
+  color: var(--quiz-text-light);
+  font-size: 1rem;
+  margin: 0;
+}
+
 /* Error State Styling */
 .quiz-error {
   max-width: 800px;

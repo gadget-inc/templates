@@ -18,95 +18,139 @@ const onSubmitHandler = async (evt, quizId) => {
   if (buttonText) buttonText.style.display = "none";
   if (buttonLoading) buttonLoading.style.display = "inline";
 
-  const recommendedProducts = await window.api.answer.findMany({
-    filter: {
-      OR: selectedAnswers.map((answerId) => ({
-        id: {
-          equals: answerId,
-        },
-      })),
-    },
-    select: {
-      recommendedProduct: {
-        id: true,
-        productSuggestion: {
+  try {
+    const recommendedProducts = await window.api.answer.findMany({
+      filter: {
+        OR: selectedAnswers.map((answerId) => ({
+          id: {
+            equals: answerId,
+          },
+        })),
+      },
+      select: {
+        recommendedProduct: {
           id: true,
-          title: true,
-          body: true,
-          handle: true,
-          media: {
-            edges: {
-              node: {
-                image: true,
+          productSuggestion: {
+            id: true,
+            title: true,
+            body: true,
+            handle: true,
+            media: {
+              edges: {
+                node: {
+                  image: true,
+                },
               },
             },
           },
         },
       },
-    },
-  });
+    });
 
-  console.log(quizId);
-
-  console.log(recommendedProducts);
-
-  // save email and recommendations to Gadget for follow-up emails
-  await window.api.quizResult.create({
-    quiz: {
-      _link: quizId,
-    },
-    email,
-    shopperSuggestions: recommendedProducts.map(({ recommendedProduct }) => ({
-      create: {
-        product: {
-          _link: recommendedProduct.id,
-        },
+    // save email and recommendations to Gadget for follow-up emails
+    await window.api.quizResult.create({
+      quiz: {
+        _link: quizId,
       },
-    })),
-  });
+      email,
+      shopperSuggestions: recommendedProducts.map(({ recommendedProduct }) => ({
+        create: {
+          product: {
+            _link: recommendedProduct.id,
+          },
+        },
+      })),
+    });
 
-  // display recommendations with enhanced styling
-  let recommendedProductHTML = `
-    <div>
-      <h2>🎉 Perfect! Here are your personalized recommendations</h2>
-      <div>
-  `;
+    // Filter out answers that don't have recommendations and log for debugging
+    const validRecommendations = recommendedProducts.filter(
+      (result) => result.recommendedProduct?.productSuggestion
+    );
 
-  recommendedProducts.forEach((result, index) => {
-    const { recommendedProduct } = result;
-    const imgUrl =
-      recommendedProduct.productSuggestion?.media?.edges?.[0]?.node?.image
-        .originalSrc;
-    const productLink = recommendedProduct.productSuggestion.handle;
-    const productTitle = recommendedProduct.productSuggestion.title;
-    const productPrice =
-      recommendedProduct.productSuggestion.priceRange?.minVariantPrice
-        ?.amount || "Price available on product page";
+    // Hide the form and show the results
+    document.querySelector(".quiz-form").style.display = "none";
 
-    recommendedProductHTML += `
-      <div style="animation-delay: ${index * 0.2}s;">
-        <h3>${productTitle}</h3>
-        ${imgUrl ? `<img src="${imgUrl}" alt="${productTitle}" loading="lazy">` : ""}
-        <p>$${productPrice}</p>
-        <a href="/products/${productLink}">View Product</a>
-      </div>
-    `;
-  });
+    // Get the results container
+    const resultsContainer = document.getElementById("quiz-results");
+    const recommendationsGrid = document.getElementById("recommendations-grid");
 
-  recommendedProductHTML += `
-      </div>
-      <div>
+    // Clear any existing recommendations
+    recommendationsGrid.innerHTML = "";
+
+    if (validRecommendations.length === 0) {
+      recommendationsGrid.innerHTML = `
+      <div class="recommendation-card">
+        <h3>No specific recommendations found</h3>
         <p>Thank you for taking our quiz! We'll send you more personalized recommendations via email.</p>
       </div>
-    </div>
-  `;
+    `;
+    } else {
+      validRecommendations.forEach((result, index) => {
+        const { recommendedProduct } = result;
+        const productSuggestion = recommendedProduct.productSuggestion;
 
-  document.getElementById("questions").innerHTML = recommendedProductHTML;
+        if (!productSuggestion) {
+          console.warn(
+            "Missing product suggestion for recommendation:",
+            recommendedProduct
+          );
+          return;
+        }
 
-  submitButton.style.display = "none";
-  document.querySelector("hr").style.display = "none";
-  document.querySelector("div:has(#product-quiz__email)").style.display =
-    "none";
+        const imgUrl =
+          productSuggestion.media?.edges?.[0]?.node?.image?.originalSrc;
+        const productLink = productSuggestion.handle;
+        const productTitle = productSuggestion.title;
+        const productPrice =
+          productSuggestion.priceRange?.minVariantPrice?.amount ||
+          "Price available on product page";
+
+        // Use Shopify's product image placeholder if no image is available
+        const displayImage =
+          imgUrl ||
+          `https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?v=1530129081`;
+
+        const recommendationCard = document.createElement("div");
+        recommendationCard.className = "recommendation-card";
+        recommendationCard.style.animationDelay = `${index * 0.2}s`;
+        recommendationCard.innerHTML = `
+        <h3>${productTitle}</h3>
+        <img src="${displayImage}" alt="${productTitle}" loading="lazy">
+        <p>$${productPrice}</p>
+        <a href="/products/${productLink}">View Product</a>
+      `;
+
+        recommendationsGrid.appendChild(recommendationCard);
+      });
+    }
+
+    // Hide the form and show the results
+    document.querySelector(".quiz-form").style.display = "none";
+    resultsContainer.classList.remove("hidden");
+  } catch (error) {
+    console.error("Error submitting quiz:", error);
+
+    // Reset button state
+    submitButton.disabled = false;
+    if (buttonText) buttonText.style.display = "inline";
+    if (buttonLoading) buttonLoading.style.display = "none";
+
+    // Hide the form and show error in results
+    document.querySelector(".quiz-form").style.display = "none";
+
+    const resultsContainer = document.getElementById("quiz-results");
+    const recommendationsGrid = document.getElementById("recommendations-grid");
+
+    recommendationsGrid.innerHTML = `
+      <div class="recommendation-card">
+        <h3>⚠️ Something went wrong</h3>
+        <p>We encountered an error while processing your quiz. Please try again.</p>
+        <p>Error: ${error.message}</p>
+      </div>
+    `;
+
+    resultsContainer.classList.remove("hidden");
+  }
 };
 
 const selectAnswer = (evt, answerId, answerText) => {

@@ -97,17 +97,11 @@ const onSubmitHandler = async (evt, quizId) => {
           return;
         }
 
-        const imgUrl =
-          productSuggestion.media?.edges?.[0]?.node?.image?.originalSrc;
-        const productLink = productSuggestion.handle;
         const productTitle = productSuggestion.title;
-        const productPrice =
-          productSuggestion.priceRange?.minVariantPrice?.amount ||
-          "Price available on product page";
 
         // Use Shopify's product image placeholder if no image is available
         const displayImage =
-          imgUrl ||
+          productSuggestion.media?.edges?.[0]?.node?.image?.originalSrc ||
           `https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?v=1530129081`;
 
         const recommendationCard = document.createElement("div");
@@ -116,8 +110,8 @@ const onSubmitHandler = async (evt, quizId) => {
         recommendationCard.innerHTML = `
         <h3>${productTitle}</h3>
         <img src="${displayImage}" alt="${productTitle}" loading="lazy">
-        <p>$${productPrice}</p>
-        <a href="/products/${productLink}">View Product</a>
+        <p>Price available on product page</p>
+        <a href="/products/${productSuggestion.handle}">View Product</a>
       `;
 
         recommendationsGrid.appendChild(recommendationCard);

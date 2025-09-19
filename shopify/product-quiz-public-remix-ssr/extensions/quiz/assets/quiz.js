@@ -10,13 +10,13 @@ const onSubmitHandler = async (evt, quizId) => {
   evt.preventDefault();
 
   const email = document.getElementById("product-quiz__email").value;
-  const submitButton = document.querySelector(".product-quiz__submit");
-  const buttonText = submitButton.querySelector(".button-text");
-  const buttonLoading = submitButton.querySelector(".button-loading");
+  const submitButton = document.querySelector("button[name='quiz-submit']");
+  const buttonText = submitButton.querySelector("span:first-child");
+  const buttonLoading = submitButton.querySelector("span:last-child");
 
-  submitButton.classList.add("disabled", "loading");
+  submitButton.disabled = true;
   if (buttonText) buttonText.style.display = "none";
-  if (buttonLoading) buttonLoading.style.display = "flex";
+  if (buttonLoading) buttonLoading.style.display = "inline";
 
   const recommendedProducts = await window.api.answer.findMany({
     filter: {
@@ -46,29 +46,33 @@ const onSubmitHandler = async (evt, quizId) => {
     },
   });
 
+  console.log(quizId);
+
+  console.log(recommendedProducts);
+
   // save email and recommendations to Gadget for follow-up emails
   await window.api.quizResult.create({
     quiz: {
-      _link: String(quizId),
+      _link: quizId,
     },
     email,
-    shopperSuggestions: recommendedProducts.map((recommendedProductId) => ({
+    shopperSuggestions: recommendedProducts.map(({ recommendedProduct }) => ({
       create: {
         product: {
-          _link: recommendedProductId,
+          _link: recommendedProduct.id,
         },
       },
     })),
   });
 
-  // display recommendations with beautiful styling
+  // display recommendations with enhanced styling
   let recommendedProductHTML = `
-    <div class="quiz-results">
+    <div>
       <h2>🎉 Perfect! Here are your personalized recommendations</h2>
-      <div class="product-recommendations">
+      <div>
   `;
 
-  recommendedProducts.forEach((result) => {
+  recommendedProducts.forEach((result, index) => {
     const { recommendedProduct } = result;
     const imgUrl =
       recommendedProduct.productSuggestion?.media?.edges?.[0]?.node?.image
@@ -80,98 +84,100 @@ const onSubmitHandler = async (evt, quizId) => {
         ?.amount || "Price available on product page";
 
     recommendedProductHTML += `
-      <div class="product-card">
+      <div style="animation-delay: ${index * 0.2}s;">
         <h3>${productTitle}</h3>
         ${imgUrl ? `<img src="${imgUrl}" alt="${productTitle}" loading="lazy">` : ""}
-        <p style="margin: 1rem 0; font-weight: 600; color: #667eea; font-size: 1.125rem;">$${productPrice}</p>
-        <a class="button" href="/products/${productLink}">View Product</a>
+        <p>$${productPrice}</p>
+        <a href="/products/${productLink}">View Product</a>
       </div>
     `;
   });
 
   recommendedProductHTML += `
       </div>
-      <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: #ffffff; border-radius: 16px; border: 2px solid #e2e8f0;">
-        <p style="margin: 0; font-size: 1.125rem; color: #4a5568; line-height: 1.6;">Thank you for taking our quiz! We'll send you more personalized recommendations via email.</p>
+      <div>
+        <p>Thank you for taking our quiz! We'll send you more personalized recommendations via email.</p>
       </div>
     </div>
   `;
 
   document.getElementById("questions").innerHTML = recommendedProductHTML;
 
-  submitButton.classList.add("hidden");
-  document.querySelector(".product-quiz__submit-hr").classList.add("hidden");
-  document
-    .querySelector(".product-quiz__email-container")
-    .classList.add("hidden");
+  submitButton.style.display = "none";
+  document.querySelector("hr").style.display = "none";
+  document.querySelector("div:has(#product-quiz__email)").style.display =
+    "none";
 };
 
 const selectAnswer = (evt, answerId, answerText) => {
   selectedAnswers.push(answerId);
-  let elId = evt.srcElement.id;
-  let parent = document.getElementById(elId).parentNode;
+  const button = evt.target;
+  const questionContainer = button.closest("[data-question]");
+  const answersContainer = button.closest("[data-answers]");
 
-  // Add selected class to the button
-  const button = evt.srcElement;
-  button.classList.add("selected");
+  // Mark as selected
   button.setAttribute("aria-checked", "true");
+  button.setAttribute("data-selected", "true");
 
-  // Update the parent container with a nice confirmation
-  parent.style.transition = "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)";
-  parent.innerHTML = `
-    <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1.25rem 1.75rem; background: linear-gradient(135deg, #48bb78 0%, #38a169 100%); border-radius: 16px; color: white; font-weight: 600; box-shadow: 0 8px 25px rgba(72, 187, 120, 0.3); animation: slideInUp 0.4s ease-out;" role="button" aria-pressed="true" tabindex="-1">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <polyline points="20,6 9,17 4,12"></polyline>
-      </svg>
-      <span>${decodeURI(answerText)}</span>
-    </div>
-  `;
+  // Add selection animation to the button
+  button.style.transform = "scale(0.95)";
+  button.style.transition = "transform 0.1s ease-out";
 
-  // Mark question as answered
-  const questionContainer = parent.closest(".product-quiz__question");
-  questionContainer.classList.add("answered");
-
-  // Disable all other buttons in the same question
-  const allButtons = questionContainer.querySelectorAll(".answer");
-  allButtons.forEach((btn) => {
-    if (btn.id !== elId) {
-      btn.classList.add("disabled");
-      btn.setAttribute("aria-checked", "false");
-      btn.setAttribute("tabindex", "-1");
-    }
-  });
-
-  // Update progress
-  currentQuestionIndex++;
-  updateProgress();
-
-  // Auto-scroll to next question after a short delay
   setTimeout(() => {
+    button.style.transform = "scale(1)";
+
+    // Replace the answers container with confirmation
+    answersContainer.innerHTML = `
+      <div role="status" aria-live="polite">
+        ${decodeURI(answerText)}
+      </div>
+    `;
+
+    // Mark question as answered
+    questionContainer.setAttribute("data-answered", "true");
+
+    // Update progress with animation
+    currentQuestionIndex++;
+    updateProgress();
+
+    // Show next question with staggered animation
     const nextQuestion = questionContainer.nextElementSibling;
     if (nextQuestion) {
-      nextQuestion.scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-      });
-      // Focus on the first answer of the next question
-      const nextFirstAnswer = nextQuestion.querySelector(
-        ".answer:not(.disabled)"
-      );
-      if (nextFirstAnswer) {
-        nextFirstAnswer.focus();
-      }
+      // Add a subtle entrance animation to the next question
+      nextQuestion.style.animationDelay = "0.3s";
+      nextQuestion.style.opacity = "1";
+
+      // Auto-scroll to next question after a delay
+      setTimeout(() => {
+        nextQuestion.scrollIntoView({
+          behavior: "smooth",
+          block: "center",
+        });
+
+        // Focus on the first answer of the next question
+        const nextFirstAnswer = nextQuestion.querySelector(
+          "button:not([data-selected])"
+        );
+        if (nextFirstAnswer) {
+          nextFirstAnswer.focus();
+        }
+      }, 600);
     }
-  }, 800);
+  }, 150);
 };
 
 const updateProgress = () => {
-  const progressFill = document.querySelector(".quiz-progress-fill");
-  const progressText = document.querySelector(".quiz-progress-text");
+  const progressText = document.querySelector("[data-progress-text]");
 
-  if (progressFill && progressText) {
-    const progress = (currentQuestionIndex / totalQuestions) * 100;
-    progressFill.style.width = `${progress}%`;
-    progressText.textContent = `Question ${currentQuestionIndex} of ${totalQuestions}`;
+  if (progressText) {
+    // Add a subtle animation to the progress update
+    progressText.style.transform = "scale(1.05)";
+    progressText.style.transition = "transform 0.2s ease-out";
+
+    setTimeout(() => {
+      progressText.textContent = `Question ${currentQuestionIndex} of ${totalQuestions}`;
+      progressText.style.transform = "scale(1)";
+    }, 100);
   }
 };
 
@@ -248,65 +254,86 @@ document.addEventListener("DOMContentLoaded", async function () {
           constructor() {
             super();
             this.form = this.querySelector("form");
-            this.heading = this.querySelector(".product-quiz__title");
+            this.heading = this.querySelector("#quiz-title");
             this.heading.innerHTML = quiz.title;
-            this.heading.id = "quiz-title";
-            this.body = this.querySelector(".product-quiz__body p");
+            this.body = this.querySelector("#quiz-description");
             this.body.innerHTML =
               quiz.description ||
               "Answer a few questions to get personalized product recommendations!";
-            this.body.id = "quiz-description";
-            this.questions = this.querySelector(".product-quiz__questions");
+            this.questions = this.querySelector("#questions");
 
             // Add progress bar
             this.addProgressBar();
 
-            const questionContainer = this.querySelector(
-              ".product-quiz__question"
-            );
-            const answerContainer = this.querySelector(
-              ".product-quiz__question-answer"
-            );
-
+            // Create questions dynamically
             questions.forEach((question, i) => {
-              const clonedDiv = questionContainer.cloneNode(true);
-              clonedDiv.id = "question_" + i;
-              clonedDiv.setAttribute("aria-labelledby", `question-title-${i}`);
-              clonedDiv.insertAdjacentHTML(
-                "beforeend",
-                `<div><h3 id="question-title-${i}">${question.node.text}</h3></div><div class='product-quiz__answers product-quiz__answers_${i}' role="radiogroup" aria-labelledby="question-title-${i}"></div>`
+              // Create question container
+              const questionDiv = document.createElement("div");
+              questionDiv.id = "question_" + i;
+              questionDiv.setAttribute("role", "group");
+              questionDiv.setAttribute("data-question", "true");
+              questionDiv.setAttribute(
+                "aria-labelledby",
+                `question-title-${i}`
               );
-              this.questions.appendChild(clonedDiv);
+
+              // Add staggered animation delay for initial load
+              questionDiv.style.animationDelay = `${i * 0.1}s`;
+
+              // Create question title
+              const questionTitle = document.createElement("h3");
+              questionTitle.id = `question-title-${i}`;
+              questionTitle.textContent = question.node.text;
+              questionDiv.appendChild(questionTitle);
+
+              // Create answers container
+              const answersContainer = document.createElement("div");
+              answersContainer.setAttribute("role", "radiogroup");
+              answersContainer.setAttribute("data-answers", "true");
+              answersContainer.setAttribute(
+                "aria-labelledby",
+                `question-title-${i}`
+              );
 
               const answers = question.node.answers.edges;
               answers.forEach((answer, j) => {
-                const clonedSpan = answerContainer.cloneNode(true);
-                clonedSpan.id = "answer_" + i + "_" + j;
-                clonedSpan.insertAdjacentHTML(
-                  "beforeend",
-                  `<button 
-                    class="answer" 
-                    id="${clonedSpan.id}" 
-                    type="button"
-                    role="radio"
-                    aria-checked="false"
-                    tabindex="0"
-                    aria-describedby="question-title-${i}"
-                  >${answer.node.text}</button>`
+                // Create answer button
+                const answerButton = document.createElement("button");
+                answerButton.id = `answer_${i}_${j}`;
+                answerButton.type = "button";
+                answerButton.setAttribute("role", "radio");
+                answerButton.setAttribute("aria-checked", "false");
+                answerButton.setAttribute("tabindex", "0");
+                answerButton.setAttribute(
+                  "aria-describedby",
+                  `question-title-${i}`
                 );
-                clonedSpan.addEventListener("click", (evt) => {
+                answerButton.textContent = answer.node.text;
+
+                answerButton.addEventListener("click", (evt) => {
                   selectAnswer(evt, answer.node.id, answer.node.text);
                 });
-                clonedSpan.addEventListener("keydown", (evt) => {
+                answerButton.addEventListener("keydown", (evt) => {
                   if (evt.key === "Enter" || evt.key === " ") {
                     evt.preventDefault();
                     selectAnswer(evt, answer.node.id, answer.node.text);
                   }
                 });
-                this.querySelector(`.product-quiz__answers_${i}`).appendChild(
-                  clonedSpan
-                );
+
+                // Add hover sound effect simulation (visual feedback)
+                answerButton.addEventListener("mouseenter", () => {
+                  answerButton.style.transform = "translateY(-2px)";
+                });
+                answerButton.addEventListener("mouseleave", () => {
+                  if (!answerButton.hasAttribute("data-selected")) {
+                    answerButton.style.transform = "translateY(0)";
+                  }
+                });
+                answersContainer.appendChild(answerButton);
               });
+
+              questionDiv.appendChild(answersContainer);
+              this.questions.appendChild(questionDiv);
             });
 
             this.form.addEventListener("submit", async function (evt) {
@@ -316,11 +343,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
           addProgressBar() {
             const progressHTML = `
-              <div class="quiz-progress">
-                <div class="quiz-progress-bar">
-                  <div class="quiz-progress-fill" style="width: 0%"></div>
-                </div>
-                <div class="quiz-progress-text">Question 0 of ${totalQuestions}</div>
+              <div>
+                <div data-progress-text>Completed 0 of ${totalQuestions}</div>
               </div>
             `;
             this.questions.insertAdjacentHTML("beforebegin", progressHTML);
@@ -335,12 +359,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     const quizContainer = document.querySelector("product-quiz");
     if (quizContainer) {
       quizContainer.innerHTML = `
-        <div class="quiz-error" style="text-align: center; padding: 2rem; background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; color: #dc2626;">
-          <h2 style="color: #dc2626; margin-bottom: 1rem;">⚠️ Quiz Error</h2>
-          <p style="margin-bottom: 1rem;">${error.message}</p>
-          <p style="font-size: 0.875rem; color: #6b7280;">
-            Please check your quiz settings or contact support if the problem persists.
-          </p>
+        <div>
+          <h2>⚠️ Quiz Error</h2>
+          <p>${error.message}</p>
+          <p>Please check your quiz settings or contact support if the problem persists.</p>
         </div>
       `;
     }

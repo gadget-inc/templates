@@ -8,6 +8,7 @@ api_version = "unstable"
 [[extensions]]
 name = "wishlists"
 handle = "wishlists"
+uid = "803c0859-2aca-4cf6-31df-286ddf387f74a7a20d09"
 type = "ui_extension"
 
 

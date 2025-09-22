@@ -1,3 +1,5 @@
+<script src="https://wishlist-public-remix-ssr--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
+
 <script src="{{ 'addToWishlist.js' | asset_url }}" defer="defer"></script>
 {{ 'addToWishlist.css' | asset_url | stylesheet_tag }}
 
@@ -8,11 +10,8 @@
     document.addEventListener("DOMContentLoaded", function () {
       window.initialWishlistArr = {{ wishlists | json }};
       window.currentVariant = {{ product.selected_or_first_available_variant.id | json }};
-      window.shopURL = "{{ shop.permanent_domain | prepend: 'https://' }}";
     });
  </script>
-
-<script src="https://wishlist-public-remix-ssr--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
 
 {% comment %} https://shopify.dev/docs/api/liquid/objects/customer {% endcomment %}
 {% if customer %}

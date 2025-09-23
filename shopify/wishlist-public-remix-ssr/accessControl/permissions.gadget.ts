@@ -133,6 +133,7 @@ export const permissions: GadgetPermissions = {
               "accessControl/filters/wishlistItem/customer/tenancy.gelly",
           },
           actions: {
+            create: true,
             delete: true,
           },
         },
@@ -144,25 +145,6 @@ export const permissions: GadgetPermissions = {
         shopifyProductVariant: {
           actions: {
             update: true,
-          },
-        },
-        wishlist: {
-          read: {
-            filter:
-              "accessControl/filters/wishlist/shop/tenancy.gelly",
-          },
-          actions: {
-            create: true,
-          },
-        },
-        wishlistItem: {
-          read: {
-            filter:
-              "accessControl/filters/wishlistItem/shop/tenancy.gelly",
-          },
-          actions: {
-            create: true,
-            delete: true,
           },
         },
       },

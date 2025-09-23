@@ -74,8 +74,9 @@ export const run: ActionRun = async ({ params, logger, api, connections }) => {
 
   // Add the variant to the wishlist object
   for (const { variantId, wishlistId } of allWishlistItems) {
-    if (wishlistId && variantId)
+    if (wishlistId && variantId && wishlistObj[wishlistId]) {
       wishlistObj[wishlistId].variants[variantId] = true;
+    }
   }
 
   // Update the metafield with the new wishlist object

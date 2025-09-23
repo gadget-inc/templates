@@ -38,21 +38,21 @@ prefix = "apps"
 
 1. Quiz created
 
-   Merchant goes to the application in the store's admin and creates a quiz.
+   Merchant goes to the application in the store's admin and creates a quiz
 
 2. Merchant adds extension
 
-   The extension can be added to any template page. A setting called `Quiz ID` must be set for a quiz to be displayed.
+   The extension can be added to any template page. A setting called `Quiz ID` must be set for a quiz to be displayed
 
 3. Customers use quiz
 
-   The quiz is displayed to the merchants customers who can then fill it out and submit to see their product recommendation results.
+   The quiz is displayed to the merchants customers who can then fill it out and submit to see their product recommendation results
 
 ## How to test it
 
 1. **Confirm setup**
 
-   Make sure your extension is visible on your storefront (follow the setup guide if not).
+   Make sure your extension is visible on your storefront (follow the setup guide if not)
 
 2. **Fill out the quiz**
 

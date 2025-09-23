@@ -239,12 +239,12 @@ document.addEventListener("DOMContentLoaded", async function () {
       );
     }
 
-    // Check if quizSlug is set
-    if (!window.quizSlug) {
+    // Check if quiz_slug is set
+    if (!window.quiz_slug) {
       throw new Error("Quiz slug not found. Please check your theme settings.");
     }
 
-    const quiz = await window.api.quiz.maybeFindBySlug(window.quizSlug, {
+    const quiz = await window.api.quiz.maybeFindBySlug(window.quiz_slug, {
       select: {
         id: true,
         title: true,
@@ -271,7 +271,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     // Check if quiz was found
     if (!quiz) {
       throw new Error(
-        `No quiz found with slug: ${window.quizSlug}. Please check your quiz settings.`
+        `No quiz found with slug: ${window.quiz_slug}. Please check your quiz settings.`
       );
     }
 

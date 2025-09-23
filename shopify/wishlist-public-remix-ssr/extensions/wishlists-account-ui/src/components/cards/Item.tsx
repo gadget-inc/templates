@@ -9,6 +9,7 @@ import {
   ProductThumbnail,
   Tag,
   Text,
+  useI18n,
   useNavigation,
 } from "@shopify/ui-extensions-react/customer-account";
 import { api } from "../../api";
@@ -53,6 +54,8 @@ export default ({
 }) => {
   const { shop } = useContext(ShopContext);
   const { navigate } = useNavigation();
+  // Formatting for the customer's currency
+  const { formatCurrency } = useI18n();
 
   // Hook for deleting a wishlist item
   const [{ fetching: fetchingDeletion }, deleteWishlistItem] = useAction(
@@ -71,8 +74,11 @@ export default ({
           <InlineStack>
             <ProductThumbnail
               // Gotta fix this
-              source={(image as { originalSrc: string })?.originalSrc ?? ""}
-              alt={alt ?? "thumbnail stand-in"}
+              source={
+                (image as { originalSrc: string })?.originalSrc ??
+                "https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?v=1530129081"
+              }
+              alt={alt ?? "Product placeholder"}
             />
             <BlockStack spacing="extraTight">
               <HeadingGroup>
@@ -88,14 +94,16 @@ export default ({
                     appearance={compareAtPrice ? "subdued" : undefined}
                   >
                     {compareAtPrice
-                      ? price
+                      ? formatCurrency(parseFloat(compareAtPrice))
                           .split("")
                           .map((char: string) => char + "\u0336")
                           .join("")
-                      : price}
+                      : formatCurrency(parseFloat(price))}
                   </Text>
                   {compareAtPrice && (
-                    <Tag icon="discount">{compareAtPrice}</Tag>
+                    <Tag icon="discount">
+                      {formatCurrency(parseFloat(compareAtPrice))}
+                    </Tag>
                   )}
                 </InlineStack>
               ) : (

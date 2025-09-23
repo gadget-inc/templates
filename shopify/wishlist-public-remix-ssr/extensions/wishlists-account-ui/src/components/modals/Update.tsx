@@ -8,7 +8,6 @@ import {
   Icon,
   InlineStack,
   Modal,
-  useI18n,
   Tooltip,
   useApi,
 } from "@shopify/ui-extensions-react/customer-account";
@@ -25,9 +24,6 @@ export default ({ id, name }: { id: string; name: string }) => {
     before?: string;
   }>({ first: NUM_ON_PAGE });
   const { ui } = useApi();
-
-  // Formatting for the customer's currency
-  const { formatCurrency } = useI18n();
 
   // Hook for deleting a wishlist
   const [{ data: deletionData, fetching: fetchingDeletion }, deleteWishlist] =

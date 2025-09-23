@@ -378,8 +378,9 @@ product-quiz button[name="quiz-submit"]:disabled {
 
 #questions > div > div:nth-child(2) img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
   border-radius: var(--quiz-radius);
   margin-bottom: 1rem;
 }
@@ -755,8 +756,9 @@ product-quiz button[name="quiz-submit"]:disabled {
 
 .recommendation-card img {
   width: 100%;
-  height: 200px;
-  object-fit: cover;
+  height: auto;
+  max-height: 300px;
+  object-fit: contain;
   border-radius: var(--quiz-radius);
   margin-bottom: 1rem;
 }

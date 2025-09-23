@@ -1,8 +1,8 @@
 import { useFindFirst } from "@gadgetinc/react";
 import { createContext, useEffect } from "react";
 import { api } from "../api";
-import { StyledSpinner } from "../components";
-import { GadgetRecord } from "@gadget-client/wishlist-public-remix-ssr";
+import type { GadgetRecord } from "@gadget-client/wishlist-public-remix-ssr";
+import StyledSpinner from "../components/StyledSpinner";
 
 type ShopContextType = {
   shop?: GadgetRecord<{

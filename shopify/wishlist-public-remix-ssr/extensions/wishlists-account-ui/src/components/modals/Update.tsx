@@ -1,7 +1,7 @@
 import { useAction, useFindMany } from "@gadgetinc/react";
 import { useCallback, useState, useEffect } from "react";
-import { api } from "../api";
-import WishlistItemCard from "./WishlistItemCard.jsx";
+import { api } from "../../api";
+import Item from "../cards/Item";
 import {
   BlockStack,
   Button,
@@ -12,7 +12,7 @@ import {
   Tooltip,
   useApi,
 } from "@shopify/ui-extensions-react/customer-account";
-import StyledSpinner from "./StyledSpinner.js";
+import StyledSpinner from "../StyledSpinner";
 
 const NUM_ON_PAGE = 5;
 
@@ -59,12 +59,10 @@ export default ({ id, name }: { id: string; name: string }) => {
           title: true,
           status: true,
           handle: true,
-          media: {
-            edges: {
-              node: {
-                image: true,
-                alt: true,
-              },
+          featuredMedia: {
+            file: {
+              alt: true,
+              image: true,
             },
           },
         },
@@ -112,24 +110,7 @@ export default ({ id, name }: { id: string; name: string }) => {
         <BlockStack>
           {!wishlistItems?.length && <>No items</>}
           {wishlistItems?.map(({ id, variant }) => (
-            <WishlistItemCard
-              key={id}
-              {...{
-                id,
-                variantId: variant?.id,
-                title: variant?.title,
-                price: formatCurrency(parseFloat(variant?.price ?? "0")),
-                compareAtPrice:
-                  variant?.compareAtPrice &&
-                  formatCurrency(parseFloat(variant.compareAtPrice ?? "0")),
-                deleted: variant?.deleted,
-                productTitle: variant?.product?.title,
-                status: variant?.product?.status,
-                imageNode: variant?.product?.media?.edges?.[0]?.node,
-                inventoryQuantity: variant?.inventoryQuantity,
-                handle: variant?.product?.handle,
-              }}
-            />
+            <Item key={id} {...variant} />
           ))}
         </BlockStack>
         <InlineStack blockAlignment="center" inlineAlignment="end">

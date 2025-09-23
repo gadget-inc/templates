@@ -8,7 +8,7 @@ import {
   Text,
   InlineLayout,
 } from "@shopify/ui-extensions-react/customer-account";
-import WishlistModal from "./WishlistModal.js";
+import Modal from "../modals/Update";
 
 export default ({
   id,
@@ -23,7 +23,7 @@ export default ({
 }) => {
   return (
     <>
-      <Pressable overlay={<WishlistModal {...{ id, name }} />}>
+      <Pressable overlay={<Modal {...{ id, name }} />}>
         <Card padding>
           <BlockStack spacing="loose">
             <InlineLayout blockAlignment="center" columns={["fill", "20%"]}>

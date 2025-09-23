@@ -7,10 +7,10 @@ import {
   InlineLayout,
   useApi,
 } from "@shopify/ui-extensions-react/customer-account";
-import { api } from "../api";
+import { api } from "../../api";
 import { useCallback, useContext } from "react";
-import { ShopContext } from "../providers";
-import { GadgetRecordList } from "@gadget-client/wishlist-public-remix-ssr";
+import type { GadgetRecordList } from "@gadget-client/wishlist-public-remix-ssr";
+import { ShopContext } from "../../providers/Shop";
 
 export default ({
   wishlists,

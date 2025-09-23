@@ -11,46 +11,45 @@ import {
   Text,
   useNavigation,
 } from "@shopify/ui-extensions-react/customer-account";
-import { api } from "../api";
+import { api } from "../../api";
 import { useAction } from "@gadgetinc/react";
 import { useCallback, useContext } from "react";
-import { ShopContext } from "../providers";
-import type {
-  JSONValue,
-  ShopifyProductStatusEnum,
-} from "@gadget-client/wishlist-public-remix-ssr";
-
-type ImageField = {
-  id: string;
-  width: number;
-  height: number;
-  originalSrc: string;
-};
+import { ShopContext } from "../../providers/Shop";
+import type { JSONValue } from "@gadget-client/wishlist-public-remix-ssr";
 
 export default ({
   id,
   title,
   price,
   compareAtPrice,
-  productTitle,
-  imageNode,
   deleted,
-  status,
   inventoryQuantity,
-  handle,
-  variantId,
+  product: {
+    title: productTitle,
+    status,
+    handle,
+    featuredMedia: {
+      file: { image, alt },
+    },
+  },
 }: {
   id: string;
-  variantId: string | undefined;
-  title: string | null | undefined;
+  title: string;
   price: string;
-  compareAtPrice: string | null | undefined;
-  deleted: boolean | null;
-  productTitle: string | null | undefined;
-  status: ShopifyProductStatusEnum | undefined;
-  imageNode: { alt: string | null; image: JSONValue | null } | undefined;
-  inventoryQuantity: number | null | undefined;
-  handle: string | null | undefined;
+  compareAtPrice: string;
+  deleted: boolean;
+  inventoryQuantity: number;
+  product: {
+    title: string;
+    status: string;
+    handle: string;
+    featuredMedia: {
+      file: {
+        image: JSONValue;
+        alt: string;
+      };
+    };
+  };
 }) => {
   const { shop } = useContext(ShopContext);
   const { navigate } = useNavigation();
@@ -71,8 +70,9 @@ export default ({
         <InlineLayout blockAlignment="start" columns={["fill", "20%"]}>
           <InlineStack>
             <ProductThumbnail
-              source={(imageNode?.image as ImageField)?.originalSrc ?? ""}
-              alt={imageNode?.alt ?? "thumbnail stand-in"}
+              // Gotta fix this
+              source={(image as { originalSrc: string })?.originalSrc ?? ""}
+              alt={alt ?? "thumbnail stand-in"}
             />
             <BlockStack spacing="extraTight">
               <HeadingGroup>
@@ -132,7 +132,7 @@ export default ({
               appearance="monochrome"
               onPress={() =>
                 navigate(
-                  `https://${shop?.domain}/products/${handle}?variant=${variantId}`
+                  `https://${shop?.domain}/products/${handle}?variant=${id}`
                 )
               }
             >

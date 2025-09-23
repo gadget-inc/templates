@@ -57,9 +57,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         const wishlist = await window.api.wishlist.create({
           name: document.getElementById("new-wishlist-input").value,
-          variant: {
-            _link: window.currentVariant,
-          },
           wishlistItems: [
             {
               create: {
@@ -262,7 +259,7 @@ async function handleWishlistClick(e) {
         wishlistItem.id
       );
 
-      if (deletedResponse.success) state[wishlistId] = false;
+      if (deletedResponse) state[wishlistId] = false;
     }
 
     plusIcon.style.display = "block";

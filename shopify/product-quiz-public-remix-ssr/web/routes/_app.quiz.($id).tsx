@@ -52,6 +52,7 @@ function Form(props: {
                         id: true,
                         productSuggestion: {
                           id: true,
+                          title: true,
                         },
                       },
                     },
@@ -99,7 +100,10 @@ export default function Quiz() {
               <AutoStringInput field="text" />
               <AutoHasManyForm field="answers">
                 <AutoStringInput field="text" />
-                <AutoHasOneForm field="recommendedProduct">
+                <AutoHasOneForm
+                  field="recommendedProduct"
+                  recordLabel={({ record }) => record?.productSuggestion?.title}
+                >
                   <AutoBelongsToInput field="productSuggestion" />
                 </AutoHasOneForm>
               </AutoHasManyForm>

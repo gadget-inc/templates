@@ -4,6 +4,10 @@
 # .gadget
 .gadget
 
+# shopify
+
+*/.shopify
+
 ### Linux ###
 *~
 

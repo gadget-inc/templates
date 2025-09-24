@@ -37,7 +37,7 @@ function Form(props: {
           id: true,
           title: true,
           slug: true,
-          body: true,
+          description: true,
           questions: {
             edges: {
               node: {
@@ -52,6 +52,7 @@ function Form(props: {
                         id: true,
                         productSuggestion: {
                           id: true,
+                          title: true,
                         },
                       },
                     },
@@ -94,12 +95,15 @@ export default function Quiz() {
           <Form findBy={id} onSuccess={() => navigate("/")}>
             <SubmitResultBanner />
             <AutoStringInput field="title" />
-            <AutoStringInput field="body" />
+            <AutoStringInput field="description" multiline={4} />
             <AutoHasManyForm field="questions">
               <AutoStringInput field="text" />
               <AutoHasManyForm field="answers">
                 <AutoStringInput field="text" />
-                <AutoHasOneForm field="recommendedProduct">
+                <AutoHasOneForm
+                  field="recommendedProduct"
+                  recordLabel={({ record }) => record?.productSuggestion?.title}
+                >
                   <AutoBelongsToInput field="productSuggestion" />
                 </AutoHasOneForm>
               </AutoHasManyForm>

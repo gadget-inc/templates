@@ -10,9 +10,9 @@ export function NavMenu() {
       <Link to="/quiz" rel="newQuiz">
         New quiz
       </Link>
-      <Link to="/install" rel="installation">
-        Installation
-      </Link>
+      <Link to="/install">Install</Link>
+      {/* Remove the setup link when going live */}
+      <Link to="/setup">Template setup</Link>
     </AppBridgeNavMenu>
   );
 }

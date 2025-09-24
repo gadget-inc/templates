@@ -109,6 +109,63 @@ export const permissions: GadgetPermissions = {
     },
     unauthenticated: {
       storageKey: "unauthenticated",
+      models: {
+        answer: {
+          read: {
+            filter: "accessControl/filters/answer/tenancy.gelly",
+          },
+        },
+        question: {
+          read: {
+            filter: "accessControl/filters/question/tenancy.gelly",
+          },
+        },
+        quiz: {
+          read: {
+            filter: "accessControl/filters/quiz/tenancy.gelly",
+          },
+        },
+        quizResult: {
+          read: {
+            filter: "accessControl/filters/quizResult/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+          },
+        },
+        recommendedProduct: {
+          read: {
+            filter:
+              "accessControl/filters/recommendedProduct/tenancy.gelly",
+          },
+        },
+        shopifyFile: {
+          read: {
+            filter: "accessControl/filters/shopify/shopifyFile.gelly",
+          },
+        },
+        shopifyProduct: {
+          read: {
+            filter:
+              "accessControl/filters/shopify/shopifyProduct.gelly",
+          },
+        },
+        shopifyProductMedia: {
+          read: {
+            filter:
+              "accessControl/filters/shopify/shopifyProductMedia.gelly",
+          },
+        },
+        shopperSuggestion: {
+          read: {
+            filter:
+              "accessControl/filters/shopperSuggestion/tenancy.gelly",
+          },
+          actions: {
+            create: true,
+          },
+        },
+      },
     },
   },
 };

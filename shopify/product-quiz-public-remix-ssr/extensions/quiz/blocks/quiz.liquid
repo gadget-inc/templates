@@ -1,61 +1,124 @@
 {% comment %} Fetching the quiz slug set in the theme customizer {% endcomment %}
-{% assign quizSlug = block.settings.quiz_slug %}
+{% assign quiz_slug = block.settings.quiz_slug %}
 
 {% comment %} 
   Setting `quiz_slug` is used to identify the quiz. It should match the slug of the quiz created in the app.
   The `secure_url` field is used to make calls to the store's URL to make requests to the Gadget app through the Shopify app proxy.
-{% endcomment %}
-<script>
-  window.quizSlug = "{{ quizSlug }}";
-  window.shopURL = "{{ shop.secure_url }}";
-</script>
+  {% endcomment %}
+  <script>
+    window.quiz_slug = "{{ quiz_slug }}";
+  </script>
 
+{% comment %} Make sure to modify this script to point to the correct endpoint for your Gadget app {% endcomment %}
+<script src="https://product-quiz-public-remix-ssr--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
+
+{{ 'quiz.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'quiz.js' | asset_url }}" defer="defer"></script>
 
 {% comment %} Check to see if there was a quiz slug insert into the quiz slug input in the theme customizer {% endcomment %}
-{% if quizSlug.size > 0 %}
-<div class="page-width page-width--narrow">
-  <product-quiz class="quiz">
-    <h1 class="main-page-title page-title h0 product-quiz__title">
-    </h1>
-    <div class="product-quiz__body">
-      <span>
-      </span>
-    </div>
-    <form class="form">
-      <div class="product-quiz__questions" id="questions">
-        <div class="product-quiz__question">
-          <span class="product-quiz__question-answer">
-          </span>
+{% if quiz_slug.size > 0 %}
+<section class="quiz-section" aria-labelledby="quiz-section-title">
+  <div class="sr-only" id="quiz-section-title">Product Recommendation Quiz</div>
+  
+  <product-quiz role="main" aria-label="Product Recommendation Quiz" class="quiz-container">
+    <header class="quiz-header">
+      <div class="quiz-header-content">
+        <h1 id="quiz-title" class="quiz-title">
+          <span class="quiz-loading-text">Loading quiz...</span>
+        </h1>
+        <div class="quiz-description-wrapper">
+          <p id="quiz-description" class="quiz-description">
+            Please wait while we load your personalized quiz...
+          </p>
         </div>
       </div>
-      <hr class="product-quiz__submit-hr" />
-      <div class="product-quiz__email-container">
-        <label htmlFor="email">Enter your email to complete quiz</label><br>
-        <input type="email" id="product-quiz__email" name="email" required="required" style="font-size: 16px; height: 32px"><br><br>
+    </header>
+    
+    <main class="quiz-content">
+      <form role="form" aria-label="Quiz Form" class="quiz-form">
+        <div id="questions" role="group" aria-label="Quiz Questions" class="quiz-questions">
+          <!-- Questions will be dynamically inserted here -->
+        </div>
+        
+        <hr aria-hidden="true" class="quiz-divider" />
+        
+        <div class="quiz-email-section">
+          <div class="quiz-input-group">
+            <label for="product-quiz__email" class="quiz-email-label">
+              <span class="quiz-email-label-text">Enter your email to get personalized results</span>
+            </label>
+            <div class="quiz-input-wrapper">
+              <input 
+                type="email" 
+                id="product-quiz__email" 
+                name="email" 
+                required="required" 
+                placeholder="your@email.com"
+                aria-describedby="email-help"
+                autocomplete="email"
+                class="quiz-email-input"
+              >
+              <div id="email-help" class="sr-only">
+                We'll send your personalized product recommendations to this email address
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="quiz-submit-section">
+          <button
+            name="quiz-submit"
+            type="submit"
+            aria-describedby="submit-help"
+            class="quiz-submit-button"
+          >
+            <span class="quiz-submit-text">Get my results</span>
+            <span class="quiz-loading-text" style="display: none;">
+              <span class="quiz-loading-dots">
+                <span class="quiz-loading-dot"></span>
+                <span class="quiz-loading-dot"></span>
+                <span class="quiz-loading-dot"></span>
+              </span>
+              Getting your results...
+            </span>
+          </button>
+          <div id="submit-help" class="sr-only">
+            Click to submit your quiz and receive personalized product recommendations
+          </div>
+        </div>
+      </form>
+      
+      <!-- Hidden results section that will be shown after quiz submission -->
+      <div id="quiz-results" class="quiz-results hidden">
+        <div class="quiz-results-content">
+          <h2 id="results-title">🎉 Perfect! Here are your personalized recommendations</h2>
+          <div id="recommendations-grid" class="recommendations-grid">
+            <!-- Recommendations will be populated here -->
+          </div>
+          <div class="quiz-results-footer">
+            <p>Thank you for taking our quiz! We'll send you more personalized recommendations via email.</p>
+          </div>
+        </div>
       </div>
-      <button
-        name="quiz-submit"
-        type="submit"
-        class="product-quiz__submit button button--secondary"
-      >
-        Get my results
-      </button>
-    </form>
+    </main>
   </product-quiz>
-</div>
+</section>
 {% else %}
-<div>
-    <h2>No quiz slug, check settings</h2>
-</div>
+<section class="quiz-error" role="alert">
+  <div class="quiz-error-content">
+    <h2 class="quiz-error-title">⚠️ Quiz Configuration Required</h2>
+    <p class="quiz-error-message">No quiz ID has been added. Please check your theme settings and add a valid quiz slug.</p>
+    <p class="quiz-error-help">Go to your theme customizer and enter a quiz slug in the Quiz section settings.</p>
+  </div>
+</section>
 {% endif %}
 
 {% schema %}
 {
-    "name": "Quiz section",
-    "target": "section",
-    "settings": [
-        { "type": "text", "label": "Quiz slug", "id": "quiz_slug" }
-    ]
+  "name": "Quiz section",
+  "target": "section",
+  "settings": [
+    { "type": "text", "label": "Quiz ID", "id": "quiz_slug" }
+  ]
 }
 {% endschema %}

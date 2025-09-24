@@ -1,0 +1,3 @@
+filter ($session: Session) on QuizResult [
+  where shopId == $session.shopId
+]

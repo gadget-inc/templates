@@ -7,7 +7,11 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v1",
   storageKey: "29eEBxUAUqzi",
   fields: {
-    body: { type: "string", storageKey: "XNASbnhaoKp0" },
+    description: {
+      type: "string",
+      default: "No description provided",
+      storageKey: "XNASbnhaoKp0",
+    },
     questions: {
       type: "hasMany",
       children: { model: "question", belongsToField: "quiz" },

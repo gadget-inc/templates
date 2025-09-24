@@ -5,7 +5,6 @@ import {
   InlineStack,
   Text,
   BlockStack,
-  ButtonGroup,
   Box,
   Banner,
   SkeletonDisplayText,
@@ -15,16 +14,19 @@ import { useAction, useTable } from "@gadgetinc/react";
 import { api } from "../api";
 import PageLayout from "../components/PageLayout";
 import { useNavigate } from "@remix-run/react";
-import { DeleteIcon, EditIcon } from "@shopify/polaris-icons";
+import { DeleteIcon, EditIcon, ClipboardIcon } from "@shopify/polaris-icons";
+import { useCallback, useState } from "react";
+import { useAppBridge } from "@shopify/app-bridge-react";
 
 type QuizCardProps = {
   quiz: {
     id: string;
     title: string;
     slug: string;
-    body: string | null;
+    description: string | null;
   };
 };
+
 /**
  * @returns {JSX.Element} - A card component that displays a message when no quizzes are found, with an option to create a new quiz.
  */
@@ -64,47 +66,85 @@ function LoadingState() {
 
 /**
  *
- * @param props - Data related to a quiz, including its id, title, slug, and body.
- * @returns {JSX.Element} - A card component displaying the quiz title, slug, and body, with options to edit or delete the quiz.
+ * @param props - Data related to a quiz, including its id, title, slug, and description.
+ * @returns {JSX.Element} - A card component displaying the quiz title, slug, and description, with options to edit or delete the quiz.
  */
 function QuizCard(props: QuizCardProps) {
   const {
-    quiz: { id, title, slug, body },
+    quiz: { id, title, slug, description },
   } = props;
 
   const navigate = useNavigate();
+  const shopify = useAppBridge();
 
   const [{ fetching }, deleteQuiz] = useAction(api.quiz.delete);
+
+  const handleCopySlug = useCallback(async () => {
+    try {
+      await navigator.clipboard.writeText(slug);
+      shopify.toast.show("Quiz ID copied!", { duration: 3000 });
+    } catch (err) {
+      console.error("Failed to copy slug:", err);
+      shopify.toast.show("Failed to copy quiz ID", {
+        duration: 3000,
+        isError: true,
+      });
+    }
+  }, [slug, shopify]);
 
   return (
     <Card>
       <BlockStack gap="300">
         <InlineStack align="space-between">
-          <BlockStack>
-            <Text as="h2" variant="headingMd">
-              {title}
-            </Text>
-            <Text as="p" tone="subdued">
-              {slug}
-            </Text>
-          </BlockStack>
-          <ButtonGroup>
+          <Text as="h2" variant="headingMd" fontWeight="bold">
+            {title}
+          </Text>
+          <InlineStack gap="300">
             <Button
               variant="tertiary"
-              icon={EditIcon}
+              icon={EditIcon as any}
               onClick={() => navigate(`/quiz/${id}`)}
             />
             <Button
               variant="tertiary"
               tone="critical"
-              icon={DeleteIcon}
+              icon={DeleteIcon as any}
               loading={fetching}
               disabled={fetching}
               onClick={() => deleteQuiz({ id })}
             />
-          </ButtonGroup>
+          </InlineStack>
         </InlineStack>
-        <Text as="p">{body}</Text>
+        <Text as="p" tone="subdued">
+          {description || "No description provided"}
+        </Text>
+        <Text as="p" variant="bodySm" tone="subdued">
+          Quiz ID
+        </Text>
+        <div
+          onClick={handleCopySlug}
+          style={{
+            cursor: "pointer",
+            padding: "var(--p-space-200)",
+            background: "var(--p-color-bg-surface-tertiary)",
+            borderRadius: "var(--p-border-radius-200)",
+          }}
+          tabIndex={0}
+          aria-label={`Copy quiz ID: ${slug}`}
+          onKeyDown={(e: React.KeyboardEvent) => {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              handleCopySlug();
+            }
+          }}
+        >
+          <InlineStack gap="200" align="space-between">
+            <Text as="p" variant="bodySm">
+              {slug}
+            </Text>
+            <ClipboardIcon width={16} height={16} />
+          </InlineStack>
+        </div>
       </BlockStack>
     </Card>
   );
@@ -115,15 +155,23 @@ function QuizCard(props: QuizCardProps) {
  * @returns {JSX.Element} The main index page for quizzes, displaying a list of quizzes with options to create, edit, or delete them.
  */
 export default function Index() {
+  const [dismissed, setDismissed] = useState(false);
+
   const navigate = useNavigate();
+
   const [{ data, error, fetching }] = useTable(api.quiz, {
     select: {
       id: true,
       title: true,
       slug: true,
-      body: true,
+      description: true,
     },
   });
+
+  const handleDismiss = useCallback(() => {
+    setDismissed((prev) => !prev);
+    // Suggestion: Add a permanent flag to the database to persist the dismissal
+  }, [setDismissed]);
 
   return (
     <PageLayout
@@ -133,21 +181,44 @@ export default function Index() {
         <Button onClick={() => navigate("/install")}>Install</Button>
       }
     >
+      {!dismissed && (
+        <Layout.Section>
+          <Banner
+            title="Install your app extension"
+            onDismiss={() => handleDismiss()}
+          >
+            <BlockStack gap="200">
+              <Text as="p" variant="bodyMd">
+                Run <code>yarn shopify:dev</code>, in the Gadget terminal, to
+                run your extension. Then install it on your store's theme to
+                start using the app.
+              </Text>
+              <InlineStack>
+                <Button onClick={() => navigate("/install")}>
+                  Installation guide
+                </Button>
+              </InlineStack>
+            </BlockStack>
+          </Banner>
+        </Layout.Section>
+      )}
+      {error && !fetching && (
+        <Layout.Section>
+          <Banner title="Uh oh! Something went wrong" tone="critical">
+            <Text as="p">
+              There was an error loading your quizzes. Please try again later.
+            </Text>
+          </Banner>
+        </Layout.Section>
+      )}
       <Layout.Section>
         <BlockStack gap="300">
           {/* Loading state */}
           {!data && fetching && <LoadingState />}
-          {data?.map((quiz, i) => <QuizCard key={i} {...{ quiz }} />)}
+          {data?.map((quiz, i) => <QuizCard key={i} quiz={quiz} />)}
           {/* No data state */}
           {!data?.length && !fetching && <NoData />}
           {/* Error state */}
-          {error && !fetching && (
-            <Banner title="Uh oh! Something went wrong" tone="critical">
-              <Text as="p">
-                There was an error loading your quizzes. Please try again later.
-              </Text>
-            </Banner>
-          )}
         </BlockStack>
       </Layout.Section>
     </PageLayout>

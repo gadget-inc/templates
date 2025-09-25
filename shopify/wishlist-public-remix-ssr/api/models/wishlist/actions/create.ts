@@ -13,12 +13,15 @@ export const run: ActionRun = async ({
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
-  if (!connections.shopify.currentAppProxy?.loggedInCustomerId)
-    throw new Error("No customer on session");
+  const customerId =
+    connections.shopify.currentAppProxy?.loggedInCustomerId ||
+    (await session?.get("shopifyCustomer"));
+
+  if (!customerId) throw new Error("No customer on session");
 
   // @ts-ignore
   record.customer = {
-    _link: connections.shopify.currentAppProxy?.loggedInCustomerId,
+    _link: customerId,
   };
 
   await save(record);
@@ -27,12 +30,16 @@ export const run: ActionRun = async ({
 export const onSuccess: ActionOnSuccess = async ({
   params,
   record,
+  session,
   logger,
   api,
   connections,
 }) => {
-  if (!connections.shopify.currentAppProxy?.loggedInCustomerId)
-    throw new Error("No customer on session");
+  const customerId =
+    connections.shopify.currentAppProxy?.loggedInCustomerId ||
+    (await session?.get("shopifyCustomer"));
+
+  if (!customerId) throw new Error("No customer on session");
 
   // Add a random image to the wishlist on creation. Might be good to give the user the option to upload their own image.
   await api.wishlist.update(record.id, {
@@ -45,7 +52,7 @@ export const onSuccess: ActionOnSuccess = async ({
   await updateMetafield({
     // @ts-ignore
     shopId: record.shop,
-    customerId: connections.shopify.currentAppProxy?.loggedInCustomerId,
+    customerId,
   });
 };
 

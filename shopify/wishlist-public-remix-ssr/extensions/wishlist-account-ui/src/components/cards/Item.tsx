@@ -53,6 +53,7 @@ export default ({
   };
 }) => {
   const { shop } = useContext(ShopContext);
+
   const { navigate } = useNavigation();
   // Formatting for the customer's currency
   const { formatCurrency } = useI18n();

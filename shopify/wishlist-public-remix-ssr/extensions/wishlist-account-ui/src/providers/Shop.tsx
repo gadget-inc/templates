@@ -1,8 +1,9 @@
 import { useFindFirst } from "@gadgetinc/react";
 import { createContext, useEffect } from "react";
 import { api } from "../api";
-import type { GadgetRecord } from "@gadget-client/wishlist-public-remix-ssr";
 import StyledSpinner from "../components/StyledSpinner";
+import { GadgetRecord } from "@gadget-client/wishlist-public-remix-ssr";
+import { useGadget } from "@gadgetinc/shopify-extensions/react";
 
 type ShopContextType = {
   shop?: GadgetRecord<{
@@ -27,6 +28,8 @@ export const ShopContext = createContext<ShopContextType>({});
  * - Gives context to which shop and customer the extension is running for
  */
 export default ({ children }: { children: React.ReactNode }) => {
+  const { ready } = useGadget();
+
   const [{ data: shop, fetching: fetchingShop, error: errorFetchingShop }] =
     useFindFirst(api.shopifyShop, {
       select: {
@@ -40,6 +43,7 @@ export default ({ children }: { children: React.ReactNode }) => {
           },
         },
       },
+      pause: !ready,
     });
 
   // useEffect for showing a banner if there's and error fetching shop information

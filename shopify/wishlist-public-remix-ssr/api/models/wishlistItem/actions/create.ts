@@ -13,7 +13,9 @@ export const run: ActionRun = async ({
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
-  const customerId = connections.shopify.currentAppProxy?.loggedInCustomerId;
+  const customerId =
+    connections.shopify.currentAppProxy?.loggedInCustomerId ||
+    (await session?.get("shopifyCustomer"));
 
   if (!customerId) throw new Error("No customer on session");
 
@@ -28,11 +30,14 @@ export const run: ActionRun = async ({
 export const onSuccess: ActionOnSuccess = async ({
   params,
   record,
+  session,
   logger,
   api,
   connections,
 }) => {
-  const customerId = connections.shopify.currentAppProxy?.loggedInCustomerId;
+  const customerId =
+    connections.shopify.currentAppProxy?.loggedInCustomerId ||
+    (await session?.get("shopifyCustomer"));
 
   if (!customerId) throw new Error("No customer on session");
 

@@ -1,17 +1,21 @@
 import {
   reactExtension,
   Text,
-  BlockStack,
-  ResourceItem,
   Page,
   Grid,
-  GridItem,
   useApi,
+  Button,
+  Card,
+  BlockStack,
+  Heading,
 } from "@shopify/ui-extensions-react/customer-account";
 import { Provider, useGadget } from "@gadgetinc/shopify-extensions/react";
 import { useFindMany } from "@gadgetinc/react";
 import { api } from "./api";
+import WishlistCard from "./components/cards/Wishlist";
 import StyledSpinner from "./components/StyledSpinner";
+import ShopProvider from "./providers/Shop";
+import Create from "./components/modals/Create";
 
 export default reactExtension("customer-account.page.render", () => <Render />);
 
@@ -20,7 +24,9 @@ function Render() {
 
   return (
     <Provider api={api} sessionToken={sessionToken}>
-      <Wishlists />
+      <ShopProvider>
+        <Wishlists />
+      </ShopProvider>
     </Provider>
   );
 }
@@ -38,6 +44,10 @@ function Wishlists() {
     select: {
       id: true,
       name: true,
+      image: {
+        url: true,
+      },
+      itemCount: true,
     },
     pause: !ready,
     live: true,
@@ -52,20 +62,34 @@ function Wishlists() {
   }
 
   return (
-    <Page title="Wishlists">
-      <Grid columns={250} rows="auto" spacing="base" blockAlignment="center">
-        {wishlists?.map((item) => {
-          return (
-            <GridItem columnSpan={1}>
-              <ResourceItem to={`/wishlist/${item.id}`} key={item.id}>
-                <BlockStack>
-                  <Text>{item.name}</Text>
-                </BlockStack>
-              </ResourceItem>
-            </GridItem>
-          );
-        })}
-      </Grid>
+    <Page
+      title="Wishlists"
+      primaryAction={
+        <Button overlay={<Create wishlists={wishlists} />}>New</Button>
+      }
+    >
+      {wishlists?.length ? (
+        <Grid
+          columns={["fill", "fill"]}
+          rows="auto"
+          spacing="base"
+          blockAlignment="start"
+        >
+          {wishlists?.map((item) => <WishlistCard {...item} key={item.id} />)}
+        </Grid>
+      ) : (
+        <Card padding>
+          <BlockStack spacing="base" inlineAlignment="center">
+            <Heading level={2}>No wishlists yet</Heading>
+            <Text appearance="subdued" size="medium">
+              Create your first wishlist to start saving your favorite items
+            </Text>
+            <Button overlay={<Create wishlists={wishlists} />}>
+              Create your first wishlist
+            </Button>
+          </BlockStack>
+        </Card>
+      )}
     </Page>
   );
 }

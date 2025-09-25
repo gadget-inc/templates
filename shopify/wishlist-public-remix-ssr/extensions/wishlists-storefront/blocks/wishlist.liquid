@@ -1,11 +1,11 @@
 <script src="https://wishlist-public-remix-ssr--devaoc.gadget.app/api/client/web.min.js" defer="defer"></script>
 
-<script src="{{ 'addToWishlist.js' | asset_url }}" defer="defer"></script>
-{{ 'addToWishlist.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'wishlist.js' | asset_url }}" defer="defer"></script>
+{{ 'wishlist.css' | asset_url | stylesheet_tag }}
 
 {% assign wishlists = customer.metafields.wishlist_namespace.wishlists.value %}
 
-{% comment %} Initializing values to be used in the addToWishlist.js file {% endcomment %}
+{% comment %} Initializing values to be used in the wishlist.js file {% endcomment %}
  <script>
     document.addEventListener("DOMContentLoaded", function () {
       window.initialWishlistArr = {{ wishlists | json }};

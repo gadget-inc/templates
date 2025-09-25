@@ -6,6 +6,7 @@ import {
 import { determineShopThemeVersion } from "gadget-server/shopify";
 import { useLoaderData, useNavigate } from "@remix-run/react";
 import {
+  Banner,
   BlockStack,
   Card,
   FooterHelp,
@@ -129,13 +130,6 @@ function InstallGuide(props: { block: Block | null }) {
               Follow these steps to install the extension:
             </Text>
             <List type="number" gap="loose">
-              <List.Item>
-                <Text as="span" variant="bodyMd">
-                  Start by{" "}
-                  <Link onClick={() => navigate("/quiz")}>creating a quiz</Link>{" "}
-                  on the app admin ui
-                </Text>
-              </List.Item>
               {/* The two first steps are the same for all theme versions */}
               <List.Item>
                 <Text as="span" variant="bodyMd">
@@ -220,17 +214,6 @@ function InstallGuide(props: { block: Block | null }) {
                   </List.Item>
                 </>
               )}
-              <List.Item>
-                <Text as="span" variant="bodyMd">
-                  To add your quiz go to{" "}
-                  <strong>
-                    Online store {">"} Theme {">"} Customize
-                  </strong>
-                  . Go to the template where your extension is invoked and paste
-                  in your
-                  <strong>Quiz ID</strong> on the settings panel.
-                </Text>
-              </List.Item>
             </List>
           </BlockStack>
         </Card>
@@ -243,10 +226,29 @@ export default function () {
   const { blocks } = useLoaderData<typeof loader>();
 
   const [block, setBlock] = useState<Block | null>(null);
+  const [dismissed, setDismissed] = useState(false);
+
+  const handleDismiss = useCallback(() => {
+    setDismissed((prev) => !prev);
+  }, [setDismissed]);
 
   return (
     <Page title="Installation guide">
       <Layout>
+        {!dismissed && (
+          <Layout.Section>
+            <Banner
+              title="Important"
+              tone="warning"
+              onDismiss={() => handleDismiss()}
+            >
+              <Text as="p" variant="bodyMd">
+                Note that this extension will not display unless there is a
+                customer logged in.
+              </Text>
+            </Banner>
+          </Layout.Section>
+        )}
         <Layout.Section>
           {blocks.length > 1 ? (
             <BlockList {...{ setBlock }} />

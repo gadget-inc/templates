@@ -13,7 +13,9 @@ import { useFindMany } from "@gadgetinc/react";
 import { api } from "./api";
 import StyledSpinner from "./components/StyledSpinner";
 
-export default reactExtension("customer-account.page.render", () => {
+export default reactExtension("customer-account.page.render", () => <Render />);
+
+function Render() {
   const { sessionToken } = useApi();
 
   return (
@@ -21,7 +23,7 @@ export default reactExtension("customer-account.page.render", () => {
       <Wishlists />
     </Provider>
   );
-});
+}
 
 function Wishlists() {
   const { ready } = useGadget();
@@ -38,16 +40,21 @@ function Wishlists() {
       name: true,
     },
     pause: !ready,
+    live: true,
   });
 
   if (fetchingWishlists) {
     return <StyledSpinner />;
   }
 
+  if (errorFetchingWishlists) {
+    return <Text>Error fetching wishlists</Text>;
+  }
+
   return (
     <Page title="Wishlists">
       <Grid columns={250} rows="auto" spacing="base" blockAlignment="center">
-        {wishlists.map((item) => {
+        {wishlists?.map((item) => {
           return (
             <GridItem columnSpan={1}>
               <ResourceItem to={`/wishlist/${item.id}`} key={item.id}>

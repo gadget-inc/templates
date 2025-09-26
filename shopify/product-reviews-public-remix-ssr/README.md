@@ -17,16 +17,15 @@ This app allows Shopify merchants to collect, manage, and display customers' pro
 3. Change `api/utils/review/liquid/main.liquid` to use your environment's CDN URL
    - Find the CDN URL using CMD/CTRL+F (in the file) and search for `/api/client/web.min.js`
    - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
-4. This application uses an [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
+4. This application uses an [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data). Make sure to add the proxy configurations to your development environment TOML
    - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
    - Subpath prefix: `apps`
    - Subpath should be a non-deterministic key to avoid collisions with another applications' proxies
      - You can generate a non-deterministic key at [https://randomkeygen.com/](https://randomkeygen.com/)
      - Update the subpath in the `api/utils/review/liquid/main.liquid`. Use CMD/CTRL+F (in the file), searching for `endpoint`, to find the line that needs an update
      - Update the proxy subpath in `api/utils/email/render.tsx`. Use CMD/CTRL+F (in the file), searching for `href`, to find the line that needs an update
-5. Run `yarn shopify:deploy:development` to push your development app configurations to Shopify
-6. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
-7. Ensure the extension is placed on a [product template page](https://shopify.dev/docs/storefronts/themes/tools/online-editor)
+5. Run `yarn shopify:dev` in your Gadget terminal to serve the extension
+6. Ensure the extension is placed on a [product template page](https://shopify.dev/docs/storefronts/themes/tools/online-editor)
 
 Example proxy setup:
 

@@ -13,19 +13,20 @@ This app allows merchants' customers to create and manage wishlists. This templa
 
 1. [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart)
 2. Complete the **protected customer data access (PCDA)** form and select the **email** field under “Optional fields”
-   - This form can be found in the **Partner dashboard > your Shopify app > API access > Protected customer data access section**
-3. Change `extensions/wishlist-storefront/blocks/wishlist.liquid` to use your environment's CDN URL
+   - This form can be found in the **Partner dashboard > your Shopify app > API access requests > Protected customer data access section**
+3. Request network access in the **Partner dashboard > API access requests > Allow network access in checkout and account UI extensions** section
+4. Change `extensions/wishlist-storefront/blocks/wishlist.liquid` to use your environment's CDN URL
    - Find the CDN URL using CMD/CTRL+F (in the file) and search for `/api/client/web.min.js`
    - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
-4. This application uses an [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data). Make sure to add the proxy configurations to your development environment TOML
+5. This application uses an [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data). Make sure to add the proxy configurations to your development environment TOML
    - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
    - Subpath prefix: `apps`
    - Subpath should be a non-deterministic key to avoid collisions with another applications' proxies
      - You can generate a non-deterministic key at [https://randomkeygen.com/](https://randomkeygen.com/)
      - Update the subpath in the `extensions/wishlists-storefront/assets/wishlist.js`. Use CMD/CTRL+F (in the file), searching for `endpoint`, to find the line that needs an update
-5. Run `yarn shopify:dev` in your **local** terminal to serve the extension
-6. Ensure the extension is placed on a [product template page](https://shopify.dev/docs/storefronts/themes/tools/online-editor). Note that the extension won't be visible until you log in as a customer
-7. Preview the customer account UI extension using the preview link available in your **local** terminal
+6. Run `yarn shopify:dev` in your **local** terminal to serve the extension
+7. Ensure the extension is placed on a [product template page](https://shopify.dev/docs/storefronts/themes/tools/online-editor). Note that the extension won't be visible until you log in as a customer
+8. Preview the customer account UI extension using the preview link available in your **local** terminal
 
 Example proxy setup:
 

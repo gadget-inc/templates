@@ -117,7 +117,7 @@ export const run: ActionRun = async ({
             },
           });
 
-          let allWishlistItems = wishlistItems;
+          const allWishlistItems = [...wishlistItems];
 
           // Paginate if there are more than 250 wishlist items
           while (wishlistItems.hasNextPage) {

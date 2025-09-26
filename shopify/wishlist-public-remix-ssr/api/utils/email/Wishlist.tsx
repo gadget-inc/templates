@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Container,
   Html,
@@ -8,7 +9,6 @@ import {
   Img,
   render,
 } from "@react-email/components";
-import React from "react";
 import type { OnSaleVariant, RemovedVariant } from "../types";
 
 const placeholderImage = "https://picsum.photos/100";

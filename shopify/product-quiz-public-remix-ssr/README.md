@@ -13,7 +13,7 @@ This app allows Shopify merchants to create quizzes and suggest products to thei
 2. Change `extensions/quiz/blocks/quiz.liquid` to use your environment's CDN URL
    - Find the CDN URL using CMD/CTRL+F (in the file) and search for `/api/client/web.min.js`
    - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
-3. This application uses an [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
+3. This application uses an [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data). Make sure to add the proxy configurations to your development environment TOML
    - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
    - Subpath prefix: `apps`
    - Subpath should be a non-deterministic key to avoid collisions with another applications' proxies

@@ -1,8 +1,17 @@
 import { AutoForm } from "@gadgetinc/react/auto/polaris";
-import { Layout, Page } from "@shopify/polaris";
+import {
+  Banner,
+  BlockStack,
+  Button,
+  InlineStack,
+  Layout,
+  Page,
+  Text,
+} from "@shopify/polaris";
 import { api } from "../api";
 import { json, type LoaderFunctionArgs } from "@remix-run/router";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useNavigate } from "@remix-run/react";
+import { useCallback, useState } from "react";
 
 export async function loader({ context }: LoaderFunctionArgs) {
   return json({
@@ -16,9 +25,39 @@ export async function loader({ context }: LoaderFunctionArgs) {
 
 export default function Index() {
   const { shop } = useLoaderData<typeof loader>();
+  const [dismissed, setDismissed] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleDismiss = useCallback(() => {
+    setDismissed((prev) => !prev);
+    // Suggestion: Add a permanent flag to the database to persist the dismissal
+  }, [setDismissed]);
+
   return (
     <Page>
       <Layout>
+        {!dismissed && (
+          <Layout.Section>
+            <Banner
+              title="Install your app extension"
+              onDismiss={() => handleDismiss()}
+            >
+              <BlockStack gap="200">
+                <Text as="p" variant="bodyMd">
+                  Run <code>yarn shopify:dev</code>, in the local terminal, to
+                  run your extensions. Then install it on your store's theme to
+                  start using the app.
+                </Text>
+                <InlineStack>
+                  <Button onClick={() => navigate("/install")}>
+                    Installation guide
+                  </Button>
+                </InlineStack>
+              </BlockStack>
+            </Banner>
+          </Layout.Section>
+        )}
         <Layout.Section>
           <AutoForm
             title="Update notification frequency"

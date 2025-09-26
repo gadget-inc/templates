@@ -1,30 +1,51 @@
 import { applyParams, save, ActionOptions } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
-import updateWishlistMetafield from "../../../utils/updateWishlistMetafield";
+import { updateMetafield } from "../../../utils/wishlist";
 
 export const run: ActionRun = async ({
   params,
   record,
+  session,
   logger,
   api,
   connections,
 }) => {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
+
+  const customerId =
+    connections.shopify.currentAppProxy?.loggedInCustomerId ||
+    (await session?.get("shopifyCustomer"));
+
+  if (!customerId) throw new Error("No customer on session");
+
+  // @ts-ignore
+  record.customer = {
+    _link: customerId,
+  };
+
   await save(record);
 };
 
 export const onSuccess: ActionOnSuccess = async ({
   params,
   record,
+  session,
   logger,
   api,
   connections,
 }) => {
+  const customerId =
+    connections.shopify.currentAppProxy?.loggedInCustomerId ||
+    (await session?.get("shopifyCustomer"));
+
+  if (!customerId) throw new Error("No customer on session");
+
   // Update the wishlist metafield after creating a new wishlist item
-  await updateWishlistMetafield({
-    shopId: record.shopId,
-    customerId: record.customerId,
+  await updateMetafield({
+    // @ts-ignore
+    shopId: record.shop,
+    customerId,
   });
 
   const [variant, customer] = await Promise.all([
@@ -34,7 +55,7 @@ export const onSuccess: ActionOnSuccess = async ({
         customersToEmail: true,
       },
     }),
-    api.shopifyCustomer.findOne(record.customerId, {
+    api.shopifyCustomer.findOne(customerId, {
       select: {
         email: true,
         emailMarketingConsent: true,
@@ -49,7 +70,7 @@ export const onSuccess: ActionOnSuccess = async ({
     };
 
     if (customer.email) {
-      customersToEmail[record.customerId] = customer.email;
+      customersToEmail[customerId] = customer.email;
     }
 
     // Update the customersToEmail field for the variant

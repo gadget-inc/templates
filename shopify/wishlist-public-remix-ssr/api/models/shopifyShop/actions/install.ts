@@ -13,35 +13,68 @@ export const run: ActionRun = async ({
 
   if (!shopify) throw new Error("Shopify connection not found");
 
-  // Create a metafield definition for wishlists to be used in the storefront
-  const res = await shopify.graphql(
-    `mutation ($definition: MetafieldDefinitionInput!) {
-      metafieldDefinitionCreate(definition: $definition) {
-        createdDefinition {
-          id
+  // This namespace can be changed to anything you desire
+  const namespace = "wishlist_app";
+
+  let skip = false;
+
+  if (process.env.NODE_ENV === "development") {
+    const metafieldDefinitionsQueryResponse = await shopify.graphql(
+      `
+      query ($ownerType: MetafieldOwnerType!) {
+        metafieldDefinitions(first: 250, ownerType: $ownerType) {
+          nodes {
+            id
+            namespace
+          }
         }
-        userErrors {
-          message
-        }
-      }
-    }`,
-    {
-      definition: {
-        name: "Wishlists",
-        namespace: "wishlist_app",
-        key: "wishlists",
-        description: "A list of wishlists",
-        type: "json",
+      }`,
+      {
         ownerType: "CUSTOMER",
-      },
+      }
+    );
+
+    for (const definition of metafieldDefinitionsQueryResponse
+      .metafieldDefinitions.nodes) {
+      if (definition.namespace === namespace) {
+        record.wishlistMetafieldDefinitionId = definition.id;
+        skip = true;
+        break;
+      }
     }
-  );
+  }
 
-  if (res?.metafieldDefinitionCreate?.userErrors?.length)
-    throw new Error(res.metafieldDefinitionCreate.userErrors[0].message);
+  if (!skip) {
+    // Create a metafield definition for wishlists to be used in the storefront
+    const res = await shopify.graphql(
+      `mutation ($definition: MetafieldDefinitionInput!) {
+        metafieldDefinitionCreate(definition: $definition) {
+          createdDefinition {
+            id
+          }
+          userErrors {
+            message
+          }
+        }
+      }`,
+      {
+        definition: {
+          name: "Wishlists",
+          namespace: namespace,
+          key: "wishlists",
+          description: "A list of wishlists",
+          type: "json",
+          ownerType: "CUSTOMER",
+        },
+      }
+    );
 
-  record.wishlistMetafieldDefinitionId =
-    res.metafieldDefinitionCreate.createdDefinition.id;
+    if (res?.metafieldDefinitionCreate?.userErrors?.length)
+      throw new Error(res.metafieldDefinitionCreate.userErrors[0].message);
+
+    record.wishlistMetafieldDefinitionId =
+      res.metafieldDefinitionCreate.createdDefinition.id;
+  }
 
   await save(record);
 };

@@ -1,20 +1,9 @@
-export type WishlistPayload = {
-  type: "wishlist";
+export type Payload = {
   changes: Changes;
   count: number;
   firstName: string;
   lastName: string;
 };
-
-export type InStockPayload = {
-  type: "inStock";
-  product: { handle: string; title: string };
-  shop: { name: string; domain: string };
-  id: string;
-  title: string;
-};
-
-export type Payload = WishlistPayload | InStockPayload;
 
 export type OnSaleVariant = {
   id: string;

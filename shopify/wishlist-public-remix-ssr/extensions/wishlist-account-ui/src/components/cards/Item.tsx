@@ -12,14 +12,13 @@ import {
   useI18n,
   useNavigation,
 } from "@shopify/ui-extensions-react/customer-account";
-import { api } from "../../api";
-import { useAction } from "@gadgetinc/react";
-import { useCallback, useContext } from "react";
+import { useContext } from "react";
 import { ShopContext } from "../../providers/Shop";
 import type { JSONValue } from "@gadget-client/wishlist-public-remix-ssr";
 
 export default ({
-  id,
+  wishlistId,
+  id: variantId,
   title,
   price,
   compareAtPrice,
@@ -33,7 +32,10 @@ export default ({
       file: { image, alt },
     },
   },
+  fetchingItemDeletion,
+  handleDeleteItem,
 }: {
+  wishlistId: string;
   id: string;
   title: string;
   price: string;
@@ -51,22 +53,14 @@ export default ({
       };
     };
   };
+  fetchingItemDeletion: boolean;
+  handleDeleteItem: (id: string) => Promise<void>;
 }) => {
   const { shop } = useContext(ShopContext);
 
   const { navigate } = useNavigation();
   // Formatting for the customer's currency
   const { formatCurrency } = useI18n();
-
-  // Hook for deleting a wishlist item
-  const [{ fetching: fetchingDeletion }, deleteWishlistItem] = useAction(
-    api.wishlistItem.delete
-  );
-
-  // Callback for handling deletion of a wishlist item
-  const handleDelete = useCallback(async () => {
-    await deleteWishlistItem({ id });
-  }, [id]);
 
   return (
     <Card padding>
@@ -127,8 +121,8 @@ export default ({
         <InlineLayout blockAlignment="start" columns={["50%", "50%"]}>
           <InlineStack>
             <Button
-              loading={fetchingDeletion}
-              onPress={handleDelete}
+              loading={fetchingItemDeletion}
+              onPress={() => handleDeleteItem(wishlistId)}
               appearance="monochrome"
               kind="secondary"
             >
@@ -141,7 +135,7 @@ export default ({
               appearance="monochrome"
               onPress={() =>
                 navigate(
-                  `https://${shop?.domain}/products/${handle}?variant=${id}`
+                  `https://${shop?.domain}/products/${handle}?variant=${variantId}`
                 )
               }
             >

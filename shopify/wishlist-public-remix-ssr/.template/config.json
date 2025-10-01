@@ -1,18 +1,5 @@
 {
   "version": "v1",
-  "setup": "./setup.md",
-  "webflow": {
-    "title": "Customer Wishlists",
-    "description": "A complete wishlist solution for Shopify. Allows customers to create and manage multiple wishlists, and integrates seamlessly into the storefront and customer accounts.",
-    "content": "webflow/content.md",
-    "mainImage": "webflow/wishlist.png",
-    "features": {
-      "shopify": true,
-      "frontend": true,
-      "models": true,
-      "actions": true
-    }
-  },
   "featuredModels": {
     "wishlist": {
       "description": "Stores a named wishlist and associates it with a specific customer and shop.",
@@ -43,20 +30,6 @@
         "description": "Adds a specific product variant to one of the customer's wishlists.",
         "tags": ["added"]
       }
-    }
-  },
-  "featuredRoutes": {
-    "api/routes/proxy/wishlist/item/POST-create.ts": {
-      "description": "This route creates a new wishlist item, linking it to a wishlist, product variant, shop, and customer.",
-      "tags": ["added"]
-    },
-    "api/routes/proxy/wishlist/item/POST-remove.ts": {
-      "description": "This route removes a specific item from a customer's wishlist.",
-      "tags": ["added"]
-    },
-    "api/routes/proxy/wishlist/POST-create.ts": {
-      "description": "This route creates a new wishlist with a given name and automatically adds the first product variant to it.",
-      "tags": ["added"]
     }
   },
   "featuredGlobalActions": {

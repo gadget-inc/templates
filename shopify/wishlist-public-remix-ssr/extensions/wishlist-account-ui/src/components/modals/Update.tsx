@@ -29,6 +29,11 @@ export default ({ id, name }: { id: string; name: string }) => {
   const [{ data: deletionData, fetching: fetchingDeletion }, deleteWishlist] =
     useAction(api.wishlist.delete);
 
+  // Hook for deleting a wishlist item
+  const [{ fetching: fetchingItemDeletion }, deleteWishlistItem] = useAction(
+    api.wishlistItem.delete
+  );
+
   // Fetching wishlist items for the current wishlist
   const [
     {
@@ -74,6 +79,11 @@ export default ({ id, name }: { id: string; name: string }) => {
     ui.overlay.close(`${id}-wishlist-modal`);
   }, [id]);
 
+  // Callback for handling deletion of a wishlist item
+  const handleDeleteItem = useCallback(async (id: string) => {
+    await deleteWishlistItem({ id });
+  }, []);
+
   // Callback for getting the previous page of wishlist items
   const getPreviousPage = useCallback(() => {
     setCursor({ last: NUM_ON_PAGE, before: wishlistItems?.startCursor });
@@ -106,7 +116,15 @@ export default ({ id, name }: { id: string; name: string }) => {
         <BlockStack>
           {!wishlistItems?.length && <>No items</>}
           {wishlistItems?.map(({ id, variant }) => (
-            <Item key={id} {...variant} />
+            <Item
+              key={id}
+              {...{
+                wishlistId: id,
+                ...variant,
+                handleDeleteItem,
+                fetchingItemDeletion,
+              }}
+            />
           ))}
         </BlockStack>
         <InlineStack blockAlignment="center" inlineAlignment="end">

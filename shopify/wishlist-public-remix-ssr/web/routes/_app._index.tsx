@@ -3,6 +3,7 @@ import {
   Banner,
   BlockStack,
   Button,
+  Card,
   InlineStack,
   Layout,
   Page,
@@ -59,12 +60,15 @@ export default function Index() {
           </Layout.Section>
         )}
         <Layout.Section>
-          <AutoForm
-            title="Update notification frequency"
-            action={api.shopifyShop.update}
-            include={["defaultUpdateFrequency"]}
-            findBy={shop.id}
-          />
+          <Card>
+            <AutoForm
+              title="Notification frequency"
+              action={api.shopifyShop.update}
+              include={["defaultUpdateFrequency"]}
+              findBy={shop.id}
+              submitLabel="Save"
+            />
+          </Card>
         </Layout.Section>
       </Layout>
     </Page>

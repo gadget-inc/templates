@@ -1,3 +1,8 @@
+/* Wishlist section wrapper */
+.wishlist-section {
+  margin: 20px 0;
+}
+
 /* Wishlist card styles */
 .wishlist-card {
   display: flex;

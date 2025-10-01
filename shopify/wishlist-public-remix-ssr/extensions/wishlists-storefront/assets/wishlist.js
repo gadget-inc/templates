@@ -1,4 +1,4 @@
-const state = {};
+window.state = {};
 
 document.addEventListener("DOMContentLoaded", async () => {
   window.api = new Gadget({
@@ -31,80 +31,74 @@ document.addEventListener("DOMContentLoaded", async () => {
   let createBtnText;
 
   // Setting an event listener in case the selected variant changes
-  if (idInputs && idInputs[0]) {
-    idInputs[0].addEventListener("change", (event) => {
-      const { value } = event?.target;
+  idInputs[0].addEventListener("change", (event) => {
+    const { value } = event?.target;
 
-      if (value) applyCheckmarks(value);
+    if (value) applyCheckmarks(value);
+  });
+
+  // Get form elements once
+  form = document.getElementById("new-wishlist-form");
+  createSpinner = document.getElementById("creation-spinner");
+  createBtnText = document.getElementById("create-button-text");
+
+  // Define the submit handler once
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+
+    createSpinner.style.display = "block";
+    createBtnText.style.display = "none";
+
+    const wishlist = await window.api.wishlist.create({
+      name: document.getElementById("new-wishlist-input").value,
+      wishlistItems: [
+        {
+          create: {
+            variant: {
+              _link: window.currentVariant,
+            },
+          },
+        },
+      ],
     });
-  }
+
+    console.log("wishlist", wishlist);
+
+    if (wishlist) {
+      createSpinner.style.display = "none";
+      createBtnText.style.display = "block";
+      modal.style.display = "none";
+
+      appendNewWishlist(wishlist, wishlistContainer);
+    } else {
+      createSpinner.style.display = "none";
+      createBtnText.style.display = "block";
+    }
+  };
+
+  // Add the submit listener once
+  form.addEventListener("submit", handleFormSubmit);
 
   // Event listener for the modal open button
-  if (btn && modal) {
-    btn.onclick = () => {
-      modal.style.display = "block";
-
-      // Getting the tags from the modal
-      form = document.getElementById("new-wishlist-form");
-      createSpinner = document.getElementById("creation-spinner");
-      createBtnText = document.getElementById("create-button-text");
-
-      form.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        createSpinner.style.display = "block";
-        createBtnText.style.display = "none";
-
-        const wishlist = await window.api.wishlist.create({
-          name: document.getElementById("new-wishlist-input").value,
-          wishlistItems: [
-            {
-              create: {
-                variant: {
-                  _link: window.currentVariant,
-                },
-              },
-            },
-          ],
-        });
-
-        if (wishlist) {
-          form.removeEventListener("submit", () => {});
-          createSpinner.style.display = "none";
-          createBtnText.style.display = "block";
-          modal.style.display = "none";
-
-          appendNewWishlist(wishlist, wishlistContainer);
-        } else {
-          createSpinner.style.display = "none";
-          createBtnText.style.display = "block";
-          // Add error displaying logic here
-        }
-      });
-    };
-  }
+  btn.onclick = () => {
+    modal.style.display = "block";
+  };
 
   // Event listener for the modal close button
-  if (closeIcon) {
-    closeIcon.onclick = () => {
-      if (form) form.removeEventListener("submit", () => {});
-      if (createSpinner) createSpinner.style.display = "none";
-      if (createBtnText) createBtnText.style.display = "block";
-      if (modal) modal.style.display = "none";
-    };
-  }
+  closeIcon.onclick = () => {
+    createSpinner.style.display = "none";
+    createBtnText.style.display = "block";
+    modal.style.display = "none";
+  };
 
   // Event listener for clicking outside the modal
-  if (modal) {
-    window.onclick = (event) => {
-      if (event.target === modal) {
-        if (form) form.removeEventListener("submit", () => {});
-        if (createSpinner) createSpinner.style.display = "none";
-        if (createBtnText) createBtnText.style.display = "block";
-        modal.style.display = "none";
-      }
-    };
-  }
+  window.onclick = (event) => {
+    if (event.target === modal) {
+      createSpinner.style.display = "none";
+      createBtnText.style.display = "block";
+      modal.style.display = "none";
+    }
+  };
 
   // Applying checkmarks to the wishlist cards on initial load
   applyCheckmarks(window.currentVariant);
@@ -226,7 +220,7 @@ function appendNewWishlist(wishlist, parent) {
 async function handleWishlistClick(e) {
   const wishlistId = e.currentTarget.id.replace("wishlist-", "");
 
-  // Get the current state of the wishlist item
+  // Get the currentstate of the wishlist item
   const current = state[wishlistId];
 
   const checkmarkIcon = document.getElementById(`check-icon-${wishlistId}`);
@@ -249,22 +243,16 @@ async function handleWishlistClick(e) {
           equals: window.currentVariant,
         },
       },
-      select: {
-        id: true,
-      },
     });
 
     if (wishlistItem) {
-      const deletedResponse = await window.api.wishlistItem.delete(
-        wishlistItem.id
-      );
+      await window.api.wishlistItem.delete(wishlistItem.id);
 
-      if (deletedResponse) state[wishlistId] = false;
+      plusIcon.style.display = "block";
+
+      state[wishlistId] = false;
     }
-
-    plusIcon.style.display = "block";
   } else {
-    // If the item is not in the wishlist, add it
     const addResponse = await window.api.wishlistItem.create({
       wishlist: {
         _link: wishlistId,
@@ -275,12 +263,11 @@ async function handleWishlistClick(e) {
     });
 
     if (addResponse) {
+      checkmarkIcon.style.display = "block";
       state[wishlistId] = true;
-      if (checkmarkIcon?.style) checkmarkIcon.style.display = "block";
-      if (plusIcon?.style) plusIcon.style.display = "none";
     }
   }
 
   // Hide the spinner
-  if (spinner?.style) spinner.style.display = "none";
+  spinner.style.display = "none";
 }

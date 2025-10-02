@@ -79,9 +79,6 @@ export const permissions: GadgetPermissions = {
           },
         },
       },
-      actions: {
-        scheduledShopifySync: true,
-      },
     },
     "shopify-storefront-customers": {
       storageKey: "Role-Shopify-Customer",
@@ -122,7 +119,8 @@ export const permissions: GadgetPermissions = {
         },
         wishlist: {
           read: {
-            filter: "accessControl/filters/wishlist/tenancy.gelly",
+            filter:
+              "accessControl/filters/wishlist/customer/tenancy.gelly",
           },
           actions: {
             create: true,
@@ -132,9 +130,10 @@ export const permissions: GadgetPermissions = {
         wishlistItem: {
           read: {
             filter:
-              "accessControl/filters/wishlistItem/tenancy.gelly",
+              "accessControl/filters/wishlistItem/customer/tenancy.gelly",
           },
           actions: {
+            create: true,
             delete: true,
           },
         },
@@ -142,6 +141,13 @@ export const permissions: GadgetPermissions = {
     },
     unauthenticated: {
       storageKey: "unauthenticated",
+      models: {
+        shopifyProductVariant: {
+          actions: {
+            update: true,
+          },
+        },
+      },
     },
   },
 };

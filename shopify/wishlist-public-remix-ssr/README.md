@@ -1,74 +1,83 @@
-# Wishlist template
+# Customer wishlists
 
-## Core purpose
+This app allows merchants' customers to create and manage wishlists. This template includes:
 
-This application provides a comprehensive wishlist feature for Shopify stores. It allows shoppers to create multiple wishlists, add product variants to them, and manage their selections through their customer account. This enhances the shopping experience by enabling customers to save products for future purchase, increasing engagement and potential sales.
+1. Admin UI: To set the wishlist email frequency
+2. Theme app extension: To display product's wishlist membership on product pages
+3. Customer account UI extension: To display the customer's wishlists
+4. Emails: To update the customer on changes to products in their wishlists
 
-## Key functionality
+[![Fork template](https://img.shields.io/badge/Fork%20template-%233A0CFF?style=for-the-badge)](https://app.gadget.dev/auth/fork?domain=wishlist-public-remix-ssr.gadget.app)
 
-- Multi-Wishlist Management: Customers can create, name, and manage several distinct wishlists (e.g., "Birthday List," "Holiday Gift Ideas") directly within their customer account page.
-- Theme app extension: An "Add to Wishlist" button is available on product pages, allowing shoppers to easily add items to their chosen wishlist without leaving the product page.
-- Customer account UI extension: A dedicated UI within the Shopify Customer Account page allows logged-in users to view all their wishlists, the items in each, and remove items as needed.
-- Email notifications: The app is equipped to send emails related to wishlists, such as sharing a wishlist or notifying a customer when a desired out-of-stock item becomes available again.
+## Template setup
 
-## Setup
+1. [Connect your Gadget app to Shopify](https://docs.gadget.dev/guides/plugins/shopify/quickstarts/shopify-quickstart)
+2. Complete the **protected customer data access (PCDA)** form and select the **email** field under “Optional fields”
+   - This form can be found in the **Partner dashboard > your Shopify app > API access requests > Protected customer data access section**
+3. Request network access in the **Partner dashboard > API access requests > Allow network access in checkout and account UI extensions** section
+4. Change `extensions/wishlist-storefront/blocks/wishlist.liquid` to use your environment's CDN URL
+   - Find the CDN URL using CMD/CTRL+F (in the file) and search for `/api/client/web.min.js`
+   - The CDN URL format is: `https://<your-gadget-app-name>--<your-environment>.gadget.app/api/client/web.min.js`
+5. This application uses an [app proxy](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data). Make sure to add the proxy configurations to your development environment TOML
+   - Proxy URL: `https://<your-gadget-app-name>--<your-environment>.gadget.app/`
+   - Subpath prefix: `apps`
+   - Subpath should be a non-deterministic key to avoid collisions with another applications' proxies
+     - You can generate a non-deterministic key at [https://randomkeygen.com/](https://randomkeygen.com/)
+     - Update the subpath in the `extensions/wishlists-storefront/assets/wishlist.js`. Use CMD/CTRL+F (in the file), searching for `endpoint`, to find the line that needs an update
+6. Run `yarn shopify:dev` in your **local** terminal to serve the extension
+7. Ensure the extension is placed on a [product template page](https://shopify.dev/docs/storefronts/themes/tools/online-editor). Note that the extension won't be visible until you log in as a customer
+8. Preview the customer account UI extension using the preview link available in your **local** terminal
 
-A pre-requisite for this application is to install the [Shopify CLI](https://shopify.dev/docs/api/shopify-cli#installation) locally. A list of steps that you should follow:
+Example proxy setup:
 
-1. [Connect to Shopify](https://docs.gadget.dev/guides/tutorials/connecting-to-shopify#connecting-to-shopify) using our built-in Shopify plugin. Make sure that you fill out the Protected Customer Data Access form in the Shopify Partner dashboard.
+```toml
+[app_proxy]
+url = "https://wishlist-public-remix-ssr--devaoc.gadget.app"
+subpath = "vJPH9wyxLC"
+prefix = "apps"
+```
 
-2. Find the application slug and the environment slug. You'll need them for step 3.
+## App workflow summary
 
-<p align="center">
-<img src="https://image-hosting.gadget.app/env-app-slug.png" alt="Photo showing where to find the app and env slug in Gadget UI" width="400px" />
-</p>
+1. Customer creates or adds items to wishlist
 
-3. Create a shopify app proxy that has proxy URL matching `https://<application-slug>--<env-slug>.gadget.app/proxy`. Note the subpath used in the theme app extension's JS file. Take a look at these docs if you're unsure how to do so:
+   When a customer creates a new wishlist or adds items to an existing wishlist, the customer metafield is updated via the `metadata.wishlist.metafield.update` action to track which product variants are in which wishlists for that customer.
 
-- [Shopify docs](https://shopify.dev/docs/apps/build/online-store/display-dynamic-data)
-- [Gadget docs](https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/extensions#authenticated-requests-with-shopify-app-proxies)
+2. Scheduled email action runs (every 5 minutes)
 
-4. Run `yarn shopify:dev` to run the Shopify CLI (in the Gadget terminal) and connect to the Shopify app created in step 1.
+   The `email.send.wishlist` action runs on a schedule and checks for customers who are due for wishlist update notifications. It looks for customers with:
 
-5. Install the application on a development store and create a customer account on the online store. Once this is done, you can step through the application and test the functionality.
+   - Email marketing consent (subscribed)
+   - A `sendUpdateAt` date that has passed
+   - Valid email addresses
+   - Update frequency not set to "unsubscribed"
 
-## Customer account UI extension
+3. Email sent for wishlist updates
 
-To test the functionality of the customer account UI extension, make sure that you select a preview store on which your application is installed. Run `yarn shopify:dev` locally and type `p` once the Shopify development environment has spun up. Open the link to the customer account UI extension and test the functionality.
+   When changes are detected in wishlist items (products on sale or removed products), customers receive an email with:
 
-Make sure change the application and environment on `line 2` and `5` of `extensions/wishlists/src/api.js`.
+   - Up to 3 products that are now on sale (have compareAtPrice)
+   - Up to 3 products that have been removed/deleted
+   - The customer's next email update date is calculated based on their frequency preference
 
-## Theme app extension
+4. Customer manages wishlists
 
-To test your theme app extension on a storefront, navigate to your installed development store. From there, go to the online store's admin page and click on the `Customize` button next to the theme selector. Here's navigate to a product page and add the section and save.
+   Customers can view and manage their wishlists through the customer account UI extension and interact with wishlist functionality on product pages via the theme extension.
 
-Make sure to change the value of the proxy subpaths in `extensions/wishlists-storefront/blocks/addToWishlist.js` to your application's (and environment's) URL.
+## How to test it
 
-## Key features
+1. Confirm setup
 
-- Global Actions
+   Make sure your extension is visible on your storefront (follow the setup guide if not)
 
-  - `sendWishlistEmail`: Sends an email to customers based on the state of their wishlist.
+2. Login as a customer on a dev store
 
-- Frontends
+   In the storefront, login as a customer. Navigate to any product detail page (PDP) and create a wishlist
 
-  - `routes/index.jsx`: The main page of the frontend, displaying the default frequency of wishlist-related emails.
+3. Manage your wishlists
 
-- Models
+   (Using the preview URL) Navigate to the customer account UI and create/edit your wishlists
 
-  - `wishlist`: Stores customer wishlist items.
-    - Fields
-      - `itemCount`: The number of variants that the wishlist has
-      - `variants`: The variants that the wishlist contains
-  - `wishlistItem`: Links wishlist records to product variants.
-    - Fields
-      - `wishlist`: The wishlist that the item belongs to
-      - `variant`: The variant that the item belongs to
+4. Send an update email
 
-- Actions
-
-  - `shopifyShop/install`: Creates metafield definitions for customer wishlists and wishlist items.
-
-- Access Controls
-  - `shopify-storefront-customers` for `wishlist`: Customers can read, create, and delete their wishlists from the customer account UI.
-  - `shopify-storefront-customers` for `wishlistItem`: Customers can read and delete their wishlist items.
+   Find your customer record in the shopifyCustomer table. Edit the `sendUpdateAt` field to the current date. Run the `email.send.wishlist` action in the API playground

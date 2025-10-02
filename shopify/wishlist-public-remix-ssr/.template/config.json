@@ -1,18 +1,5 @@
 {
   "version": "v1",
-  "setup": "./setup.md",
-  "webflow": {
-    "title": "Customer Wishlists",
-    "description": "A complete wishlist solution for Shopify. Allows customers to create and manage multiple wishlists, and integrates seamlessly into the storefront and customer accounts.",
-    "content": "webflow/content.md",
-    "mainImage": "webflow/wishlist.png",
-    "features": {
-      "shopify": true,
-      "frontend": true,
-      "models": true,
-      "actions": true
-    }
-  },
   "featuredModels": {
     "wishlist": {
       "description": "Stores a named wishlist and associates it with a specific customer and shop.",
@@ -24,7 +11,7 @@
     },
     "shopifyCustomer": {
       "description": "Extends the standard shopifyCustomer model to include relationships to all wishlists and wishlist items created by that customer.",
-      "featuredFields": ["wishlists", "wishlistItems"]
+      "featuredFields": ["wishlists", "wishlistItems", "wishlistCount"]
     }
   },
   "featuredActions": {
@@ -45,35 +32,13 @@
       }
     }
   },
-  "featuredRoutes": {
-    "api/routes/proxy/wishlist/item/POST-create.ts": {
-      "description": "This route creates a new wishlist item, linking it to a wishlist, product variant, shop, and customer.",
-      "tags": ["added"]
-    },
-    "api/routes/proxy/wishlist/item/POST-remove.ts": {
-      "description": "This route removes a specific item from a customer's wishlist.",
-      "tags": ["added"]
-    },
-    "api/routes/proxy/wishlist/POST-create.ts": {
-      "description": "This route creates a new wishlist with a given name and automatically adds the first product variant to it.",
-      "tags": ["added"]
-    }
-  },
   "featuredGlobalActions": {
-    "enqueueSendWishlistEmail": {
-      "description": "This action enqueues sendWishlistEmail actions in batches for a given list of customers.",
+    "email/send/wishlist": {
+      "description": "Sends wishlist update emails to customers.",
       "tags": ["added"]
     },
-    "sendInStockEmail": {
-      "description": "This action sends an email to a list of customers notifying them that a specific product variant is back in stock.",
-      "tags": ["added"]
-    },
-    "sendWishlistEmail": {
-      "description": "This action sends a summary email to a customer about their wishlist, highlighting items that are now on sale or have been removed, and schedules the next update email.",
-      "tags": ["added"]
-    },
-    "startCustomerUpdates": {
-      "description": "This scheduled action fetches all customers due for a wishlist email update and enqueues another action to send the emails in batches.",
+    "metadata/wishlist/metafield/update": {
+      "description": "Updates the wishlist metafield for a customer.",
       "tags": ["added"]
     }
   },
@@ -86,37 +51,53 @@
   },
   "featuredFrontends": {
     "web/routes/_app._index.tsx": {
-      "description": "This file is the main admin page for the Shopify app that displays a form for updating the default newsletter notification frequency for the shop.",
+      "description": "This file is the main admin page for the Shopify app that displays a form for updating the default wishlist notification frequency for the shop.",
       "tags": ["edited"]
     },
-    "extensions/wishlists-storefront/blocks/addToWishlist.liquid": {
+    "extensions/wishlists-storefront/blocks/wishlist.liquid": {
       "description": "A Shopify theme extension block that adds an 'Add to Wishlist' button and functionality to product pages.",
       "tags": ["added"]
     },
-    "extensions/wishlists/src/App.tsx": {
-      "description": "The main React component for the customer account UI. It renders the interface where customers can view and manage all their wishlists and the items within them.",
+    "extensions/wishlists-storefront/assets/wishlist.js": {
+      "description": "The JavaScript file for the wishlist theme app extension.",
+      "tags": ["added"]
+    },
+    "extensions/wishlists-storefront/assets/wishlist.css": {
+      "description": "The CSS file for the wishlist theme app extension.",
+      "tags": ["added"]
+    },
+    "extensions/wishlist-account-ui/src/Wishlist.tsx": {
+      "description": "The main React component for the customer account UI extension. It renders the interface where customers can view and manage all their wishlists and the items within them.",
+      "tags": ["added"]
+    },
+    "extensions/wishlist-account-ui/src/components/cards/Wishlist.tsx ": {
+      "description": "Component for the wishlist cards in the customer account UI extension.",
+      "tags": ["added"]
+    },
+    "extensions/wishlist-account-ui/src/components/cards/Item.tsx": {
+      "description": "Component for the wishlist items in the customer account UI extension.",
+      "tags": ["added"]
+    },
+    "extensions/wishlist-account-ui/src/components/modals/Create.tsx": {
+      "description": "Component for the create wishlist modal in the customer account UI extension.",
+      "tags": ["added"]
+    },
+    "extensions/wishlist-account-ui/src/components/modals/Update.tsx": {
+      "description": "Component for the update wishlist modal in the customer account UI extension.",
       "tags": ["added"]
     }
   },
   "featuredFiles": {
-    "api/utils/email/InStockEmail.tsx": {
-      "description": "This file is a React component that renders an email template to notify customers that a product variant is back in stock.",
+    "api/utils/email/Wishlist.tsx": {
+      "description": "The component used to render the email for the wishlist update email.",
       "tags": ["added"]
     },
-    "api/utils/email/renderEmail.tsx": {
-      "description": "This file is a utility that renders different email templates based on the provided payload, supporting both 'wishlist' and 'inStock' email types.",
-      "tags": ["added"]
-    },
-    "api/utils/email/WishlistEmail.tsx": {
-      "description": "This file is a React component that renders an email to a customer with updates on their wishlist, including items on sale and items that are no longer available.",
+    "api/utils/wishlist/index.ts": {
+      "description": "Utility that updates the wishlist metafield for a customer.",
       "tags": ["added"]
     },
     "api/utils/types.ts": {
-      "description": "This file defines TypeScript types for email payloads, product variant data, and wishlist changes used throughout the wishlist email functionality.",
-      "tags": ["added"]
-    },
-    "api/utils/updateWishlistMetafield.ts": {
-      "description": "This file is a utility function that aggregates all wishlists and their items for a specific customer and stores them as a JSON metafield on the customer's Shopify record.",
+      "description": "TypeScript types for email payloads, product variant data, and wishlist changes used throughout the wishlist email functionality.",
       "tags": ["added"]
     }
   }

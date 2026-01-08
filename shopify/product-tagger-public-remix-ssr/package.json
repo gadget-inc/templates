@@ -20,7 +20,7 @@
     "@gadgetinc/react": "^0.21.4",
     "@gadgetinc/react-shopify-app-bridge": "^0.18.8",
     "@remix-run/node": "^2.12.0",
-    "@remix-run/react": "^2.12.0",
+    "@remix-run/react": "^2.17.1",
     "@shopify/app-bridge-react": "^4.1.5",
     "@shopify/polaris": "^13.8.0",
     "@shopify/polaris-icons": "^9.3.0",

@@ -24,7 +24,7 @@
     "@gadgetinc/react-shopify-app-bridge": "^0.18.8",
     "@notionhq/client": "^4.0.2",
     "@remix-run/node": "^2.15.3",
-    "@remix-run/react": "^2.15.3",
+    "@remix-run/react": "^2.17.3",
     "@shopify/app-bridge-react": "^4.1.5",
     "@shopify/polaris": "^13.8.0",
     "@shopify/polaris-icons": "^9.3.0",

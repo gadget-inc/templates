@@ -10,7 +10,7 @@
   "dependencies": {
     "@gadget-client/tailwind-css-template": "link:.gadget/client",
     "@gadgetinc/react": "^0.18.4",
-    "fastify": "^4.24.2",
+    "fastify": "^5.7.3",
     "gadget-server": "link:.gadget/server",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

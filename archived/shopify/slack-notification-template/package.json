@@ -13,7 +13,7 @@
     "@shopify/polaris-icons": "^9.3.0",
     "@slack/web-api": "^6.9.0",
     "base64-string": "^1.1.2",
-    "fastify": "^4.24.2",
+    "fastify": "^5.7.3",
     "gadget-server": "link:.gadget/server",
     "jsonwebtoken": "^9.0.2",
     "react": "^18.2.0",

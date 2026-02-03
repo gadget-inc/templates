@@ -25,7 +25,7 @@
     "@shopify/polaris": "^13.9.5",
     "@shopify/polaris-icons": "^9.3.1",
     "@shopify/shopify_function": "0.1.0",
-    "fastify": "^4.24.2",
+    "fastify": "^5.7.3",
     "gadget-server": "link:.gadget/server",
     "isbot": "^5.1.0",
     "javy": "0.1.1",

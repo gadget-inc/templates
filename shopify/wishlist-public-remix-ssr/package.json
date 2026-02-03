@@ -27,7 +27,7 @@
     "@shopify/liquid-html-parser": "^2.9.0",
     "@shopify/polaris": "^13.9.5",
     "@shopify/polaris-icons": "^9.3.1",
-    "fastify": "^4.24.2",
+    "fastify": "^5.7.3",
     "gadget-server": "link:.gadget/server",
     "highlight.js": "^11.11.1",
     "isbot": "^5.1.0",

@@ -158,37 +158,8 @@
   dependencies:
     fast-json-stringify "^5.7.0"
 
-"@fastify/request-context@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/@fastify/request-context/-/request-context-5.0.0.tgz#f821c98ff5a930da9d26b2dce831420d86f5db14"
-  integrity sha512-HEJoAF5+28PO9kcX+A7vFY0vv45k4Fllzp7rzDyaZ9Lcz99YQmMsXVS1GWkhy+24jv5SWNyyZiiJklSa6BiFPA==
-  dependencies:
-    fastify-plugin "^4.0.0"
-
 "@gadget-client/tailwind-css-template@link:.gadget/client":
   version "0.0.0"
-  uid ""
-
-"@gadgetinc/api-client-core@0.15.33":
-  version "0.15.33"
-  resolved "https://registry.yarnpkg.com/@gadgetinc/api-client-core/-/api-client-core-0.15.33.tgz#8c64768dfc3069d14a6537b80c34d9a758be1f11"
-  integrity sha512-Y1EbiR0QIMWnVjNsfubw4utBjkJe49w/Rb9eTfBQXW9Q71/IrAcSxUQsg06jTTcp8eStFl+chmawBjQyKX2qAQ==
-  dependencies:
-    "@0no-co/graphql.web" "^1.0.4"
-    "@n1ru4l/graphql-live-query" "^0.10.0"
-    "@n1ru4l/json-patch-plus" "^0.2.0"
-    "@n1ru4l/push-pull-async-iterable-iterator" "^3.2.0"
-    "@urql/core" "^4.0.10"
-    cross-fetch "^4.0.0"
-    graphql "^16.8.1"
-    graphql-ws "^5.13.1"
-    isomorphic-ws "^5.0.0"
-    klona "^2.0.6"
-    tiny-graphql-query-compiler "^0.2.2"
-    tslib "^2.6.2"
-    type-fest "^3.13.1"
-    wonka "^6.3.2"
-    ws "^8.17.0"
 
 "@gadgetinc/api-client-core@^0.15.36":
   version "0.15.36"
@@ -816,11 +787,6 @@ fast-uri@^2.0.0, fast-uri@^2.1.0:
   resolved "https://registry.yarnpkg.com/fast-uri/-/fast-uri-2.3.0.tgz#bdae493942483d299e7285dcb4627767d42e2793"
   integrity sha512-eel5UKGn369gGEWOqBShmFJWfq/xSJvsgDzgLYC845GneayWvXBf0lJCBn5qTABfewy1ZDPoaR5OZCP+kssfuw==
 
-fastify-plugin@^4.0.0:
-  version "4.5.1"
-  resolved "https://registry.yarnpkg.com/fastify-plugin/-/fastify-plugin-4.5.1.tgz#44dc6a3cc2cce0988bc09e13f160120bbd91dbee"
-  integrity sha512-stRHYGeuqpEZTL1Ef0Ovr2ltazUT9g844X5z/zEBFLG8RYlpDiOCIG+ATvYEp+/zmc7sN29mcIMp8gvYplYPIQ==
-
 fastify@^4.24.2:
   version "4.24.3"
   resolved "https://registry.yarnpkg.com/fastify/-/fastify-4.24.3.tgz#bf97a3f5158ff7f78af949d483cac4e6115fb651"
@@ -898,7 +864,6 @@ function-bind@^1.1.2:
 
 "gadget-server@link:.gadget/server":
   version "0.0.0"
-  uid ""
 
 glob-parent@^5.1.2, glob-parent@~5.1.2:
   version "5.1.2"
@@ -1081,9 +1046,9 @@ micromatch@^4.0.4, micromatch@^4.0.5:
     picomatch "^2.3.1"
 
 minimatch@^3.0.4:
-  version "3.1.2"
-  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.2.tgz#19cd194bfd3e428f049a70817c038d89ab4be35b"
-  integrity sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/minimatch/-/minimatch-3.1.5.tgz#580c88f8d5445f2bd6aa8f3cadefa0de79fbd69e"
+  integrity sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==
   dependencies:
     brace-expansion "^1.1.7"
 

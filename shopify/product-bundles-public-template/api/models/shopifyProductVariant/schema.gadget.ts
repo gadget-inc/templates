@@ -6,7 +6,23 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v2",
   storageKey: "DataModel-Shopify-ProductVariant",
-  fields: {},
+  fields: {
+    bundle: {
+      type: "hasOne",
+      child: { model: "bundle", belongsToField: "bundleVariant" },
+      storageKey: "__rdDW8cjKdk",
+    },
+    bundles: {
+      type: "hasManyThrough",
+      sibling: { model: "bundle", relatedField: "productVariants" },
+      join: {
+        model: "bundleComponent",
+        belongsToSelfField: "productVariant",
+        belongsToSiblingField: "bundle",
+      },
+      storageKey: "R3w2MZTVN9Lr",
+    },
+  },
   shopify: {
     fields: {
       barcode: { searchIndex: false },

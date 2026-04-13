@@ -4,13 +4,12 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-    useLocation,
+  useLocation,
 } from "react-router";
 import {
   AppType,
   Provider as GadgetProvider,
 } from "@gadgetinc/react-shopify-app-bridge";
-import "./app.css";
 import { Suspense } from "react";
 import { api } from "./api";
 import { AppBridgeNavigate } from "./components/AppBridgeNavigate";
@@ -32,12 +31,9 @@ export const meta = () => [
     content: "width=device-width, initial-scale=1",
   },
   {
-    title: "Gadget Shopify React Router app",
-  },
-  {
     name: "shopify-api-key",
     suppressHydrationWarning: true,
-    content: "%SHOPIFY_API_KEY%"
+    content: "%SHOPIFY_API_KEY%",
   },
 ];
 
@@ -50,17 +46,12 @@ export const Layout = ({ children }: { children: React.ReactNode; }) => {
     <html lang="en">
       <head>
         <Meta />
-        <script
-          src="https://cdn.shopify.com/shopifycloud/app-bridge.js"
-          suppressHydrationWarning={true}
-        ></script>
+        <script src="https://cdn.shopify.com/shopifycloud/app-bridge.js" suppressHydrationWarning={true}></script>
         <script src="https://cdn.shopify.com/shopifycloud/polaris.js"></script>
         <Links />
       </head>
       <body>
-        <Suspense fallback={<FullPageSpinner />}>
-          {children}
-        </Suspense>
+        <Suspense fallback={<FullPageSpinner />}>{children}</Suspense>
         <ScrollRestoration />
         <Scripts />
       </body>
@@ -68,10 +59,8 @@ export const Layout = ({ children }: { children: React.ReactNode; }) => {
   );
 };
 
-
 export default function App({ loaderData }: Route.ComponentProps) {
   const { gadgetConfig } = loaderData;
-
   const location = useLocation();
 
   return (
@@ -92,7 +81,4 @@ export function HydrateFallback() {
   return <FullPageSpinner />;
 }
 
-// Default Gadget error boundary component
-// This can be replaced with your own custom error boundary implementation
-// For more info, checkout https://reactrouter.com/how-to/error-boundary#1-add-a-root-error-boundary
 export const ErrorBoundary = process.env.NODE_ENV === "production" ? ProductionErrorBoundary : DevelopmentErrorBoundary;

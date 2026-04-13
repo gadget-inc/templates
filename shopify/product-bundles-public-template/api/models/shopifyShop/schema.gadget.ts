@@ -6,7 +6,34 @@ import type { GadgetModel } from "gadget-server";
 export const schema: GadgetModel = {
   type: "gadget/model-schema/v2",
   storageKey: "DataModel-Shopify-Shop",
-  fields: {},
+  fields: {
+    bundleComponentQuantitiesDefinitionId: {
+      type: "string",
+      storageKey: "1WHTlv4q5utu",
+    },
+    bundleComponents: {
+      type: "hasMany",
+      children: { model: "bundleComponent", belongsToField: "shop" },
+      storageKey: "oxeE9cyqBfSA",
+    },
+    bundles: {
+      type: "hasMany",
+      children: { model: "bundle", belongsToField: "shop" },
+      storageKey: "W90vTnAkuphQ",
+    },
+    componentReferenceDefinitionId: {
+      type: "string",
+      storageKey: "yDcEPU5-3toU",
+    },
+    isBundleDefinitionId: {
+      type: "string",
+      storageKey: "sHZJfYZ0dK4C",
+    },
+    onlineStorePublicationId: {
+      type: "string",
+      storageKey: "LGqw4JFnd4WG",
+    },
+  },
   shopify: {
     fields: {
       address1: { filterIndex: false },

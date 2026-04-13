@@ -7,7 +7,28 @@ export const run: ActionRun = async ({ params, record, logger, api, connections 
 };
 
 export const onSuccess: ActionOnSuccess = async ({ params, record, logger, api, connections }) => {
-  // Your logic goes here
+  const bundle = await api.bundle.maybeFindFirst({
+    filter: {
+      bundleVariantId: {
+        equals: record.id,
+      },
+    },
+    select: {
+      id: true,
+    },
+  });
+
+  if (bundle) {
+    await api.internal.bundle.delete(bundle.id);
+  }
+
+  await api.internal.bundleComponent.deleteMany({
+    filter: {
+      productVariantId: {
+        equals: record.id,
+      },
+    },
+  });
 };
 
 export const options: ActionOptions = { actionType: "delete" };

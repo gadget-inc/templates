@@ -1,24 +1,43 @@
-import { useGadget } from "@gadgetinc/react-shopify-app-bridge";
-import { useLoaderData, Outlet } from "react-router";
+import { Outlet, useLoaderData } from "react-router";
 import { NavMenu } from "../components/NavMenu";
-import { FullPageSpinner } from "../components/FullPageSpinner";
 import type { Route } from "./+types/_app"; 
 
+export type OutletContext = {
+  currency: string;
+  bundleCount: number;
+};
+
 export const loader = async ({ context }: Route.LoaderArgs) => {
-  return { gadgetConfig: context.gadgetConfig };
+  const bundles = await context.api.bundle.findMany({
+    first: 1,
+    select: {
+      id: true,
+    },
+  });
+
+  return {
+    gadgetConfig: context.gadgetConfig,
+    shop: await context.api.shopifyShop.findFirst({
+      select: {
+        currency: true,
+      },
+    }),
+    bundleCount: bundles.length,
+  };
 };
 
 export default function() {
-  const { isAuthenticated, loading } = useGadget();
+  const { gadgetConfig, shop, bundleCount } = useLoaderData<typeof loader>();
 
-  if (loading) {
-    return <FullPageSpinner />;
-  }
-
-  return isAuthenticated ? (
+  return gadgetConfig.shopifyInstallState ? (
     <>
       <NavMenu />
-      <Outlet />
+      <Outlet
+        context={{
+          currency: shop?.currency ?? "",
+          bundleCount,
+        }}
+      />
     </>
   ) : (
     <Unauthenticated />
@@ -28,19 +47,19 @@ export default function() {
 const Unauthenticated = () => {
   const { gadgetConfig } = useLoaderData<typeof loader>();
 
-    return (
-      <div style={{ padding: "16px", backgroundColor: "#F1F1F1", height: "100vh", width: "100vw" }}>
-        <s-page>
-          <s-section>
+  return (
+    <s-page inlineSize="base">
+      <s-section>
+        <s-box>
+          <s-stack gap="small">
             <s-heading>App must be viewed in the Shopify Admin</s-heading>
-            <s-box>
+            <div>
               <s-text>Edit this page: </s-text>
-              <s-link href={`/edit/${gadgetConfig.environment}/files/web/routes/_app.tsx`}>
-                web/routes/_app.tsx
-              </s-link>
-            </s-box>
-          </s-section>
-        </s-page>
-      </div>
-    );
-  };
+              <a href={`/edit/${gadgetConfig.environment}/files/web/routes/_app.tsx`}>web/routes/_app.tsx</a>
+            </div>
+          </s-stack>
+        </s-box>
+      </s-section>
+    </s-page>
+  );
+};

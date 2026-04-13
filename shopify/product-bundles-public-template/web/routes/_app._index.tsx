@@ -1,40 +1,117 @@
-import { AutoTable } from "@gadgetinc/react/auto/polaris-wc";
+import { useFindMany } from "@gadgetinc/react";
+import { useDeferredValue, useEffect, useState } from "react";
+import { useNavigate, useOutletContext } from "react-router";
 import { api } from "../api";
+import { BundleCard } from "../components/BundleCard";
+import { FullPageSpinner } from "../components/FullPageSpinner";
+import PageLayout from "../components/PageLayout";
+import type { OutletContext } from "./_app";
+
+const NUM_ON_PAGE = 5;
 
 export default function Index() {
+  const { bundleCount } = useOutletContext<OutletContext>();
+  const navigate = useNavigate();
+  const [searchValue, setSearchValue] = useState("");
+  const deferredSearchValue = useDeferredValue(searchValue);
+  const [cursor, setCursor] = useState<{
+    first?: number;
+    last?: number;
+    before?: string;
+    after?: string;
+  }>({ first: NUM_ON_PAGE });
+
+  const [{ data: bundles, fetching: fetchingBundles, error: bundlesError }] = useFindMany(api.bundle, {
+    select: {
+      id: true,
+      title: true,
+      description: true,
+      status: true,
+      price: true,
+      bundleComponentCount: true,
+      bundleComponents: {
+        edges: {
+          node: {
+            quantity: true,
+            productVariant: {
+              id: true,
+              title: true,
+              price: true,
+              product: {
+                id: true,
+                title: true,
+                media: {
+                  edges: {
+                    node: {
+                      image: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    sort: {
+      createdAt: "Descending",
+    },
+    ...cursor,
+    ...(deferredSearchValue
+      ? {
+          search: deferredSearchValue,
+          searchFields: {
+            title: true,
+          },
+        }
+      : {}),
+  });
+
+  useEffect(() => {
+    setCursor({ first: NUM_ON_PAGE });
+  }, [deferredSearchValue]);
+
+  useEffect(() => {
+    if (!bundleCount) {
+      navigate("/bundle");
+    }
+  }, [bundleCount, navigate]);
+
+  if (fetchingBundles && !bundles) {
+    return <FullPageSpinner />;
+  }
+
+  if (bundlesError) {
+    throw bundlesError;
+  }
+
   return (
-    <s-page heading="App">
-      <s-section>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "4px" }}>
-          <img
-            src="https://assets.gadget.dev/assets/icon.svg"
-            style={{ width: "72px", height: "72px" }}
-          />
-          <s-box>
-            <s-text>Edit this page's code directly: </s-text>
-            <s-link
-              href={`/edit/files/web/routes/_app._index.tsx?openShopifyOnboarding=true`}
-              target="_blank"
-            >
-              web/routes/_app._index.tsx
-            </s-link>
-          </s-box>
-        </div>
-      </s-section>
-      <s-section padding="none">
-        {/* use Autocomponents to build UI quickly: https://docs.gadget.dev/guides/frontend/autocomponents  */}
-        <AutoTable
-          //@ts-ignore
-          model={api.shopifyShop}
-          columns={["name", "countryName", "customerEmail"]}
+    <PageLayout
+      titleMetadata={
+        <s-search-field
+          label="Search bundles"
+          onChange={(event) => setSearchValue(event.currentTarget.value)}
+          value={searchValue}
         />
-        <s-box padding="base" borderWidth="base none">
-          <s-text>Shop records fetched from: </s-text>
-          <s-link href={`/edit/model/DataModel-Shopify-Shop/data`} target="_blank">
-            api/models/shopifyShop/data
-          </s-link>
+      }
+      pagination={{
+        hasNext: bundles?.hasNextPage,
+        hasPrevious: bundles?.hasPreviousPage,
+        onNext: () => setCursor({ first: NUM_ON_PAGE, after: bundles?.endCursor }),
+        onPrevious: () => setCursor({ last: NUM_ON_PAGE, before: bundles?.startCursor }),
+      }}
+    >
+      {bundles?.length ? (
+        <s-stack gap="base">
+          {bundles.map((bundle) => (
+            <BundleCard key={bundle.id} {...bundle} />
+          ))}
+        </s-stack>
+      ) : (
+        <s-box>
+          <s-text>No bundles found</s-text>
         </s-box>
-      </s-section>
-    </s-page>
+      )}
+    </PageLayout>
   );
 }

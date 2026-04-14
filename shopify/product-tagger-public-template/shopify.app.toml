@@ -19,6 +19,6 @@ topics = [ "products/create", "products/delete", "shop/update", "app/uninstalled
 [[webhooks.subscriptions]]
 uri = "https://webhooks.gadget-services.net/shopify/v1/shopifyProduct-update?domain=product-tagger-public-template.gadget.app"
 topics = [ "products/update" ]
-include_fields = [ "id", " body" ]
+include_fields = [ "id", "body_html", "tags" ]
 [access_scopes]
 scopes = "write_products, read_products"

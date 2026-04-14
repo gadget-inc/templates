@@ -231,22 +231,21 @@ export default function BundleEditor() {
           <s-text-field
             label="Bundle title"
             value={title}
-            onInput={(e) => setTitle((e.currentTarget as HTMLInputElement).value)}
+            onInput={(e) => setTitle((e.currentTarget).value)}
           />
 
-          <s-text-field
+          <s-number-field
             label="Price"
-            type="number"
-            min="0"
-            step="0.01"
+            min={0}
+            step={0.01}
             value={price}
-            onInput={(e) => setPrice((e.currentTarget as HTMLInputElement).value)}
+            onInput={(e) => setPrice((e.currentTarget).value)}
           />
 
           <s-select
             label="Status"
             value={status}
-            onChange={(e) => setStatus((e.currentTarget as HTMLSelectElement).value as BundleStatus)}
+            onChange={(e) => setStatus((e.currentTarget).value as BundleStatus)}
           >
             <s-option value="draft">Draft</s-option>
             <s-option value="active">Active</s-option>
@@ -256,7 +255,7 @@ export default function BundleEditor() {
           <s-text-area
             label="Description"
             value={description}
-            onInput={(e) => setDescription((e.currentTarget as HTMLTextAreaElement).value)}
+            onInput={(e) => setDescription((e.currentTarget).value)}
           />
 
           <s-stack gap="small">
@@ -281,7 +280,7 @@ export default function BundleEditor() {
                         <s-stack gap="none">
                           <s-text>{component.productTitle}</s-text>
                           {component.variantTitle !== "Default Title" ? (
-                            <s-text tone="subdued">{component.variantTitle}</s-text>
+                            <s-text tone="neutral">{component.variantTitle}</s-text>
                           ) : null}
                         </s-stack>
                         <s-button
@@ -296,16 +295,15 @@ export default function BundleEditor() {
                         />
                       </s-stack>
 
-                      <s-text-field
+                      <s-number-field
                         label="Quantity"
-                        type="number"
-                        min="1"
+                        min={1}
                         value={component.quantity.toString()}
                         onInput={(e) =>
                           setBundleComponents((current) =>
                             current.map((entry, currentIndex) =>
                               currentIndex === index
-                                ? { ...entry, quantity: Number((e.currentTarget as HTMLInputElement).value) }
+                                ? { ...entry, quantity: Number((e.currentTarget).value) }
                                 : entry
                             )
                           )

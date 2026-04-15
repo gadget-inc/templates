@@ -1,0 +1,27 @@
+# Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+
+client_id = "97077dee0ed9aedae1588077c2a6a341"
+name = "product-tagger-public-temp-dev"
+application_url = "https://product-tagger-public-template--development.gadget.app/api/shopify/install-or-render"
+embedded = true
+handle = "product-tagger-public-temp-dev"
+
+[auth]
+redirect_urls = [ "https://product-tagger-public-template--development.gadget.app/api/connections/auth/shopify/callback" ]
+
+[access_scopes]
+scopes = "write_products, read_products"
+
+[webhooks]
+api_version = "2026-04"
+
+[[webhooks.subscriptions]]
+compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
+uri = "https://webhooks.gadget-services.net/shopify/v1?domain=product-tagger-public-template--development.gadget.app"
+topics = [ "products/create", "products/delete", "shop/update", "app/uninstalled" ]
+
+# Trigger key: shopifyProduct-update
+[[webhooks.subscriptions]]
+uri = "https://webhooks.gadget-services.net/shopify/v1/shopifyProduct-update?domain=product-tagger-public-template--development.gadget.app"
+topics = [ "products/update" ]
+include_fields = [ "id", "body_html", "tags" ]

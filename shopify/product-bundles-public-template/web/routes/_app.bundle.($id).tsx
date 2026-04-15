@@ -25,6 +25,9 @@ type PickerVariant = {
 };
 
 const stripShopifyGid = (gid: string) => gid.split("/").pop() ?? gid;
+const isDefaultVariantTitle = (title?: string | null) => !title || title === "Default Title";
+const formatBundleComponentLabel = (productTitle: string, variantTitle?: string | null) =>
+  isDefaultVariantTitle(variantTitle) ? productTitle : `${productTitle} - ${variantTitle}`;
 
 export const loader = async ({ context, params }: Route.LoaderArgs) => {
   let variants = await context.api.shopifyProductVariant.findMany({
@@ -278,10 +281,9 @@ export default function BundleEditor() {
                     <s-stack gap="small">
                       <s-stack direction="inline" justifyContent="space-between" alignItems="center">
                         <s-stack gap="none">
-                          <s-text>{component.productTitle}</s-text>
-                          {component.variantTitle !== "Default Title" ? (
-                            <s-text tone="neutral">{component.variantTitle}</s-text>
-                          ) : null}
+                          <s-text>
+                            {formatBundleComponentLabel(component.productTitle, component.variantTitle)}
+                          </s-text>
                         </s-stack>
                         <s-button
                           type="button"

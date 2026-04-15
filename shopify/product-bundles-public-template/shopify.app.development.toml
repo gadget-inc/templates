@@ -19,3 +19,4 @@ api_version = "2026-04"
 compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
 uri = "https://webhooks.gadget-services.net/shopify/v1?domain=product-bundles-public-template--development.gadget.app"
 topics = [ "products/create", "products/update", "products/delete", "shop/update", "app/uninstalled" ]
+     

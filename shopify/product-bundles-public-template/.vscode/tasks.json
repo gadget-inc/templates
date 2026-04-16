@@ -1,0 +1,21 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ggt debugger",
+      "type": "shell",
+      "command": "ggt debugger",
+      "isBackground": true,
+      "problemMatcher": {
+        "pattern": {
+          "regexp": "^$"
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "Starting ggt debugger",
+          "endsPattern": "ggt debugger running on"
+        }
+      }
+    }
+  ]
+}

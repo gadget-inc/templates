@@ -4,7 +4,6 @@ import { useNavigate, useOutletContext } from "react-router";
 import { api } from "../api";
 import { BundleCard } from "../components/BundleCard";
 import { FullPageSpinner } from "../components/FullPageSpinner";
-import PageLayout from "../components/PageLayout";
 import type { OutletContext } from "./_app";
 
 const NUM_ON_PAGE = 5;
@@ -86,32 +85,50 @@ export default function Index() {
   }
 
   return (
-    <PageLayout
-      titleMetadata={
-        <s-search-field
-          label="Search bundles"
-          onChange={(event) => setSearchValue(event.currentTarget.value)}
-          value={searchValue}
-        />
-      }
-      pagination={{
-        hasNext: bundles?.hasNextPage,
-        hasPrevious: bundles?.hasPreviousPage,
-        onNext: () => setCursor({ first: NUM_ON_PAGE, after: bundles?.endCursor }),
-        onPrevious: () => setCursor({ last: NUM_ON_PAGE, before: bundles?.startCursor }),
-      }}
-    >
-      {bundles?.length ? (
+    <s-page inlineSize="base">
+      <s-section>
         <s-stack gap="base">
-          {bundles.map((bundle) => (
-            <BundleCard key={bundle.id} {...bundle} />
-          ))}
+          <s-grid alignItems="end" gap="base" gridTemplateColumns="1fr auto">
+            <s-search-field
+              label="Search bundles"
+              onChange={(event) => setSearchValue(event.currentTarget.value)}
+              value={searchValue}
+            />
+            <s-button variant="primary" onClick={() => navigate("/bundle")}>
+              Create bundle
+            </s-button>
+          </s-grid>
+
+          {bundles?.length ? (
+            <s-stack gap="base">
+              {bundles.map((bundle) => (
+                <BundleCard key={bundle.id} {...bundle} />
+              ))}
+            </s-stack>
+          ) : (
+            <s-box>
+              <s-text>No bundles found</s-text>
+            </s-box>
+          )}
+
+          {(bundles?.hasNextPage || bundles?.hasPreviousPage) && (
+            <s-stack direction="inline" gap="base" justifyContent="space-between">
+              <s-button
+                disabled={!bundles?.hasPreviousPage}
+                onClick={() => setCursor({ last: NUM_ON_PAGE, before: bundles?.startCursor })}
+              >
+                Previous
+              </s-button>
+              <s-button
+                disabled={!bundles?.hasNextPage}
+                onClick={() => setCursor({ first: NUM_ON_PAGE, after: bundles?.endCursor })}
+              >
+                Next
+              </s-button>
+            </s-stack>
+          )}
         </s-stack>
-      ) : (
-        <s-box>
-          <s-text>No bundles found</s-text>
-        </s-box>
-      )}
-    </PageLayout>
+      </s-section>
+    </s-page>
   );
 }

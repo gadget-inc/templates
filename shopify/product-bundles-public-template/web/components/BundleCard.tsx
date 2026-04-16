@@ -1,6 +1,6 @@
 import type { JSONValue } from "@gadget-client/product-bundles-public-template";
 import { useMemo, useState } from "react";
-import { useOutletContext } from "react-router";
+import { useNavigate, useOutletContext } from "react-router";
 import type { OutletContext } from "../routes/_app";
 
 const tones = {
@@ -68,6 +68,7 @@ export function BundleCard({
   bundleComponents,
 }: BundleCardProps) {
   const { currency } = useOutletContext<OutletContext>();
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const componentCount = getBundleComponentCount(bundleComponentCount);
 
@@ -114,29 +115,29 @@ export function BundleCard({
     );
   }, [bundleComponents]);
 
+  const formattedPrice = price !== null
+    ? `${Number(price).toFixed(2)} ${currency}`
+    : null;
+
   return (
-    <s-box>
+    <s-box border="base" borderRadius="large-100" padding="base">
       <s-stack gap="base">
-        <s-grid gap="base" gridTemplateColumns="1fr auto">
-          <s-stack gap="small">
+        <s-grid gap="base" gridTemplateColumns="1fr auto" alignItems="start">
+          <s-stack gap="extra-small">
             <s-stack alignItems="center" direction="inline" gap="small">
               <s-heading>{title}</s-heading>
               <s-badge tone={tones[status] ?? "warning"}>{status}</s-badge>
             </s-stack>
-            <s-text>
-              {price} {currency}
-            </s-text>
+            {formattedPrice && <s-text tone="subdued">{formattedPrice}</s-text>}
+            {description && <s-text>{description}</s-text>}
           </s-stack>
-          <s-link href={`bundle/${id}`}>Edit</s-link>
+          <s-button onClick={() => navigate(`/bundle/${id}`)}>Edit</s-button>
         </s-grid>
 
-        <s-text>{description || "No description provided."}</s-text>
-        <s-text>{componentCount} components</s-text>
-
-        {open ? (
+        {open && products.length > 0 && (
           <s-stack gap="small">
             {products.map((product) => (
-              <s-grid gap="base" gridTemplateColumns="44px 1fr" key={product.id}>
+              <s-grid gap="base" gridTemplateColumns="44px 1fr" key={product.id} alignItems="center">
                 <s-box background="subdued" blockSize="44px" borderRadius="base" inlineSize="44px" overflow="hidden">
                   <s-image
                     alt={product.title}
@@ -148,38 +149,32 @@ export function BundleCard({
                   />
                 </s-box>
 
-                <s-stack gap="small">
-                  <s-text>{product.title}</s-text>
+                <s-stack gap="extra-small">
+                  <s-text emphasis="bold">{product.title}</s-text>
                   {product.variants.length === 1 ? (
-                    <s-stack gap="small">
-                      <s-text>
+                    <s-stack direction="inline" gap="base">
+                      <s-text tone="subdued">
                         {product.variants[0]?.price
                           ? parseFloat(product.variants[0].price)
                             ? `${product.variants[0].price} ${currency}`
                             : "Free"
                           : ""}
                       </s-text>
-                      <s-text>Quantity {product.variants[0]?.quantity ?? 0}</s-text>
+                      <s-text tone="subdued">Qty {product.variants[0]?.quantity ?? 0}</s-text>
                     </s-stack>
                   ) : (
-                    <s-stack gap="small">
-                      <s-grid gap="small" gridTemplateColumns="1fr auto">
-                        <s-text>Variants</s-text>
-                        <s-text>Quantity</s-text>
-                      </s-grid>
+                    <s-stack gap="extra-small">
                       {product.variants.map((variant) => (
-                        <s-grid gap="small" gridTemplateColumns="1fr auto" key={variant.id}>
-                          <s-stack gap="none">
-                            <s-text>{variant.title}</s-text>
-                            <s-text>
-                              {variant.price
-                                ? parseFloat(variant.price)
-                                  ? `${variant.price} ${currency}`
-                                  : "Free"
-                                : ""}
-                            </s-text>
-                          </s-stack>
-                          <s-text>{variant.quantity ?? 0}</s-text>
+                        <s-grid gap="small" gridTemplateColumns="1fr auto auto" key={variant.id}>
+                          <s-text>{variant.title}</s-text>
+                          <s-text tone="subdued">
+                            {variant.price
+                              ? parseFloat(variant.price)
+                                ? `${variant.price} ${currency}`
+                                : "Free"
+                              : ""}
+                          </s-text>
+                          <s-text tone="subdued">Qty {variant.quantity ?? 0}</s-text>
                         </s-grid>
                       ))}
                     </s-stack>
@@ -188,15 +183,15 @@ export function BundleCard({
               </s-grid>
             ))}
           </s-stack>
-        ) : null}
+        )}
 
-        {componentCount > 0 ? (
-          <s-stack alignItems="center">
-            <s-button onClick={() => setOpen((current) => !current)}>
-              {open ? "Less" : "More"}
-            </s-button>
-          </s-stack>
-        ) : null}
+        {componentCount > 0 && (
+          <s-button variant="tertiary" onClick={() => setOpen((current) => !current)}>
+            {open
+              ? "Hide products"
+              : `Show ${componentCount} product${componentCount !== 1 ? "s" : ""}`}
+          </s-button>
+        )}
       </s-stack>
     </s-box>
   );

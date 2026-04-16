@@ -12,6 +12,7 @@ type BundleComponentFormValue = {
   quantity: number;
   productTitle: string;
   variantTitle: string;
+  displayName: string;
 };
 
 type BundleStatus = "active" | "archived" | "draft";
@@ -19,6 +20,7 @@ type BundleStatus = "active" | "archived" | "draft";
 type PickerVariant = {
   id: string;
   title?: string;
+  displayName?: string;
   product?: {
     title?: string;
   };
@@ -28,7 +30,6 @@ const stripShopifyGid = (gid: string) => gid.split("/").pop() ?? gid;
 const isDefaultVariantTitle = (title?: string | null) => !title || title === "Default Title";
 const formatBundleComponentLabel = (productTitle: string, variantTitle?: string | null) =>
   isDefaultVariantTitle(variantTitle) ? productTitle : `${productTitle} - ${variantTitle}`;
-
 export const loader = async ({ context, params }: Route.LoaderArgs) => {
   let variants = await context.api.shopifyProductVariant.findMany({
     first: 250,
@@ -108,6 +109,10 @@ export default function BundleEditor() {
         quantity: Number(node.quantity ?? 1),
         productTitle: node.productVariant?.product?.title || "Untitled product",
         variantTitle: node.productVariant?.title || "Default Title",
+        displayName: formatBundleComponentLabel(
+          node.productVariant?.product?.title || "Untitled product",
+          node.productVariant?.title || "Default Title"
+        ),
       })) ?? []
   );
   const [isSaving, setIsSaving] = useState(false);
@@ -136,13 +141,24 @@ export default function BundleEditor() {
         const productVariantId = stripShopifyGid(variant.id);
         const existing = existingByVariantId.get(productVariantId);
         const fallback = variantMap[productVariantId];
+        const variantTitle = variant.title || fallback?.variantTitle || "Default Title";
+        const productTitle =
+          variant.product?.title ||
+          existing?.productTitle ||
+          fallback?.productTitle ||
+          "Untitled product";
+        const displayName =
+          variant.displayName ||
+          existing?.displayName ||
+          formatBundleComponentLabel(productTitle, variantTitle);
 
         return {
           id: existing?.id,
           productVariantId,
           quantity: existing?.quantity ?? 1,
-          productTitle: variant.product?.title || fallback?.productTitle || "Untitled product",
-          variantTitle: variant.title || fallback?.variantTitle || "Default Title",
+          productTitle,
+          variantTitle,
+          displayName,
         };
       })
     );
@@ -281,9 +297,7 @@ export default function BundleEditor() {
                     <s-stack gap="small">
                       <s-stack direction="inline" justifyContent="space-between" alignItems="center">
                         <s-stack gap="none">
-                          <s-text>
-                            {formatBundleComponentLabel(component.productTitle, component.variantTitle)}
-                          </s-text>
+                          <s-text>{component.displayName}</s-text>
                         </s-stack>
                         <s-button
                           type="button"

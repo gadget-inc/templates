@@ -1,17 +1,15 @@
-export const run: ActionRun = async ({ params, logger, api, connections }) => {
-  const { id, quantity, productVariantId, bundleVariantId, shopId, bundleId } = params;
+export const run: ActionRun = async ({ params, api, connections }) => {
+  const { id, quantity, productVariantId, bundleVariantId, shopId } = params;
 
   if (!shopId) throw new Error("Shop ID is required");
   if (!bundleVariantId) throw new Error("Bundle variant ID is required");
-  if (!bundleId) throw new Error("Bundle ID is required");
 
   const shopify = await connections.shopify.forShopId(shopId);
-
   if (!shopify) throw new Error("Shopify connection not established");
 
   const bundleComponents = await api.bundleComponent.findMany({
     filter: {
-      bundleId: { equals: bundleId },
+      bundleVariantId: { equals: bundleVariantId },
       shopId: { equals: shopId },
     },
     select: {
@@ -70,6 +68,5 @@ export const params = {
   quantity: { type: "number" },
   productVariantId: { type: "string" },
   bundleVariantId: { type: "string" },
-  bundleId: { type: "string" },
   shopId: { type: "string" },
 };

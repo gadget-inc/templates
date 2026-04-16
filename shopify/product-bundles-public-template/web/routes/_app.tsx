@@ -1,6 +1,6 @@
 import { Outlet, useLoaderData } from "react-router";
 import { NavMenu } from "../components/NavMenu";
-import type { Route } from "./+types/_app"; 
+import type { Route } from "./+types/_app";
 
 export type OutletContext = {
   currency: string;
@@ -8,8 +8,11 @@ export type OutletContext = {
 };
 
 export const loader = async ({ context }: Route.LoaderArgs) => {
-  const bundles = await context.api.bundle.findMany({
+  const bundles = await context.api.shopifyProduct.findMany({
     first: 1,
+    filter: {
+      hasVariantsThatRequiresComponents: { equals: true },
+    },
     select: {
       id: true,
     },

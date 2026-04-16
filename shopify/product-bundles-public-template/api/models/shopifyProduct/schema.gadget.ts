@@ -13,10 +13,7 @@ export const schema: GadgetModel = {
       category: true,
       featuredMedia: true,
       handle: true,
-      hasVariantsThatRequiresComponents: {
-        filterIndex: false,
-        searchIndex: false,
-      },
+      hasVariantsThatRequiresComponents: { searchIndex: false },
       media: true,
       productType: true,
       publishedAt: { searchIndex: false },

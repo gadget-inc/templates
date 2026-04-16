@@ -1,6 +1,6 @@
 # Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
 
-client_id = "cf18980e4a1cecc96d4547c02b7f2e21"
+client_id = "1bf840ab6a7efa86342b188adb8add80"
 name = "product-bundles-public-tem-dev"
 application_url = "https://product-bundles-public-template--development.gadget.app/api/shopify/install-or-render"
 embedded = true
@@ -10,7 +10,7 @@ handle = "product-bundles-public-tem-dev"
 redirect_urls = [ "https://product-bundles-public-template--development.gadget.app/api/connections/auth/shopify/callback" ]
 
 [access_scopes]
-scopes = "write_products, read_products, write_cart_transforms, read_cart_transforms"
+scopes = "write_products, read_products, write_cart_transforms, read_cart_transforms, write_publications, read_publications"
 
 [webhooks]
 api_version = "2026-04"

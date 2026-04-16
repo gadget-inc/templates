@@ -4,34 +4,19 @@ import { preventCrossShopDataAccess } from "gadget-server/shopify";
 export const run: ActionRun = async ({
   params,
   record,
-  logger,
   api,
-  connections,
 }) => {
   applyParams(params, record);
   await preventCrossShopDataAccess(params, record);
 
   if (!record.shopId) {
-    const shopId =
-      record.productVariantId
-        ? (
-            await api.shopifyProductVariant.findOne(record.productVariantId, {
-              select: {
-                shopId: true,
-              },
-            })
-          ).shopId
-        : record.bundleId
-          ? (
-              await api.bundle.findOne(record.bundleId, {
-                select: {
-                  shopId: true,
-                },
-              })
-            ).shopId
-          : undefined;
-
-    if (shopId) record.shopId = shopId;
+    const lookupVariantId = record.productVariantId ?? record.bundleVariantId;
+    if (lookupVariantId) {
+      const variant = await api.shopifyProductVariant.findOne(lookupVariantId, {
+        select: { shopId: true },
+      });
+      if (variant.shopId) record.shopId = variant.shopId;
+    }
   }
 
   if (!record.quantity) record.quantity = 1;

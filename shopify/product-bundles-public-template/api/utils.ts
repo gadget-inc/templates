@@ -1,10 +1,10 @@
 import { api } from "gadget-server";
 
-export const fetchVariantGIDs = async (bundleId: string, shopId: string) => {
+export const fetchVariantGIDs = async (bundleVariantId: string, shopId: string) => {
   const bundleComponents = await api.bundleComponent.findMany({
     first: 250,
     filter: {
-      bundleId: { equals: bundleId },
+      bundleVariantId: { equals: bundleVariantId },
       shopId: { equals: shopId },
     },
     select: {

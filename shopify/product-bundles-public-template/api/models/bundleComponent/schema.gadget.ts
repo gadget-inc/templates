@@ -7,9 +7,9 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v2",
   storageKey: "W9QwKNBDe215",
   fields: {
-    bundle: {
+    bundleVariant: {
       type: "belongsTo",
-      parent: { model: "bundle" },
+      parent: { model: "shopifyProductVariant" },
       storageKey: "7eP4vZ9aylLl",
     },
     productVariant: {

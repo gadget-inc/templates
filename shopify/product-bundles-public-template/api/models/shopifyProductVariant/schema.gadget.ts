@@ -7,20 +7,13 @@ export const schema: GadgetModel = {
   type: "gadget/model-schema/v2",
   storageKey: "DataModel-Shopify-ProductVariant",
   fields: {
-    bundle: {
-      type: "hasOne",
-      child: { model: "bundle", belongsToField: "bundleVariant" },
-      storageKey: "__rdDW8cjKdk",
-    },
-    bundles: {
-      type: "hasManyThrough",
-      sibling: { model: "bundle", relatedField: "productVariants" },
-      join: {
+    bundleComponents: {
+      type: "hasMany",
+      children: {
         model: "bundleComponent",
-        belongsToSelfField: "productVariant",
-        belongsToSiblingField: "bundle",
+        belongsToField: "bundleVariant",
       },
-      storageKey: "R3w2MZTVN9Lr",
+      storageKey: "__rdDW8cjKdk",
     },
     componentReference: {
       type: "json",
@@ -34,6 +27,14 @@ export const schema: GadgetModel = {
       storageKey: "g5_D2XsQFahX",
       filterIndex: false,
       searchIndex: false,
+    },
+    includedInBundles: {
+      type: "hasMany",
+      children: {
+        model: "bundleComponent",
+        belongsToField: "productVariant",
+      },
+      storageKey: "R3w2MZTVN9Lr",
     },
     isBundle: {
       type: "boolean",

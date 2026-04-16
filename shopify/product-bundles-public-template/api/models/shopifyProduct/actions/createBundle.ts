@@ -1,38 +1,48 @@
-import { applyParams, save, ActionOptions } from "gadget-server";
+import { ActionOptions } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
-import { fetchVariantGIDs } from "../../../utils";
 
-export const run: ActionRun = async ({
-  params,
-  record,
-}) => {
-  applyParams(params, record);
-  await preventCrossShopDataAccess(params, record);
-
-  await save(record);
+type ComponentParam = {
+  productVariantId: string;
+  quantity: number;
 };
 
-export const onSuccess: ActionOnSuccess = async ({
-  record,
-  api,
-  connections,
-}) => {
-  const shopId = String(connections.shopify.currentShop?.id ?? record.shopId ?? "");
+export const run: ActionRun = async ({ params, record }) => {
+  await preventCrossShopDataAccess(params, record);
 
+  const { title, status, price } = params as {
+    title?: string;
+    status?: string;
+    price?: number;
+  };
+
+  if (!title) throw new Error("Title is required");
+  if (!status) throw new Error("Status is required");
+  if (price === undefined || price === null) throw new Error("Price is required");
+};
+
+export const onSuccess: ActionOnSuccess = async ({ params, api, connections }) => {
+  const shopId = String(connections.shopify.currentShop?.id ?? "");
   if (!shopId) throw new Error("Shop ID not provided");
-  if (
-    !record.id ||
-    !record.status ||
-    !record.title ||
-    record.description === undefined ||
-    record.price === undefined
-  ) {
-    throw new Error("Bundle properties not provided");
-  }
+
+  const { title, description, status, price, components } = params as {
+    title: string;
+    description?: string | null;
+    status: string;
+    price: number;
+    components?: ComponentParam[];
+  };
 
   const shopify = await connections.shopify.forShopId(shopId);
-
   if (!shopify) throw new Error("Shopify connection not established");
+
+  const componentList = components ?? [];
+  const variantGIDs = componentList.map(
+    (c) => `gid://shopify/ProductVariant/${c.productVariantId}`
+  );
+  const quantityByVariantId: Record<string, number> = {};
+  for (const c of componentList) {
+    quantityByVariantId[c.productVariantId] = c.quantity;
+  }
 
   const productCreateHandle = await api.enqueue(shopify.graphql, {
     query: `mutation CreateBundleProduct($productInput: ProductCreateInput!) {
@@ -55,9 +65,9 @@ export const onSuccess: ActionOnSuccess = async ({
     }`,
     variables: {
       productInput: {
-        status: record.status.toUpperCase(),
-        title: record.title,
-        descriptionHtml: record.description,
+        status: status.toUpperCase(),
+        title,
+        descriptionHtml: description ?? "",
         claimOwnership: {
           bundles: true,
         },
@@ -79,27 +89,12 @@ export const onSuccess: ActionOnSuccess = async ({
     throw new Error(productCreateResponse.productCreate.userErrors[0].message);
   }
 
-  const bundleComponents = await api.bundleComponent.findMany({
-    filter: {
-      bundleId: { equals: record.id },
-      shopId: { equals: shopId },
-    },
-    select: {
-      productVariantId: true,
-      quantity: true,
-    },
-  });
+  const productGid = productCreateResponse.productCreate?.product?.id;
+  const bundleVariantGid = productCreateResponse.productCreate?.product?.variants?.edges?.[0]?.node?.id;
+  const bundleVariantId = bundleVariantGid?.split("/")[4];
 
-  const quantityByVariantId = Object.fromEntries(
-    bundleComponents
-      .filter((bundleComponent) => bundleComponent.productVariantId)
-      .map((bundleComponent) => [
-        bundleComponent.productVariantId as string,
-        bundleComponent.quantity ?? 0,
-      ])
-  );
-
-  const variantGIDs = await fetchVariantGIDs(record.id, shopId);
+  if (!productGid) throw new Error("Failed to determine product ID");
+  if (!bundleVariantGid || !bundleVariantId) throw new Error("Failed to determine bundle variant ID");
 
   const productVariantUpdateHandle = await api.enqueue(shopify.graphql, {
     query: `mutation UpdateBundleVariant($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
@@ -110,11 +105,11 @@ export const onSuccess: ActionOnSuccess = async ({
       }
     }`,
     variables: {
-      productId: productCreateResponse.productCreate?.product?.id,
+      productId: productGid,
       variants: [
         {
-          id: productCreateResponse.productCreate?.product?.variants?.edges?.[0]?.node?.id,
-          price: record.price.toFixed(2),
+          id: bundleVariantGid,
+          price: price.toFixed(2),
           inventoryPolicy: "CONTINUE",
           metafields: [
             {
@@ -168,7 +163,7 @@ export const onSuccess: ActionOnSuccess = async ({
         }
       }`,
       variables: {
-        id: productCreateResponse.productCreate?.product?.id,
+        id: productGid,
         input: [{ publicationId: shop.onlineStorePublicationId }],
       },
     });
@@ -184,18 +179,34 @@ export const onSuccess: ActionOnSuccess = async ({
     }
   }
 
-  const bundleVariantGid = productCreateResponse.productCreate?.product?.variants?.edges?.[0]?.node?.id;
-  const bundleVariantId = bundleVariantGid?.split("/")[4];
+  for (const component of componentList) {
+    await api.internal.bundleComponent.create({
+      bundleVariant: { _link: bundleVariantId },
+      productVariant: { _link: component.productVariantId },
+      quantity: component.quantity,
+      shop: { _link: shopId },
+    });
+  }
+};
 
-  if (!bundleVariantId) throw new Error("Failed to determine bundle variant ID");
-
-  await api.internal.bundle.update(record.id, {
-    bundleVariant: {
-      _link: bundleVariantId,
+export const params = {
+  title: { type: "string" },
+  description: { type: "string" },
+  status: { type: "string" },
+  price: { type: "number" },
+  components: {
+    type: "array",
+    items: {
+      type: "object",
+      properties: {
+        productVariantId: { type: "string" },
+        quantity: { type: "number" },
+      },
     },
-  });
+  },
 };
 
 export const options: ActionOptions = {
   actionType: "create",
+  triggers: { api: true },
 };

@@ -20,29 +20,38 @@ export default function Index() {
     after?: string;
   }>({ first: NUM_ON_PAGE });
 
-  const [{ data: bundles, fetching: fetchingBundles, error: bundlesError }] = useFindMany(api.bundle, {
+  const [{ data: bundles, fetching: fetchingBundles, error: bundlesError }] = useFindMany(api.shopifyProduct, {
+    filter: {
+      hasVariantsThatRequiresComponents: { equals: true },
+    },
     select: {
       id: true,
       title: true,
-      description: true,
+      body: true,
       status: true,
-      price: true,
-      bundleComponentCount: true,
-      bundleComponents: {
+      variants: {
         edges: {
           node: {
-            quantity: true,
-            productVariant: {
-              id: true,
-              title: true,
-              price: true,
-              product: {
-                id: true,
-                title: true,
-                media: {
-                  edges: {
-                    node: {
-                      image: true,
+            id: true,
+            price: true,
+            bundleComponents: {
+              edges: {
+                node: {
+                  quantity: true,
+                  productVariant: {
+                    id: true,
+                    title: true,
+                    price: true,
+                    product: {
+                      id: true,
+                      title: true,
+                      media: {
+                        edges: {
+                          node: {
+                            image: true,
+                          },
+                        },
+                      },
                     },
                   },
                 },
@@ -113,7 +122,7 @@ export default function Index() {
           <s-table-body>
             {bundles?.length ? (
               bundles.map((bundle) => (
-                <BundleCard key={bundle.id} {...bundle} />
+                <BundleCard key={bundle.id} bundle={bundle} />
               ))
             ) : (
               <s-table-row>

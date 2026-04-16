@@ -1,42 +1,32 @@
-import { deleteRecord, ActionOptions } from "gadget-server";
+import { ActionOptions, deleteRecord } from "gadget-server";
 import { preventCrossShopDataAccess } from "gadget-server/shopify";
 
-export const run: ActionRun = async ({
-  params,
-  record,
-  api,
-}) => {
+export const run: ActionRun = async ({ params, record, api }) => {
   await preventCrossShopDataAccess(params, record);
 
-  // Delete all of this bundle's components
-  await api.internal.bundleComponent.deleteMany({
+  const [bundleVariant] = await api.shopifyProductVariant.findMany({
+    first: 1,
     filter: {
-      bundleId: {
-        equals: record.id
-      }
-    }
+      productId: { equals: record.id },
+      shopId: { equals: record.shopId ?? undefined },
+    },
+    select: { id: true },
   });
+
+  if (bundleVariant) {
+    await api.internal.bundleComponent.deleteMany({
+      filter: {
+        bundleVariantId: { equals: bundleVariant.id },
+      },
+    });
+  }
 
   await deleteRecord(record);
 };
 
-export const onSuccess: ActionOnSuccess = async ({
-  record,
-  api,
-  connections,
-}) => {
+export const onSuccess: ActionOnSuccess = async ({ record, api, connections }) => {
   const shopify = connections.shopify.current;
-
   if (!shopify) throw new Error("Shopify connection not established");
-  if (!record.bundleVariantId) throw new Error("Bundle variant ID not found");
-
-  const variant = await api.shopifyProductVariant.maybeFindOne(record.bundleVariantId, {
-    select: {
-      productId: true,
-    },
-  });
-
-  if (!variant?.productId) throw new Error("Bundle variant not found");
 
   const productDeleteHandle = await api.enqueue(shopify.graphql, {
     query: `mutation DeleteBundleProduct($id: ID!) {
@@ -48,7 +38,7 @@ export const onSuccess: ActionOnSuccess = async ({
       }
     }`,
     variables: {
-      id: `gid://shopify/Product/${variant.productId}`,
+      id: `gid://shopify/Product/${record.id}`,
     },
   });
 
@@ -66,4 +56,5 @@ export const onSuccess: ActionOnSuccess = async ({
 
 export const options: ActionOptions = {
   actionType: "delete",
+  triggers: { api: true },
 };

@@ -16,11 +16,6 @@ export const schema: GadgetModel = {
       children: { model: "bundleComponent", belongsToField: "shop" },
       storageKey: "oxeE9cyqBfSA",
     },
-    bundles: {
-      type: "hasMany",
-      children: { model: "bundle", belongsToField: "shop" },
-      storageKey: "W90vTnAkuphQ",
-    },
     componentReferenceDefinitionId: {
       type: "string",
       storageKey: "yDcEPU5-3toU",

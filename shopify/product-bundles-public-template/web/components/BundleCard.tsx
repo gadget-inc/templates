@@ -9,13 +9,11 @@ const tones = {
   draft: "warning",
 } as const;
 
-type BundleCardProps = {
+type BundleStatus = keyof typeof tones;
+
+type BundleVariant = {
   id: string;
-  title: string;
-  description: string | null;
-  status: keyof typeof tones;
-  price: number | null;
-  bundleComponentCount: JSONValue | null;
+  price: string | null;
   bundleComponents: {
     edges: {
       node: {
@@ -41,13 +39,20 @@ type BundleCardProps = {
   } | null;
 };
 
-const getBundleComponentCount = (value: JSONValue | null) => {
-  if (typeof value === "number") return value;
-  if (typeof value === "string") {
-    const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : 0;
-  }
-  return 0;
+type BundleProduct = {
+  id: string;
+  title: string | null;
+  body: string | null;
+  status: string | null;
+  variants: {
+    edges: {
+      node: BundleVariant;
+    }[];
+  } | null;
+};
+
+type BundleCardProps = {
+  bundle: BundleProduct;
 };
 
 const getImageUrl = (value: JSONValue | null) => {
@@ -56,23 +61,20 @@ const getImageUrl = (value: JSONValue | null) => {
   return typeof originalSrc === "string" ? originalSrc : "";
 };
 
-export function BundleCard({
-  id,
-  title,
-  description,
-  status,
-  price,
-  bundleComponentCount,
-  bundleComponents,
-}: BundleCardProps) {
+export function BundleCard({ bundle }: BundleCardProps) {
   const { currency } = useOutletContext<OutletContext>();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
-  const componentCount = getBundleComponentCount(bundleComponentCount);
+
+  const bundleVariant = bundle.variants?.edges?.[0]?.node ?? null;
+  const componentEdges = bundleVariant?.bundleComponents?.edges ?? [];
+  const componentCount = componentEdges.length;
+  const status = (bundle.status?.toLowerCase() ?? "draft") as BundleStatus;
+  const price = bundleVariant?.price ? parseFloat(bundleVariant.price) : null;
 
   const products = useMemo(() => {
     return Object.values(
-      (bundleComponents?.edges ?? []).reduce<
+      componentEdges.reduce<
         Record<
           string,
           {
@@ -111,16 +113,16 @@ export function BundleCard({
         return acc;
       }, {})
     );
-  }, [bundleComponents]);
+  }, [componentEdges]);
 
-  const formattedPrice = price !== null ? `${Number(price).toFixed(2)} ${currency}` : "—";
+  const formattedPrice = price !== null ? `${price.toFixed(2)} ${currency}` : "—";
 
   return (
     <>
       <s-table-row {...(componentCount > 0 ? { onClick: () => setOpen((c) => !c) } : {}) as {}}>
         <s-table-cell>
           <s-stack direction="inline" gap="small" alignItems="center">
-            <s-text>{title}</s-text>
+            <s-text>{bundle.title}</s-text>
             {componentCount > 0 && (
               <s-button
                 variant="tertiary"
@@ -135,7 +137,7 @@ export function BundleCard({
         </s-table-cell>
         <s-table-cell>{formattedPrice}</s-table-cell>
         <s-table-cell>
-          <s-button onClick={(e) => { e.stopPropagation(); navigate(`/bundle/${id}`); }}>Edit</s-button>
+          <s-button onClick={(e) => { e.stopPropagation(); navigate(`/bundle/${bundle.id}`); }}>Edit</s-button>
         </s-table-cell>
       </s-table-row>
 

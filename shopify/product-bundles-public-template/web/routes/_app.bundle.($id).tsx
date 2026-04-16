@@ -43,6 +43,14 @@ const formatBundleComponentLabel = (productTitle: string, variantTitle?: string 
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
 
+const normalizeStatus = (status?: string | null): BundleStatus => {
+  const normalized = status?.toLowerCase();
+  if (normalized === "active" || normalized === "archived" || normalized === "draft") {
+    return normalized;
+  }
+  return "draft";
+};
+
 const loadVariantMap = async (apiClient: Route.LoaderArgs["context"]["api"]) => {
   let variants = await apiClient.shopifyProductVariant.findMany({
     first: 250,
@@ -81,23 +89,30 @@ const loadVariantMap = async (apiClient: Route.LoaderArgs["context"]["api"]) => 
 const loadBundle = async (apiClient: Route.LoaderArgs["context"]["api"], id?: string) => {
   if (!id) return null;
 
-  return await apiClient.bundle.findOne(id, {
+  return await apiClient.shopifyProduct.findOne(id, {
     select: {
       id: true,
       title: true,
-      price: true,
+      body: true,
       status: true,
-      description: true,
-      bundleComponents: {
+      variants: {
         edges: {
           node: {
             id: true,
-            quantity: true,
-            productVariant: {
-              id: true,
-              title: true,
-              product: {
-                title: true,
+            price: true,
+            bundleComponents: {
+              edges: {
+                node: {
+                  id: true,
+                  quantity: true,
+                  productVariant: {
+                    id: true,
+                    title: true,
+                    product: {
+                      title: true,
+                    },
+                  },
+                },
               },
             },
           },
@@ -108,10 +123,11 @@ const loadBundle = async (apiClient: Route.LoaderArgs["context"]["api"], id?: st
 };
 
 const buildInitialBundleComponents = (bundle: LoadedBundle): BundleComponentFormValue[] => {
-  const nodes =
-    bundle?.bundleComponents?.edges
-      ?.map((edge) => edge?.node)
-      .filter((node): node is NonNullable<typeof node> & { productVariant: NonNullable<NonNullable<typeof node>["productVariant"]> } => Boolean(node?.productVariant?.id)) ?? [];
+  const edges = bundle?.variants?.edges?.[0]?.node?.bundleComponents?.edges ?? [];
+
+  const nodes = edges
+    .map((edge) => edge?.node)
+    .filter((node): node is NonNullable<typeof node> & { productVariant: NonNullable<NonNullable<typeof node>["productVariant"]> } => Boolean(node?.productVariant?.id));
 
   return nodes.map((node) => {
     const productTitle = node.productVariant?.product?.title || "Untitled product";
@@ -141,19 +157,11 @@ const buildBundlePayload = (
   price: Number(fields.price),
   status: fields.status,
   description: fields.description,
-  bundleComponents: [
-    {
-      _converge: {
-        values: bundleComponents.map((component) => ({
-          ...(component.id ? { id: component.id } : {}),
-          quantity: component.quantity,
-          productVariant: {
-            _link: component.productVariantId,
-          },
-        })),
-      },
-    },
-  ],
+  components: bundleComponents.map((component) => ({
+    ...(component.id ? { id: component.id } : {}),
+    productVariantId: component.productVariantId,
+    quantity: component.quantity,
+  })),
 });
 
 const mapSelectedVariants = (
@@ -218,10 +226,12 @@ export default function BundleEditor() {
   const { bundleCount, currency } = useOutletContext<OutletContext>();
   const { bundle, variantMap } = useLoaderData<typeof loader>();
 
+  const bundleVariant = bundle?.variants?.edges?.[0]?.node ?? null;
+
   const [title, setTitle] = useState(bundle?.title ?? "");
-  const [price, setPrice] = useState(bundle?.price?.toString() ?? "0");
-  const [status, setStatus] = useState<BundleStatus>((bundle?.status as BundleStatus | undefined) ?? "draft");
-  const [description, setDescription] = useState(bundle?.description ?? "");
+  const [price, setPrice] = useState(bundleVariant?.price ?? "0");
+  const [status, setStatus] = useState<BundleStatus>(normalizeStatus(bundle?.status));
+  const [description, setDescription] = useState(bundle?.body ?? "");
   const [bundleComponents, setBundleComponents] = useState(() => buildInitialBundleComponents(bundle as LoadedBundle));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -251,9 +261,9 @@ export default function BundleEditor() {
       const payload = buildBundlePayload({ title, price, status, description }, bundleComponents);
 
       if (id) {
-        await api.bundle.update(id, payload);
+        await api.shopifyProduct.updateBundle(id, payload);
       } else {
-        await api.bundle.create(payload);
+        await api.shopifyProduct.createBundle(payload);
       }
 
       navigate("/");
@@ -270,7 +280,7 @@ export default function BundleEditor() {
     setError(null);
 
     try {
-      await api.bundle.delete(id);
+      await api.shopifyProduct.deleteBundle(id);
       navigate("/");
     } catch (error) {
       setError(getErrorMessage(error, "Failed to delete bundle"));

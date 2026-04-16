@@ -117,25 +117,25 @@ export function BundleCard({
 
   return (
     <>
-      <s-table-row>
+      <s-table-row {...(componentCount > 0 ? { onClick: () => setOpen((c) => !c) } : {}) as {}}>
         <s-table-cell>
-          <s-text>{title}</s-text>
+          <s-stack direction="inline" gap="small" alignItems="center">
+            <s-text>{title}</s-text>
+            {componentCount > 0 && (
+              <s-button
+                variant="tertiary"
+                icon={open ? "chevron-up" : "chevron-down"}
+                onClick={(e) => { e.stopPropagation(); setOpen((c) => !c); }}
+              />
+            )}
+          </s-stack>
         </s-table-cell>
         <s-table-cell>
           <s-badge tone={tones[status] ?? "warning"}>{status}</s-badge>
         </s-table-cell>
         <s-table-cell>{formattedPrice}</s-table-cell>
         <s-table-cell>
-          <s-stack direction="inline" gap="small" alignItems="center">
-            <s-button onClick={() => navigate(`/bundle/${id}`)}>Edit</s-button>
-            {componentCount > 0 && (
-              <s-button
-                variant="tertiary"
-                icon={open ? "chevron-up" : "chevron-down"}
-                onClick={() => setOpen((c) => !c)}
-              />
-            )}
-          </s-stack>
+          <s-button onClick={(e) => { e.stopPropagation(); navigate(`/bundle/${id}`); }}>Edit</s-button>
         </s-table-cell>
       </s-table-row>
 

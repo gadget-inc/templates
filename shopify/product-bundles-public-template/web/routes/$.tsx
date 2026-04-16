@@ -6,15 +6,12 @@ export async function loader() {
 
 export default function () {
   return (
-    <s-page inlineSize="base">
+    <s-page inlineSize="base" heading="404">
       <s-section>
-        <s-box>
-          <s-stack alignItems="center" gap="small">
-            <s-heading>404</s-heading>
-            <s-text>Page Not Found</s-text>
-            <s-link href="/">Return to Home</s-link>
-          </s-stack>
-        </s-box>
+        <s-stack alignItems="center" gap="small">
+          <s-text>Page Not Found</s-text>
+          <s-link href="/">Return to Home</s-link>
+        </s-stack>
       </s-section>
     </s-page>
   );

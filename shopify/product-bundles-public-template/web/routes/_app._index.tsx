@@ -85,53 +85,48 @@ export default function Index() {
   }
 
   return (
-    <s-page inlineSize="base">
-      <s-section>
-        <s-stack gap="base">
-          <s-grid alignItems="end" gap="base" gridTemplateColumns="1fr auto">
-            <span />
-            <s-button variant="primary" onClick={() => navigate("/bundle")}>
-              Create bundle
-            </s-button>
-          </s-grid>
+    <s-page heading="Bundles" inlineSize="base">
+                <s-button variant="primary" slot="primary-action" onClick={() => navigate("/bundle")}>
+            Create bundle
+          </s-button>
 
-          <s-table
-            paginate={bundles?.hasNextPage || bundles?.hasPreviousPage}
-            hasPreviousPage={bundles?.hasPreviousPage}
-            hasNextPage={bundles?.hasNextPage}
-            onPreviousPage={() => setCursor({ last: NUM_ON_PAGE, before: bundles?.startCursor })}
-            onNextPage={() => setCursor({ first: NUM_ON_PAGE, after: bundles?.endCursor })}
-          >
-            <s-search-field
-              slot="filters"
-              label="Search bundles"
-              onChange={(event) => setSearchValue(event.currentTarget.value)}
-              value={searchValue}
-            />
-            <s-table-header-row>
-              <s-table-header listSlot="primary">Bundle</s-table-header>
-              <s-table-header>Status</s-table-header>
-              <s-table-header format="currency">Price</s-table-header>
-              <s-table-header />
-            </s-table-header-row>
-            <s-table-body>
-              {bundles?.length ? (
-                bundles.map((bundle) => (
-                  <BundleCard key={bundle.id} {...bundle} />
-                ))
-              ) : (
-                <s-table-row>
-                  <s-table-cell>
-                    <s-text tone="neutral">No bundles found</s-text>
-                  </s-table-cell>
-                  <s-table-cell />
-                  <s-table-cell />
-                  <s-table-cell />
-                </s-table-row>
-              )}
-            </s-table-body>
-          </s-table>
-        </s-stack>
+      <s-section padding="none">
+        <s-table
+          paginate={bundles?.hasNextPage || bundles?.hasPreviousPage}
+          hasPreviousPage={bundles?.hasPreviousPage}
+          hasNextPage={bundles?.hasNextPage}
+          onPreviousPage={() => setCursor({ last: NUM_ON_PAGE, before: bundles?.startCursor })}
+          onNextPage={() => setCursor({ first: NUM_ON_PAGE, after: bundles?.endCursor })}
+        >
+          <s-search-field
+            slot="filters"
+            label="Search bundles"
+            onChange={(event) => setSearchValue(event.currentTarget.value)}
+            value={searchValue}
+          />
+          <s-table-header-row>
+            <s-table-header listSlot="primary">Bundle</s-table-header>
+            <s-table-header>Status</s-table-header>
+            <s-table-header format="currency">Price</s-table-header>
+            <s-table-header />
+          </s-table-header-row>
+          <s-table-body>
+            {bundles?.length ? (
+              bundles.map((bundle) => (
+                <BundleCard key={bundle.id} {...bundle} />
+              ))
+            ) : (
+              <s-table-row>
+                <s-table-cell>
+                  <s-text tone="neutral">No bundles found</s-text>
+                </s-table-cell>
+                <s-table-cell />
+                <s-table-cell />
+                <s-table-cell />
+              </s-table-row>
+            )}
+          </s-table-body>
+        </s-table>
       </s-section>
     </s-page>
   );

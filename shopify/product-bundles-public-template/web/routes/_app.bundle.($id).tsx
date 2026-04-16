@@ -111,7 +111,7 @@ const buildInitialBundleComponents = (bundle: LoadedBundle): BundleComponentForm
   const nodes =
     bundle?.bundleComponents?.edges
       ?.map((edge) => edge?.node)
-      .filter((node): node is NonNullable<typeof node> => Boolean(node?.productVariant?.id)) ?? [];
+      .filter((node): node is NonNullable<typeof node> & { productVariant: NonNullable<NonNullable<typeof node>["productVariant"]> } => Boolean(node?.productVariant?.id)) ?? [];
 
   return nodes.map((node) => {
     const productTitle = node.productVariant?.product?.title || "Untitled product";
@@ -279,30 +279,37 @@ export default function BundleEditor() {
   };
 
   return (
-    <s-page inlineSize="base">
+    <s-page inlineSize="base" heading={id ? "Edit bundle" : "Create bundle"}>
+      {bundleCount ? (
+        <s-button slot="back-action" variant="tertiary" icon="arrow-left" onClick={() => navigate("/")}>
+          Bundles
+        </s-button>
+      ) : null}
+
+      <s-button
+        slot="primary-action"
+        type="button"
+        variant="primary"
+        disabled={isSaving}
+        onClick={() => void saveBundle()}
+      >
+        {isSaving ? "Saving..." : id ? "Save bundle" : "Create bundle"}
+      </s-button>
+
+      {id ? (
+        <s-button
+          slot="secondary-actions"
+          type="button"
+          tone="critical"
+          disabled={isSaving}
+          onClick={() => void deleteBundle()}
+        >
+          Delete bundle
+        </s-button>
+      ) : null}
+
       <s-section>
         <s-stack gap="large">
-          <s-grid alignItems="center" gap="base" gridTemplateColumns="1fr auto">
-            <s-stack direction="inline" alignItems="center" gap="small">
-              {bundleCount ? (
-                <s-button variant="tertiary" icon="arrow-left" onClick={() => navigate("/")}>
-                  Bundles
-                </s-button>
-              ) : null}
-              <s-heading>{id ? "Edit bundle" : "Create bundle"}</s-heading>
-            </s-stack>
-
-            {id ? (
-              <s-button
-                type="button"
-                tone="critical"
-                disabled={isSaving}
-                onClick={() => void deleteBundle()}
-              >
-                Delete bundle
-              </s-button>
-            ) : null}
-          </s-grid>
           {error ? (
             <s-banner tone="critical">
               <s-text>{error}</s-text>
@@ -351,15 +358,6 @@ export default function BundleEditor() {
               )
             }
           />
-
-          <s-button
-            type="button"
-            variant="primary"
-            disabled={isSaving}
-            onClick={() => void saveBundle()}
-          >
-            {isSaving ? "Saving..." : id ? "Save bundle" : "Create bundle"}
-          </s-button>
         </s-stack>
       </s-section>
     </s-page>

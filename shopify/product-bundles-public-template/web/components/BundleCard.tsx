@@ -47,13 +47,11 @@ const getBundleComponentCount = (value: JSONValue | null) => {
     const parsed = Number(value);
     return Number.isFinite(parsed) ? parsed : 0;
   }
-
   return 0;
 };
 
 const getImageUrl = (value: JSONValue | null) => {
   if (!value || typeof value !== "object" || Array.isArray(value)) return "";
-
   const originalSrc = value.originalSrc;
   return typeof originalSrc === "string" ? originalSrc : "";
 };
@@ -115,84 +113,89 @@ export function BundleCard({
     );
   }, [bundleComponents]);
 
-  const formattedPrice = price !== null
-    ? `${Number(price).toFixed(2)} ${currency}`
-    : null;
+  const formattedPrice = price !== null ? `${Number(price).toFixed(2)} ${currency}` : "—";
 
   return (
-    <s-box border="base" borderRadius="large-100" padding="base">
-      <s-stack gap="base">
-        <s-grid gap="base" gridTemplateColumns="1fr auto" alignItems="start">
-          <s-stack gap="extra-small">
-            <s-stack alignItems="center" direction="inline" gap="small">
-              <s-heading>{title}</s-heading>
-              <s-badge tone={tones[status] ?? "warning"}>{status}</s-badge>
+    <>
+      <s-table-row>
+        <s-table-cell>
+          <s-text>{title}</s-text>
+        </s-table-cell>
+        <s-table-cell>
+          <s-badge tone={tones[status] ?? "warning"}>{status}</s-badge>
+        </s-table-cell>
+        <s-table-cell>{formattedPrice}</s-table-cell>
+        <s-table-cell>
+          <s-stack direction="inline" gap="small" alignItems="center">
+            <s-button onClick={() => navigate(`/bundle/${id}`)}>Edit</s-button>
+            {componentCount > 0 && (
+              <s-button
+                variant="tertiary"
+                icon={open ? "chevron-up" : "chevron-down"}
+                onClick={() => setOpen((c) => !c)}
+              />
+            )}
+          </s-stack>
+        </s-table-cell>
+      </s-table-row>
+
+      {open && products.length > 0 && (
+        <s-table-row>
+          <s-table-cell>
+            <s-stack gap="small">
+              {products.map((product) => (
+                <s-grid gap="base" gridTemplateColumns="44px 1fr" key={product.id} alignItems="center">
+                  <s-box background="subdued" blockSize="44px" borderRadius="base" inlineSize="44px" overflow="hidden">
+                    <s-image
+                      alt={product.title}
+                      aspectRatio="1/1"
+                      inlineSize="fill"
+                      loading="lazy"
+                      objectFit="cover"
+                      src={product.imageUrl}
+                    />
+                  </s-box>
+
+                  <s-stack gap="small">
+                    <s-text>{product.title}</s-text>
+                    {product.variants.length === 1 ? (
+                      <s-stack direction="inline" gap="base">
+                        <s-text tone="neutral">
+                          {product.variants[0]?.price
+                            ? parseFloat(product.variants[0].price)
+                              ? `${product.variants[0].price} ${currency}`
+                              : "Free"
+                            : ""}
+                        </s-text>
+                        <s-text tone="neutral">Qty {product.variants[0]?.quantity ?? 0}</s-text>
+                      </s-stack>
+                    ) : (
+                      <s-stack gap="small">
+                        {product.variants.map((variant) => (
+                          <s-grid gap="small" gridTemplateColumns="1fr auto auto" key={variant.id}>
+                            <s-text>{variant.title}</s-text>
+                            <s-text tone="neutral">
+                              {variant.price
+                                ? parseFloat(variant.price)
+                                  ? `${variant.price} ${currency}`
+                                  : "Free"
+                                : ""}
+                            </s-text>
+                            <s-text tone="neutral">Qty {variant.quantity ?? 0}</s-text>
+                          </s-grid>
+                        ))}
+                      </s-stack>
+                    )}
+                  </s-stack>
+                </s-grid>
+              ))}
             </s-stack>
-            {formattedPrice && <s-text tone="subdued">{formattedPrice}</s-text>}
-            {description && <s-text>{description}</s-text>}
-          </s-stack>
-          <s-button onClick={() => navigate(`/bundle/${id}`)}>Edit</s-button>
-        </s-grid>
-
-        {open && products.length > 0 && (
-          <s-stack gap="small">
-            {products.map((product) => (
-              <s-grid gap="base" gridTemplateColumns="44px 1fr" key={product.id} alignItems="center">
-                <s-box background="subdued" blockSize="44px" borderRadius="base" inlineSize="44px" overflow="hidden">
-                  <s-image
-                    alt={product.title}
-                    aspectRatio="1/1"
-                    inlineSize="fill"
-                    loading="lazy"
-                    objectFit="cover"
-                    src={product.imageUrl}
-                  />
-                </s-box>
-
-                <s-stack gap="extra-small">
-                  <s-text emphasis="bold">{product.title}</s-text>
-                  {product.variants.length === 1 ? (
-                    <s-stack direction="inline" gap="base">
-                      <s-text tone="subdued">
-                        {product.variants[0]?.price
-                          ? parseFloat(product.variants[0].price)
-                            ? `${product.variants[0].price} ${currency}`
-                            : "Free"
-                          : ""}
-                      </s-text>
-                      <s-text tone="subdued">Qty {product.variants[0]?.quantity ?? 0}</s-text>
-                    </s-stack>
-                  ) : (
-                    <s-stack gap="extra-small">
-                      {product.variants.map((variant) => (
-                        <s-grid gap="small" gridTemplateColumns="1fr auto auto" key={variant.id}>
-                          <s-text>{variant.title}</s-text>
-                          <s-text tone="subdued">
-                            {variant.price
-                              ? parseFloat(variant.price)
-                                ? `${variant.price} ${currency}`
-                                : "Free"
-                              : ""}
-                          </s-text>
-                          <s-text tone="subdued">Qty {variant.quantity ?? 0}</s-text>
-                        </s-grid>
-                      ))}
-                    </s-stack>
-                  )}
-                </s-stack>
-              </s-grid>
-            ))}
-          </s-stack>
-        )}
-
-        {componentCount > 0 && (
-          <s-button variant="tertiary" onClick={() => setOpen((current) => !current)}>
-            {open
-              ? "Hide products"
-              : `Show ${componentCount} product${componentCount !== 1 ? "s" : ""}`}
-          </s-button>
-        )}
-      </s-stack>
-    </s-box>
+          </s-table-cell>
+          <s-table-cell />
+          <s-table-cell />
+          <s-table-cell />
+        </s-table-row>
+      )}
+    </>
   );
 }

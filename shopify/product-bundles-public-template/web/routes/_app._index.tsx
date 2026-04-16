@@ -89,44 +89,48 @@ export default function Index() {
       <s-section>
         <s-stack gap="base">
           <s-grid alignItems="end" gap="base" gridTemplateColumns="1fr auto">
-            <s-search-field
-              label="Search bundles"
-              onChange={(event) => setSearchValue(event.currentTarget.value)}
-              value={searchValue}
-            />
+            <span />
             <s-button variant="primary" onClick={() => navigate("/bundle")}>
               Create bundle
             </s-button>
           </s-grid>
 
-          {bundles?.length ? (
-            <s-stack gap="base">
-              {bundles.map((bundle) => (
-                <BundleCard key={bundle.id} {...bundle} />
-              ))}
-            </s-stack>
-          ) : (
-            <s-box>
-              <s-text>No bundles found</s-text>
-            </s-box>
-          )}
-
-          {(bundles?.hasNextPage || bundles?.hasPreviousPage) && (
-            <s-stack direction="inline" gap="base" justifyContent="space-between">
-              <s-button
-                disabled={!bundles?.hasPreviousPage}
-                onClick={() => setCursor({ last: NUM_ON_PAGE, before: bundles?.startCursor })}
-              >
-                Previous
-              </s-button>
-              <s-button
-                disabled={!bundles?.hasNextPage}
-                onClick={() => setCursor({ first: NUM_ON_PAGE, after: bundles?.endCursor })}
-              >
-                Next
-              </s-button>
-            </s-stack>
-          )}
+          <s-table
+            paginate={bundles?.hasNextPage || bundles?.hasPreviousPage}
+            hasPreviousPage={bundles?.hasPreviousPage}
+            hasNextPage={bundles?.hasNextPage}
+            onPreviousPage={() => setCursor({ last: NUM_ON_PAGE, before: bundles?.startCursor })}
+            onNextPage={() => setCursor({ first: NUM_ON_PAGE, after: bundles?.endCursor })}
+          >
+            <s-search-field
+              slot="filters"
+              label="Search bundles"
+              onChange={(event) => setSearchValue(event.currentTarget.value)}
+              value={searchValue}
+            />
+            <s-table-header-row>
+              <s-table-header listSlot="primary">Bundle</s-table-header>
+              <s-table-header>Status</s-table-header>
+              <s-table-header format="currency">Price</s-table-header>
+              <s-table-header />
+            </s-table-header-row>
+            <s-table-body>
+              {bundles?.length ? (
+                bundles.map((bundle) => (
+                  <BundleCard key={bundle.id} {...bundle} />
+                ))
+              ) : (
+                <s-table-row>
+                  <s-table-cell>
+                    <s-text tone="neutral">No bundles found</s-text>
+                  </s-table-cell>
+                  <s-table-cell />
+                  <s-table-cell />
+                  <s-table-cell />
+                </s-table-row>
+              )}
+            </s-table-body>
+          </s-table>
         </s-stack>
       </s-section>
     </s-page>

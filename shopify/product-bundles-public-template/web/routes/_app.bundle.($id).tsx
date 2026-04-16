@@ -202,8 +202,9 @@ const updateBundleComponentQuantity = (
   );
 
 export const loader = async ({ context, params }: Route.LoaderArgs) => {
+  const { id } = params as { id?: string };
   const [bundle, variantMap] = await Promise.all([
-    loadBundle(context.api, params.id),
+    loadBundle(context.api, id),
     loadVariantMap(context.api),
   ]);
 
@@ -214,14 +215,14 @@ export default function BundleEditor() {
   const shopify = useAppBridge();
   const { id } = useParams();
   const navigate = useNavigate();
-  const { bundleCount } = useOutletContext<OutletContext>();
+  const { bundleCount, currency } = useOutletContext<OutletContext>();
   const { bundle, variantMap } = useLoaderData<typeof loader>();
 
   const [title, setTitle] = useState(bundle?.title ?? "");
   const [price, setPrice] = useState(bundle?.price?.toString() ?? "0");
   const [status, setStatus] = useState<BundleStatus>((bundle?.status as BundleStatus | undefined) ?? "draft");
   const [description, setDescription] = useState(bundle?.description ?? "");
-  const [bundleComponents, setBundleComponents] = useState(() => buildInitialBundleComponents(bundle));
+  const [bundleComponents, setBundleComponents] = useState(() => buildInitialBundleComponents(bundle as LoadedBundle));
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -315,7 +316,7 @@ export default function BundleEditor() {
           />
 
           <s-number-field
-            label="Price"
+            label={`Price${currency ? ` (${currency})` : ""}`}
             min={0}
             step={1}
             value={price}

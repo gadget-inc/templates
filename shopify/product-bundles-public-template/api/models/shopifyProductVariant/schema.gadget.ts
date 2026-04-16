@@ -22,6 +22,32 @@ export const schema: GadgetModel = {
       },
       storageKey: "R3w2MZTVN9Lr",
     },
+    componentReference: {
+      type: "json",
+      shopifyMetafield: {
+        privateMetafield: false,
+        namespace: "bundle",
+        key: "componentReference",
+        metafieldType: "variant_reference",
+        allowMultipleEntries: true,
+      },
+      storageKey: "g5_D2XsQFahX",
+      filterIndex: false,
+      searchIndex: false,
+    },
+    isBundle: {
+      type: "boolean",
+      shopifyMetafield: {
+        privateMetafield: false,
+        namespace: "bundle",
+        key: "isBundle",
+        metafieldType: "boolean",
+        allowMultipleEntries: false,
+      },
+      storageKey: "Lud4DIW5r8wX",
+      filterIndex: false,
+      searchIndex: false,
+    },
   },
   shopify: {
     fields: {

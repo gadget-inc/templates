@@ -106,31 +106,31 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, logger, api, 
     }
   }
 
-  const functionId = process.env.BUNDLER_FUNCTION_ID;
-
-  if (functionId) {
-    const cartTransformHandle = await api.enqueue(shopify.graphql, {
-      query: `mutation CreateCartTransform($functionId: String!) {
-        cartTransformCreate(functionId: $functionId) {
-          userErrors {
-            message
-          }
+  const cartTransformHandle = await api.enqueue(shopify.graphql, {
+    query: `mutation CreateCartTransform($functionHandle: String!) {
+      cartTransformCreate(functionHandle: $functionHandle) {
+        cartTransform {
+          id
+          functionId
         }
-      }`,
-      variables: { functionId },
-    });
+        userErrors {
+          field
+          message
+        }
+      }
+    }`,
+    variables: { functionHandle: "bundle" },
+  });
 
-    const cartTransformResponse = (await cartTransformHandle.result()) as {
-      cartTransformCreate?: {
-        userErrors?: { message: string }[];
-      };
+  const cartTransformResponse = (await cartTransformHandle.result()) as {
+    cartTransformCreate?: {
+      cartTransform?: { id?: string; functionId?: string };
+      userErrors?: { field?: string[]; message: string }[];
     };
+  };
 
-    if (cartTransformResponse?.cartTransformCreate?.userErrors?.length) {
-      logger.error(cartTransformResponse.cartTransformCreate.userErrors[0].message);
-    }
-  } else {
-    logger.warn("BUNDLER_FUNCTION_ID is not set; skipping cart transform creation");
+  if (cartTransformResponse?.cartTransformCreate?.userErrors?.length) {
+    logger.error(cartTransformResponse.cartTransformCreate.userErrors[0].message);
   }
 
   if (Object.keys(updatePayload).length) {

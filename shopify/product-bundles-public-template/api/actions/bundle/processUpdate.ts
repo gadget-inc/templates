@@ -1,5 +1,4 @@
 import type { ActionOptions } from "gadget-server";
-import { fetchVariantGIDs } from "../../lib/bundle/fetchVariantGIDs";
 import { setBundleQuantitiesMetafield } from "../../lib/bundle/setBundleQuantitiesMetafield";
 
 type ComponentParam = {
@@ -8,19 +7,26 @@ type ComponentParam = {
   quantity: number;
 };
 
+type ProcessUpdateParams = {
+  shopId?: string;
+  bundleId?: string;
+  components?: ComponentParam[];
+};
+
+type ProductVariantsBulkUpdateResponse = {
+  productVariantsBulkUpdate?: {
+    userErrors?: { message: string }[];
+  };
+};
+
 export const options: ActionOptions = {
   timeoutMS: 30000,
 };
 
 export const run: ActionRun = async ({ params, api, connections }) => {
-  const shopId = String((params as { shopId?: string }).shopId ?? "");
+  const { shopId, bundleId, components } = params as ProcessUpdateParams;
+
   if (!shopId) throw new Error("Shop ID not provided");
-
-  const { bundleId, components } = params as {
-    bundleId?: string;
-    components?: ComponentParam[];
-  };
-
   if (!bundleId) throw new Error("Bundle ID is required");
   if (!components) throw new Error("Components are required");
 
@@ -35,16 +41,12 @@ export const run: ActionRun = async ({ params, api, connections }) => {
     throw new Error("Bundle not found");
   }
 
-  const [bundleVariant] = await api.shopifyProductVariant.findMany({
-    first: 1,
+  const bundleVariant = await api.shopifyProductVariant.findFirst({
     filter: {
       productId: { equals: bundle.id },
       shopId: { equals: shopId },
     },
-    select: {
-      id: true,
-      componentReference: true,
-    },
+    select: { id: true },
   });
 
   if (!bundleVariant) throw new Error("Bundle variant not found");
@@ -65,80 +67,78 @@ export const run: ActionRun = async ({ params, api, connections }) => {
   });
 
   const existingById = new Map(existing.map((component) => [component.id, component]));
-  const suppliedIds = new Set(components.map((component) => component.id).filter(Boolean) as string[]);
+  const suppliedIds = new Set(
+    components.map((component) => component.id).filter((id): id is string => Boolean(id))
+  );
 
-  let componentsChanged = false;
+  const mutations: Promise<unknown>[] = [];
 
   for (const component of components) {
-    if (component.id && existingById.has(component.id)) {
-      const current = existingById.get(component.id);
+    const current = component.id ? existingById.get(component.id) : undefined;
 
+    if (component.id && current) {
       if (
-        current?.quantity !== component.quantity ||
-        current?.productVariantId !== component.productVariantId
+        current.quantity !== component.quantity ||
+        current.productVariantId !== component.productVariantId
       ) {
-        await api.internal.bundleComponent.update(component.id, {
-          productVariant: { _link: component.productVariantId },
-          quantity: component.quantity,
-        });
-        componentsChanged = true;
+        mutations.push(
+          api.internal.bundleComponent.update(component.id, {
+            productVariant: { _link: component.productVariantId },
+            quantity: component.quantity,
+          })
+        );
       }
     } else {
-      await api.internal.bundleComponent.create({
-        bundleVariant: { _link: bundleVariant.id },
-        productVariant: { _link: component.productVariantId },
-        quantity: component.quantity,
-        shop: { _link: shopId },
-      });
-      componentsChanged = true;
+      mutations.push(
+        api.internal.bundleComponent.create({
+          bundleVariant: { _link: bundleVariant.id },
+          productVariant: { _link: component.productVariantId },
+          quantity: component.quantity,
+          shop: { _link: shopId },
+        })
+      );
     }
   }
 
   for (const existingComponent of existing) {
     if (!suppliedIds.has(existingComponent.id)) {
-      await api.internal.bundleComponent.delete(existingComponent.id);
-      componentsChanged = true;
+      mutations.push(api.internal.bundleComponent.delete(existingComponent.id));
     }
   }
 
-  if (!componentsChanged) {
-    return { bundleId: bundle.id };
-  }
+  await Promise.all(mutations);
 
-  const variantGIDs = JSON.stringify(await fetchVariantGIDs(bundleVariant.id, shopId));
-  if (variantGIDs !== JSON.stringify(bundleVariant.componentReference)) {
-    const productVariantUpdateResponse = (await shopify.graphql(
-      `mutation UpdateBundleVariant($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
-        productVariantsBulkUpdate(productId: $productId, variants: $variants) {
-          userErrors {
-            message
-          }
+  const variantGIDs = components.map(
+    (component) => `gid://shopify/ProductVariant/${component.productVariantId}`
+  );
+
+  const productVariantUpdateResponse = await shopify.graphql<ProductVariantsBulkUpdateResponse>(
+    `mutation UpdateBundleVariant($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
+      productVariantsBulkUpdate(productId: $productId, variants: $variants) {
+        userErrors {
+          message
         }
-      }`,
-      {
-        productId: `gid://shopify/Product/${bundle.id}`,
-        variants: [
-          {
-            id: `gid://shopify/ProductVariant/${bundleVariant.id}`,
-            metafields: [
-              {
-                namespace: "bundle",
-                key: "componentReference",
-                value: variantGIDs,
-              },
-            ],
-          },
-        ],
       }
-    )) as {
-      productVariantsBulkUpdate?: {
-        userErrors?: { message: string }[];
-      };
-    };
-
-    if (productVariantUpdateResponse?.productVariantsBulkUpdate?.userErrors?.length) {
-      throw new Error(productVariantUpdateResponse.productVariantsBulkUpdate.userErrors[0].message);
+    }`,
+    {
+      productId: `gid://shopify/Product/${bundle.id}`,
+      variants: [
+        {
+          id: `gid://shopify/ProductVariant/${bundleVariant.id}`,
+          metafields: [
+            {
+              namespace: "bundle",
+              key: "componentReference",
+              value: JSON.stringify(variantGIDs),
+            },
+          ],
+        },
+      ],
     }
+  );
+
+  if (productVariantUpdateResponse?.productVariantsBulkUpdate?.userErrors?.length) {
+    throw new Error(productVariantUpdateResponse.productVariantsBulkUpdate.userErrors[0].message);
   }
 
   await setBundleQuantitiesMetafield({

@@ -1,3 +1,12 @@
+import type { AppConnections } from "gadget-server";
+import type { ProductBundlesPublicTemplateClient } from "@gadget-client/product-bundles-public-template";
+
+type MetafieldsSetResponse = {
+  metafieldsSet?: {
+    userErrors?: { message: string }[];
+  };
+};
+
 export const setBundleQuantitiesMetafield = async ({
   api,
   connections,
@@ -7,8 +16,8 @@ export const setBundleQuantitiesMetafield = async ({
   bundleVariantId,
   shopId,
 }: {
-  api: any;
-  connections: any;
+  api: ProductBundlesPublicTemplateClient;
+  connections: AppConnections;
   id?: string | null;
   quantity?: number | null;
   productVariantId?: string | null;
@@ -42,7 +51,7 @@ export const setBundleQuantitiesMetafield = async ({
     quantityByVariantId[bundleComponent.productVariantId] = bundleComponent.quantity ?? 0;
   }
 
-  const response = (await shopify.graphql(
+  const response = await shopify.graphql<MetafieldsSetResponse>(
     `mutation SetBundleQuantities($metafields: [MetafieldsSetInput!]!) {
       metafieldsSet(metafields: $metafields) {
         userErrors {
@@ -61,11 +70,7 @@ export const setBundleQuantitiesMetafield = async ({
         },
       ],
     }
-  )) as {
-    metafieldsSet?: {
-      userErrors?: { message: string }[];
-    };
-  };
+  );
 
   if (response?.metafieldsSet?.userErrors?.length) {
     throw new Error(response.metafieldsSet.userErrors[0].message);

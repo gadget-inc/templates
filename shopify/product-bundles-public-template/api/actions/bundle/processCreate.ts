@@ -5,22 +5,45 @@ type ComponentParam = {
   quantity: number;
 };
 
+type ProcessCreateParams = {
+  shopId?: string;
+  title?: string;
+  description?: string | null;
+  status?: string;
+  price?: number;
+  components?: ComponentParam[];
+};
+
+type ProductCreateResponse = {
+  productCreate?: {
+    product?: {
+      id?: string;
+      variants?: { edges?: { node?: { id?: string } }[] };
+    };
+    userErrors?: { field?: string[]; message: string }[];
+  };
+};
+
+type ProductVariantsBulkUpdateResponse = {
+  productVariantsBulkUpdate?: {
+    userErrors?: { message: string }[];
+  };
+};
+
+type PublishablePublishResponse = {
+  publishablePublish?: {
+    userErrors?: { message: string }[];
+  };
+};
+
 export const options: ActionOptions = {
   timeoutMS: 30000,
 };
 
 export const run: ActionRun = async ({ params, api, connections }) => {
-  const shopId = String((params as { shopId?: string }).shopId ?? "");
+  const { shopId, title, description, status, price, components } = params as ProcessCreateParams;
+
   if (!shopId) throw new Error("Shop ID not provided");
-
-  const { title, description, status, price, components } = params as {
-    title: string;
-    description?: string | null;
-    status: string;
-    price: number;
-    components?: ComponentParam[];
-  };
-
   if (!title) throw new Error("Title is required");
   if (!status) throw new Error("Status is required");
   if (price === undefined || price === null) throw new Error("Price is required");
@@ -33,12 +56,11 @@ export const run: ActionRun = async ({ params, api, connections }) => {
     (component) => `gid://shopify/ProductVariant/${component.productVariantId}`
   );
   const quantityByVariantId: Record<string, number> = {};
-
   for (const component of componentList) {
     quantityByVariantId[component.productVariantId] = component.quantity;
   }
 
-  const productCreateResponse = (await shopify.graphql(
+  const productCreateResponse = await shopify.graphql<ProductCreateResponse>(
     `mutation CreateBundleProduct($productInput: ProductCreateInput!) {
       productCreate(product: $productInput) {
         product {
@@ -67,15 +89,7 @@ export const run: ActionRun = async ({ params, api, connections }) => {
         },
       },
     }
-  )) as {
-    productCreate?: {
-      product?: {
-        id?: string;
-        variants?: { edges?: { node?: { id?: string } }[] };
-      };
-      userErrors?: { field?: string[]; message: string }[];
-    };
-  };
+  );
 
   if (productCreateResponse?.productCreate?.userErrors?.length) {
     throw new Error(productCreateResponse.productCreate.userErrors[0].message);
@@ -90,7 +104,7 @@ export const run: ActionRun = async ({ params, api, connections }) => {
   if (!productGid || !productId) throw new Error("Failed to determine product ID");
   if (!bundleVariantGid || !bundleVariantId) throw new Error("Failed to determine bundle variant ID");
 
-  const productVariantUpdateResponse = (await shopify.graphql(
+  const productVariantUpdateResponse = await shopify.graphql<ProductVariantsBulkUpdateResponse>(
     `mutation UpdateBundleVariant($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
       productVariantsBulkUpdate(productId: $productId, variants: $variants) {
         userErrors {
@@ -129,11 +143,7 @@ export const run: ActionRun = async ({ params, api, connections }) => {
         },
       ],
     }
-  )) as {
-    productVariantsBulkUpdate?: {
-      userErrors?: { message: string }[];
-    };
-  };
+  );
 
   if (productVariantUpdateResponse?.productVariantsBulkUpdate?.userErrors?.length) {
     throw new Error(productVariantUpdateResponse.productVariantsBulkUpdate.userErrors[0].message);
@@ -146,7 +156,7 @@ export const run: ActionRun = async ({ params, api, connections }) => {
   });
 
   if (shop.onlineStorePublicationId) {
-    const publicationResponse = (await shopify.graphql(
+    const publicationResponse = await shopify.graphql<PublishablePublishResponse>(
       `mutation PublishBundle($id: ID!, $input: [PublicationInput!]!) {
         publishablePublish(id: $id, input: $input) {
           userErrors {
@@ -158,25 +168,23 @@ export const run: ActionRun = async ({ params, api, connections }) => {
         id: productGid,
         input: [{ publicationId: shop.onlineStorePublicationId }],
       }
-    )) as {
-      publishablePublish?: {
-        userErrors?: { message: string }[];
-      };
-    };
+    );
 
     if (publicationResponse?.publishablePublish?.userErrors?.length) {
       throw new Error(publicationResponse.publishablePublish.userErrors[0].message);
     }
   }
 
-  for (const component of componentList) {
-    await api.internal.bundleComponent.create({
-      bundleVariant: { _link: bundleVariantId },
-      productVariant: { _link: component.productVariantId },
-      quantity: component.quantity,
-      shop: { _link: shopId },
-    });
-  }
+  await Promise.all(
+    componentList.map((component) =>
+      api.internal.bundleComponent.create({
+        bundleVariant: { _link: bundleVariantId },
+        productVariant: { _link: component.productVariantId },
+        quantity: component.quantity,
+        shop: { _link: shopId },
+      })
+    )
+  );
 
   return {
     productId,

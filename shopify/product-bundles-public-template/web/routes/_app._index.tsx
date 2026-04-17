@@ -5,7 +5,7 @@ import { api } from "../api";
 import { BundleCard } from "../components/BundleCard";
 import { FullPageSpinner } from "../components/FullPageSpinner";
 
-const NUM_ON_PAGE = 5;
+const NUM_ON_PAGE = 20;
 
 export default function Index() {
   const location = useLocation();

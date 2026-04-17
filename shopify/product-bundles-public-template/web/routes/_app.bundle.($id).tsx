@@ -17,12 +17,6 @@ type BundleComponentFormValue = {
 
 type BundleStatus = "active" | "archived" | "draft";
 
-type VariantDetails = {
-  productId: string;
-  productTitle: string;
-  variantTitle: string;
-};
-
 type PickerVariant = {
   id: string;
   title?: string;
@@ -67,44 +61,6 @@ const normalizeStatus = (status?: string | null): BundleStatus => {
     return normalized;
   }
   return "draft";
-};
-
-const loadVariantMap = async (apiClient: Route.LoaderArgs["context"]["api"]) => {
-  let variants = await apiClient.shopifyProductVariant.findMany({
-    first: 250,
-    select: {
-      id: true,
-      title: true,
-      product: {
-        id: true,
-        title: true,
-      },
-    },
-  });
-
-  const variantMap: Record<string, VariantDetails> = {};
-
-  for (const variant of variants) {
-    variantMap[variant.id] = {
-      productId: variant.product?.id ? stripShopifyGid(variant.product.id) : "",
-      productTitle: variant.product?.title || "Untitled product",
-      variantTitle: variant.title || "Default Title",
-    };
-  }
-
-  while (variants.hasNextPage) {
-    variants = await variants.nextPage();
-
-    for (const variant of variants) {
-      variantMap[variant.id] = {
-        productId: variant.product?.id ? stripShopifyGid(variant.product.id) : "",
-        productTitle: variant.product?.title || "Untitled product",
-        variantTitle: variant.title || "Default Title",
-      };
-    }
-  }
-
-  return variantMap;
 };
 
 const loadBundle = async (apiClient: Route.LoaderArgs["context"]["api"], id?: string) => {
@@ -189,8 +145,7 @@ const buildBundlePayload = (
 
 const mapSelectedVariants = (
   selected: PickerProduct[],
-  existingComponents: BundleComponentFormValue[],
-  variantMap: Record<string, VariantDetails>
+  existingComponents: BundleComponentFormValue[]
 ) => {
   const existingByVariantId = new Map(
     existingComponents.map((component) => [component.productVariantId, component] as const)
@@ -203,20 +158,17 @@ const mapSelectedVariants = (
     return (product.variants ?? []).map((variant) => {
       const productVariantId = stripShopifyGid(variant.id);
       const existing = existingByVariantId.get(productVariantId);
-      const fallback = variantMap[productVariantId];
-      const variantTitle = variant.title || fallback?.variantTitle || "Default Title";
-      const resolvedProductTitle =
-        existing?.productTitle || fallback?.productTitle || productTitle;
+      const variantTitle = variant.title || "Default Title";
 
       return {
         id: existing?.id,
         productId,
         productVariantId,
         quantity: existing?.quantity ?? 1,
-        productTitle: resolvedProductTitle,
+        productTitle,
         variantTitle,
         displayName: buildBundleComponentDisplayName(
-          resolvedProductTitle,
+          productTitle,
           variantTitle,
           variant.displayName || existing?.displayName
         ),
@@ -241,12 +193,9 @@ const updateBundleComponentQuantity = (
 
 export const loader = async ({ context, params }: Route.LoaderArgs) => {
   const { id } = params as { id?: string };
-  const [bundle, variantMap] = await Promise.all([
-    loadBundle(context.api, id),
-    loadVariantMap(context.api),
-  ]);
+  const bundle = await loadBundle(context.api, id);
 
-  return { bundle, variantMap };
+  return { bundle };
 };
 
 export default function BundleEditor() {
@@ -254,7 +203,7 @@ export default function BundleEditor() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { bundleCount, currency } = useOutletContext<OutletContext>();
-  const { bundle, variantMap } = useLoaderData<typeof loader>();
+  const { bundle } = useLoaderData<typeof loader>();
 
   const bundleVariant = bundle?.variants?.edges?.[0]?.node ?? null;
   const isEditing = Boolean(id);
@@ -297,7 +246,7 @@ export default function BundleEditor() {
 
     if (!selected) return;
 
-    setBundleComponents(mapSelectedVariants(selected, bundleComponents, variantMap));
+    setBundleComponents(mapSelectedVariants(selected, bundleComponents));
   };
 
   const saveBundle = async () => {

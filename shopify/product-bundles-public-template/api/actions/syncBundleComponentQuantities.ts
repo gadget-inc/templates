@@ -1,4 +1,4 @@
-import { syncBundleComponentQuantities as syncBundleComponentQuantitiesHelper } from "./bundle/helpers";
+import { syncBundleComponentQuantities as syncBundleComponentQuantitiesHelper } from "../lib/bundle/syncBundleComponentQuantities";
 
 export const run: ActionRun = async ({ params, api, connections }) => {
   const { id, quantity, productVariantId, bundleVariantId, shopId } = params;

@@ -1,6 +1,6 @@
 import type { ActionOptions } from "gadget-server";
-import { fetchVariantGIDs } from "../../utils";
-import { syncBundleComponentQuantities } from "./helpers";
+import { fetchVariantGIDs } from "../../lib/bundle/fetchVariantGIDs";
+import { syncBundleComponentQuantities } from "../../lib/bundle/syncBundleComponentQuantities";
 
 type ComponentParam = {
   id?: string;

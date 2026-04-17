@@ -164,7 +164,7 @@ export const run: ActionRun = async ({ params, record }) => {
 ### Global Action Pattern
 ```ts
 // api/actions/processData.ts
-export const run: GlobalActionRun = async ({ params, logger, connections }) => {
+export const run: ActionRun = async ({ params, logger, connections }) => {
   logger.info({ params }, "Processing data");
   return { success: true };
 };

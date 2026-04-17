@@ -7,6 +7,7 @@ import type { Route } from "./+types/_app.bundle.($id)";
 
 type BundleComponentFormValue = {
   id?: string;
+  productId: string;
   productVariantId: string;
   quantity: number;
   productTitle: string;
@@ -17,6 +18,7 @@ type BundleComponentFormValue = {
 type BundleStatus = "active" | "archived" | "draft";
 
 type VariantDetails = {
+  productId: string;
   productTitle: string;
   variantTitle: string;
 };
@@ -26,8 +28,15 @@ type PickerVariant = {
   title?: string;
   displayName?: string;
   product?: {
+    id?: string;
     title?: string;
   };
+};
+
+type PickerProduct = {
+  id: string;
+  title?: string;
+  variants?: PickerVariant[];
 };
 
 type LoaderData = Awaited<ReturnType<typeof loader>>;
@@ -39,6 +48,15 @@ const isDefaultVariantTitle = (title?: string | null) => !title || title === "De
 
 const formatBundleComponentLabel = (productTitle: string, variantTitle?: string | null) =>
   isDefaultVariantTitle(variantTitle) ? productTitle : `${productTitle} - ${variantTitle}`;
+
+const buildBundleComponentDisplayName = (
+  productTitle: string,
+  variantTitle?: string | null,
+  pickerDisplayName?: string | null
+) => {
+  if (isDefaultVariantTitle(variantTitle)) return productTitle;
+  return pickerDisplayName || formatBundleComponentLabel(productTitle, variantTitle);
+};
 
 const getErrorMessage = (error: unknown, fallback: string) =>
   error instanceof Error ? error.message : fallback;
@@ -58,6 +76,7 @@ const loadVariantMap = async (apiClient: Route.LoaderArgs["context"]["api"]) => 
       id: true,
       title: true,
       product: {
+        id: true,
         title: true,
       },
     },
@@ -67,6 +86,7 @@ const loadVariantMap = async (apiClient: Route.LoaderArgs["context"]["api"]) => 
 
   for (const variant of variants) {
     variantMap[variant.id] = {
+      productId: variant.product?.id ? stripShopifyGid(variant.product.id) : "",
       productTitle: variant.product?.title || "Untitled product",
       variantTitle: variant.title || "Default Title",
     };
@@ -77,6 +97,7 @@ const loadVariantMap = async (apiClient: Route.LoaderArgs["context"]["api"]) => 
 
     for (const variant of variants) {
       variantMap[variant.id] = {
+        productId: variant.product?.id ? stripShopifyGid(variant.product.id) : "",
         productTitle: variant.product?.title || "Untitled product",
         variantTitle: variant.title || "Default Title",
       };
@@ -105,13 +126,14 @@ const loadBundle = async (apiClient: Route.LoaderArgs["context"]["api"], id?: st
                 node: {
                   id: true,
                   quantity: true,
-                  productVariant: {
-                    id: true,
-                    title: true,
-                    product: {
+                    productVariant: {
+                      id: true,
                       title: true,
+                      product: {
+                        id: true,
+                        title: true,
+                      },
                     },
-                  },
                 },
               },
             },
@@ -135,11 +157,12 @@ const buildInitialBundleComponents = (bundle: LoadedBundle): BundleComponentForm
 
     return {
       id: node.id,
+      productId: stripShopifyGid(node.productVariant.product.id),
       productVariantId: node.productVariant.id,
       quantity: Number(node.quantity ?? 1),
       productTitle,
       variantTitle,
-      displayName: formatBundleComponentLabel(productTitle, variantTitle),
+      displayName: buildBundleComponentDisplayName(productTitle, variantTitle),
     };
   });
 };
@@ -165,7 +188,7 @@ const buildBundlePayload = (
 });
 
 const mapSelectedVariants = (
-  selected: PickerVariant[],
+  selected: PickerProduct[],
   existingComponents: BundleComponentFormValue[],
   variantMap: Record<string, VariantDetails>
 ) => {
@@ -173,25 +196,32 @@ const mapSelectedVariants = (
     existingComponents.map((component) => [component.productVariantId, component] as const)
   );
 
-  return selected.map((variant) => {
-    const productVariantId = stripShopifyGid(variant.id);
-    const existing = existingByVariantId.get(productVariantId);
-    const fallback = variantMap[productVariantId];
-    const variantTitle = variant.title || fallback?.variantTitle || "Default Title";
-    const productTitle =
-      variant.product?.title || existing?.productTitle || fallback?.productTitle || "Untitled product";
+  return selected.flatMap((product) => {
+    const productId = stripShopifyGid(product.id);
+    const productTitle = product.title || "Untitled product";
 
-    return {
-      id: existing?.id,
-      productVariantId,
-      quantity: existing?.quantity ?? 1,
-      productTitle,
-      variantTitle,
-      displayName:
-        variant.displayName ||
-        existing?.displayName ||
-        formatBundleComponentLabel(productTitle, variantTitle),
-    };
+    return (product.variants ?? []).map((variant) => {
+      const productVariantId = stripShopifyGid(variant.id);
+      const existing = existingByVariantId.get(productVariantId);
+      const fallback = variantMap[productVariantId];
+      const variantTitle = variant.title || fallback?.variantTitle || "Default Title";
+      const resolvedProductTitle =
+        existing?.productTitle || fallback?.productTitle || productTitle;
+
+      return {
+        id: existing?.id,
+        productId,
+        productVariantId,
+        quantity: existing?.quantity ?? 1,
+        productTitle: resolvedProductTitle,
+        variantTitle,
+        displayName: buildBundleComponentDisplayName(
+          resolvedProductTitle,
+          variantTitle,
+          variant.displayName || existing?.displayName
+        ),
+      };
+    });
   });
 };
 
@@ -237,16 +267,32 @@ export default function BundleEditor() {
   const [error, setError] = useState<string | null>(null);
 
   const openPicker = async () => {
-    const selectionIds = bundleComponents.map((component) => ({
-      id: `gid://shopify/ProductVariant/${component.productVariantId}`,
-    }));
+    const selectionIds = Array.from(
+      bundleComponents.reduce((selectionMap, component) => {
+        const productGid = `gid://shopify/Product/${component.productId}`;
+        const variantGid = `gid://shopify/ProductVariant/${component.productVariantId}`;
+        const existing = selectionMap.get(productGid);
+
+        if (existing) {
+          existing.variants = [...(existing.variants ?? []), { id: variantGid }];
+        } else {
+          selectionMap.set(productGid, {
+            id: productGid,
+            variants: [{ id: variantGid }],
+          });
+        }
+
+        return selectionMap;
+      }, new Map<string, { id: string; variants: { id: string }[] }>())
+      .values()
+    );
 
     const selected = (await shopify.resourcePicker({
-      type: "variant",
+      type: "product",
       multiple: true,
       action: selectionIds.length ? "add" : "select",
       selectionIds,
-    })) as PickerVariant[] | undefined;
+    })) as PickerProduct[] | undefined;
 
     if (!selected) return;
 
@@ -266,7 +312,13 @@ export default function BundleEditor() {
         await api.bundle.create(payload);
       }
 
-      navigate("/");
+      navigate("/", {
+        state: id
+          ? null
+          : {
+              successBanner: "Your bundle is being created. It'll show up in the table when it's ready.",
+            },
+      });
     } catch (error) {
       setError(getErrorMessage(error, "Failed to save bundle"));
       setIsSaving(false);

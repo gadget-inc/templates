@@ -28,15 +28,21 @@ export const onSuccess: ActionOnSuccess = async ({
   connections,
 }) => {
   if (record.changed("quantity") && record.bundleVariantId) {
-    const shopId = String(connections.shopify.currentShop?.id ?? record.shopId ?? "");
+    const shopId = String(connections.shopify.currentShopId ?? record.shopId ?? "");
 
-    await api.syncBundleComponentQuantities({
-      id: record.id,
-      quantity: record.quantity,
-      productVariantId: record.productVariantId,
-      bundleVariantId: record.bundleVariantId,
-      shopId,
-    });
+    await api.enqueue(
+      api.syncBundleComponentQuantities,
+      {
+        id: record.id,
+        quantity: record.quantity,
+        productVariantId: record.productVariantId,
+        bundleVariantId: record.bundleVariantId,
+        shopId,
+      },
+      {
+        shopifyShop: shopId,
+      }
+    );
   }
 };
 

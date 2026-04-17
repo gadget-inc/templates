@@ -1,18 +1,21 @@
 import { useFindMany } from "@gadgetinc/react";
 import { useDeferredValue, useEffect, useState } from "react";
-import { useNavigate, useOutletContext } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { api } from "../api";
 import { BundleCard } from "../components/BundleCard";
 import { FullPageSpinner } from "../components/FullPageSpinner";
-import type { OutletContext } from "./_app";
 
 const NUM_ON_PAGE = 5;
 
 export default function Index() {
-  const { bundleCount } = useOutletContext<OutletContext>();
+  const location = useLocation();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const deferredSearchValue = useDeferredValue(searchValue);
+  const [successBanner, setSuccessBanner] = useState<string | null>(
+    () =>
+      (location.state as { successBanner?: string } | null)?.successBanner ?? null
+  );
   const [cursor, setCursor] = useState<{
     first?: number;
     last?: number;
@@ -64,6 +67,7 @@ export default function Index() {
     sort: {
       createdAt: "Descending",
     },
+    live: true,
     ...cursor,
     ...(deferredSearchValue
       ? {
@@ -80,10 +84,13 @@ export default function Index() {
   }, [deferredSearchValue]);
 
   useEffect(() => {
-    if (!bundleCount) {
-      navigate("/bundle");
+    const nextBanner = (location.state as { successBanner?: string } | null)?.successBanner ?? null;
+
+    if (nextBanner) {
+      setSuccessBanner(nextBanner);
+      navigate(location.pathname, { replace: true, state: null });
     }
-  }, [bundleCount, navigate]);
+  }, [location.pathname, location.state, navigate]);
 
   if (fetchingBundles && !bundles) {
     return <FullPageSpinner />;
@@ -95,11 +102,17 @@ export default function Index() {
 
   return (
     <s-page heading="Bundles" inlineSize="base">
-                <s-button variant="primary" slot="primary-action" onClick={() => navigate("/bundle")}>
-            Create bundle
-          </s-button>
+      <s-button variant="primary" slot="primary-action" onClick={() => navigate("/bundle")}>
+        Create bundle
+      </s-button>
 
       <s-section padding="none">
+        {successBanner ? (
+          <s-banner tone="success" dismissible onDismiss={() => setSuccessBanner(null)}>
+            <s-text>{successBanner}</s-text>
+          </s-banner>
+        ) : null}
+
         <s-table
           paginate={bundles?.hasNextPage || bundles?.hasPreviousPage}
           hasPreviousPage={bundles?.hasPreviousPage}

@@ -11,17 +11,26 @@ export const schema: GadgetModel = {
       type: "belongsTo",
       parent: { model: "shopifyProductVariant" },
       storageKey: "7eP4vZ9aylLl",
+      searchIndex: false,
     },
     productVariant: {
       type: "belongsTo",
       parent: { model: "shopifyProductVariant" },
       storageKey: "7uvUGFvcYWcn",
+      searchIndex: false,
     },
-    quantity: { type: "number", storageKey: "JN4otVMSx7Ty" },
+    quantity: {
+      type: "number",
+      storageKey: "JN4otVMSx7Ty",
+      filterIndex: false,
+      searchIndex: false,
+    },
     shop: {
       type: "belongsTo",
       parent: { model: "shopifyShop" },
       storageKey: "lv3OJf5PvIoN",
+      searchIndex: false,
     },
   },
+  searchIndex: false,
 };

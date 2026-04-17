@@ -30,23 +30,13 @@ export const onSuccess: ActionOnSuccess = async ({
   if (record.changed("quantity") && record.bundleVariantId) {
     const shopId = String(connections.shopify.currentShop?.id ?? record.shopId ?? "");
 
-    await api.enqueue(
-      api.updateBundleComponentQuantity,
-      {
-        id: record.id,
-        quantity: record.quantity,
-        productVariantId: record.productVariantId,
-        bundleVariantId: record.bundleVariantId,
-        shopId,
-      },
-      {
-        queue: {
-          name: `updateBundleComponentQuantity-${shopId}`,
-          maxConcurrency: 4,
-        },
-        retries: 1,
-      }
-    );
+    await api.syncBundleComponentQuantities({
+      id: record.id,
+      quantity: record.quantity,
+      productVariantId: record.productVariantId,
+      bundleVariantId: record.bundleVariantId,
+      shopId,
+    });
   }
 };
 

@@ -206,20 +206,10 @@ export const run: GlobalActionRun = async ({ params, api, connections }) => {
       throw new Error(productVariantUpdateResponse.productVariantsBulkUpdate.userErrors[0].message);
     }
 
-    await api.enqueue(
-      api.updateBundleComponentQuantity,
-      {
-        bundleVariantId: bundleVariant.id,
-        shopId,
-      },
-      {
-        queue: {
-          name: `updateBundleComponentQuantity-${shopId}`,
-          maxConcurrency: 1,
-        },
-        retries: 1,
-      }
-    );
+    await api.syncBundleComponentQuantities({
+      bundleVariantId: bundleVariant.id,
+      shopId,
+    });
   }
 
   return {

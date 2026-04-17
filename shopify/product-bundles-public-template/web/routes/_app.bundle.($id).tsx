@@ -257,6 +257,7 @@ export default function BundleEditor() {
   const { bundle, variantMap } = useLoaderData<typeof loader>();
 
   const bundleVariant = bundle?.variants?.edges?.[0]?.node ?? null;
+  const isEditing = Boolean(id);
 
   const [title, setTitle] = useState(bundle?.title ?? "");
   const [price, setPrice] = useState(bundleVariant?.price ?? "");
@@ -313,11 +314,11 @@ export default function BundleEditor() {
       }
 
       navigate("/", {
-        state: id
-          ? null
-          : {
-              successBanner: "Your bundle is being created. It'll show up in the table when it's ready.",
-            },
+        state: {
+          successBanner: id
+            ? "Your changes will show up in the table when they're ready."
+            : "Your bundle is being created. It'll show up in the table when it's ready.",
+        },
       });
     } catch (error) {
       setError(getErrorMessage(error, "Failed to save bundle"));
@@ -341,7 +342,7 @@ export default function BundleEditor() {
   };
 
   return (
-    <s-page inlineSize="base" heading={id ? "Edit bundle" : "Create bundle"}>
+    <s-page inlineSize="base" heading={isEditing ? "Edit bundle" : "Create bundle"}>
       {bundleCount ? (
         <s-button slot="back-action" variant="tertiary" icon="arrow-left" onClick={() => navigate("/")}>
           Bundles
@@ -378,9 +379,19 @@ export default function BundleEditor() {
             </s-banner>
           ) : null}
 
+          {isEditing ? (
+            <s-banner tone="info">
+              <s-text>
+                Title, price, description, and status can be edited in the Shopify admin just like
+                any other product.
+              </s-text>
+            </s-banner>
+          ) : null}
+
           <s-text-field
             label="Bundle title"
             value={title}
+            disabled={isEditing}
             onInput={(event) => setTitle(event.currentTarget.value)}
           />
 
@@ -390,22 +401,24 @@ export default function BundleEditor() {
             step={1}
             placeholder="0"
             value={price}
+            disabled={isEditing}
             onInput={(event) => setPrice(event.currentTarget.value)}
           />
 
           <s-select
             label="Status"
             value={status}
+            disabled={isEditing}
             onChange={(event) => setStatus(event.currentTarget.value as BundleStatus)}
           >
             <s-option value="draft">Draft</s-option>
             <s-option value="active">Active</s-option>
-            <s-option value="archived">Archived</s-option>
           </s-select>
 
           <s-text-area
             label="Description"
             value={description}
+            disabled={isEditing}
             onInput={(event) => setDescription(event.currentTarget.value)}
           />
 

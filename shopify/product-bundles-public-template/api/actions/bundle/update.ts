@@ -17,10 +17,6 @@ export const run: ActionRun = async ({ params, api, connections }) => {
 
 export const params = {
   bundleId: { type: "string" },
-  title: { type: "string" },
-  description: { type: "string" },
-  status: { type: "string" },
-  price: { type: "number" },
   components: {
     type: "array",
     items: {

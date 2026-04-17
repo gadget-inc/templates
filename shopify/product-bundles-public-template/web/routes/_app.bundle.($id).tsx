@@ -305,12 +305,19 @@ export default function BundleEditor() {
     setError(null);
 
     try {
-      const payload = buildBundlePayload({ title, price, status, description }, bundleComponents);
-
       if (id) {
-        await api.bundle.update({ bundleId: id, ...payload });
+        await api.bundle.update({
+          bundleId: id,
+          components: bundleComponents.map((component) => ({
+            ...(component.id ? { id: component.id } : {}),
+            productVariantId: component.productVariantId,
+            quantity: component.quantity,
+          })),
+        });
       } else {
-        await api.bundle.create(payload);
+        await api.bundle.create(
+          buildBundlePayload({ title, price, status, description }, bundleComponents)
+        );
       }
 
       navigate("/", {

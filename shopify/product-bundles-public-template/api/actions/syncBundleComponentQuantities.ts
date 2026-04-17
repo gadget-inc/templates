@@ -1,4 +1,4 @@
-import { syncBundleComponentQuantities as syncBundleComponentQuantitiesHelper } from "../lib/bundle/syncBundleComponentQuantities";
+import { setBundleQuantitiesMetafield } from "../lib/bundle/setBundleQuantitiesMetafield";
 
 export const run: ActionRun = async ({ params, api, connections }) => {
   const { id, quantity, productVariantId, bundleVariantId, shopId } = params;
@@ -6,7 +6,7 @@ export const run: ActionRun = async ({ params, api, connections }) => {
   if (!shopId) throw new Error("Shop ID is required");
   if (!bundleVariantId) throw new Error("Bundle variant ID is required");
 
-  await syncBundleComponentQuantitiesHelper({
+  await setBundleQuantitiesMetafield({
     api,
     connections,
     id,

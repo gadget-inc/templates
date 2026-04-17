@@ -1,4 +1,4 @@
-export const syncBundleComponentQuantities = async ({
+export const setBundleQuantitiesMetafield = async ({
   api,
   connections,
   id,

@@ -1,6 +1,6 @@
 import type { ActionOptions } from "gadget-server";
 import { fetchVariantGIDs } from "../../lib/bundle/fetchVariantGIDs";
-import { syncBundleComponentQuantities } from "../../lib/bundle/syncBundleComponentQuantities";
+import { setBundleQuantitiesMetafield } from "../../lib/bundle/setBundleQuantitiesMetafield";
 
 type ComponentParam = {
   id?: string;
@@ -141,7 +141,7 @@ export const run: ActionRun = async ({ params, api, connections }) => {
     }
   }
 
-  await syncBundleComponentQuantities({
+  await setBundleQuantitiesMetafield({
     api,
     connections,
     bundleVariantId: bundleVariant.id,

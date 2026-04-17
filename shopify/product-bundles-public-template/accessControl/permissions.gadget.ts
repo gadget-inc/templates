@@ -50,11 +50,8 @@ export const permissions: GadgetPermissions = {
           },
           actions: {
             create: true,
-            createBundle: true,
             delete: true,
-            deleteBundle: true,
             update: true,
-            updateBundle: true,
           },
         },
         shopifyProductMedia: {
@@ -103,6 +100,9 @@ export const permissions: GadgetPermissions = {
         },
       },
       actions: {
+        "bundle/create": true,
+        "bundle/delete": true,
+        "bundle/update": true,
         scheduledShopifySync: true,
       },
     },

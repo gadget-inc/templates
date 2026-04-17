@@ -1,26 +1,9 @@
-import { ActionOptions } from "gadget-server";
-import { preventCrossShopDataAccess } from "gadget-server/shopify";
-
 type ComponentParam = {
   productVariantId: string;
   quantity: number;
 };
 
-export const run: ActionRun = async ({ params, record }) => {
-  await preventCrossShopDataAccess(params, record);
-
-  const { title, status, price } = params as {
-    title?: string;
-    status?: string;
-    price?: number;
-  };
-
-  if (!title) throw new Error("Title is required");
-  if (!status) throw new Error("Status is required");
-  if (price === undefined || price === null) throw new Error("Price is required");
-};
-
-export const onSuccess: ActionOnSuccess = async ({ params, api, connections }) => {
+export const run: GlobalActionRun = async ({ params, api, connections }) => {
   const shopId = String(connections.shopify.currentShop?.id ?? "");
   if (!shopId) throw new Error("Shop ID not provided");
 
@@ -32,16 +15,21 @@ export const onSuccess: ActionOnSuccess = async ({ params, api, connections }) =
     components?: ComponentParam[];
   };
 
+  if (!title) throw new Error("Title is required");
+  if (!status) throw new Error("Status is required");
+  if (price === undefined || price === null) throw new Error("Price is required");
+
   const shopify = await connections.shopify.forShopId(shopId);
   if (!shopify) throw new Error("Shopify connection not established");
 
   const componentList = components ?? [];
   const variantGIDs = componentList.map(
-    (c) => `gid://shopify/ProductVariant/${c.productVariantId}`
+    (component) => `gid://shopify/ProductVariant/${component.productVariantId}`
   );
   const quantityByVariantId: Record<string, number> = {};
-  for (const c of componentList) {
-    quantityByVariantId[c.productVariantId] = c.quantity;
+
+  for (const component of componentList) {
+    quantityByVariantId[component.productVariantId] = component.quantity;
   }
 
   const productCreateHandle = await api.enqueue(shopify.graphql, {
@@ -90,10 +78,12 @@ export const onSuccess: ActionOnSuccess = async ({ params, api, connections }) =
   }
 
   const productGid = productCreateResponse.productCreate?.product?.id;
-  const bundleVariantGid = productCreateResponse.productCreate?.product?.variants?.edges?.[0]?.node?.id;
-  const bundleVariantId = bundleVariantGid?.split("/")[4];
+  const bundleVariantGid =
+    productCreateResponse.productCreate?.product?.variants?.edges?.[0]?.node?.id;
+  const productId = productGid?.split("/").pop();
+  const bundleVariantId = bundleVariantGid?.split("/").pop();
 
-  if (!productGid) throw new Error("Failed to determine product ID");
+  if (!productGid || !productId) throw new Error("Failed to determine product ID");
   if (!bundleVariantGid || !bundleVariantId) throw new Error("Failed to determine bundle variant ID");
 
   const productVariantUpdateHandle = await api.enqueue(shopify.graphql, {
@@ -187,6 +177,11 @@ export const onSuccess: ActionOnSuccess = async ({ params, api, connections }) =
       shop: { _link: shopId },
     });
   }
+
+  return {
+    productId,
+    bundleVariantId,
+  };
 };
 
 export const params = {
@@ -204,9 +199,4 @@ export const params = {
       },
     },
   },
-};
-
-export const options: ActionOptions = {
-  actionType: "create",
-  triggers: { api: true },
 };

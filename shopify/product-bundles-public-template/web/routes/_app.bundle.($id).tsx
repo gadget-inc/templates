@@ -229,7 +229,7 @@ export default function BundleEditor() {
   const bundleVariant = bundle?.variants?.edges?.[0]?.node ?? null;
 
   const [title, setTitle] = useState(bundle?.title ?? "");
-  const [price, setPrice] = useState(bundleVariant?.price ?? "0");
+  const [price, setPrice] = useState(bundleVariant?.price ?? "");
   const [status, setStatus] = useState<BundleStatus>(normalizeStatus(bundle?.status));
   const [description, setDescription] = useState(bundle?.body ?? "");
   const [bundleComponents, setBundleComponents] = useState(() => buildInitialBundleComponents(bundle as LoadedBundle));
@@ -261,9 +261,9 @@ export default function BundleEditor() {
       const payload = buildBundlePayload({ title, price, status, description }, bundleComponents);
 
       if (id) {
-        await api.shopifyProduct.updateBundle(id, payload);
+        await api.bundle.update({ bundleId: id, ...payload });
       } else {
-        await api.shopifyProduct.createBundle(payload);
+        await api.bundle.create(payload);
       }
 
       navigate("/");
@@ -280,7 +280,7 @@ export default function BundleEditor() {
     setError(null);
 
     try {
-      await api.shopifyProduct.deleteBundle(id);
+      await api.bundle.delete({ bundleId: id });
       navigate("/");
     } catch (error) {
       setError(getErrorMessage(error, "Failed to delete bundle"));
@@ -336,6 +336,7 @@ export default function BundleEditor() {
             label={`Price${currency ? ` (${currency})` : ""}`}
             min={0}
             step={1}
+            placeholder="0"
             value={price}
             onInput={(event) => setPrice(event.currentTarget.value)}
           />

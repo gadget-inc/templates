@@ -33,7 +33,7 @@ export function cartTransformRun(input: CartTransformRunInput): CartTransformRun
       });
 
       if (expandOperation) {
-        return [...acc, { expand: expandOperation }];
+        return [...acc, { lineExpand: expandOperation }];
       }
 
       return acc;

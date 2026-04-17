@@ -1,6 +1,4 @@
-import { ActionOptions } from "gadget-server";
-import { preventCrossShopDataAccess } from "gadget-server/shopify";
-import { fetchVariantGIDs } from "../../../utils";
+import { fetchVariantGIDs } from "../../utils";
 
 type ComponentParam = {
   id?: string;
@@ -8,15 +6,12 @@ type ComponentParam = {
   quantity: number;
 };
 
-export const run: ActionRun = async ({ params, record }) => {
-  await preventCrossShopDataAccess(params, record);
-};
-
-export const onSuccess: ActionOnSuccess = async ({ params, record, api, connections }) => {
-  const shopId = String(connections.shopify.currentShop?.id ?? record.shopId ?? "");
+export const run: GlobalActionRun = async ({ params, api, connections }) => {
+  const shopId = String(connections.shopify.currentShop?.id ?? "");
   if (!shopId) throw new Error("Shop ID not provided");
 
-  const { title, description, status, price, components } = params as {
+  const { bundleId, title, description, status, price, components } = params as {
+    bundleId?: string;
     title?: string;
     description?: string | null;
     status?: string;
@@ -24,10 +19,23 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api, connecti
     components?: ComponentParam[];
   };
 
+  if (!bundleId) throw new Error("Bundle ID is required");
+
+  const bundle = await api.shopifyProduct.findOne(bundleId, {
+    select: {
+      id: true,
+      shopId: true,
+    },
+  });
+
+  if (bundle.shopId !== shopId) {
+    throw new Error("Bundle not found");
+  }
+
   const [bundleVariant] = await api.shopifyProductVariant.findMany({
     first: 1,
     filter: {
-      productId: { equals: record.id },
+      productId: { equals: bundle.id },
       shopId: { equals: shopId },
     },
     select: {
@@ -41,8 +49,8 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api, connecti
   const shopify = await connections.shopify.forShopId(shopId);
   if (!shopify) throw new Error("Shopify connection not established");
 
-  // Reconcile local bundleComponent rows with the supplied components list
   let componentsChanged = false;
+
   if (components) {
     const existing = await api.bundleComponent.findMany({
       filter: {
@@ -56,14 +64,17 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api, connecti
       },
     });
 
-    const existingById = new Map(existing.map((c) => [c.id, c]));
-    const supplied = components ?? [];
-    const suppliedIds = new Set(supplied.map((c) => c.id).filter(Boolean) as string[]);
+    const existingById = new Map(existing.map((component) => [component.id, component]));
+    const suppliedIds = new Set(components.map((component) => component.id).filter(Boolean) as string[]);
 
-    for (const component of supplied) {
+    for (const component of components) {
       if (component.id && existingById.has(component.id)) {
         const current = existingById.get(component.id);
-        if (current?.quantity !== component.quantity || current?.productVariantId !== component.productVariantId) {
+
+        if (
+          current?.quantity !== component.quantity ||
+          current?.productVariantId !== component.productVariantId
+        ) {
           await api.internal.bundleComponent.update(component.id, {
             productVariant: { _link: component.productVariantId },
             quantity: component.quantity,
@@ -148,7 +159,7 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api, connecti
       }`,
       variables: {
         input: {
-          id: `gid://shopify/Product/${record.id}`,
+          id: `gid://shopify/Product/${bundle.id}`,
           ...product,
         },
       },
@@ -175,7 +186,7 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api, connecti
         }
       }`,
       variables: {
-        productId: `gid://shopify/Product/${record.id}`,
+        productId: `gid://shopify/Product/${bundle.id}`,
         variants: [
           {
             id: `gid://shopify/ProductVariant/${bundleVariant.id}`,
@@ -210,9 +221,14 @@ export const onSuccess: ActionOnSuccess = async ({ params, record, api, connecti
       }
     );
   }
+
+  return {
+    bundleId: bundle.id,
+  };
 };
 
 export const params = {
+  bundleId: { type: "string" },
   title: { type: "string" },
   description: { type: "string" },
   status: { type: "string" },
@@ -228,9 +244,4 @@ export const params = {
       },
     },
   },
-};
-
-export const options: ActionOptions = {
-  actionType: "update",
-  triggers: { api: true },
 };

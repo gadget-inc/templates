@@ -1,6 +1,6 @@
 # Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
 
-client_id = "1bf840ab6a7efa86342b188adb8add80"
+client_id = "d5711c088b95036fdb3c24ecf76294d2"
 name = "product-bundles-public-tem-dev"
 application_url = "https://product-bundles-public-template--development.gadget.app/api/shopify/install-or-render"
 embedded = true
@@ -18,4 +18,4 @@ api_version = "2026-04"
 [[webhooks.subscriptions]]
 compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
 uri = "https://webhooks.gadget-services.net/shopify/v1?domain=product-bundles-public-template--development.gadget.app"
-topics = [ "products/create", "products/update", "products/delete", "shop/update", "app/uninstalled" ]
+topics = [ "shop/update", "app/uninstalled" ]

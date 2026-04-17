@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "attach",
+      "name": "Gadget debugger",
+      "address": "127.0.0.1",
+      "port": 9229,
+      "localRoot": "${workspaceFolder}",
+      "remoteRoot": "/gadget/app",
+      "preLaunchTask": "ggt debugger",
+      "restart": true,
+      "timeout": 60000
+    }
+  ]
+}

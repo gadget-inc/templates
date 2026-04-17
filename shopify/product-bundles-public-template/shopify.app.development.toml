@@ -1,0 +1,21 @@
+# Learn more about working with Shopify TOML files with Gadget at https://docs.gadget.dev/guides/plugins/shopify/advanced-topics/shopify-app-toml
+
+client_id = "d5711c088b95036fdb3c24ecf76294d2"
+name = "product-bundles-public-tem-dev"
+application_url = "https://product-bundles-public-template--development.gadget.app/api/shopify/install-or-render"
+embedded = true
+
+handle = "product-bundles-public-tem-dev"
+[auth]
+redirect_urls = [ "https://product-bundles-public-template--development.gadget.app/api/connections/auth/shopify/callback" ]
+
+[access_scopes]
+scopes = "write_products, read_products, write_cart_transforms, read_cart_transforms, write_publications, read_publications"
+
+[webhooks]
+api_version = "2026-04"
+
+[[webhooks.subscriptions]]
+compliance_topics = [ "customers/data_request", "customers/redact", "shop/redact" ]
+uri = "https://webhooks.gadget-services.net/shopify/v1?domain=product-bundles-public-template--development.gadget.app"
+topics = [ "shop/update", "app/uninstalled" ]

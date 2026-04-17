@@ -1,0 +1,45 @@
+{
+  "name": "product-bundles-public-template",
+  "version": "0.1.0",
+  "description": "Internal package for Gadget app product-bundles-public-template (Development environment)",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "NODE_ENV=production react-router build",
+    "shopify": "shopify",
+    "shopify:config:use:development": "shopify app config use shopify.app.development.toml",
+    "shopify:config:use:production": "shopify app config use shopify.app.toml",
+    "shopify:dev": "yarn shopify:deploy:development --force && yarn shopify:config:use:development && shopify app dev --no-update",
+    "shopify:deploy:development": "yarn shopify:config:use:development && shopify app deploy",
+    "shopify:deploy:production": "yarn shopify:config:use:production && shopify app deploy",
+    "shopify:deploy": "yarn shopify:deploy:production",
+    "shopify:info": "shopify app info"
+  },
+  "dependencies": {
+    "@gadget-client/product-bundles-public-template": "link:.gadget/client",
+    "@gadgetinc/react": "^0.25.1",
+    "@gadgetinc/react-shopify-app-bridge": "^0.21.4",
+    "@react-router/fs-routes": "^7.12.0",
+    "@react-router/node": "^7.12.0",
+    "@react-router/serve": "^7.12.0",
+    "@shopify/polaris-icons": "^9.3.0",
+    "@shopify/shopify_function": "~2.0.0",
+    "gadget-server": "link:.gadget/server",
+    "isbot": "^5.1.0",
+    "react": "^19.1.2",
+    "react-dom": "^19.1.2",
+    "react-router": "^7.12.0",
+    "shopify-api-node": "^3.15.0"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^7.12.0",
+    "@shopify/app-bridge-types": "^0.7.0",
+    "@shopify/polaris-types": "1.0.1",
+    "@types/node": "^22.13.14",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

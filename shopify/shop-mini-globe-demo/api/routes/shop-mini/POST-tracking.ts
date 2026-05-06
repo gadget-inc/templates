@@ -1,5 +1,4 @@
 import { RouteHandler } from "gadget-server";
-import jwt from "jsonwebtoken";
 
 const sleep = (ms: number) => new Promise<void>((r) => setTimeout(r, ms));
 
@@ -18,20 +17,9 @@ const geocode = async (
   return { lat, lng };
 };
 
-const route: RouteHandler = async ({ request, reply, api }) => {
-  const authHeader = request.headers["authorization"];
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    return reply.code(401).send({ error: "Authorization header required" });
-  }
-
-  let decoded: any;
-  try {
-    decoded = jwt.verify(
-      authHeader.slice(7),
-      process.env.GADGET_ENVIRONMENT_JWT_SIGNING_KEY!,
-    );
-  } catch {
-    return reply.code(401).send({ error: "Invalid or expired token" });
+const route: RouteHandler = async ({ request, reply, api, session }) => {
+  if (!session?.get("miniBuyer")) {
+    return reply.code(401).send({ error: "Not authenticated" });
   }
 
   const { trackingNumber } = (request.body as any) ?? {};
@@ -96,26 +84,19 @@ const route: RouteHandler = async ({ request, reply, api }) => {
     prevLocation = loc;
   }
 
-  if (path.length > 0 && decoded?.publicId) {
-    const buyer = await api.internal.miniBuyer.maybeFindFirst({
-      filter: { publicId: { equals: decoded.publicId } },
+  if (path.length > 0) {
+    // Gelly read filter scopes this to the current buyer's shipments.
+    const existing = await api.shipment.maybeFindFirst({
+      filter: { trackingNumber: { equals: trackingNumber } },
       select: { id: true },
     });
 
-    if (buyer) {
-      const fields = { trackingNumber, path, lastFetchedAt: new Date() };
-      const existing = await api.internal.shipment.maybeFindFirst({
-        filter: {
-          miniBuyerId: { equals: buyer.id },
-          trackingNumber: { equals: trackingNumber },
-        },
-        select: { id: true },
-      });
-      if (existing) {
-        await api.internal.shipment.update(existing.id, fields);
-      } else {
-        await api.internal.shipment.create({ ...fields, miniBuyer: { _link: buyer.id } });
-      }
+    const buyerId = session.get("miniBuyer");
+    const fields = { trackingNumber, path, lastFetchedAt: new Date() };
+    if (existing) {
+      await api.shipment.update(existing.id, fields);
+    } else {
+      await api.shipment.create({ ...fields, miniBuyer: { _link: buyerId } });
     }
   }
 

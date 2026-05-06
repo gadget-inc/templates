@@ -1,0 +1,5 @@
+- Visualize per-buyer shipment routes on an interactive 3D globe inside a Shop Mini.
+- Exchange Shop Mini tokens for signed Gadget JWTs to authenticate buyers without managing your own auth stack.
+- Look up tracking numbers via Ship24 and geocode events into lat/lng coordinates with paced, rate-limit-safe calls.
+- _Tenancy enforced:_ Buyer data is scoped via a custom `shop-mini-buyers` role and Gelly access control filters.
+- _Ready-to-Use:_ Ships with the data models, three authenticated HTTP routes, a custom role, and a pre-built Three.js globe frontend, with no boilerplate to wire up.

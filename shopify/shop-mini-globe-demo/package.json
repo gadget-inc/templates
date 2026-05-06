@@ -1,0 +1,43 @@
+{
+  "name": "shop-mini-globe-demo",
+  "version": "0.1.0",
+  "description": "Internal package for Gadget app mini-me (Development environment)",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "build": "NODE_ENV=production react-router build"
+  },
+  "resolutions": {
+    "vite": "github:gadget-inc/vite#vite-v6.3.5-gitpkg-1f0e9a3d8"
+  },
+  "dependencies": {
+    "@gadgetinc/react": "^0.23.3",
+    "@gadgetinc/react-shopify-app-bridge": "^0.19.1",
+    "@react-router/fs-routes": "^7.6.2",
+    "@react-router/node": "^7.6.2",
+    "@react-router/serve": "^7.6.2",
+    "@shopify/app-bridge-react": "4.2.3",
+    "@shopify/polaris": "^13.8.0",
+    "@shopify/polaris-icons": "^9.3.0",
+    "fastify": "^4.24.2",
+    "isbot": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "openai": "^6.9.1",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "react-router": "^7.6.2",
+    "@gadget-client/my-shop-mini": "link:.gadget/client",
+    "gadget-server": "link:.gadget/server"
+  },
+  "devDependencies": {
+    "@react-router/dev": "^7.6.2",
+    "@shopify/app-bridge-types": "0.4.0",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^22.13.14",
+    "@types/react": "^19.1.1",
+    "@types/react-dom": "^19.1.1",
+    "typescript": "^5.8.3",
+    "vite": "github:gadget-inc/vite#vite-v6.3.5-gitpkg-1f0e9a3d8"
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
+}

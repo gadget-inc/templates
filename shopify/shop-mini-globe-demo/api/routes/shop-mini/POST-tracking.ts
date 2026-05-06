@@ -85,13 +85,15 @@ const route: RouteHandler = async ({ request, reply, api, session }) => {
   }
 
   if (path.length > 0) {
-    // Gelly read filter scopes this to the current buyer's shipments.
+    const buyerId = session.get("miniBuyer");
     const existing = await api.shipment.maybeFindFirst({
-      filter: { trackingNumber: { equals: trackingNumber } },
+      filter: {
+        trackingNumber: { equals: trackingNumber },
+        miniBuyerId: { equals: buyerId },
+      },
       select: { id: true },
     });
 
-    const buyerId = session.get("miniBuyer");
     const fields = { trackingNumber, path, lastFetchedAt: new Date() };
     if (existing) {
       await api.shipment.update(existing.id, fields);

@@ -62,26 +62,13 @@ const route: RouteHandler = async ({ request, reply, api, session }) => {
       (Date.parse(b.occurrenceDatetime) || 0),
   );
 
-  // Free-tier geocode.maps.co is ~1 req/sec, so we space calls out sequentially.
-  const uniqueLocations = Array.from(
-    new Set(events.map((ev) => ev.location.trim() as string)),
-  );
-  const geocodeMap = new Map<string, { lat: number; lng: number }>();
+  // Deduplicate locations before geocoding; free-tier geocode.maps.co is ~1 req/sec.
+  const uniqueLocations = Array.from(new Set(events.map((ev) => ev.location.trim() as string)));
+  const path: Array<{ location: string; lat: number; lng: number }> = [];
   for (let i = 0; i < uniqueLocations.length; i++) {
     const result = await geocode(uniqueLocations[i]);
-    if (result) geocodeMap.set(uniqueLocations[i], result);
+    if (result) path.push({ location: uniqueLocations[i], lat: result.lat, lng: result.lng });
     if (i < uniqueLocations.length - 1) await sleep(1100);
-  }
-
-  const path: Array<{ location: string; lat: number; lng: number }> = [];
-  let prevLocation: string | null = null;
-  for (const ev of events) {
-    const loc = ev.location.trim();
-    if (loc === prevLocation) continue;
-    const geo = geocodeMap.get(loc);
-    if (!geo) continue;
-    path.push({ location: loc, lat: geo.lat, lng: geo.lng });
-    prevLocation = loc;
   }
 
   if (path.length > 0) {

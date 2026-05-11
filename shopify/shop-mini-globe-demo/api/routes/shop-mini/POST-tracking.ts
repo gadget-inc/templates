@@ -86,20 +86,13 @@ const route: RouteHandler = async ({ request, reply, api, session }) => {
 
   if (path.length > 0) {
     const buyerId = session.get("miniBuyer");
-    const existing = await api.shipment.maybeFindFirst({
-      filter: {
-        trackingNumber: { equals: trackingNumber },
-        miniBuyerId: { equals: buyerId },
-      },
-      select: { id: true },
+    await api.shipment.upsert({
+      on: ["trackingNumber", "miniBuyer"],
+      trackingNumber,
+      miniBuyer: { _link: buyerId },
+      path,
+      lastFetchedAt: new Date(),
     });
-
-    const fields = { trackingNumber, path, lastFetchedAt: new Date() };
-    if (existing) {
-      await api.shipment.update(existing.id, fields);
-    } else {
-      await api.shipment.create({ ...fields, miniBuyer: { _link: buyerId } });
-    }
   }
 
   return reply.send({ path });

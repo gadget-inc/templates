@@ -33,7 +33,7 @@ Follow these steps to get the template working:
 5. Generate your Shop Minis API key:
 
    ```bash
-   npx shop-minis setup --regenerate-key
+   npx shop-minis setup
    ```
 
    Sign into Shopify and select your org. This writes a `.env` containing your `SHOP_MINIS_ADMIN_API_KEY`.

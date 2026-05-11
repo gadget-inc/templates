@@ -24,13 +24,13 @@ Follow these steps to get the template working:
    npm install
    ```
 
-4. Link the mini to a Shopify org (only needed the first time):
+4. Generate your Shop Minis API key:
 
    ```bash
-   npx shop-minis setup
+   npx shop-minis setup --regenerate-key
    ```
 
-   Sign into Shopify and associate the mini with an org. This writes a `.env` containing your Shop Minis Admin API key.
+   Sign into Shopify and select your org. This writes a `.env` containing your `SHOP_MINIS_ADMIN_API_KEY`.
 
 5. Configure environment variables in your Gadget app (via the Gadget dashboard or `ggt var set <NAME> <VALUE>`):
 

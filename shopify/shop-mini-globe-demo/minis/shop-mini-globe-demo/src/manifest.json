@@ -2,9 +2,9 @@
   "name": "Shop Mini Globe Demo",
   "permissions": [],
   "scopes": ["openid"],
-  "handle": "my-shop-mini-9fit",
+  "handle": "",
   "trusted_domains": [
-    "shop-mini-globe-demo--development.gadget.app",
+    "<your-gadget-app>--development.gadget.app",
     "cdn.jsdelivr.net"
   ]
 }

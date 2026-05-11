@@ -5,8 +5,7 @@ import { useAuth } from "./hooks/useAuth";
 import { useGlobeAnimation } from "./hooks/useGlobeAnimation";
 import { buildTestPath, buildTestHistory } from "./testData";
 import { formatKm } from "./utils";
-
-const TRACKING_API_BASE = "https://shop-mini-globe-demo--development.gadget.app";
+import { GADGET_API_BASE } from "./config";
 
 export function App() {
   const [trackingNumber, setTrackingNumber] = useState("");
@@ -20,7 +19,7 @@ export function App() {
 
   const fetchAuth = async (path: string, init?: RequestInit) => {
     const token = await getValidToken();
-    return fetch(`${TRACKING_API_BASE}${path}`, {
+    return fetch(`${GADGET_API_BASE}${path}`, {
       ...init,
       headers: { ...init?.headers, Authorization: `Bearer ${token}` },
     });

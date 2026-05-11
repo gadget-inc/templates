@@ -4,8 +4,9 @@ import {
   useSecureStorage,
 } from "@shopify/shop-minis-react";
 import { useCallback, useEffect, useState } from "react";
+import { GADGET_API_BASE } from "../config";
 
-const AUTH_API = "https://shop-mini-globe-demo--development.gadget.app/shop-mini/auth";
+const AUTH_API = `${GADGET_API_BASE}/shop-mini/auth`;
 
 interface AuthData {
   token: string;

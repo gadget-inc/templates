@@ -11,8 +11,8 @@
     "vite": "github:gadget-inc/vite#vite-v6.3.5-gitpkg-1f0e9a3d8"
   },
   "dependencies": {
-    "@gadgetinc/react": "^0.23.3",
-    "@gadgetinc/react-shopify-app-bridge": "^0.19.1",
+    "@gadgetinc/react": "^0.25.1",
+    "@gadgetinc/react-shopify-app-bridge": "^0.21.4",
     "@react-router/fs-routes": "^7.6.2",
     "@react-router/node": "^7.6.2",
     "@react-router/serve": "^7.6.2",

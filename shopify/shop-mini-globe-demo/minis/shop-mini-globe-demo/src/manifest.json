@@ -1,0 +1,10 @@
+{
+  "name": "Shop Mini Globe Demo",
+  "permissions": [],
+  "scopes": ["openid"],
+  "handle": "",
+  "trusted_domains": [
+    "<your-gadget-app>--development.gadget.app",
+    "cdn.jsdelivr.net"
+  ]
+}

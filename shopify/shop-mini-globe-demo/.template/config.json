@@ -1,0 +1,105 @@
+{
+  "version": "v1",
+  "webflow": {
+    "title": "Shop Mini Globe Demo",
+    "description": "Build a Shopify Shop Mini backed by Gadget. Authenticate buyers, persist per-buyer shipments, and visualize tracking paths on an interactive 3D globe.",
+    "content": "docs/introduction.md",
+    "mainImage": "webflow/globe-demo.png",
+    "features": {
+      "shopify": true,
+      "frontend": true,
+      "models": true,
+      "actions": true
+    }
+  },
+  "featuredModels": {
+    "miniBuyer": {
+      "description": "Represents a Shop Mini buyer (verified or guest) identified by a stable publicId. Tracks the buyer's verification state and Shop token expiration, and links to their session and shipments.",
+      "featuredFields": ["publicId", "state", "tokenExpiresAt", "session", "shipments"]
+    },
+    "shipment": {
+      "description": "Stores a tracking number and the geocoded route path used by the Shop Mini globe to visualize where a shipment has traveled. Scoped to a single miniBuyer.",
+      "featuredFields": ["trackingNumber", "path", "lastFetchedAt", "miniBuyer"]
+    },
+    "session": {
+      "description": "Extends the default session model with a `miniBuyer` relationship so the Shop Mini auth flow can hydrate a session for the authenticated buyer.",
+      "featuredFields": ["miniBuyer", "roles"]
+    }
+  },
+  "featuredActions": {
+    "miniBuyer": {
+      "create": {
+        "description": "Creates a miniBuyer record when a Shop Mini buyer first authenticates via the Shop token verification flow.",
+        "tags": ["added"]
+      },
+      "update": {
+        "description": "Updates an existing miniBuyer (e.g. refreshing `tokenExpiresAt` or `state`) on subsequent authentications.",
+        "tags": ["added"]
+      },
+      "delete": {
+        "description": "Deletes a miniBuyer and cascades through their shipments and session.",
+        "tags": ["added"]
+      }
+    },
+    "shipment": {
+      "create": {
+        "description": "Creates a shipment record with a tracking number and a geocoded path for the globe visualization.",
+        "tags": ["added"]
+      },
+      "update": {
+        "description": "Updates a shipment's path or `lastFetchedAt` timestamp when tracking data is refreshed.",
+        "tags": ["added"]
+      },
+      "delete": {
+        "description": "Removes a shipment from a buyer's tracked list.",
+        "tags": ["added"]
+      }
+    }
+  },
+  "featuredAccessControls": {
+    "shop-mini-buyers": {
+      "miniBuyer": {
+        "description": "Grants authenticated Shop Mini buyers read access to their own miniBuyer record via a Gelly filter."
+      },
+      "shipment": {
+        "description": "Grants authenticated Shop Mini buyers read access to shipments belonging to their miniBuyer via a Gelly filter."
+      }
+    }
+  },
+  "featuredFrontends": {
+    "web/routes/_app._index.tsx": {
+      "description": "The embedded Shopify admin dashboard for the app. Renders an AutoTable of installed shops and links into the Gadget editor.",
+      "tags": ["edited"]
+    },
+    "minis/shop-mini-globe-demo/src/App.tsx": {
+      "description": "The Shop Mini entrypoint. Authenticates the buyer, renders the interactive 3D globe, and lets the user submit tracking numbers to plot shipments.",
+      "tags": ["added"]
+    },
+    "minis/shop-mini-globe-demo/src/components/Globe.tsx": {
+      "description": "The interactive globe component that renders shipment routes as animated arcs between geocoded coordinates.",
+      "tags": ["added"]
+    },
+    "minis/shop-mini-globe-demo/src/hooks/useAuth.ts": {
+      "description": "React hook that exchanges a Shop Mini token for a Gadget JWT and exposes the authenticated state to the Shop Mini.",
+      "tags": ["added"]
+    }
+  },
+  "featuredFiles": {
+    "api/routes/shop-mini/POST-auth.ts": {
+      "description": "Verifies a Shop Mini token against the Shop Admin API, upserts the corresponding miniBuyer + session, and returns a signed Gadget JWT scoped to the buyer.",
+      "tags": ["added"]
+    },
+    "api/routes/shop-mini/GET-shipments.ts": {
+      "description": "Authenticated route that returns the list of shipments belonging to the calling miniBuyer for rendering on the globe.",
+      "tags": ["added"]
+    },
+    "api/routes/shop-mini/POST-tracking.ts": {
+      "description": "Authenticated route that accepts a tracking number, geocodes the shipment's route into lat/lng coordinates, and persists it as a shipment record.",
+      "tags": ["added"]
+    },
+    "api/shopMiniUtils/verify.ts": {
+      "description": "Utility that verifies a Shop Mini buyer token by calling the Shop Admin API and extracting the buyer's publicId, state, and token expiration.",
+      "tags": ["added"]
+    }
+  }
+}
